@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #002C3F;
+  --secondary: #D5B753;
+  --heading-font: 'Arial', sans-serif;
+  --body-font: 'Helvetica', sans-serif;
+  --font-size-h1: 50px;
+  --font-size-h2: 32px;
+  --font-size-h3: 28px;
+  --font-size-h4: 14px;
+  --font-size-p: 17px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-secondary: var(--secondary);
+  --color-primary: var(--primary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--body-font);
+}
+
+h1 {
+  font-family: var(--heading-font);
+  font-size: var(--font-size-h1);
+  font-weight: bold;
+}
+
+h2 {
+  font-family: var(--heading-font);
+  font-size: var(--font-size-h2);
+  font-weight: semi-bold;
+}
+
+h3 {
+  font-family: var(--heading-font);
+  font-size: var(--font-size-h3);
+  font-weight: 700;
+}
+h4 {
+  font-size: var(--font-size-h4);
+}
+
+p {
+  font-size: var(--font-size-p);
+}
+
+@media (max-width: 1200px) {
+  h1 {
+    font-size: 36px;
+  }
+  h2 {
+    font-size: 28px;
+  }
+  h3 {
+    font-size: 24px;
+  }
+  p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 32px;
+  }
+  h2 {
+    font-size: 24px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+  p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 16px;
+  }
+  p {
+    font-size: 14px;
+  }
+}
