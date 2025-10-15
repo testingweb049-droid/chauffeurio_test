@@ -143,7 +143,7 @@ export default function Header() {
           <div className="flex items-start justify-between md:hidden">
             <a href="/" aria-label="Home" className="flex items-center">
               <Image
-                src="/mainLogo.png"
+                src="/logo.png"
                 alt="Company Logo"
                 width={120}
                 height={60}
@@ -152,15 +152,15 @@ export default function Header() {
               />
             </a>
 
-            <div className="flex items-center gap-1">
-              <a
+            <div className="flex items-center gap-1 py-2">
+              {/* <a
                 href="https://instagram.com/yourhandle"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 text-white/90 hover:text-white transition"
               >
                 <FaInstagram size={22} />
-              </a>
+              </a> */}
 
               <button onClick={toggleMobileMenu} className="text-white p-2" >
                 <AnimatePresence mode="wait">
