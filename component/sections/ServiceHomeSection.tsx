@@ -46,7 +46,7 @@ export default function ServiceHomeSection({
       <div className="pointer-events-none absolute -top-10 -right-10 h-[28rem] w-[28rem] rounded-full bg-gradient-to-bl from-white/15 to-transparent blur-3xl" />
       <div className="pointer-events-none absolute -bottom-10 -left-10 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr from-white/15 to-transparent blur-3xl" />
 
-      <div className="relative z-10 mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-7xl">
         {/* Header (two columns on md+, stacked on mobile) */}
         <div className="mb-10 grid grid-cols-1 gap-6 md:mb-12 md:grid-cols-2 md:gap-10">
           <div>

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useReducedMotion, type Variants, type TargetAndTransition } from "framer-motion";
 import HeroContent from "./HeroContent";
 import BookingBar from "./BookingBar";
+import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
 
 function buildVariants(
   sideDesktop: "left" | "right",
@@ -38,6 +39,10 @@ export default function HeroSection() {
   const [isMdUp, setIsMdUp] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
+  // ⬇️ get strings
+  const { home } = ClientSideStrings();
+  const hero = home?.hero ?? { eyebrow: "", titleLines: [] as string[] };
+
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
     const update = () => setIsMdUp(mq.matches);
@@ -67,23 +72,21 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-[#0A2D3A]/60" aria-hidden />
 
       {/* Content container */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl md:px-5 px-2 md:px-0">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-2 md:px-5">
         <div className="grid gap-8 md:gap-32">
           <div>
-          <HeroContent
-            variants={leftVariants}
-            eyebrow="Chauffeur Service in Valencia"
-            titleLines={[
-              "Reliable airport transfers and executive travel with comfort and style.",
-            ]}
-          />
-</div>
+             <HeroContent
+              variants={leftVariants}
+              eyebrow={hero.eyebrow}
+              titleLines={[...hero.titleLines]}  
+            />
+          </div>
+
           {/* Booking bar */}
           <div className="max-w-6xl pb-2">
             <BookingBar
               variants={rightVariants}
               onSubmit={(data) => {
-                // plug into your router or API
                 console.log("booking form:", data);
               }}
             />

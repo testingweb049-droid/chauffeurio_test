@@ -470,7 +470,122 @@ testimonials: {
         { lines: ["24 hour customer service", "English and Spanish", "365 days of the year"] }
       ]
     },
+home: {
+  hero: {
+          eyebrow: "Chauffeur Service in Valencia",
+          titleLines: [
+            "Reliable airport transfers and executive travel with comfort and style.",
+          ],
+        },
+      serviceSection: {
+        eyebrow: "Welcome to Chauffeurio",
+        heading: "Our Premium Chauffeur Services in Valencia",
+        introLeft:
+          "We offer a complete range of bespoke transportation solutions designed to meet the highest standards of quality, safety, and discretion.",
+        introRight:
+          "Experience Spain like never before with our range of tailored transport options. We offer a fleet of high-end vehicles driven by expert chauffeurs who know the local routes inside out. From economy rides for everyday needs to first-class luxury for special occasions, we've got the perfect fit. Looking for affordable private hire in Valencia or executive transport in Seville? Our services ensure you travel in style without worries.",
+        items: [
+          { href: "/airport-transfer",  title: "Airport Transfers",               image: "/Container (1).png" },
+          { href: "/hourly-chauffurs",  title: "Hourly Chauffeurs",               image: "/post32-copyright-890x664.jpg.png" },
+          { href: "/event-transport",   title: "Event Transportation",            image: "/post32-copyright-890x664.jpg.png" },
+          { href: "/tours-excursions",  title: "City Tours and Excursions",       image: "/post36-copyright-890x664.jpg.png" },
+          { href: "/business-chauffur", title: "Business Chauffeur Services",     image: "/post35-copyright-890x664.jpg.png" },
+          { href: "/city-to-city",      title: "Long–Distance City to City",      image: "/Container (2).png" },
+        ],
+      },
 
+      whyUs: {
+        subtitle: "Why Choose Us",
+        heading: "Why Choose Chauffeurio for Luxury Transport in Valencia",
+        description:
+          "We offer a complete range of bespoke transportation solutions designed to meet the highest standards of quality, safety, and discretion. Our premium chauffeur services in Valencia are tailored for discerning travelers who value punctuality, professionalism, and comfort. Whether you require seamless airport transfers, flexible hourly bookings, or luxury event transportation, we provide a service that adapts to your needs. Each journey is supported by our modern fleet and expert chauffeurs, ensuring peace of mind and elegance at every stage of travel. From short city rides to long-distance trips across Spain, our goal is to transform travel into an effortless, enjoyable experience. With us, every detail is carefully managed so you can simply relax and enjoy the journey.",
+        points: [
+          {
+            title: "Luxury & Premium Fleet:",
+            description:
+              "Travel in meticulously maintained, high-spec vehicles from leading brands like Mercedes-Benz, ensuring your journey is always comfortable and stylish.",
+          },
+          {
+            title: "24/7 Availability and Support:",
+            description:
+              "Our commitment to you is around the clock. With our taxis Valencia 24 horas service, you can book and travel anytime, day or night.",
+          },
+          {
+            title: "Professional, Vetted Chauffeurs:",
+            description:
+              "Our drivers are more than just drivers; they are multilingual, locally knowledgeable professionals dedicated to your safety and satisfaction.",
+          },
+          {
+            title: "Guaranteed Punctuality:",
+            description:
+              "We respect your time. Punctuality is the cornerstone of our service, especially for critical airport transfers and business appointments.",
+          },
+          {
+            title: "Business & Corporate Trips:",
+            description:
+              "A reliable and discreet executive taxi service in Valencia for corporate clients. We guarantee punctuality and a quiet, professional environment, allowing you to focus on what matters most.",
+          },
+        ],
+      },
+
+      fleet: {
+        eyebrow: "OUR FLEETS",
+        headingLines: ["Our Premium Fleet and", "Easy Booking in Valencia"],
+        ctaLabel: "View More",
+        ctaHref: "/fleet",
+        items: [
+          {
+            href: "/fleet/economy",
+            title: "Economy",
+            subtitle: "Skoda Octavia, Toyota Prius or similar",
+            image: "/post10-copyright-1-890x664.jpg (3).png",
+          },
+          {
+            href: "/fleet/first-class",
+            title: "First Class",
+            subtitle: "Mercedes S Class, BMW 7, Audi A8, Cadillac Escalade",
+            image: "/post10-copyright-1-890x664.jpg (4).png",
+          },
+          {
+            href: "/fleet/business-class",
+            title: "Business Class",
+            subtitle: "Mercedes E Class, BMW 5 Series, Cadillac XTS",
+            image: "/post10-copyright-1-890x664.jpg (5).png",
+          },
+        ],
+      },
+
+      contentSections: [
+        {
+          title:
+            "Comprehensive Chauffeur Solutions for Every Occasion in Valencia and across Spain.",
+          description:
+            "Whether you need a reliable airport taxi service in Valencia or a sophisticated transport solution for a VIP delegation, we tailor every journey to your specific needs. We manage complex itineraries, multi-stop tours, and special requests with flawless execution, ensuring your plans proceed without a hitch. Experience the true convenience of our VIP intercity private driver services in Spain.",
+          image: "/Rectangle 9.png",
+          imagePosition: "right",
+        },
+        {
+          title:
+            "Explore Valencia and Beyond in Style with Executive Chauffeur Travel",
+          description:
+            "While Valencia is our home, our services extend across the nation. From its historic heart to the stunning beaches of the Costa Blanca and beyond, we provide premium travel to any destination in Spain. (List of Locations) Valencia City Centre • Albufera • Cullera • Gandia • Denia • Jávea • Benidorm • Sagunto • Alicante • Peñíscola • Moraira",
+          image: "/Rectangle 9 (1).png",
+          imagePosition: "left",
+        },
+      ],
+
+      destinations: {
+        eyebrow: "OUR TOP DESTINATIONS",
+        heading:
+          "Explore Valencia's Top Destinations in Style with Executive Chauffeur Travel",
+        ctaLabel: "View Cities",
+        items: [
+          { id: 1, title: "OCEANOGRÀFIC AQUARIUM", image: "/post10-copyright-1-890x664.jpg.png" },
+          { id: 2, title: "LA LONJA DE LA SEDA",   image: "/post10-copyright-1-890x664.jpg (1).png" },
+          { id: 3, title: "SCIENCE MUSEUM",        image: "/post10-copyright-1-890x664.jpg (2).png" },
+        ],
+      },
+    },
 
 
 
@@ -947,7 +1062,123 @@ testimonials: {
         { lines: ["Payez en ligne ou en espèces", "Tarifs fixes", "Économies garanties"] },
         { lines: ["Service client 24h/24", "Anglais et espagnol", "365 jours par an"] }
       ]
-    }
+    },
+    home: {
+      hero: {
+          eyebrow: "Service de chauffeur à Valence",
+          titleLines: [
+            "Transferts aéroport et déplacements exécutifs fiables, alliant confort et style.",
+          ],
+        },
+      serviceSection: {
+        eyebrow: "Bienvenue chez Chauffeurio",
+        heading: "Nos services de chauffeur haut de gamme à Valence",
+        introLeft:
+          "Nous proposons une gamme complète de solutions de transport sur mesure répondant aux plus hauts standards de qualité, de sécurité et de discrétion.",
+        introRight:
+          "Découvrez l’Espagne autrement avec nos options de transport personnalisées. Notre flotte de véhicules haut de gamme est conduite par des chauffeurs experts maîtrisant parfaitement les itinéraires locaux. Du trajet économique du quotidien au luxe première classe pour les grandes occasions, nous avons la formule idéale. Besoin d’un VTC abordable à Valence ou d’un transport exécutif à Séville ? Voyagez avec style et l’esprit tranquille.",
+        items: [
+          { href: "/airport-transfer",  title: "Transferts aéroport",              image: "/Container (1).png" },
+          { href: "/hourly-chauffurs",  title: "Chauffeur à l’heure",             image: "/post32-copyright-890x664.jpg.png" },
+          { href: "/event-transport",   title: "Transport d’événements",          image: "/post32-copyright-890x664.jpg.png" },
+          { href: "/tours-excursions",  title: "Visites et excursions en ville",  image: "/post36-copyright-890x664.jpg.png" },
+          { href: "/business-chauffur", title: "Chauffeur d’affaires",            image: "/post35-copyright-890x664.jpg.png" },
+          { href: "/city-to-city",      title: "Longue distance de ville à ville", image: "/Container (2).png" },
+        ],
+      },
+
+      whyUs: {
+        subtitle: "Pourquoi nous choisir",
+        heading: "Pourquoi choisir Chauffeurio pour un transport de luxe à Valence",
+        description:
+          "Nous offrons des solutions de transport personnalisées conformes aux plus hauts standards de qualité, de sécurité et de discrétion. Nos services premium à Valence s’adressent aux voyageurs exigeants qui valorisent la ponctualité, le professionnalisme et le confort. Transferts aéroport fluides, réservations à l’heure ou transport de luxe pour événements : nous adaptons le service à vos besoins. Chaque trajet bénéficie de notre flotte moderne et de chauffeurs experts, pour une sérénité absolue à chaque étape. Des courts trajets urbains aux longues distances dans toute l’Espagne, notre but est de transformer vos déplacements en une expérience simple et agréable.",
+        points: [
+          {
+            title: "Flotte de luxe et haut de gamme :",
+            description:
+              "Voyagez dans des véhicules de grandes marques comme Mercedes-Benz, impeccablement entretenus, pour un confort et une élégance constants.",
+          },
+          {
+            title: "Disponibilité et assistance 24/7 :",
+            description:
+              "Engagement total à toute heure. Avec notre service 24 h/24 à Valence, vous pouvez réserver et voyager de jour comme de nuit.",
+          },
+          {
+            title: "Chauffeurs professionnels et vérifiés :",
+            description:
+              "Bien plus que des conducteurs : des professionnels multilingues, connaissant parfaitement la région et dédiés à votre sécurité et votre satisfaction.",
+          },
+          {
+            title: "Ponctualité garantie :",
+            description:
+              "Nous respectons votre temps. La ponctualité est au cœur de notre service, notamment pour les transferts aéroport et rendez-vous d’affaires.",
+          },
+          {
+            title: "Voyages d’affaires et corporate :",
+            description:
+              "Service exécutif fiable et discret pour les clients professionnels. Ponctualité et environnement calme et professionnel garantis.",
+          },
+        ],
+      },
+
+      fleet: {
+        eyebrow: "NOTRE FLOTTE",
+        headingLines: ["Notre flotte premium et", "réservation facile à Valence"],
+        ctaLabel: "Voir plus",
+        ctaHref: "/fleet",
+        items: [
+          {
+            href: "/fleet/economy",
+            title: "Économique",
+            subtitle: "Skoda Octavia, Toyota Prius ou équivalent",
+            image: "/post10-copyright-1-890x664.jpg (3).png",
+          },
+          {
+            href: "/fleet/first-class",
+            title: "Première Classe",
+            subtitle: "Mercedes S Class, BMW 7, Audi A8, Cadillac Escalade",
+            image: "/post10-copyright-1-890x664.jpg (4).png",
+          },
+          {
+            href: "/fleet/business-class",
+            title: "Classe Affaires",
+            subtitle: "Mercedes E Class, BMW 5 Series, Cadillac XTS",
+            image: "/post10-copyright-1-890x664.jpg (5).png",
+          },
+        ],
+      },
+
+      contentSections: [
+        {
+          title:
+            "Des solutions complètes de chauffeur pour chaque occasion à Valence et dans toute l’Espagne.",
+          description:
+            "Besoin d’un transfert aéroport fiable à Valence ou d’un transport sophistiqué pour une délégation VIP ? Nous adaptons chaque trajet à vos besoins. Nous gérons les itinéraires complexes, les circuits multi-étapes et les demandes spéciales avec une exécution irréprochable. Profitez du confort réel de notre service VIP de chauffeur privé inter-villes en Espagne.",
+          image: "/Rectangle 9.png",
+          imagePosition: "right",
+        },
+        {
+          title:
+            "Explorez Valence et au-delà avec style grâce à notre service exécutif",
+          description:
+            "Valence est notre base, mais nos services couvrent tout le pays. Du cœur historique aux plages de la Costa Blanca et au-delà, nous proposons un transport premium vers toute destination en Espagne. (Zones) Centre de Valence • Albufera • Cullera • Gandía • Dénia • Xàbia • Benidorm • Sagunto • Alicante • Peñíscola • Moraira",
+          image: "/Rectangle 9 (1).png",
+          imagePosition: "left",
+        },
+      ],
+
+      destinations: {
+        eyebrow: "NOS MEILLEURES DESTINATIONS",
+        heading:
+          "Découvrez les incontournables de Valence avec un chauffeur exécutif",
+        ctaLabel: "Voir les villes",
+        items: [
+          { id: 1, title: "OCEANOGRÀFIC",           image: "/post10-copyright-1-890x664.jpg.png" },
+          { id: 2, title: "LA LONJA DE LA SEDA",    image: "/post10-copyright-1-890x664.jpg (1).png" },
+          { id: 3, title: "MUSÉE DES SCIENCES",     image: "/post10-copyright-1-890x664.jpg (2).png" },
+        ],
+      },
+    },
     
 
 
@@ -1427,6 +1658,122 @@ faqPage: {
         { lines: ["Pago online o en efectivo", "Precios fijos", "Ahorro garantizado"] },
         { lines: ["Atención 24 horas", "Inglés y español", "365 días del año"] }
       ]
+    },
+    home: {
+      hero: {
+          eyebrow: "Servicio de chófer en Valencia",
+          titleLines: [
+            "Traslados al aeropuerto y viajes ejecutivos fiables, con comodidad y estilo.",
+          ],
+        },
+      serviceSection: {
+        eyebrow: "Bienvenido a Chauffeurio",
+        heading: "Nuestros servicios premium de chófer en Valencia",
+        introLeft:
+          "Ofrecemos soluciones de transporte a medida que cumplen los más altos estándares de calidad, seguridad y discreción.",
+        introRight:
+          "Vive España como nunca con nuestras opciones de transporte personalizadas. Contamos con una flota de vehículos de alta gama conducidos por chóferes expertos que conocen cada ruta local. Desde trayectos económicos para el día a día hasta lujo de primera clase para ocasiones especiales, tenemos la opción perfecta. ¿Buscas VTC asequible en Valencia o transporte ejecutivo en Sevilla? Con nosotros, viajarás con estilo y sin preocupaciones.",
+        items: [
+          { href: "/airport-transfer",  title: "Traslados al aeropuerto",        image: "/Container (1).png" },
+          { href: "/hourly-chauffurs",  title: "Chófer por horas",                image: "/post32-copyright-890x664.jpg.png" },
+          { href: "/event-transport",   title: "Transporte para eventos",         image: "/post32-copyright-890x664.jpg.png" },
+          { href: "/tours-excursions",  title: "Tours y excursiones por la ciudad", image: "/post36-copyright-890x664.jpg.png" },
+          { href: "/business-chauffur", title: "Chófer para empresas",            image: "/post35-copyright-890x664.jpg.png" },
+          { href: "/city-to-city",      title: "Larga distancia entre ciudades",  image: "/Container (2).png" },
+        ],
+      },
+
+      whyUs: {
+        subtitle: "Por qué elegirnos",
+        heading: "Por qué elegir Chauffeurio para transporte de lujo en Valencia",
+        description:
+          "Ofrecemos soluciones de transporte a medida que cumplen los más altos estándares de calidad, seguridad y discreción. Nuestros servicios premium de chófer en Valencia están pensados para viajeros exigentes que valoran la puntualidad, el profesionalismo y la comodidad. Ya sea para traslados al aeropuerto, reservas por horas o transporte de lujo para eventos, adaptamos el servicio a tus necesidades. Cada viaje cuenta con nuestra flota moderna y chóferes expertos, para que disfrutes de tranquilidad y elegancia en todo momento. Desde recorridos cortos por la ciudad hasta trayectos de larga distancia por España, nuestro objetivo es hacer del viaje una experiencia sencilla y placentera.",
+        points: [
+          {
+            title: "Flota de lujo y alta gama:",
+            description:
+              "Viaja en vehículos de primeras marcas como Mercedes-Benz, impecablemente mantenidos, para un trayecto siempre cómodo y elegante.",
+          },
+          {
+            title: "Disponibilidad y soporte 24/7:",
+            description:
+              "Compromiso total a cualquier hora. Con nuestro servicio 24 horas en Valencia, puedes reservar y viajar de día o de noche.",
+          },
+          {
+            title: "Chóferes profesionales y verificados:",
+            description:
+              "Más que conductores: son profesionales multilingües, con conocimiento local y dedicados a tu seguridad y satisfacción.",
+          },
+          {
+            title: "Puntualidad garantizada:",
+            description:
+              "Respetamos tu tiempo. La puntualidad es la base de nuestro servicio, especialmente en traslados al aeropuerto y citas de negocios.",
+          },
+          {
+            title: "Viajes corporativos y de empresa:",
+            description:
+              "Servicio ejecutivo fiable y discreto para clientes corporativos. Garantizamos puntualidad y un entorno silencioso y profesional.",
+          },
+        ],
+      },
+
+      fleet: {
+        eyebrow: "NUESTRA FLOTA",
+        headingLines: ["Nuestra flota premium y", "reserva fácil en Valencia"],
+        ctaLabel: "Ver más",
+        ctaHref: "/fleet",
+        items: [
+          {
+            href: "/fleet/economy",
+            title: "Económica",
+            subtitle: "Skoda Octavia, Toyota Prius o similar",
+            image: "/post10-copyright-1-890x664.jpg (3).png",
+          },
+          {
+            href: "/fleet/first-class",
+            title: "Primera Clase",
+            subtitle: "Mercedes S Class, BMW 7, Audi A8, Cadillac Escalade",
+            image: "/post10-copyright-1-890x664.jpg (4).png",
+          },
+          {
+            href: "/fleet/business-class",
+            title: "Clase Ejecutiva",
+            subtitle: "Mercedes E Class, BMW 5 Series, Cadillac XTS",
+            image: "/post10-copyright-1-890x664.jpg (5).png",
+          },
+        ],
+      },
+
+      contentSections: [
+        {
+          title:
+            "Soluciones integrales de chófer para cualquier ocasión en Valencia y toda España.",
+          description:
+            "Si necesitas un taxi fiable al aeropuerto en Valencia o un transporte sofisticado para una delegación VIP, adaptamos cada viaje a tus necesidades. Gestionamos itinerarios complejos, rutas con múltiples paradas y solicitudes especiales con una ejecución impecable. Descubre la comodidad real de nuestro servicio VIP de conductor privado entre ciudades en España.",
+          image: "/Rectangle 9.png",
+          imagePosition: "right",
+        },
+        {
+          title:
+            "Explora Valencia y más allá con estilo gracias a nuestro servicio ejecutivo",
+          description:
+            "Aunque Valencia es nuestra casa, nuestros servicios cubren todo el país. Desde su casco histórico hasta las playas de la Costa Blanca y más allá, ofrecemos transporte premium a cualquier destino de España. (Zonas) Centro de Valencia • Albufera • Cullera • Gandía • Denia • Jávea • Benidorm • Sagunto • Alicante • Peñíscola • Moraira",
+          image: "/Rectangle 9 (1).png",
+          imagePosition: "left",
+        },
+      ],
+
+      destinations: {
+        eyebrow: "NUESTROS DESTINOS PRINCIPALES",
+        heading:
+          "Explora los mejores destinos de Valencia con estilo y chófer ejecutivo",
+        ctaLabel: "Ver ciudades",
+        items: [
+          { id: 1, title: "OCEANOGRÀFIC",         image: "/post10-copyright-1-890x664.jpg.png" },
+          { id: 2, title: "LA LONJA DE LA SEDA",  image: "/post10-copyright-1-890x664.jpg (1).png" },
+          { id: 3, title: "MUSEO DE CIENCIAS",    image: "/post10-copyright-1-890x664.jpg (2).png" },
+        ],
+      },
     },
   },
 } as const;

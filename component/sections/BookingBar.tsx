@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, JSX } from "react";
+import React, { useMemo, useRef, useState, type JSX } from "react";
 import { useJsApiLoader, Autocomplete } from "@react-google-maps/api";
 import { motion, type Variants } from "framer-motion";
 import Button from "../button/Button";
@@ -21,15 +21,31 @@ type BookingBarProps = {
 const libraries: ("places" | "geometry")[] = ["places", "geometry"];
 
 export default function BookingBar({ variants, onSubmit }: BookingBarProps) {
-  const { isLoaded } = useJsApiLoader({
+  const { isLoaded, loadError } = useJsApiLoader({
+    // ⚠️ replace with env var in production
     googleMapsApiKey: "AIzaSyDaQ998z9_uXU7HJE5dolsDqeO8ubGZvDU",
     libraries,
+    id: "gmaps-script",
   });
-  if (!isLoaded) return null;
-  return <BookingBarInner variants={variants} onSubmit={onSubmit} />;
+
+  if (loadError) {
+    console.warn("Google Maps failed to load:", loadError);
+  }
+
+  return (
+    <BookingBarInner
+      variants={variants}
+      onSubmit={onSubmit}
+      isPlacesReady={!!isLoaded && !loadError}
+    />
+  );
 }
 
-function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
+function BookingBarInner({
+  variants,
+  onSubmit,
+  isPlacesReady,
+}: BookingBarProps & { isPlacesReady: boolean }) {
   const [mode, setMode] = useState<"trip" | "hourly">("trip");
 
   // Places
@@ -47,7 +63,7 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
     setTo(place?.formatted_address || place?.name || "");
   };
 
-  // Date + Time (anchored dropdown)
+  // Date + Time
   const [openDateTime, setOpenDateTime] = useState(false);
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<string>("");
@@ -88,7 +104,7 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
     return `${selectedDate} ${String(h12).padStart(2, "0")}:${selectedMinute}:${selectedSecond} ${ampm}`;
   };
 
-  // Persons & Luggage (anchored dropdown)
+  // Persons & Luggage
   const [openPL, setOpenPL] = useState(false);
   const [persons, setPersons] = useState(1);
   const [luggage, setLuggage] = useState(0);
@@ -97,22 +113,12 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
   const dec = (setter: React.Dispatch<React.SetStateAction<number>>, min = 0) =>
     setter((n) => Math.max(min, n - 1));
 
-  // Submit
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit?.({
-      mode,
-      from,
-      to,
-      datetime: buildDisplayDateTime(),
-      persons,
-      luggage,
-    });
-  };
+  const motionProps =
+    variants ? { variants, initial: "hidden" as const, animate: "show" as const } : {};
 
   return (
-    <motion.div variants={variants} initial="hidden" animate="show" className="relative z-10 md:bg-transparent bg-white rounded-md">
-      {/* Keep Places dropdown above UI (no width override) */}
+    <motion.div {...motionProps} className="relative z-10 md:bg-transparent bg-white rounded-md">
+      {/* Makes Google Autocomplete popup appear above */}
       <style jsx global>{`
         .pac-container {
           z-index: 9999 !important;
@@ -120,14 +126,12 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
       `}</style>
 
       {/* Tabs */}
-     <div className="flex items-center md:justify-start justify-center pt-4 md:gap-0 gap-4">
+      <div className="flex items-center md:justify-start justify-center pt-4 md:gap-0 gap-4">
         <button
           type="button"
           onClick={() => setMode("trip")}
           className={`md:rounded-t-sm rounded-sm px-4 py-2 text-lg ${
-            mode === "trip"
-              ? "bg-primary text-white font-semibold"
-              : "bg-[#EDEDED] text-primary font-normal"
+            mode === "trip" ? "bg-primary text-white font-semibold" : "bg-[#EDEDED] text-primary"
           }`}
         >
           Trip Rate
@@ -136,9 +140,7 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
           type="button"
           onClick={() => setMode("hourly")}
           className={`md:rounded-t-sm rounded-sm px-4 py-2 text-lg ${
-            mode === "hourly"
-              ? "bg-[#0A2D3A] text-white font-semibold"
-              : "bg-[#EDEDED] text-primary font-normal"
+            mode === "hourly" ? "bg-[#0A2D3A] text-white font-semibold" : "bg-[#EDEDED] text-primary"
           }`}
         >
           Hourly Rate
@@ -147,18 +149,38 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
 
       {/* Bar */}
       <form
-        onSubmit={handleSubmit}
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit?.({
+            mode,
+            from,
+            to,
+            datetime: buildDisplayDateTime(),
+            persons,
+            luggage,
+          });
+        }}
         className="relative w-full max-w-6xl rounded-md bg-white shadow-md ring-1 ring-black/5 p-3 md:p-4 overflow-visible mx-auto"
       >
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto_auto_auto] gap-3 items-center overflow-visible">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto_auto_auto] gap-3 items-center">
           {/* FROM */}
-          <label className="relative flex w-full items-center gap-2 rounded-md border border-gray-200 px-3 py-3 bg-white overflow-visible">
+          <label className="relative flex w-full items-center gap-2 rounded-md border border-gray-200 px-3 py-3 bg-white">
             <MapPin className="h-4 w-4 text-gray-500 shrink-0" />
-            <Autocomplete
-              onLoad={(ac) => (fromAutocompleteRef.current = ac)}
-              onPlaceChanged={onFromPlaceChanged}
-              options={{ fields: ["geometry", "formatted_address", "name", "place_id"] }}
-            >
+            {isPlacesReady ? (
+              <Autocomplete
+                onLoad={(ac) => (fromAutocompleteRef.current = ac)}
+                onPlaceChanged={onFromPlaceChanged}
+                options={{ fields: ["geometry", "formatted_address", "name", "place_id"] }}
+              >
+                <input
+                  type="text"
+                  value={from}
+                  onChange={(e) => setFrom(e.target.value)}
+                  placeholder="Pickup location"
+                  className="w-full outline-none text-sm text-gray-900 placeholder:text-gray-400"
+                />
+              </Autocomplete>
+            ) : (
               <input
                 type="text"
                 value={from}
@@ -166,18 +188,28 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
                 placeholder="Pickup location"
                 className="w-full outline-none text-sm text-gray-900 placeholder:text-gray-400"
               />
-            </Autocomplete>
+            )}
           </label>
 
-          {/* TO (hidden for hourly) */}
+          {/* TO */}
           {mode === "trip" ? (
-            <label className="relative flex items-center gap-2 rounded-md border border-gray-200 px-3 py-3 bg-white overflow-visible">
+            <label className="relative flex items-center gap-2 rounded-md border border-gray-200 px-3 py-3 bg-white">
               <MapPin className="h-4 w-4 text-gray-500 shrink-0" />
-              <Autocomplete
-                onLoad={(ac) => (toAutocompleteRef.current = ac)}
-                onPlaceChanged={onToPlaceChanged}
-                options={{ fields: ["geometry", "formatted_address", "name", "place_id"] }}
-              >
+              {isPlacesReady ? (
+                <Autocomplete
+                  onLoad={(ac) => (toAutocompleteRef.current = ac)}
+                  onPlaceChanged={onToPlaceChanged}
+                  options={{ fields: ["geometry", "formatted_address", "name", "place_id"] }}
+                >
+                  <input
+                    type="text"
+                    value={to}
+                    onChange={(e) => setTo(e.target.value)}
+                    placeholder="Drop-off location"
+                    className="w-full outline-none text-sm text-gray-900 placeholder:text-gray-400"
+                  />
+                </Autocomplete>
+              ) : (
                 <input
                   type="text"
                   value={to}
@@ -185,17 +217,20 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
                   placeholder="Drop-off location"
                   className="w-full outline-none text-sm text-gray-900 placeholder:text-gray-400"
                 />
-              </Autocomplete>
+              )}
             </label>
           ) : (
             <div className="hidden md:block" />
           )}
 
-          {/* Date & Time (button + anchored dropdown) */}
-          <div className="relative overflow-visible">
+          {/* Date & Time */}
+          <div className="relative">
             <button
               type="button"
-              onClick={() => setOpenDateTime((s) => !s)}
+              onClick={() => {
+                setOpenPL(false);
+                setOpenDateTime((s) => !s);
+              }}
               aria-expanded={openDateTime}
               className="w-full flex items-center gap-2 rounded-md border border-gray-200 px-3 py-3"
             >
@@ -206,22 +241,22 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
             </button>
 
             {openDateTime && (
-              <div className="absolute left-0 right-0 top-full mt-2 w-full bg-white rounded-xl shadow-xl border border-gray-200 p-4 z-50">
+              <div className="absolute top-full mt-2 z-50 w-full md:min-w-lg md:w-auto left-0 md:left-auto md:right-0 bg-white rounded-xl shadow-2xl border border-gray-200 p-4 max-h-[70vh] overflow-auto">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-3">
                   <button type="button" onClick={() => navigateMonth(-1)} className="p-2 hover:bg-gray-100 rounded-full">
-                    ‹
+                    {"<"}
                   </button>
                   <div className="font-semibold text-gray-800">
                     {currentMonth.toLocaleString("default", { month: "long" })} {currentMonth.getFullYear()}
                   </div>
                   <button type="button" onClick={() => navigateMonth(1)} className="p-2 hover:bg-gray-100 rounded-full">
-                    ›
+                    {">"}
                   </button>
                 </div>
 
                 {/* Calendar */}
-                <div className="grid grid-cols-7 gap-1 text-center text-sm mb-2">
+                <div className="grid grid-cols-7 gap-1 text-center text-sm mb-2 sticky top-0 bg-white pt-1 pb-2">
                   {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((d) => (
                     <div key={d} className="font-medium p-2 text-gray-600">
                       {d}
@@ -287,22 +322,25 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
             )}
           </div>
 
-          {/* Persons & Luggage (button + anchored dropdown) */}
-          <div className="relative overflow-visible">
+          {/* Persons & Luggage */}
+          <div className="relative">
             <button
               type="button"
-              onClick={() => setOpenPL((s) => !s)}
+              onClick={() => {
+                setOpenDateTime(false);
+                setOpenPL((s) => !s);
+              }}
               aria-expanded={openPL}
               className="w-full flex items-center gap-2 rounded-md border border-gray-200 px-3 py-3"
             >
               <Users className="h-4 w-4 text-gray-500 shrink-0" />
               <span className="text-sm text-gray-900">
-                {persons} {persons === 1 ? "Person" : "Persons"} • {luggage} {luggage === 1 ? "Luggage" : "Luggages"}
+                {persons} {persons === 1 ? "Person" : "Persons"} • {luggage} {luggage === 1 ? "Luggage" : "Luggage"}
               </span>
             </button>
 
             {openPL && (
-              <div className="absolute left-0 right-0 top-full mt-2 w-full bg-white rounded-xl shadow-xl border border-gray-200 p-4 z-50">
+              <div className="absolute top-full mt-2 z-50 w-full md:min-w-lg md:w-auto left-0 md:left-auto md:right-0 bg-white rounded-xl shadow-2xl border border-gray-200 p-4 max-h-[60vh] overflow-auto">
                 {/* Persons */}
                 <div className="flex items-center justify-between py-2">
                   <div className="flex items-center gap-2">
@@ -315,7 +353,7 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
                       onClick={() => dec(setPersons, 1)}
                       className="h-8 w-8 rounded-md border border-gray-300 text-gray-700 flex items-center justify-center"
                     >
-                      –
+                      -
                     </button>
                     <span className="w-6 text-center text-sm font-semibold">{persons}</span>
                     <button
@@ -340,7 +378,7 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
                       onClick={() => dec(setLuggage, 0)}
                       className="h-8 w-8 rounded-md border border-gray-300 text-gray-700 flex items-center justify-center"
                     >
-                      –
+                      -
                     </button>
                     <span className="w-6 text-center text-sm font-semibold">{luggage}</span>
                     <button
@@ -371,7 +409,7 @@ function BookingBarInner({ variants, onSubmit }: BookingBarProps) {
     </motion.div>
   );
 
-  // calendar grid for DateTime dropdown
+  // Calendar grid
   function renderCalendarDays(): JSX.Element[] {
     const daysInMonth = getDaysInMonth(currentMonth);
     const firstDay = getFirstDayOfMonth(currentMonth);
