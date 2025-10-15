@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
-import { motion, useReducedMotion, type Variants, type TargetAndTransition } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { useReducedMotion, type Variants, type TargetAndTransition } from "framer-motion";
+import HeroContent from "./HeroContent";
+import BookingBar from "./BookingBar";
 
 function buildVariants(
   sideDesktop: "left" | "right",
@@ -37,7 +39,6 @@ export default function HeroSection() {
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
     const mq = window.matchMedia("(min-width: 768px)");
     const update = () => setIsMdUp(mq.matches);
     update();
@@ -56,18 +57,39 @@ export default function HeroSection() {
   );
 
   return (
-    <section className="relative md:flex md:min-h-[100svh] md:items-center bg-cover bg-center pt-24 px-0 md:px-20">
+    <section className="relative md:flex md:min-h-[100svh] md:items-center bg-cover bg-center md:pt-40 pt-20 px-0 md:px-20">
+      {/* Background */}
       <div
-        className="absolute inset-0 bg-cover bg-center md:hidden"
+        className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/hero.jpg')" }}
         aria-hidden
       />
-      <div
-        className="absolute inset-0 bg-cover bg-center hidden md:block"
-        style={{ backgroundImage: "url('/hero.jpg')" }}
-        aria-hidden
-      />
-      <div className="pointer-events-none absolute inset-0 bg-primary/50 bg-opacity-50" aria-hidden />
+      <div className="absolute inset-0 bg-[#0A2D3A]/60" aria-hidden />
+
+      {/* Content container */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl md:px-5 px-2 md:px-0">
+        <div className="grid gap-8 md:gap-32">
+          <div>
+          <HeroContent
+            variants={leftVariants}
+            eyebrow="Chauffeur Service in Valencia"
+            titleLines={[
+              "Reliable airport transfers and executive travel with comfort and style.",
+            ]}
+          />
+</div>
+          {/* Booking bar */}
+          <div className="max-w-6xl pb-2">
+            <BookingBar
+              variants={rightVariants}
+              onSubmit={(data) => {
+                // plug into your router or API
+                console.log("booking form:", data);
+              }}
+            />
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

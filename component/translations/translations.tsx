@@ -1,4 +1,4 @@
-// translations.js
+// translations.ts
 export const translations = {
   eng: {
     header: {
@@ -18,11 +18,56 @@ export const translations = {
     },
     airportTransfer: {
       title: "Airport Transfer",
+      heroSubtitle: "Airport Transfers in Valencia with Chauffeurio",
+      helpSubtitle: "HOW WE HELP",
+      workEyebrow: "How We Work",
+      worksectionTitle: "Simple Booking and Reliable Service",
       description:
-        "At Chauffeurio, we specialize in reliable and comfortable airport transfers that connect you to Valencia's most popular destinations. Our professional chauffeurs ensure your journey starts and ends in comfort.",
-      whyChoose: "Why Choose Chauffeurio Airport Transport in Valencia",
+        "Traveling through Valencia should be simple, smooth, and stress-free. At Chauffeurio, we specialize in reliable and comfortable airport transfers that connect you to Valencia’s most popular destinations. Our professional chauffeurs ensure your journey starts and ends in comfort.",
+      whyChoose: "Why Choose Chauffeurio  Airport Transport in Valencia",
       helpDescription:
         "Travel across Valencia with smooth, reliable, and stylish airport transfers. Our chauffeurs make every trip stress-free. Our airport transfer service is designed to remove stress from your journey. As you step off the plane, your chauffeur will be waiting with a personalized meet-and-greet, ready to help with your luggage and guide you directly to your vehicle.",
+       points: [
+        { title: "Flight Tracking", description: "24/7 monitoring; we’re here, even if your flight is delayed." },
+        { title: "Wide Vehicle Choice", description: "From budget rides to luxury cars and minibuses." },
+        { title: "Meet & Greet Service", description: "Driver waiting with your name sign, helping with bags." },
+        { title: "Flat Rates", description: "No hidden fees, clear and upfront pricing." },
+        { title: "Family & Business Friendly", description: "Kid seats, Comfort and quiet space available." },
+      ],
+      workSteps: [
+        { title: "Book Your Ride ", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
+        { title: "Travel in Comfort", description: "Air-conditioned vehicles and with Wi-Fi, bottled water, and phone chargers." },
+        { title: "24/7 Availability", description: "Whether day or night, we are ready, also  for flight delays and longer trips" },
+        { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Spain, with punctual drivers" },
+      ],
+      contentSections: [
+        {
+          title: "Seamless Business Travel in Valencia",
+          description:
+            "Whether you’re heading to a client meeting, a financial district appointment, or the airport for a corporate trip, Chauffeurio makes your journey effortless. Focus on your business while we take care of the drive. Arrive on time, every time, with professional chauffeurs who understand the value of punctuality. Experience travel that blends comfort, reliability, and sophistication.",
+          image: "/hero.jpg",
+          imagePosition: "right",
+        },
+        {
+          title: "Elevating Corporate Journeys in Valencia",
+          description:
+            "With Chauffeurio, business transportation becomes more than just a ride—it’s an experience. Impress clients, maximize your productivity on the go, and enjoy the peace of mind that comes with a chauffeur service trusted by professionals across Valencia. Our tailored services are designed to meet the demands of modern executives. Travel smarter and elevate every journey with Chauffeurio’s premium business solutions.",
+          image: "/hero.jpg",
+          imagePosition: "left",
+        },
+      ],
+    },
+    hourlyChauffeurs: {
+      title: "HOURLY CHAUFFEURs",
+      heroSubtitle: "Hourly Chauffeur Services in Spain with Chauffeurio",
+      helpSubtitle: "HOW WE HELP",
+      workEyebrow: "How We Work",
+      worksectionTitle: "Simple Booking and Reliable Service",
+      description:
+        "Need a driver on standby? Chauffeurio’s hourly chauffeur services give you flexibility across Spain’s major cities — Madrid, Barcelona, Valencia, Málaga, Seville, and the Costa del Sol. Whether it’s running errands, attending meetings, shopping, or sightseeing, our professional chauffeurs adapt to your schedule so you can move at your own pace.",
+      whyChoose: "Why Choose Chauffeurio Hourly Service in Spain",
+      helpDescription:
+        "Our by-the-hour hire is designed for travelers who want freedom without the hassle of fixed routes. Book the hours you need, and your chauffeur is ready to go wherever the day takes you. From quick business runs to full-day leisure plans, we provide vehicles for solo travelers, families, or groups. Enjoy the flexibility of adjusting your schedule on the go, with no pressure to rush. With Chauffeurio, every hour is tailored to your needs, making travel seamless and stress-free.",
       points: [
         { title: "Flight Tracking", description: "24/7 monitoring; we’re here, even if your flight is delayed." },
         { title: "Wide Vehicle Choice", description: "From budget rides to luxury cars and minibuses." },
@@ -31,108 +76,1357 @@ export const translations = {
         { title: "Family & Business Friendly", description: "Kid seats, Comfort and quiet space available." },
       ],
       workSteps: [
-        { title: "Book Your Ride", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
-        { title: "Travel in Comfort", description: "Air-conditioned vehicles with Wi-Fi, bottled water, and phone chargers." },
-        { title: "24/7 Availability", description: "Whether day or night, we are ready, even for flight delays." },
-        { title: "Arrive with Confidence", description: "Chauffeurs ensure smooth airport transfers across Spain, with punctual drivers." },
+        { title: "Book Your Ride ", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
+        { title: "Travel in Comfort", description: "Air-conditioned vehicles and with Wi-Fi, bottled water, and phone chargers." },
+        { title: "24/7 Availability", description: "Whether day or night, we are ready, also  for flight delays and longer trips" },
+        { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Spain, with punctual drivers" },
       ],
       contentSections: [
         {
           title: "Tailored Hourly Chauffeur Service",
           description:
-            "Whether it's business meetings in Valencia, a shopping spree, or a relaxed afternoon, Chauffeurio makes it easy. Your chauffeur waits while you handle your plans, ready to continue when you are. With flat hourly rates, professional drivers, and flexible timing, you enjoy the freedom to travel without rushing.",
-          image: "/hero.jpg",
+            "Whether it’s business meetings in Valencia, a shopping spree, or a relaxed afternoon , Chauffeurio makes it easy. Your chauffeur waits while you handle your plans, ready to continue when you are. With flat hourly rates, professional drivers, and flexible timing, you enjoy the freedom to travel without rushing.",
+          image: "/Rectangle 9.png",
           imagePosition: "right",
         },
         {
           title: "Explore Valencia at Your Own Pace",
           description:
-            "With Chauffeurio, hourly chauffeur services turn every ride into an experience. From luxury options for executives to spacious vans for families and groups, our fleet matches every need. Whether you're discovering local gems, moving between events, or enjoying leisure time, we make sure every hour on the road is comfortable, stylish, and stress-free.",
+            "With Chauffeurio, hourly chauffeur services turn every ride into an experience. From luxury options for executives to spacious vans for families and groups, our fleet matches every need. Whether you’re discovering local gems, moving between events, or enjoying leisure time, we make sure every hour on the road is comfortable, stylish, and stress-free.",
+          image: "/Rectangle 9 (1).png",
+          imagePosition: "left",
+        },
+      ],
+    },
+  eventTransport: {
+  title: "EVENT TRANSPORT",
+  heroSubtitle: "Event Transfers in Valencia with Chauffeurio",
+  helpSubtitle: "HOW WE HELP",
+  workEyebrow: "How We Work",
+  worksectionTitle: "Simple Booking and Reliable Service",
+  description:
+    "Big event coming up? Skip the stress of parking and traffic — Chauffeurio takes care of event transfers across Spain so you can arrive ready for the spotlight. Whether it’s a wedding in Seville, a corporate conference in Madrid, a festival in Valencia, or a concert, our professional chauffeurs ensure your group arrives together, on time, and in comfort.",
+  whyChoose: "Why Choose Chauffeurio for Event Transfers in Valencia",
+  helpDescription:
+    "Traveling for an event should be smooth, stylish, and stress-free. At Chauffeurio, we specialize in tailored event transport for weddings, business gatherings, parties, and more. From budget-friendly options to luxury rides, we match your group and vibe. Our chauffeurs greet you curbside, help with luggage, and drop you right at the venue door.",
+  points: [
+    { title: "Flexible Fleet Choices:", description: "24/7 monitoring; we’re here, even if your flight is delayed." },
+    { title: "Wide Vehicle Choice", description: "From budget rides to luxury cars and minibuses." },
+    { title: "Meet & Greet Service", description: "Driver waiting with your name sign, helping with bags." },
+    { title: "Flat Rates", description: "No hidden fees, clear and upfront pricing." },
+    { title: "Family & Business Friendly", description: "Kid seats, Comfort and quiet space available." },
+  ],
+  workSteps: [
+    { title: "Book Your Ride ", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
+    { title: "Travel in Comfort", description: "Air-conditioned vehicles and with Wi-Fi, bottled water, and phone chargers." },
+    { title: "24/7 Availability", description: "Whether day or night, we are ready, also  for flight delays and longer trips" },
+    { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Spain, with punctual drivers" },
+  ],
+  contentSections: [
+    {
+      title: "Smooth Event Journeys from Start to Finish",
+      description:
+        "Whether it’s a wedding in Seville, a festival in Valencia, or a business event in Madrid, Chauffeurio guarantees smooth arrivals and departures. Your chauffeur will be ready with a personalized meet-and-greet, assist with luggage, and adjust timings if your schedule changes. With flat-rate pricing and expert drivers, you can count on a stress-free transfer from start to finish.",
+      image: "/Rectangle 9.png",
+      imagePosition: "right",
+    },
+    {
+      title: "Celebrate and Travel in Style in Valencia",
+      description:
+        "At Chauffeurio, we believe event transportation should do more than get you to the venue — it should enhance your experience. From stylish bridal arrivals to productive corporate rides, our fleet is designed for every occasion. Whether you’re celebrating, networking, or performing, Chauffeurio ensures your journey is safe, stylish, and right on time. Our chauffeurs add a personal touch with local knowledge and professional care, making every ride smooth and enjoyable. ",
+      image: "/Rectangle 9 (1).png",
+      imagePosition: "left",
+    },
+  ],
+},
+  tour: {
+  title: "Tours and Excursions",
+  heroSubtitle: "Tours and Excursions with Chauffeurio",
+  helpSubtitle: "HOW WE HELP",
+  workEyebrow: "How We Work",
+  worksectionTitle: "Simple Booking and Reliable Service",
+  description:
+    "Discover Valencia your way with Chauffeurio’s private tours and excursions. Whether it’s the iconic streets, the artistic corners of Valencia, and the Costa del Sol, or the historic beauty of Valencia, our chauffeurs take you there at your pace. From half-day city trips to full-day scenic drives, you enjoy comfort, flexibility, and local insights along the way.",
+  helpDescription:
+    "Skip the crowds and explore on your schedule. Our chauffeurs handle the driving while you enjoy Spain’s highlights—beaches, landmarks, hidden streets, or cultural hubs. It’s the simple way to see more without the stress of planning or rigid group tours. Glide through Valencia’s neighborhoods, Madrid’s plazas, or cruise the Costa del Sol with time for photos, shopping, or seaside stops. From quick sightseeing rides to longer loops, every plan adapts to your style.",
+    whyChoose: "Why Choose Chauffeurio for Tours and Excursions",
+  points: [
+    { title: "Flexible Fleet Choices:", description: "24/7 monitoring; we’re here, even if your flight is delayed." },
+    { title: "Wide Vehicle Choice", description: "From budget rides to luxury cars and minibuses." },
+    { title: "Meet & Greet Service", description: "Driver waiting with your name sign, helping with bags." },
+    { title: "Flat Rates", description: "No hidden fees, clear and upfront pricing." },
+    { title: "Family & Business Friendly", description: "Kid seats, Comfort and quiet space available." },
+  ],
+  workSteps: [
+    { title: "Book Your Ride ", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
+    { title: "Travel in Comfort", description: "Air-conditioned vehicles and with Wi-Fi, bottled water, and phone chargers." },
+    { title: "24/7 Availability", description: "Whether day or night, we are ready, also  for flight delays and longer trips" },
+    { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Spain, with punctual drivers" },
+  ],
+  contentSections: [
+    {
+      title: "Cultural and Culinary Journey in Valencia",
+      description:
+        "Step into Valencia’s history in Valencia, dive into Valencia’s art scene, or savor tapas trails and wine tours near Madrid. With vehicles for couples, families, or groups, every outing feels tailored and seamless. Glide through Barcelona’s neighborhoods, Madrid’s plazas, or cruise the Costa del Sol with time for photos, shopping, or seaside stops. From quick sightseeing rides to longer loops, every plan adapts to your style.",
+      image: "/Rectangle 9.png",
+      imagePosition: "right",
+    },
+    {
+      title: "VIP and Extended Excursions",
+      description:
+        "Turn your trip into a luxury journey with our premium fleet, from Mercedes S-Class to Cadillac Escalade. Perfect for day-long explorations, coastal drives, or multi-city adventures, complete with comfort, privacy, and a touch of elegance. Enjoy onboard perks like refreshments, Wi-Fi, and spacious seating. With Chauffeurio, your excursion feels less like travel and more like a first-class experience.",
+      image: "/Rectangle 9 (1).png",
+      imagePosition: "left",
+    },
+  ],
+},
+  citytocity: {
+  title: "CITY TO CITY TRANSFERS",
+  heroSubtitle: "City to City Transfers in Valencia with Chauffeurio",
+  helpSubtitle: "HOW WE HELP",
+  workEyebrow: "How We Work",
+  worksectionTitle: "Simple Booking and Reliable Service",
+  description:
+    "Traveling between cities in Valencia should be easy, reliable, and comfortable. At Chauffeurio, we make intercity travel feel like a smooth road trip — without the stress of trains or buses. Whether you’re heading towards or from Valencia anywhere in between, our chauffeurs ensure a seamless ride from door to door.",
+  helpDescription:
+    "Our city-to-city service is designed to save you time and effort. Simply choose your start and destination, and we take care of the rest. With professional drivers who know Spain’s routes inside out, you can sit back and enjoy the journey. From solo travelers to families and business groups, we provide vehicles that fit every need.",
+    whyChoose: "Why Choose Chauffeurio for Intercity Transfers",
+  points: [
+    { title: "Flexible Fleet Choices:", description: "24/7 monitoring; we’re here, even if your flight is delayed." },
+    { title: "Wide Vehicle Choice", description: "From budget rides to luxury cars and minibuses." },
+    { title: "Meet & Greet Service", description: "Driver waiting with your name sign, helping with bags." },
+    { title: "Flat Rates", description: "No hidden fees, clear and upfront pricing." },
+    { title: "Family & Business Friendly", description: "Kid seats, Comfort and quiet space available." },
+  ],
+  workSteps: [
+    { title: "Book Your Ride ", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
+    { title: "Travel in Comfort", description: "Air-conditioned vehicles and with Wi-Fi, bottled water, and phone chargers." },
+    { title: "24/7 Availability", description: "Whether day or night, we are ready, also  for flight delays and longer trips" },
+    { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Spain, with punctual drivers" },
+  ],
+  contentSections: [
+    {
+      title: "Stress-Free Intercity Journeys in Valencia",
+      description:
+        "Whether it’s a business trip from Valencia to Seville, a family getaway along the Costa del Sol, or a long ride in Valencia, Chauffeurio makes distance disappear. Your chauffeur will be ready at your pickup point, assist with luggage, and adjust for traffic or timing changes. With fixed pricing and experienced drivers, every ride is relaxed and reliable.",
+      image: "/Rectangle 9.png",
+      imagePosition: "right",
+    },
+    {
+      title: "Redefining City-to-City Travel in Valencia",
+      description:
+        "With Chauffeurio, city-to-city transfers are more than just getting from A to B. From luxury rides for executives to spacious minibuses for families and groups, our fleet ensures every trip is tailored to your needs. Whether you prefer a direct route or scenic detours, we make intercity travel safe, stylish, and stress-free — turning the journey into part of your Spanish experience.",
+      image: "/Rectangle 9 (1).png",
+      imagePosition: "left",
+    },
+  ],
+},
+  businessChhuff: {
+  title: "Business Chauffeur",
+  heroSubtitle: "Business Chauffeur Services in Valencia with Chauffeurio",
+  helpSubtitle: "HOW WE HELP",
+  workEyebrow: "How We Work",
+  worksectionTitle: "Simple Booking and Reliable Service",
+  description:
+    "Enjoy seamless executive travel across Valencia with our premium business chauffeur service. Whether it’s a meeting, conference, or corporate event, Chauffeurio ensures you arrive on time, in style, and fully prepared. Our chauffeurs are trained to provide a smooth, discreet, and comfortable journey so you can focus entirely on your business. With Chauffeurio, every trip reflects professionalism and luxury.",
+  helpDescription:
+    "Our service is designed to meet the needs of executives and professionals who require reliability, discretion, and a smooth travel experience. Each ride is customized to match your schedule, with priority given to punctuality and efficiency. From luxury amenities to courteous service, Chauffeurio redefines what business travel should feel like.",
+    whyChoose: "Why Choose Chauffeurio for Business Chauffeurs",
+  points: [
+    { title: "Flexible Fleet Choices:", description: "24/7 monitoring; we’re here, even if your flight is delayed." },
+    { title: "Wide Vehicle Choice", description: "From budget rides to luxury cars and minibuses." },
+    { title: "Meet & Greet Service", description: "Driver waiting with your name sign, helping with bags." },
+    { title: "Flat Rates", description: "No hidden fees, clear and upfront pricing." },
+    { title: "Family & Business Friendly", description: "Kid seats, Comfort and quiet space available." },
+  ],
+  workSteps: [
+    { title: "Book Your Ride ", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
+    { title: "Travel in Comfort", description: "Air-conditioned vehicles and with Wi-Fi, bottled water, and phone chargers." },
+    { title: "24/7 Availability", description: "Whether day or night, we are ready, also  for flight delays and longer trips" },
+    { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Spain, with punctual drivers" },
+  ],
+  contentSections: [
+    {
+      title: "Seamless Business Travel in Valencia",
+      description:
+        "Whether you’re heading to a client meeting, a financial district appointment, or the airport for a corporate trip, Chauffeurio makes your journey effortless. Focus on your business while we take care of the drive. Arrive on time, every time, with professional chauffeurs who understand the value of punctuality. Experience travel that blends comfort, reliability, and sophistication.",
+      image: "/Rectangle 9.png",
+      imagePosition: "right",
+    },
+    {
+      title: "Elevating Corporate Journeys in Valencia",
+      description:
+        "With Chauffeurio, business transportation becomes more than just a ride—it’s an experience. Impress clients, maximize your productivity on the go, and enjoy the peace of mind that comes with a chauffeur service trusted by professionals across Valencia. Our tailored services are designed to meet the demands of modern executives. Travel smarter and elevate every journey with Chauffeurio’s premium business solutions.",
+      image: "/Rectangle 9 (1).png",
+      imagePosition: "left",
+    },
+  ],
+},
+faqPage: {
+      title: "FAQS",
+      categories: [
+        {
+          category: "Before You Book",
+          questions: [
+            {
+              id: 1,
+              question: "What time details do I need to provide when booking?",
+              answer:
+                "Please provide the arrival time of your flight or train. Don’t forget to include your departure location, airline or train company, and the flight/train number."
+            },
+            {
+              id: 2,
+              question: "Can I change my booking after it's confirmed?",
+              answer:
+                "Yes, you can modify your booking up to 24 hours before your scheduled pick-up time."
+            }
+          ]
+        },
+        {
+          category: "My Reservations",
+          questions: [
+            {
+              id: 3,
+              question:
+                "I’ve booked already but haven’t received a confirmation email, what should I do?",
+              answer:
+                "Sometimes our emails may land in your spam or junk folder. Please check there first. If you still don’t see it, reach out to us directly."
+            },
+            {
+              id: 4,
+              question: "Am I able to cancel my booking?",
+              answer:
+                "Yes, cancellations are free of charge as long as they are made at least 48 hours before your scheduled trip."
+            }
+          ]
+        },
+        {
+          category: "Transfers",
+          questions: [
+            {
+              id: 5,
+              question: "How will I find my driver at the airport or station?",
+              answer:
+                "Your driver will be waiting at the location you provided in your booking, holding a sign with your name, at the terminal or station exit."
+            },
+            {
+              id: 6,
+              question: "What should I do if I can’t find my driver?",
+              answer:
+                "If you don’t see your driver, simply call the contact number we provide, and we’ll guide you."
+            }
+          ]
+        }
+      ]
+    },
+    contact: {
+      heroTitle: "Contact",
+      eyebrow: "Contact Us",
+      headingTop: "Have questions?",
+      headingBottom: "Get in touch!",
+      supportText:
+        "Have questions or need assistance? Reach out to our team anytime.",
+
+      // Contact details (you can localize or keep the same for all locales)
+      address: "C/ Dama De Elche 26, 46023 Valencia",
+      phone: "+34 666 253 660",
+      email: "Info@Chauffeurio.com",
+
+      form: {
+        name: "Name",
+        email: "Email Address",
+        phone: "Phone",
+        subject: "Subject",
+        messagePlaceholder:
+          "How can we help you? Feel free to get in touch!",
+        button: "Get in Touch",
+        privacyPrefix: "I agree with the",
+        privacyLink: "Privacy Policy",
+      },
+    },
+    about: {
+      heroTitle: "About Us",
+      imageDetail: {
+        title: "About Chauffeurio",
+        subtitle: "Your Premier Travel Partner in Valencia",
+        description:
+          "At Chauffeurio, we redefine travel by combining professionalism, comfort, and excellence. We provide premium transfer services to international travelers across Valencia and covering everything from private airport pickups to group transfers and bespoke itineraries. Founded by a team passionate about travel and hospitality, Chauffeurio was created to bridge the gap between local knowledge and international standards. Over the years, we’ve grown into a trusted brand, known for exceptional service, professionalism, and seamless travel experiences.",
+        imageSrc: "/Rectangle 11.png",
+      },
+      help: {
+        subtitle: "How we can help",
+        heading: "Why Choose Chauffeurio for Luxury Transport in Valencia",
+        description:
+          "As a leading provider of private chauffeur hire in Valencia, we stand out by combining top reliability with unbeatable value. Our team delivers the finest executive transport services, blending local knowledge with global standards. Book with us for journeys that prioritize your comfort, whether it's a quick airport pickup in Madrid or a VIP tour in Barcelona. We turn ordinary trips into something special.",
+        points: [
+          {
+            title: "Luxury Fleet Premium Vehicles:",
+            description:
+              "Choose from Economy options like Skoda Octavia or Toyota Prius, Business Class with Mercedes E Class or BMW 5 Series, First Class including Mercedes S Class or Audi A8, plus vans and minibuses like Mercedes V Class or Sprinter for groups.",
+          },
+          {
+            title: "24/7 Availability and Support:",
+            description:
+              "Ready for early flights from Castellon Airport or late-night arrivals in Seville – we're always on call.",
+          },
+          {
+            title: "Safety & Comfort:",
+            description:
+              "Modern vehicles, professional drivers, and attention to every detail.",
+          },
+          {
+            title: "Customer Satisfaction Guaranteed:",
+            description:
+              "We measure our success by repeat bookings, positive feedback, and the comfort of our clients.",
+          },
+        ],
+      },
+      valueMission: {
+        eyebrow: "Chauffeurio",
+        heading: "Our Identity, Vision and Values",
+        stats: [
+          { value: "10,000+", label: "Happy Customer" },
+          { value: "500+", label: "Professional Drivers" },
+          { value: "1M+", label: "Completed Rides" },
+          { value: "98%", label: "Customer Satisfaction" },
+        ],
+        missionTitle: "Mission",
+        missionText:
+          "Our mission is simple yet powerful: to make every journey seamless, safe, and unforgettable. We strive to deliver experiences that go beyond transportation—where comfort, punctuality, and attention to detail are standard on every ride.",
+        visionTitle: "Vision",
+        visionText:
+          "At Chauffeurio, we stand for excellence, reliability, and a customer-first approach, delivering punctual, tailored rides with care. Our globally accessible service ensures easy booking, clear communication, and professional support for every traveler.",
+      },
+    },
+testimonials: {
+      eyebrow: "TESTIMONIALS",
+      title: "Explore Valencia with Our Executive Chauffeur Travel",
+      badges: [
+        { source: "Google", score: "4.9", reviews: "2,394 reviews" },
+        { source: "Facebook", score: "5.0", reviews: "1,428 reviews" },
+        { source: "TripAdvisor", score: "4.9", reviews: "3,891 reviews" }
+      ],
+      items: [
+        {
+          id: 1,
+          name: "Nick Evans",
+          verified: true,
+          date: "1 week ago",
+          rating: 5,
+          comment:
+            "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
+        },
+        {
+          id: 2,
+          name: "Emma Johnson",
+          verified: true,
+          date: "2 weeks ago",
+          rating: 5,
+          comment:
+            "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
+        },
+        {
+          id: 3,
+          name: "John Green",
+          verified: true,
+          date: "3 weeks ago",
+          rating: 5,
+          comment:
+            "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
+        },
+        {
+          id: 4,
+          name: "Megan Smith",
+          verified: true,
+          date: "1 month ago",
+          rating: 5,
+          comment:
+            "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
+        },
+        {
+          id: 5,
+          name: "David Wilson",
+          verified: true,
+          date: "2 months ago",
+          rating: 5,
+          comment:
+            "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
+        },
+        {
+          id: 6,
+          name: "Sarah Taylor",
+          verified: true,
+          date: "3 months ago",
+          rating: 5,
+          comment:
+            "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
+        }
+      ]
+    },
+    heroBottom: {
+      items: [
+        { lines: ["Free cancelation", "Licensed drivers", "Meet & greet"] },
+        { lines: ["Pay online or in cash", "Fixed prices", "Guaranteed savings"] },
+        { lines: ["24 hour customer service", "English and Spanish", "365 days of the year"] }
+      ]
+    },
+
+
+
+
+  },
+
+  fr: {
+    header: {
+      home: "Accueil",
+      about: "À propos",
+      fleet: "Notre Flotte",
+      services: "Services",
+      contact: "Contact",
+      fleetItems: {
+        airportTransfer: "Transfert Aéroport",
+        hourlyChauffeurs: "Chauffeurs à l'heure",
+        eventTransport: "Transport pour événements",
+        toursExcursions: "Tours et Excursions",
+        cityToCity: "Ville à Ville",
+        businessChauffur: "Chauffeur d'Affaires",
+      },
+    },
+    airportTransfer: {
+      title: "Transfert Aéroport",
+      heroSubtitle: "Transferts aéroport à Valence avec Chauffeurio",
+      helpSubtitle: "COMMENT NOUS AIDONS",
+      workEyebrow: "Notre méthode",
+      worksectionTitle: "Réservation simple et service fiable",
+      description:
+        "Voyager à travers Valence doit être simple, fluide et sans stress. Chez Chauffeurio, nous sommes spécialisés dans les transferts aéroport fiables et confortables qui vous relient aux destinations les plus populaires de Valence. Nos chauffeurs professionnels veillent à ce que votre trajet commence et se termine dans le confort.",
+      whyChoose: "Pourquoi choisir le transport aéroport de Chauffeurio à Valence",
+      helpDescription:
+        "Parcourez Valence avec des transferts aéroport fluides, fiables et élégants. Nos chauffeurs rendent chaque trajet sans stress. Notre service est conçu pour éliminer le stress de votre voyage. Dès votre sortie de l’avion, votre chauffeur vous attendra avec un accueil personnalisé, prêt à vous aider avec vos bagages et à vous conduire directement à votre véhicule.",
+      points: [
+        { title: "Suivi des vols", description: "Surveillance 24h/24, nous sommes là même en cas de retard." },
+        { title: "Large choix de véhicules", description: "Des trajets économiques aux voitures de luxe et minibus." },
+        { title: "Service d’accueil personnalisé", description: "Chauffeur avec pancarte à votre nom, aide aux bagages." },
+        { title: "Tarifs fixes", description: "Pas de frais cachés, tarification claire et transparente." },
+        { title: "Adapté familles & entreprises", description: "Sièges enfants, confort et espace calme disponibles." },
+      ],
+      workSteps: [
+        { title: "Réservez votre trajet", description: "Obtenez un devis instantané et confirmez en ligne, par téléphone ou par e-mail." },
+        { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs." },
+        { title: "Disponibilité 24/7", description: "De jour comme de nuit, prêts y compris en cas de retard ou longs trajets." },
+        { title: "Arrivez en toute confiance", description: "Transferts aéroport fluides dans toute l’Espagne, chauffeurs ponctuels." },
+      ],
+      contentSections: [
+        {
+          title: "Voyages d’affaires sans accroc à Valence",
+          description:
+            "Rendez-vous client, réunion au quartier financier ou départ aéroport pour un déplacement pro : Chauffeurio simplifie votre trajet. Concentrez-vous sur vos affaires, nous nous chargeons de la route. Arrivez à l’heure, à chaque fois, avec des chauffeurs qui comprennent l’importance de la ponctualité.",
+          image: "/hero.jpg",
+          imagePosition: "right",
+        },
+        {
+          title: "Des trajets d’entreprise valorisés à Valence",
+          description:
+            "Avec Chauffeurio, le transport d’affaires devient une expérience. Impressionnez vos clients, gagnez en productivité en route et profitez de la sérénité d’un service de chauffeur plébiscité à Valence. Des solutions sur mesure pour les dirigeants modernes.",
           image: "/hero.jpg",
           imagePosition: "left",
         },
       ],
     },
-  },
-
-  fr: {
-    airportTransfer: {
-      title: "Transfert Aéroport",
+   hourlyChauffeurs: {
+      title: "CHAUFFEURS À L’HEURE",
+      heroSubtitle: "Service de chauffeur à l’heure en Espagne avec Chauffeurio",
+      helpSubtitle: "COMMENT NOUS AIDONS",
+      workEyebrow: "Notre méthode",
+      worksectionTitle: "Réservation simple et service fiable",
       description:
-        "Chez Chauffeurio, nous nous spécialisons dans les transferts aéroport fiables et confortables qui vous connectent aux destinations les plus populaires de Valence. Nos chauffeurs professionnels s'assurent que votre voyage commence et se termine dans le confort.",
-      whyChoose: "Pourquoi Choisir Chauffeurio Transport Aéroport à Valence",
+        "Besoin d’un chauffeur en attente ? Les services de chauffeur à l’heure de Chauffeurio vous offrent une flexibilité totale dans les principales villes d’Espagne — Madrid, Barcelone, Valence, Málaga, Séville et la Costa del Sol. Courses, réunions, shopping ou visites, nos chauffeurs professionnels s’adaptent à votre emploi du temps pour que vous avanciez à votre rythme.",
+      whyChoose: "Pourquoi choisir le service horaire de Chauffeurio en Espagne",
       helpDescription:
-        "Voyagez à travers Valence avec des transferts aéroport fluides, fiables et élégants. Nos chauffeurs rendent chaque voyage sans stress. Notre service de transfert aéroport est conçu pour supprimer le stress de votre voyage. Dès que vous sortez de l'avion, votre chauffeur vous attendra avec une rencontre personnalisée, prêt à vous aider avec vos bagages et à vous guider directement vers votre véhicule.",
+        "Notre formule à l’heure est pensée pour les voyageurs qui veulent de la liberté sans itinéraires imposés. Réservez le nombre d’heures dont vous avez besoin et votre chauffeur vous emmène où la journée vous mène. Des allers-retours professionnels rapides aux journées complètes de loisirs, nous proposons des véhicules pour voyageurs solo, familles ou groupes. Ajustez votre planning à la volée, sans pression. Avec Chauffeurio, chaque heure est adaptée à vos besoins pour un voyage fluide et sans stress.",
       points: [
-        { title: "Suivi des Vols", description: "Surveillance 24h/24, même si votre vol est retardé." },
-        { title: "Large Choix de Véhicules", description: "Des trajets économiques aux voitures de luxe et minibus." },
-        { title: "Service de Rencontre et Accueil", description: "Le chauffeur vous attend avec votre pancarte, aide aux bagages." },
-        { title: "Tarifs Fixes", description: "Aucun frais caché, tarification claire et transparente." },
-        { title: "Adapté aux Familles et aux Entreprises", description: "Sièges pour enfants, espace confortable et calme disponible." },
+        { title: "Suivi des vols", description: "Surveillance 24/7 ; présents même en cas de retard." },
+        { title: "Large choix de véhicules", description: "Des options économiques aux voitures de luxe et minibus." },
+        { title: "Accueil personnalisé", description: "Chauffeur avec pancarte à votre nom et aide aux bagages." },
+        { title: "Tarifs fixes", description: "Aucun frais caché ; prix clairs et transparents." },
+        { title: "Adapté familles & entreprises", description: "Sièges enfants, confort et espace calme disponibles." }
       ],
       workSteps: [
-        { title: "Réservez votre trajet", description: "Obtenez un devis instantané et confirmez votre transfert en ligne, par téléphone ou par e-mail." },
-        { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs de téléphone." },
-        { title: "Disponibilité 24/7", description: "Que ce soit de jour ou de nuit, nous sommes prêts, même pour les retards de vol." },
-        { title: "Arrivez en toute confiance", description: "Les chauffeurs assurent des transferts aéroport sans accroc à travers l'Espagne, avec des conducteurs ponctuels." },
+        { title: "Réservez votre trajet", description: "Devis instantané et confirmation en ligne, par téléphone ou par e-mail." },
+        { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs." },
+        { title: "Disponibilité 24/7", description: "De jour comme de nuit ; prêts aussi pour les retards et longs trajets." },
+        { title: "Arrivez en toute confiance", description: "Chauffeurio assure un service fluide partout en Espagne, avec des chauffeurs ponctuels." }
       ],
       contentSections: [
         {
-          title: "Service Chauffeur Horaire Sur-Mesure",
+          title: "Service de chauffeur horaire sur-mesure",
           description:
-            "Que ce soit pour des réunions d'affaires à Valence, une séance de shopping ou un après-midi de détente, Chauffeurio facilite les choses. Votre chauffeur attend pendant que vous gérez vos plans, prêt à continuer lorsque vous êtes prêt. Avec des tarifs horaires fixes, des chauffeurs professionnels et des horaires flexibles, vous bénéficiez de la liberté de voyager sans vous précipiter.",
-          image: "/hero.jpg",
-          imagePosition: "right",
+            "Réunions d’affaires à Valence, séance shopping ou après-midi détente : Chauffeurio simplifie vos déplacements. Votre chauffeur attend pendant vos activités et repart quand vous êtes prêt. Avec des tarifs horaires fixes, des chauffeurs professionnels et des horaires flexibles, vous profitez de la liberté de voyager sans vous presser.",
+          image: "/Rectangle 9.png",
+          imagePosition: "right"
         },
         {
           title: "Explorez Valence à votre rythme",
           description:
-            "Avec Chauffeurio, les services de chauffeur horaire transforment chaque trajet en une expérience. Des options de luxe pour les cadres aux minibus spacieux pour les familles et les groupes, notre flotte répond à tous les besoins. Que vous découvriez des trésors locaux, vous déplaciez entre les événements ou profitiez de votre temps libre, nous veillons à ce que chaque heure sur la route soit confortable, élégante et sans stress.",
-          image: "/hero.jpg",
-          imagePosition: "left",
-        },
-      ],
+            "Avec Chauffeurio, chaque trajet à l’heure devient une expérience. Des options premium pour dirigeants aux vans spacieux pour familles et groupes, notre flotte répond à tous les besoins. Que vous découvriez des lieux, enchaîniez les événements ou profitiez de votre temps libre, nous veillons à un confort, un style et une sérénité constants.",
+          image: "/Rectangle 9 (1).png",
+          imagePosition: "left"
+        }
+      ]
     },
+    eventTransport: {
+  title: "TRANSPORT D’ÉVÉNEMENTS",
+  heroSubtitle: "Transferts pour événements à Valence avec Chauffeurio",
+  helpSubtitle: "COMMENT NOUS AIDONS",
+  workEyebrow: "Notre méthode",
+  worksectionTitle: "Réservation simple et service fiable",
+  description:
+    "Un grand événement arrive ? Évitez le stress du stationnement et des embouteillages — Chauffeurio gère les transferts événementiels dans toute l’Espagne pour que vous arriviez prêts à briller. Mariage à Séville, conférence à Madrid, festival à Valence ou concert : nos chauffeurs professionnels assurent l’arrivée de votre groupe ensemble, à l’heure et dans le confort.",
+  whyChoose: "Pourquoi choisir Chauffeurio pour vos transferts d’événements à Valence",
+  helpDescription:
+    "Se déplacer pour un événement doit être fluide, élégant et sans stress. Chez Chauffeurio, nous proposons un transport sur mesure pour mariages, événements d’entreprise, soirées et plus encore. Des options économiques aux véhicules haut de gamme, nous adaptons la flotte à votre groupe et à votre style. Nos chauffeurs vous accueillent au dépose-minute, aident aux bagages et vous déposent au pied du lieu.",
+  points: [
+    { title: "Choix de flotte flexible :", description: "Surveillance 24/7 ; nous sommes là même si votre vol est retardé." },
+    { title: "Large choix de véhicules", description: "Des trajets économiques aux voitures de luxe et minibus." },
+    { title: "Service d’accueil personnalisé", description: "Chauffeur avec pancarte à votre nom, aide aux bagages." },
+    { title: "Tarifs fixes", description: "Pas de frais cachés ; prix clairs et annoncés à l’avance." },
+    { title: "Adapté familles & entreprises", description: "Sièges enfants, confort et espace calme disponibles." },
+  ],
+  workSteps: [
+    { title: "Réservez votre trajet", description: "Devis instantané et confirmation en ligne, par téléphone ou par e-mail." },
+    { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs." },
+    { title: "Disponibilité 24/7", description: "De jour comme de nuit ; prêts aussi pour retards et longs trajets." },
+    { title: "Arrivez en toute confiance", description: "Service fluide dans toute l’Espagne, chauffeurs ponctuels." },
+  ],
+  contentSections: [
+    {
+      title: "Des trajets d’événements fluides de bout en bout",
+      description:
+        "Mariage à Séville, festival à Valence ou événement pro à Madrid : Chauffeurio garantit des arrivées et départs sans accroc. Accueil personnalisé, aide aux bagages et horaires ajustés selon votre planning. Avec des tarifs forfaitaires et des chauffeurs experts, comptez sur un transfert sans stress du début à la fin.",
+      image: "/Rectangle 9.png",
+      imagePosition: "right",
+    },
+    {
+      title: "Célébrez et voyagez avec style à Valence",
+      description:
+        "Pour nous, un transfert d’événement doit sublimer l’expérience. Des arrivées de mariée élégantes aux trajets d’entreprise productifs, notre flotte couvre toutes les occasions. Célébration, réseautage ou représentation : Chauffeurio assure sécurité, style et ponctualité, avec une touche locale et un service attentionné.",
+      image: "/Rectangle 9 (1).png",
+      imagePosition: "left",
+    },
+  ],
+},
+tour: {
+  title: "Tours et Excursions",
+  heroSubtitle: "Tours et excursions avec Chauffeurio",
+  helpSubtitle: "COMMENT NOUS AIDONS",
+  workEyebrow: "Notre méthode",
+  worksectionTitle: "Réservation simple et service fiable",
+  description:
+    "Découvrez Valence à votre rythme avec les tours et excursions privés de Chauffeurio. Des rues emblématiques aux quartiers artistiques de Valence et de la Costa del Sol, en passant par les trésors historiques, nos chauffeurs vous y conduisent selon votre planning. De la visite de quelques heures aux escapades à la journée, profitez de confort, de flexibilité et d’un regard local tout au long du trajet.",
+  helpDescription:
+    "Évitez la foule et explorez selon votre propre agenda. Nos chauffeurs s’occupent de la route pendant que vous savourez les incontournables de l’Espagne — plages, monuments, ruelles secrètes ou lieux culturels. La façon simple d’en voir plus sans le stress de l’organisation ni les groupes rigides. Parcourez les quartiers de Valence, les plazas de Madrid ou la Costa del Sol, avec des arrêts pour photos, shopping ou bord de mer. Des circuits express aux boucles plus longues, chaque sortie s’adapte à votre style.",
+  whyChoose: "Pourquoi choisir Chauffeurio pour vos tours et excursions",
+  points: [
+    { title: "Choix de flotte flexible :", description: "Surveillance 24/7 ; nous sommes là même en cas de retard de vol." },
+    { title: "Large choix de véhicules", description: "Des options économiques aux voitures de luxe et minibus." },
+    { title: "Service d’accueil personnalisé", description: "Chauffeur avec pancarte à votre nom et aide aux bagages." },
+    { title: "Tarifs fixes", description: "Aucun frais caché ; prix clairs et annoncés à l’avance." },
+    { title: "Adapté familles & entreprises", description: "Sièges enfants, confort et espace calme disponibles." },
+  ],
+  workSteps: [
+    { title: "Réservez votre trajet", description: "Devis instantané et confirmation en ligne, par téléphone ou par e-mail." },
+    { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs." },
+    { title: "Disponibilité 24/7", description: "De jour comme de nuit ; prêts aussi pour retards et longs trajets." },
+    { title: "Arrivez en toute confiance", description: "Chauffeurio assure des transferts fluides dans toute l’Espagne, avec des chauffeurs ponctuels." },
+  ],
+  contentSections: [
+    {
+      title: "Parcours culturel et gastronomique à Valence",
+      description:
+        "Plongez dans l’histoire de Valence, explorez sa scène artistique ou savourez des itinéraires tapas et des dégustations près de Madrid. Avec des véhicules pour couples, familles ou groupes, chaque sortie est fluide et sur-mesure. Parcourez les quartiers de Barcelone, les plazas de Madrid ou longez la Costa del Sol, avec des pauses photos, shopping ou bord de mer. Des balades rapides aux circuits étendus, tout s’ajuste à votre style.",
+      image: "/Rectangle 9.png",
+      imagePosition: "right",
+    },
+    {
+      title: "Excursions VIP et étendues",
+      description:
+        "Transformez votre voyage en expérience premium grâce à notre flotte haut de gamme, de la Mercedes Classe S au Cadillac Escalade. Parfait pour des journées complètes, routes côtières ou aventures multi-villes, avec confort, confidentialité et une touche d’élégance. Profitez d’avantages à bord : rafraîchissements, Wi-Fi et espaces généreux. Avec Chauffeurio, votre excursion ressemble à une expérience de première classe.",
+      image: "/Rectangle 9 (1).png",
+      imagePosition: "left",
+    },
+  ],
+},
+citytocity: {
+  title: "TRANSFERTS DE VILLE À VILLE",
+  heroSubtitle: "Transferts de ville à ville à Valence avec Chauffeurio",
+  helpSubtitle: "COMMENT NOUS AIDONS",
+  workEyebrow: "Notre méthode",
+  worksectionTitle: "Réservation simple et service fiable",
+  description:
+    "Voyager entre les villes autour de Valence devrait être facile, fiable et confortable. Avec Chauffeurio, vos trajets interurbains ressemblent à une escapade fluide — sans le stress des trains ou des bus. Que vous alliez vers Valence, en reveniez ou fassiez une étape, nos chauffeurs assurent un trajet porte-à-porte sans accroc.",
+  helpDescription:
+    "Notre service interurbain est conçu pour vous faire gagner du temps et de l’énergie. Choisissez simplement votre point de départ et votre destination, nous nous occupons du reste. Avec des chauffeurs qui connaissent les routes d’Espagne sur le bout des doigts, installez-vous et profitez du trajet. Voyageur solo, en famille ou en groupe professionnel : nous avons le véhicule adapté.",
+  whyChoose: "Pourquoi choisir Chauffeurio pour les transferts interurbains",
+  points: [
+    { title: "Choix de flotte flexible :", description: "Surveillance 24/7 ; nous sommes là même en cas de retard de vol." },
+    { title: "Large choix de véhicules", description: "Des trajets économiques aux voitures de luxe et minibus." },
+    { title: "Service d’accueil personnalisé", description: "Chauffeur avec pancarte à votre nom, aide aux bagages." },
+    { title: "Tarifs fixes", description: "Pas de frais cachés, prix clairs et annoncés à l’avance." },
+    { title: "Adapté familles & entreprises", description: "Sièges enfants, confort et espace calme disponibles." },
+  ],
+  workSteps: [
+    { title: "Réservez votre trajet", description: "Devis instantané et confirmation en ligne, par téléphone ou par e-mail." },
+    { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs." },
+    { title: "Disponibilité 24/7", description: "De jour comme de nuit ; prêts aussi pour retards et longs trajets." },
+    { title: "Arrivez en toute confiance", description: "Chauffeurio assure des trajets interurbains fluides en Espagne, avec des chauffeurs ponctuels." },
+  ],
+  contentSections: [
+    {
+      title: "Des trajets interurbains sans stress autour de Valence",
+      description:
+        "Déplacement pro de Valence à Séville, escapade familiale sur la Costa del Sol ou longue traversée : Chauffeurio fait disparaître les distances. Votre chauffeur vous attend au point de prise en charge, aide avec les bagages et s’adapte au trafic ou aux changements d’horaire. Avec nos tarifs fixes et des conducteurs expérimentés, chaque trajet est détendu et fiable.",
+      image: "/Rectangle 9.png",
+      imagePosition: "right",
+    },
+    {
+      title: "Réinventer le voyage de ville à ville à Valence",
+      description:
+        "Avec Chauffeurio, un transfert interurbain est plus qu’un A-vers-B. Des berlines haut de gamme pour dirigeants aux minibus spacieux pour familles et groupes, notre flotte s’adapte à vos besoins. Itinéraire direct ou détours panoramiques : nous rendons vos trajets sûrs, élégants et sans stress — le voyage devient une part de votre expérience en Espagne.",
+      image: "/Rectangle 9 (1).png",
+      imagePosition: "left",
+    },
+  ],
+},
+businessChhuff: {
+  title: "Chauffeur d’Affaires",
+  heroSubtitle: "Service de chauffeur d’affaires à Valence avec Chauffeurio",
+  helpSubtitle: "COMMENT NOUS AIDONS",
+  workEyebrow: "Notre méthode",
+  worksectionTitle: "Réservation simple et service fiable",
+  description:
+    "Profitez de déplacements exécutifs fluides à Valence avec notre service premium de chauffeur d’affaires. Réunion, conférence ou événement corporate : Chauffeurio vous garantit des arrivées ponctuelles, élégantes et sereines. Nos chauffeurs offrent un trajet discret, confortable et maîtrisé pour que vous puissiez vous concentrer sur l’essentiel. Avec Chauffeurio, chaque déplacement reflète professionnalisme et luxe.",
+  helpDescription:
+    "Notre service répond aux besoins des dirigeants et professionnels qui exigent fiabilité, discrétion et confort. Chaque trajet s’adapte à votre agenda, avec une priorité absolue à la ponctualité et à l’efficacité. Des équipements haut de gamme à un service attentif, Chauffeurio redéfinit le voyage d’affaires.",
+  whyChoose: "Pourquoi choisir Chauffeurio pour vos chauffeurs d’affaires",
+  points: [
+    { title: "Flotte flexible :", description: "Suivi 24/7 ; nous sommes présents même en cas de retard de vol." },
+    { title: "Large choix de véhicules", description: "Des options économiques aux berlines de luxe et minibus." },
+    { title: "Accueil personnalisé", description: "Chauffeur avec pancarte à votre nom, aide aux bagages." },
+    { title: "Tarifs fixes", description: "Aucun frais caché ; prix clairs et annoncés à l’avance." },
+    { title: "Adapté familles & entreprises", description: "Sièges enfants, confort et espace calme disponibles." },
+  ],
+  workSteps: [
+    { title: "Réservez votre trajet", description: "Devis instantané et confirmation en ligne, par téléphone ou par e-mail." },
+    { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs." },
+    { title: "Disponibilité 24/7", description: "De jour comme de nuit ; prêts aussi pour retards et longs trajets." },
+    { title: "Arrivez en toute confiance", description: "Chauffeurio assure des transferts fluides en Espagne, avec des chauffeurs ponctuels." },
+  ],
+  contentSections: [
+    {
+      title: "Voyages d’affaires sans accroc à Valence",
+      description:
+        "Rendez-vous client, réunion au quartier financier ou vol d’affaires : Chauffeurio simplifie votre trajet. Concentrez-vous sur vos objectifs, nous gérons la route. Arrivez à l’heure, à chaque fois, avec des chauffeurs qui savent la valeur de la ponctualité.",
+      image: "/Rectangle 9.png",
+      imagePosition: "right",
+    },
+    {
+      title: "Élever vos déplacements corporate à Valence",
+      description:
+        "Avec Chauffeurio, le transport d’affaires devient une expérience. Impressionnez vos clients, restez productif en route et profitez de la sérénité d’un service plébiscité par les professionnels à Valence. Des solutions sur-mesure pour les dirigeants modernes.",
+      image: "/Rectangle 9 (1).png",
+      imagePosition: "left",
+    },
+  ],
+},
+faqPage: {
+      title: "FAQ",
+      categories: [
+        {
+          category: "Avant votre réservation",
+          questions: [
+            {
+              id: 1,
+              question:
+                "Quelles informations d’horaires dois-je fournir lors de la réservation ?",
+              answer:
+                "Indiquez l’heure d’arrivée de votre vol ou train. Pensez à inclure votre lieu de départ, la compagnie aérienne ou ferroviaire, ainsi que le numéro de vol/train."
+            },
+            {
+              id: 2,
+              question: "Puis-je modifier ma réservation après confirmation ?",
+              answer:
+                "Oui, vous pouvez la modifier jusqu’à 24 heures avant l’heure de prise en charge prévue."
+            }
+          ]
+        },
+        {
+          category: "Mes réservations",
+          questions: [
+            {
+              id: 3,
+              question:
+                "J’ai réservé mais je n’ai pas reçu d’email de confirmation, que faire ?",
+              answer:
+                "Nos emails peuvent arriver dans les courriers indésirables. Merci de vérifier ce dossier. Si vous ne le trouvez pas, contactez-nous."
+            },
+            {
+              id: 4,
+              question: "Puis-je annuler ma réservation ?",
+              answer:
+                "Oui, l’annulation est gratuite si elle est effectuée au moins 48 heures avant votre trajet."
+            }
+          ]
+        },
+        {
+          category: "Transferts",
+          questions: [
+            {
+              id: 5,
+              question:
+                "Comment retrouver mon chauffeur à l’aéroport ou à la gare ?",
+              answer:
+                "Votre chauffeur vous attendra à l’endroit indiqué lors de la réservation, avec une pancarte à votre nom, à la sortie du terminal ou de la gare."
+            },
+            {
+              id: 6,
+              question: "Que faire si je ne trouve pas mon chauffeur ?",
+              answer:
+                "Appelez simplement le numéro de contact fourni et nous vous guiderons."
+            }
+          ]
+        }
+      ]
+    },
+    contact: {
+      heroTitle: "Contact",
+      eyebrow: "Contactez-nous",
+      headingTop: "Des questions ?",
+      headingBottom: "Contactez-nous !",
+      supportText:
+        "Vous avez des questions ou besoin d’aide ? Contactez notre équipe à tout moment.",
+
+      address: "C/ Dama De Elche 26, 46023 Valence",
+      phone: "+34 666 253 660",
+      email: "Info@Chauffeurio.com",
+
+      form: {
+        name: "Nom",
+        email: "Adresse e-mail",
+        phone: "Téléphone",
+        subject: "Objet",
+        messagePlaceholder:
+          "Comment pouvons-nous vous aider ? N’hésitez pas à nous écrire !",
+        button: "Nous contacter",
+        privacyPrefix: "J’accepte la",
+        privacyLink: "Politique de confidentialité",
+      },
+    },
+    about: {
+      heroTitle: "À propos",
+      imageDetail: {
+        title: "À propos de Chauffeurio",
+        subtitle: "Votre partenaire de voyage à Valence",
+        description:
+          "Chez Chauffeurio, nous redéfinissons le voyage en associant professionnalisme, confort et excellence. Nous proposons des transferts premium aux voyageurs internationaux à Valence, couvrant tout—from prises en charge privées à l’aéroport aux transferts de groupe et itinéraires sur mesure. Fondée par une équipe passionnée de voyage et d’hospitalité, Chauffeurio a été créée pour combler l’écart entre savoir-faire local et standards internationaux. Au fil des années, nous sommes devenus une marque de confiance, reconnue pour un service exceptionnel et des expériences fluides.",
+        imageSrc: "/Rectangle 11.png",
+      },
+      help: {
+        subtitle: "Comment nous pouvons aider",
+        heading:
+          "Pourquoi choisir Chauffeurio pour un transport de luxe à Valence",
+        description:
+          "Leader de la location de chauffeur privé à Valence, nous allions fiabilité exemplaire et excellent rapport qualité-prix. Notre équipe offre un service exécutif de premier plan, mêlant connaissance locale et standards mondiaux. Réservez pour des trajets axés sur votre confort—de la prise en charge rapide à Madrid à une visite VIP à Barcelone. Nous transformons les trajets ordinaires en expériences mémorables.",
+        points: [
+          {
+            title: "Flotte haut de gamme :",
+            description:
+              "Économique (Skoda Octavia, Toyota Prius), Business (Mercedes Classe E, BMW Série 5), First (Mercedes Classe S, Audi A8), et vans/minibus (Mercedes Classe V, Sprinter) pour les groupes.",
+          },
+          {
+            title: "Disponibilité 24/7 :",
+            description:
+              "Prêts pour les vols tôt à Castellón comme les arrivées tardives à Séville—nous sommes toujours disponibles.",
+          },
+          {
+            title: "Sécurité & Confort :",
+            description:
+              "Véhicules modernes, chauffeurs professionnels et attention au moindre détail.",
+          },
+          {
+            title: "Satisfaction garantie :",
+            description:
+              "Notre succès se mesure aux réservations récurrentes, aux avis positifs et au confort de nos clients.",
+          },
+        ],
+      },
+      valueMission: {
+        eyebrow: "Chauffeurio",
+        heading: "Notre identité, vision et valeurs",
+        stats: [
+          { value: "10 000+", label: "Clients satisfaits" },
+          { value: "500+", label: "Chauffeurs professionnels" },
+          { value: "1M+", label: "Trajets effectués" },
+          { value: "98%", label: "Satisfaction client" },
+        ],
+        missionTitle: "Mission",
+        missionText:
+          "Notre mission est simple et forte : rendre chaque trajet fluide, sûr et inoubliable. Nous visons des expériences qui vont au-delà du transport—où confort, ponctualité et souci du détail sont la norme.",
+        visionTitle: "Vision",
+        visionText:
+          "Nous défendons l’excellence, la fiabilité et l’approche centrée client, avec des trajets ponctuels et sur mesure. Un service accessible garantit une réservation simple, une communication claire et un support professionnel.",
+      },
+    },
+testimonials: {
+      eyebrow: "AVIS CLIENTS",
+      title: "Découvrez Valence avec notre service de chauffeur exécutif",
+      badges: [
+        { source: "Google", score: "4,9", reviews: "2 394 avis" },
+        { source: "Facebook", score: "5,0", reviews: "1 428 avis" },
+        { source: "TripAdvisor", score: "4,9", reviews: "3 891 avis" }
+      ],
+      items: [
+        {
+          id: 1,
+          name: "Nick Evans",
+          verified: true,
+          date: "il y a 1 semaine",
+          rating: 5,
+          comment:
+            "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
+        },
+        {
+          id: 2,
+          name: "Emma Johnson",
+          verified: true,
+          date: "il y a 2 semaines",
+          rating: 5,
+          comment:
+            "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
+        },
+        {
+          id: 3,
+          name: "John Green",
+          verified: true,
+          date: "il y a 3 semaines",
+          rating: 5,
+          comment:
+            "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
+        },
+        {
+          id: 4,
+          name: "Megan Smith",
+          verified: true,
+          date: "il y a 1 mois",
+          rating: 5,
+          comment:
+            "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
+        },
+        {
+          id: 5,
+          name: "David Wilson",
+          verified: true,
+          date: "il y a 2 mois",
+          rating: 5,
+          comment:
+            "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
+        },
+        {
+          id: 6,
+          name: "Sarah Taylor",
+          verified: true,
+          date: "il y a 3 mois",
+          rating: 5,
+          comment:
+            "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
+        }
+      ]
+    },
+    heroBottom: {
+      items: [
+        { lines: ["Annulation gratuite", "Chauffeurs agréés", "Accueil personnalisé"] },
+        { lines: ["Payez en ligne ou en espèces", "Tarifs fixes", "Économies garanties"] },
+        { lines: ["Service client 24h/24", "Anglais et espagnol", "365 jours par an"] }
+      ]
+    }
+    
+
+
+
+
+   
   },
 
   es: {
+    header: {
+      home: "Inicio",
+      about: "Acerca de Nosotros",
+      fleet: "Nuestra Flota",
+      services: "Servicios",
+      contact: "Contacto",
+      fleetItems: {
+        airportTransfer: "Transferencia al Aeropuerto",
+        hourlyChauffeurs: "Chóferes por Hora",
+        eventTransport: "Transporte para Eventos",
+        toursExcursions: "Tours y Excursiones",
+        cityToCity: "De Ciudad a Ciudad",
+        businessChauffur: "Chófer de Negocios",
+      },
+    },
     airportTransfer: {
       title: "Transferencia al Aeropuerto",
+      heroSubtitle: "Traslados al aeropuerto en Valencia con Chauffeurio",
+      helpSubtitle: "CÓMO AYUDAMOS",
+      workEyebrow: "Cómo Trabajamos",
+      worksectionTitle: "Reserva simple y servicio fiable",
       description:
-        "En Chauffeurio, nos especializamos en traslados al aeropuerto confiables y cómodos que lo conectan con los destinos más populares de Valencia. Nuestros conductores profesionales aseguran que su viaje comience y termine con comodidad.",
-      whyChoose: "¿Por qué elegir el transporte al aeropuerto de Chauffeurio en Valencia?",
+        "Viajar por Valencia debe ser simple, fluido y sin estrés. En Chauffeurio estamos especializados en traslados al aeropuerto fiables y cómodos que le conectan con los destinos más populares de Valencia. Nuestros chóferes profesionales garantizan que su viaje comience y termine con comodidad.",
+      whyChoose: "Por qué elegir el transporte al aeropuerto de Chauffeurio en Valencia",
       helpDescription:
-        "Viaje por Valencia con traslados al aeropuerto suaves, confiables y elegantes. Nuestros conductores hacen que cada viaje sea sin estrés. Nuestro servicio de traslado al aeropuerto está diseñado para eliminar el estrés de su viaje. Tan pronto como baje del avión, su conductor estará esperando con un saludo personalizado, listo para ayudarle con su equipaje y llevarlo directamente a su vehículo.",
+        "Recorra Valencia con traslados al aeropuerto fluidos, fiables y con estilo. Nuestros chóferes hacen que cada viaje sea sin estrés. Al bajar del avión, su chófer le estará esperando con un saludo personalizado, listo para ayudarle con su equipaje y llevarle directamente a su vehículo.",
       points: [
-        { title: "Seguimiento de Vuelos", description: "Monitoreo 24/7, estamos aquí, incluso si su vuelo se retrasa." },
-        { title: "Amplia Variedad de Vehículos", description: "Desde viajes económicos hasta autos de lujo y minibuses." },
-        { title: "Servicio de Encuentro y Saludo", description: "El conductor le espera con su cartel, ayudando con las maletas." },
-        { title: "Tarifas Planas", description: "Sin tarifas ocultas, precios claros y transparentes." },
-        { title: "Apto para Familias y Negocios", description: "Asientos para niños, espacio cómodo y tranquilo disponible." },
+        { title: "Seguimiento de vuelos", description: "Monitoreo 24/7; estamos aquí incluso si su vuelo se retrasa." },
+        { title: "Amplia variedad de vehículos", description: "Desde traslados económicos hasta coches de lujo y minibuses." },
+        { title: "Servicio de bienvenida", description: "Chófer con cartel a su nombre y ayuda con el equipaje." },
+        { title: "Tarifas fijas", description: "Sin cargos ocultos; precios claros y transparentes." },
+        { title: "Para familias y empresas", description: "Asientos para niños, comodidad y espacio tranquilo disponibles." },
       ],
       workSteps: [
-        { title: "Reserva tu viaje", description: "Obtén una cotización instantánea y confirma tu traslado en línea, por teléfono o por correo electrónico." },
-        { title: "Viaja con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores de teléfonos." },
-        { title: "Disponibilidad 24/7", description: "Ya sea de día o de noche, estamos listos, incluso para retrasos de vuelos." },
-        { title: "Llega con confianza", description: "Los conductores garantizan traslados al aeropuerto sin problemas en toda España, con conductores puntuales." },
+        { title: "Reserve su viaje", description: "Obtenga una cotización instantánea y confirme en línea, por teléfono o por correo electrónico." },
+        { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores." },
+        { title: "Disponibilidad 24/7", description: "Listos de día y de noche, también para retrasos y trayectos largos." },
+        { title: "Llegue con confianza", description: "Traslados al aeropuerto sin contratiempos en toda España, chóferes puntuales." },
       ],
       contentSections: [
         {
-          title: "Servicio de Choferes por Hora a Medida",
+          title: "Viajes de negocios sin esfuerzo en Valencia",
           description:
-            "Ya sea para reuniones de negocios en Valencia, una sesión de compras o una tarde de relax, Chauffeurio lo facilita. Su chofer espera mientras usted maneja sus planes, listo para continuar cuando lo esté. Con tarifas fijas por hora, conductores profesionales y horarios flexibles, disfrutará de la libertad de viajar sin prisas.",
+            "Reunión con clientes, cita en el distrito financiero o salida al aeropuerto: Chauffeurio hace que su trayecto sea sencillo. Concéntrese en su negocio mientras nosotros conducimos. Llegue a tiempo siempre, con chóferes que valoran la puntualidad.",
           image: "/hero.jpg",
           imagePosition: "right",
         },
         {
-          title: "Explore Valencia a su propio ritmo",
+          title: "Elevando los viajes corporativos en Valencia",
           description:
-            "Con Chauffeurio, los servicios de chofer por hora convierten cada viaje en una experiencia. Desde opciones de lujo para ejecutivos hasta minibuses espaciosos para familias y grupos, nuestra flota se adapta a todas las necesidades. Ya sea que esté descubriendo gemas locales, desplazándose entre eventos o disfrutando de su tiempo libre, nos aseguramos de que cada hora en la carretera sea cómoda, elegante y sin estrés.",
+            "Con Chauffeurio, el transporte empresarial es una experiencia. Impresione a los clientes, aumente su productividad en ruta y disfrute de la tranquilidad de un servicio de chófer de confianza en Valencia. Soluciones adaptadas a las necesidades de los ejecutivos modernos.",
           image: "/hero.jpg",
           imagePosition: "left",
         },
       ],
     },
-  },
-};
+    hourlyChauffeurs: {
+      title: "CHOFERES POR HORA",
+      heroSubtitle: "Servicio de chofer por hora en España con Chauffeurio",
+      helpSubtitle: "CÓMO AYUDAMOS",
+      workEyebrow: "Cómo trabajamos",
+      worksectionTitle: "Reserva simple y servicio confiable",
+      description:
+        "¿Necesita un conductor en espera? Los servicios de chofer por hora de Chauffeurio le ofrecen flexibilidad en las principales ciudades de España — Madrid, Barcelona, Valencia, Málaga, Sevilla y la Costa del Sol. Ya sea para recados, reuniones, compras o turismo, nuestros conductores profesionales se adaptan a su agenda para que se mueva a su propio ritmo.",
+      whyChoose: "Por qué elegir el servicio por hora de Chauffeurio en España",
+      helpDescription:
+        "Nuestro alquiler por horas está diseñado para quienes desean libertad sin rutas fijas. Reserve las horas que necesite y su chofer estará listo para llevarle a donde lo requiera el día. Desde gestiones rápidas hasta planes de ocio de jornada completa, contamos con vehículos para viajeros individuales, familias o grupos. Ajuste su horario sobre la marcha, sin prisas. Con Chauffeurio, cada hora se adapta a sus necesidades para un viaje fluido y sin estrés.",
+      points: [
+        { title: "Seguimiento de vuelos", description: "Monitoreo 24/7; estamos presentes incluso con retrasos." },
+        { title: "Amplia variedad de vehículos", description: "Desde opciones económicas hasta coches de lujo y minibuses." },
+        { title: "Servicio de bienvenida", description: "Conductor esperándole con cartel a su nombre y ayuda con el equipaje." },
+        { title: "Tarifas fijas", description: "Sin cargos ocultos; precios claros y por adelantado." },
+        { title: "Ideal para familias y negocios", description: "Sillas infantiles, confort y espacio tranquilo disponibles." }
+      ],
+      workSteps: [
+        { title: "Reserve su viaje", description: "Cotización instantánea y confirmación en línea, por teléfono o por correo electrónico." },
+        { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores." },
+        { title: "Disponibilidad 24/7", description: "De día o de noche; listos también para retrasos y trayectos largos." },
+        { title: "Llegue con confianza", description: "Chauffeurio garantiza un servicio fluido en toda España, con conductores puntuales." }
+      ],
+      contentSections: [
+        {
+          title: "Servicio de chofer por hora a medida",
+          description:
+            "Reuniones de negocios en Valencia, una jornada de compras o una tarde relajada: Chauffeurio lo hace fácil. Su chofer espera mientras usted atiende sus planes y continúa cuando esté listo. Con tarifas horarias fijas, conductores profesionales y horarios flexibles, disfrutará de la libertad de viajar sin prisas.",
+          image: "/Rectangle 9.png",
+          imagePosition: "right"
+        },
+        {
+          title: "Explore Valencia a su propio ritmo",
+          description:
+            "Con Chauffeurio, el servicio de chofer por hora convierte cada trayecto en una experiencia. Desde opciones de lujo para ejecutivos hasta vans espaciosas para familias y grupos, nuestra flota se adapta a cada necesidad. Descubra lugares, muévase entre eventos o disfrute del tiempo libre con comodidad, estilo y tranquilidad.",
+          image: "/Rectangle 9 (1).png",
+          imagePosition: "left"
+        }
+      ]
+    },
+    eventTransport: {
+  title: "TRANSPORTE PARA EVENTOS",
+  heroSubtitle: "Traslados para eventos en Valencia con Chauffeurio",
+  helpSubtitle: "CÓMO AYUDAMOS",
+  workEyebrow: "Cómo trabajamos",
+  worksectionTitle: "Reserva simple y servicio confiable",
+  description:
+    "¿Se acerca un gran evento? Olvídese del tráfico y del aparcamiento: Chauffeurio se encarga de los traslados para eventos en toda España para que llegue listo para brillar. Ya sea una boda en Sevilla, un congreso en Madrid, un festival en Valencia o un concierto, nuestros chóferes profesionales garantizan que su grupo llegue junto, a tiempo y con total comodidad.",
+  whyChoose: "Por qué elegir Chauffeurio para traslados de eventos en Valencia",
+  helpDescription:
+    "Moverse para un evento debe ser fluido, con estilo y sin estrés. En Chauffeurio nos especializamos en transporte a medida para bodas, reuniones de negocios, fiestas y más. Desde opciones económicas hasta vehículos de lujo, adaptamos la flota a su grupo y a su estilo. Nuestros chóferes le reciben en el punto de recogida, ayudan con el equipaje y le dejan en la misma puerta del lugar.",
+  points: [
+    { title: "Opciones de flota flexibles:", description: "Monitoreo 24/7; estamos aquí incluso si su vuelo se retrasa." },
+    { title: "Amplia variedad de vehículos", description: "Desde traslados económicos hasta coches de lujo y minibuses." },
+    { title: "Servicio de bienvenida", description: "Conductor esperándole con cartel a su nombre y ayuda con el equipaje." },
+    { title: "Tarifas fijas", description: "Sin cargos ocultos; precios claros y por adelantado." },
+    { title: "Ideal para familias y negocios", description: "Sillas infantiles, confort y espacio tranquilo disponibles." },
+  ],
+  workSteps: [
+    { title: "Reserve su viaje", description: "Cotización instantánea y confirmación en línea, por teléfono o por correo electrónico." },
+    { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores." },
+    { title: "Disponibilidad 24/7", description: "Listos de día o de noche; también para retrasos y trayectos largos." },
+    { title: "Llegue con confianza", description: "Servicio fluido en toda España, con conductores puntuales." },
+  ],
+  contentSections: [
+    {
+      title: "Trayectos para eventos sin contratiempos, de principio a fin",
+      description:
+        "Boda en Sevilla, festival en Valencia o evento corporativo en Madrid: Chauffeurio garantiza llegadas y salidas fluidas. Bienvenida personalizada, ayuda con equipaje y ajustes de horario si su agenda cambia. Con tarifas planas y conductores expertos, cuente con un traslado sin estrés de inicio a fin.",
+      image: "/Rectangle 9.png",
+      imagePosition: "right",
+    },
+    {
+      title: "Celebre y viaje con estilo en Valencia",
+      description:
+        "Creemos que el transporte para eventos debe mejorar la experiencia. Desde entradas nupciales elegantes hasta traslados corporativos productivos, nuestra flota se adapta a cada ocasión. Ya sea que celebre, haga networking o actúe, Chauffeurio garantiza un viaje seguro, con estilo y puntual. Nuestros chóferes aportan conocimiento local y trato profesional para que cada trayecto sea agradable.",
+      image: "/Rectangle 9 (1).png",
+      imagePosition: "left",
+    },
+  ],
+},
+tour: {
+  title: "Tours y Excursiones",
+  heroSubtitle: "Tours y excursiones con Chauffeurio",
+  helpSubtitle: "CÓMO AYUDAMOS",
+  workEyebrow: "Cómo trabajamos",
+  worksectionTitle: "Reserva simple y servicio confiable",
+  description:
+    "Descubra Valencia a su manera con los tours y excursiones privadas de Chauffeurio. Ya sea por sus calles icónicas, sus rincones artísticos o la Costa del Sol, nuestros chóferes le llevan a su ritmo. Desde recorridos de medio día por la ciudad hasta rutas panorámicas de jornada completa, disfrute de comodidad, flexibilidad y recomendaciones locales en el camino.",
+  helpDescription:
+    "Evite las multitudes y explore con su propio horario. Nuestros chóferes conducen mientras usted disfruta de lo mejor de España: playas, monumentos, calles escondidas o centros culturales. Es la forma sencilla de ver más sin el estrés de planificar ni los tours rígidos en grupo. Recorra los barrios de Valencia, las plazas de Madrid o la Costa del Sol con tiempo para fotos, compras o paradas junto al mar. De paseos rápidos a circuitos más largos, cada plan se adapta a su estilo.",
+  whyChoose: "Por qué elegir Chauffeurio para tours y excursiones",
+  points: [
+    { title: "Opciones de flota flexibles:", description: "Monitoreo 24/7; estamos presentes incluso con retrasos de vuelo." },
+    { title: "Amplia variedad de vehículos", description: "Desde opciones económicas hasta coches de lujo y minibuses." },
+    { title: "Servicio de bienvenida", description: "Conductor esperándole con cartel a su nombre y ayuda con el equipaje." },
+    { title: "Tarifas fijas", description: "Sin cargos ocultos; precios claros y por adelantado." },
+    { title: "Ideal para familias y negocios", description: "Sillas infantiles, confort y espacio tranquilo disponibles." },
+  ],
+  workSteps: [
+    { title: "Reserve su viaje", description: "Cotización instantánea y confirmación en línea, por teléfono o por correo electrónico." },
+    { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores." },
+    { title: "Disponibilidad 24/7", description: "Listos de día o de noche; también para retrasos y trayectos largos." },
+    { title: "Llegue con confianza", description: "Chauffeurio garantiza traslados fluidos en toda España, con conductores puntuales." },
+  ],
+  contentSections: [
+    {
+      title: "Ruta cultural y gastronómica en Valencia",
+      description:
+        "Sumérjase en la historia de Valencia, explore su escena artística o disfrute de rutas de tapas y catas cerca de Madrid. Con vehículos para parejas, familias o grupos, cada salida se siente a medida y sin complicaciones. Recorra los barrios de Barcelona, las plazas de Madrid o navegue por la Costa del Sol con paradas para fotos, compras o el mar. De visitas rápidas a circuitos prolongados, todo se ajusta a su estilo.",
+      image: "/Rectangle 9.png",
+      imagePosition: "right",
+    },
+    {
+      title: "Excursiones VIP y extendidas",
+      description:
+        "Convierta su viaje en una experiencia de lujo con nuestra flota premium, desde Mercedes Clase S hasta Cadillac Escalade. Ideal para exploraciones de día completo, rutas costeras o aventuras entre ciudades, con confort, privacidad y un toque de elegancia. Disfrute de Wi-Fi, refrigerios y asientos espaciosos. Con Chauffeurio, su excursión se siente como primera clase.",
+      image: "/Rectangle 9 (1).png",
+      imagePosition: "left",
+    },
+  ],
+},
+citytocity: {
+  title: "TRASLADOS DE CIUDAD A CIUDAD",
+  heroSubtitle: "Traslados de ciudad a ciudad en Valencia con Chauffeurio",
+  helpSubtitle: "CÓMO AYUDAMOS",
+  workEyebrow: "Cómo trabajamos",
+  worksectionTitle: "Reserva simple y servicio confiable",
+  description:
+    "Viajar entre ciudades alrededor de Valencia debe ser fácil, fiable y cómodo. Con Chauffeurio, el viaje interurbano se siente como una ruta fluida, sin el estrés de trenes o autobuses. Vaya hacia Valencia, salga de ella o haga paradas intermedias: nuestros chóferes garantizan un traslado puerta a puerta sin complicaciones.",
+  helpDescription:
+    "Nuestro servicio de ciudad a ciudad está pensado para ahorrarle tiempo y esfuerzo. Elija el origen y el destino y nosotros nos encargamos del resto. Con conductores que conocen a fondo las rutas de España, siéntese y disfrute del trayecto. Viaje solo, en familia o con un grupo de negocios: contamos con vehículos para cada necesidad.",
+  whyChoose: "Por qué elegir Chauffeurio para traslados interurbanos",
+  points: [
+    { title: "Opciones de flota flexibles:", description: "Monitoreo 24/7; estamos presentes incluso con retrasos de vuelo." },
+    { title: "Amplia variedad de vehículos", description: "Desde opciones económicas hasta coches de lujo y minibuses." },
+    { title: "Servicio de bienvenida", description: "Conductor esperándole con cartel a su nombre y ayuda con el equipaje." },
+    { title: "Tarifas fijas", description: "Sin cargos ocultos; precios claros y por adelantado." },
+    { title: "Ideal para familias y negocios", description: "Sillas infantiles, confort y espacio tranquilo disponibles." },
+  ],
+  workSteps: [
+    { title: "Reserve su viaje", description: "Cotización instantánea y confirmación en línea, por teléfono o por correo electrónico." },
+    { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores." },
+    { title: "Disponibilidad 24/7", description: "De día o de noche; listos también para retrasos y trayectos largos." },
+    { title: "Llegue con confianza", description: "Chauffeurio garantiza traslados interurbanos fluidos en toda España, con conductores puntuales." },
+  ],
+  contentSections: [
+    {
+      title: "Viajes interurbanos sin estrés en Valencia",
+      description:
+        "Ya sea un viaje de trabajo de Valencia a Sevilla, una escapada familiar por la Costa del Sol o un trayecto largo en la región, Chauffeurio hace que la distancia desaparezca. Su chófer estará listo en el punto de recogida, ayudará con el equipaje y se adaptará al tráfico o a cambios de horario. Con precios fijos y conductores experimentados, cada traslado es relajado y fiable.",
+      image: "/Rectangle 9.png",
+      imagePosition: "right",
+    },
+    {
+      title: "Redefiniendo los traslados de ciudad a ciudad en Valencia",
+      description:
+        "Con Chauffeurio, ir de una ciudad a otra es más que moverse de A a B. Desde vehículos de lujo para ejecutivos hasta minibuses espaciosos para familias y grupos, nuestra flota personaliza cada viaje. Ruta directa o desvíos panorámicos: hacemos que el traslado sea seguro, con estilo y sin estrés — el trayecto se convierte en parte de su experiencia en España.",
+      image: "/Rectangle 9 (1).png",
+      imagePosition: "left",
+    },
+  ],
+},
+businessChhuff: {
+  title: "Chófer de Negocios",
+  heroSubtitle: "Servicio de chófer de negocios en Valencia con Chauffeurio",
+  helpSubtitle: "CÓMO AYUDAMOS",
+  workEyebrow: "Cómo trabajamos",
+  worksectionTitle: "Reserva simple y servicio confiable",
+  description:
+    "Disfrute de un viaje ejecutivo sin fricciones en Valencia con nuestro servicio premium de chófer de negocios. Ya sea una reunión, conferencia o evento corporativo, Chauffeurio garantiza que llegue a tiempo, con estilo y preparado. Nuestros conductores ofrecen un traslado discreto, cómodo y fluido para que usted se concentre en su negocio. Con Chauffeurio, cada viaje refleja profesionalidad y lujo.",
+  helpDescription:
+    "Nuestro servicio está pensado para ejecutivos y profesionales que exigen fiabilidad, discreción y comodidad. Cada trayecto se adapta a su agenda, con prioridad a la puntualidad y la eficiencia. Desde comodidades de lujo hasta un trato atento, Chauffeurio redefine el viaje de negocios.",
+  whyChoose: "Por qué elegir Chauffeurio para chóferes de negocios",
+  points: [
+    { title: "Opciones de flota flexibles:", description: "Monitoreo 24/7; estamos presentes incluso con retrasos de vuelo." },
+    { title: "Amplia variedad de vehículos", description: "Desde opciones económicas hasta coches de lujo y minibuses." },
+    { title: "Servicio de bienvenida", description: "Conductor esperándole con cartel a su nombre y ayuda con el equipaje." },
+    { title: "Tarifas fijas", description: "Sin cargos ocultos; precios claros y por adelantado." },
+    { title: "Ideal para familias y negocios", description: "Sillas infantiles, confort y espacio silencioso disponibles." },
+  ],
+  workSteps: [
+    { title: "Reserve su viaje", description: "Cotización instantánea y confirmación en línea, por teléfono o por correo electrónico." },
+    { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores." },
+    { title: "Disponibilidad 24/7", description: "De día o de noche; listos también para retrasos y trayectos largos." },
+    { title: "Llegue con confianza", description: "Chauffeurio garantiza traslados fluidos en toda España, con conductores puntuales." },
+  ],
+  contentSections: [
+    {
+      title: "Viajes de negocios sin esfuerzo en Valencia",
+      description:
+        "Reunión con clientes, cita en el distrito financiero o vuelo corporativo: Chauffeurio hace que su trayecto sea sencillo. Concéntrese en su trabajo mientras nosotros conducimos. Llegue siempre a tiempo con chóferes que valoran la puntualidad.",
+      image: "/Rectangle 9.png",
+      imagePosition: "right",
+    },
+    {
+      title: "Elevando los desplazamientos corporativos en Valencia",
+      description:
+        "Con Chauffeurio, el transporte empresarial es una experiencia. Impresione a los clientes, mantenga la productividad en ruta y disfrute de la tranquilidad de un servicio de chófer de confianza en Valencia. Soluciones a medida para ejecutivos modernos.",
+      image: "/Rectangle 9 (1).png",
+      imagePosition: "left",
+    },
+  ],
+},
+faqPage: {
+      title: "FAQS",
+      categories: [
+        {
+          category: "Antes de reservar",
+          questions: [
+            {
+              id: 1,
+              question:
+                "¿Qué datos de horario debo proporcionar al reservar?",
+              answer:
+                "Indique la hora de llegada de su vuelo o tren. No olvide incluir su lugar de salida, la aerolínea o compañía ferroviaria y el número de vuelo/tren."
+            },
+            {
+              id: 2,
+              question: "¿Puedo cambiar mi reserva después de confirmarla?",
+              answer:
+                "Sí, puede modificarla hasta 24 horas antes de la hora de recogida programada."
+            }
+          ]
+        },
+        {
+          category: "Mis reservas",
+          questions: [
+            {
+              id: 3,
+              question:
+                "Ya reservé pero no he recibido el correo de confirmación, ¿qué hago?",
+              answer:
+                "A veces nuestros correos llegan a la carpeta de spam. Revísela primero. Si no aparece, contáctenos directamente."
+            },
+            {
+              id: 4,
+              question: "¿Puedo cancelar mi reserva?",
+              answer:
+                "Sí, la cancelación es gratuita si se realiza al menos 48 horas antes del viaje."
+            }
+          ]
+        },
+        {
+          category: "Traslados",
+          questions: [
+            {
+              id: 5,
+              question:
+                "¿Cómo encontraré a mi conductor en el aeropuerto o la estación?",
+              answer:
+                "Su conductor le esperará en el lugar indicado en su reserva, con un cartel con su nombre, en la salida del terminal o estación."
+            },
+            {
+              id: 6,
+              question: "¿Qué hago si no encuentro a mi conductor?",
+              answer:
+                "Llame al número de contacto que le facilitamos y le guiaremos."
+            }
+          ]
+        }
+      ]
+    }, 
+    contact: {
+      heroTitle: "Contacto",
+      eyebrow: "Contáctanos",
+      headingTop: "¿Tienes preguntas?",
+      headingBottom: "¡Ponte en contacto!",
+      supportText:
+        "¿Tienes preguntas o necesitas ayuda? Ponte en contacto con nuestro equipo en cualquier momento.",
 
+      address: "C/ Dama De Elche 26, 46023 Valencia",
+      phone: "+34 666 253 660",
+      email: "Info@Chauffeurio.com",
+
+      form: {
+        name: "Nombre",
+        email: "Correo electrónico",
+        phone: "Teléfono",
+        subject: "Asunto",
+        messagePlaceholder:
+          "¿Cómo podemos ayudarte? ¡No dudes en escribirnos!",
+        button: "Ponerse en contacto",
+        privacyPrefix: "Acepto la",
+        privacyLink: "Política de privacidad",
+      },
+    },
+    about: {
+      heroTitle: "Sobre nosotros",
+      imageDetail: {
+        title: "Sobre Chauffeurio",
+        subtitle: "Su socio de viaje en Valencia",
+        description:
+          "En Chauffeurio redefinimos el viaje combinando profesionalidad, confort y excelencia. Ofrecemos traslados premium a viajeros internacionales en Valencia: desde recogidas privadas en aeropuerto hasta traslados de grupo e itinerarios a medida. Nacimos para unir el conocimiento local con estándares internacionales. Con los años nos hemos convertido en una marca de confianza, reconocida por su servicio excepcional y experiencias de viaje sin fricciones.",
+        imageSrc: "/Rectangle 11.png",
+      },
+      help: {
+        subtitle: "Cómo podemos ayudar",
+        heading:
+          "Por qué elegir Chauffeurio para transporte de lujo en Valencia",
+        description:
+          "Como referentes en chófer privado en Valencia, combinamos máxima fiabilidad con gran valor. Nuestro equipo ofrece transporte ejecutivo de primer nivel, uniendo conocimiento local con estándares globales. Reserve con nosotros para priorizar su confort—desde un pick-up rápido en Madrid hasta un tour VIP en Barcelona.",
+        points: [
+          {
+            title: "Flota de lujo:",
+            description:
+              "Económico (Skoda Octavia, Toyota Prius), Business (Mercedes Clase E, BMW Serie 5), First (Mercedes Clase S, Audi A8) y vans/minibuses (Mercedes Clase V, Sprinter) para grupos.",
+          },
+          {
+            title: "Disponibilidad 24/7:",
+            description:
+              "Listos para vuelos tempranos en Castellón o llegadas nocturnas en Sevilla—siempre de guardia.",
+          },
+          {
+            title: "Seguridad y confort:",
+            description:
+              "Vehículos modernos, conductores profesionales y atención al detalle.",
+          },
+          {
+            title: "Satisfacción garantizada:",
+            description:
+              "Medimos el éxito por las reservas repetidas, las reseñas positivas y el confort de nuestros clientes.",
+          },
+        ],
+      },
+      valueMission: {
+        eyebrow: "Chauffeurio",
+        heading: "Nuestra identidad, visión y valores",
+        stats: [
+          { value: "10,000+", label: "Clientes felices" },
+          { value: "500+", label: "Conductores profesionales" },
+          { value: "1M+", label: "Viajes completados" },
+          { value: "98%", label: "Satisfacción del cliente" },
+        ],
+        missionTitle: "Misión",
+        missionText:
+          "Nuestra misión es simple pero potente: hacer cada viaje fluido, seguro e inolvidable. Vamos más allá del transporte: confort, puntualidad y detalle como estándar.",
+        visionTitle: "Visión",
+        visionText:
+          "Apostamos por la excelencia, la fiabilidad y un enfoque cliente-primero, con traslados puntuales y a medida. Nuestro servicio accesible garantiza reserva sencilla, comunicación clara y soporte profesional.",
+      },
+    }, 
+    testimonials: {
+      eyebrow: "TESTIMONIOS",
+      title: "Explore Valencia con nuestro servicio ejecutivo de chófer",
+      badges: [
+        { source: "Google", score: "4.9", reviews: "2.394 reseñas" },
+        { source: "Facebook", score: "5.0", reviews: "1.428 reseñas" },
+        { source: "TripAdvisor", score: "4.9", reviews: "3.891 reseñas" }
+      ],
+      items: [
+        {
+          id: 1,
+          name: "Nick Evans",
+          verified: true,
+          date: "hace 1 semana",
+          rating: 5,
+          comment:
+            "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
+        },
+        {
+          id: 2,
+          name: "Emma Johnson",
+          verified: true,
+          date: "hace 2 semanas",
+          rating: 5,
+          comment:
+            "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
+        },
+        {
+          id: 3,
+          name: "John Green",
+          verified: true,
+          date: "hace 3 semanas",
+          rating: 5,
+          comment:
+            "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
+        },
+        {
+          id: 4,
+          name: "Megan Smith",
+          verified: true,
+          date: "hace 1 mes",
+          rating: 5,
+          comment:
+            "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
+        },
+        {
+          id: 5,
+          name: "David Wilson",
+          verified: true,
+          date: "hace 2 meses",
+          rating: 5,
+          comment:
+            "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
+        },
+        {
+          id: 6,
+          name: "Sarah Taylor",
+          verified: true,
+          date: "hace 3 meses",
+          rating: 5,
+          comment:
+            "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
+        }
+      ]
+    }, 
+    heroBottom: {
+      items: [
+        { lines: ["Cancelación gratuita", "Conductores con licencia", "Meet & greet"] },
+        { lines: ["Pago online o en efectivo", "Precios fijos", "Ahorro garantizado"] },
+        { lines: ["Atención 24 horas", "Inglés y español", "365 días del año"] }
+      ]
+    },
+  },
+} as const;

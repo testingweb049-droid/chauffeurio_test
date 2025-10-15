@@ -8,31 +8,31 @@ import WorkSection from "@/component/sections/WorkSection";
 import ContentSection from "@/component/sections/ContentSection";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
 
-export default function AirportTransfer() {
-  const { airportTransfer } = ClientSideStrings();
+export default function CityToCity() {
+  const { citytocity } = ClientSideStrings();
 
   return (
     <>
-      <HeroSection2 bgImage="/hero.jpg" text={airportTransfer?.title} />
+      <HeroSection2 bgImage="hero.jpg" text={citytocity?.title} />
 
       <ImageDetailSection
-        title={airportTransfer?.title}
-        subtitle={airportTransfer?.heroSubtitle}
-        description={airportTransfer?.description}
-        imageSrc="/Container (1).png"
+        title={citytocity?.title}
+        subtitle={citytocity?.heroSubtitle}
+        description={citytocity?.description}
+        imageSrc="/Container (2).png"
       />
 
       <HelpSection
-        subtitle={airportTransfer?.helpSubtitle}
-        heading={airportTransfer?.whyChoose}
-        description={airportTransfer?.helpDescription}
-        points={airportTransfer?.points ?? []}
+        subtitle={citytocity?.helpSubtitle}
+        heading={citytocity?.whyChoose}
+        description={citytocity?.helpDescription}
+        points={citytocity?.points ?? []}
       />
 
       <WorkSection
-        eyebrow={airportTransfer?.workEyebrow}
-        heading={airportTransfer?.worksectionTitle}
-        steps={(airportTransfer?.workSteps ?? []).map(step => ({
+        eyebrow={citytocity?.workEyebrow}
+        heading={citytocity?.worksectionTitle}
+        steps={(citytocity?.workSteps ?? []).map(step => ({
           title: step.title,
           description: step.description,
           icon: <FaCar size={40} />
@@ -40,7 +40,7 @@ export default function AirportTransfer() {
       />
 
       <ContentSection
-        sections={(airportTransfer?.contentSections ?? []).map(section => ({
+        sections={(citytocity?.contentSections ?? []).map(section => ({
           title: section.title,
           description: section.description,
           image: section.image,

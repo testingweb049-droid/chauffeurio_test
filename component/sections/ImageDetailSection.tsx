@@ -19,7 +19,7 @@ export default function ImageDetailSection({
         {/* Left Section: Content */}
         <div className="w-full md:w-1/2 bg-primary md:pr-20 p-4 md:p-12 flex flex-col gap-3 relative z-10">
           <h4 className="text-secondary font-semibold uppercase ">{title}</h4>
-          <h1 className="leading-12 text-white ">{subtitle}</h1>
+          <h1 className="md:leading-12 text-white ">{subtitle}</h1>
           <p className="mt-4 text-[#B2AEA8] leading-relaxed">{description}</p>
         </div>
 

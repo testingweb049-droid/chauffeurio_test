@@ -8,31 +8,31 @@ import WorkSection from "@/component/sections/WorkSection";
 import ContentSection from "@/component/sections/ContentSection";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
 
-export default function AirportTransfer() {
-  const { airportTransfer } = ClientSideStrings();
+export default function TourAndExcursions() {
+  const { tour } = ClientSideStrings();
 
   return (
     <>
-      <HeroSection2 bgImage="/hero.jpg" text={airportTransfer?.title} />
+      <HeroSection2 bgImage="hero.jpg" text={tour?.title} />
 
       <ImageDetailSection
-        title={airportTransfer?.title}
-        subtitle={airportTransfer?.heroSubtitle}
-        description={airportTransfer?.description}
-        imageSrc="/Container (1).png"
+        title={tour?.title}
+        subtitle={tour?.heroSubtitle}
+        description={tour?.description}
+        imageSrc="/post36-copyright-890x664.jpg.png"
       />
 
       <HelpSection
-        subtitle={airportTransfer?.helpSubtitle}
-        heading={airportTransfer?.whyChoose}
-        description={airportTransfer?.helpDescription}
-        points={airportTransfer?.points ?? []}
+        subtitle={tour?.helpSubtitle}
+        heading={tour?.whyChoose}
+        description={tour?.helpDescription}
+        points={tour?.points ?? []}
       />
 
       <WorkSection
-        eyebrow={airportTransfer?.workEyebrow}
-        heading={airportTransfer?.worksectionTitle}
-        steps={(airportTransfer?.workSteps ?? []).map(step => ({
+        eyebrow={tour?.workEyebrow}
+        heading={tour?.worksectionTitle}
+        steps={(tour?.workSteps ?? []).map(step => ({
           title: step.title,
           description: step.description,
           icon: <FaCar size={40} />
@@ -40,7 +40,7 @@ export default function AirportTransfer() {
       />
 
       <ContentSection
-        sections={(airportTransfer?.contentSections ?? []).map(section => ({
+        sections={(tour?.contentSections ?? []).map(section => ({
           title: section.title,
           description: section.description,
           image: section.image,

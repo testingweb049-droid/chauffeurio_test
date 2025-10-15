@@ -8,7 +8,7 @@ export default function Footer() {
     { name: 'Our Fleets', href: '#' },
     { name: 'Services', href: '#' },
     { name: 'Contact', href: '#' },
-    { name: 'FAQs', href: '#' }
+    { name: 'FAQs', href: '/faqs' }
   ];
 
   const services = [
@@ -35,7 +35,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[#0a3d4f] text-white">
+    <footer className="bg-primary text-white">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
