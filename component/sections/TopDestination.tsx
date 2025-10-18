@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export interface Destination {
   id: number | string;
@@ -27,37 +27,37 @@ export default function TopDestination({
   onCtaClick,
   className = "",
 }: TopDestinationProps) {
-  const [current, setCurrent] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  // Swipe handling (mobile)
-  const startX = useRef<number | null>(null);
-  const deltaX = useRef(0);
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
 
-  const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      const cardWidth = container.offsetWidth * 0.85; // 85vw per card
+      const index = Math.round(scrollLeft / cardWidth);
+      setActiveIndex(index);
+    };
 
-  const prev = () => setCurrent((i) => (i === 0 ? items.length - 1 : i - 1));
-  const next = () => setCurrent((i) => (i === items.length - 1 ? 0 : i + 1));
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  const onTouchStart = (e: React.TouchEvent) => {
-    startX.current = e.touches[0].clientX;
-    deltaX.current = 0;
-  };
-
-  const onTouchMove = (e: React.TouchEvent) => {
-    if (startX.current == null) return;
-    deltaX.current = e.touches[0].clientX - startX.current;
-  };
-
-  const onTouchEnd = () => {
-    const threshold = 50; // px
-    if (deltaX.current > threshold) prev();
-    else if (deltaX.current < -threshold) next();
-    startX.current = null;
-    deltaX.current = 0;
+  const scrollToIndex = (index: number) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    
+    const cardWidth = container.offsetWidth * 0.85;
+    container.scrollTo({
+      left: cardWidth * index,
+      behavior: 'smooth'
+    });
   };
 
   return (
-    <section className={`relative bg-primary text-white py-16 px-4 overflow-hidden ${className}`}>
+    <section className={`relative bg-primary text-white py-8 px-4 overflow-hidden ${className}`}>
       {/* corner glow: top-right & bottom-left */}
       <div className="pointer-events-none absolute -top-10 -right-10 h-[28rem] w-[28rem] rounded-full bg-gradient-to-bl from-white/15 to-transparent blur-3xl" />
       <div className="pointer-events-none absolute -bottom-10 -left-10 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr from-white/15 to-transparent blur-3xl" />
@@ -83,81 +83,51 @@ export default function TopDestination({
           ) : null}
         </div>
 
-        {/* --- Mobile carousel (sm & down) --- */}
-        <div className="md:hidden">
-          <div className="relative">
-            {/* Slides wrapper */}
-            <div
-              className="relative w-full overflow-hidden"
-              onTouchStart={onTouchStart}
-              onTouchMove={onTouchMove}
-              onTouchEnd={onTouchEnd}
-            >
-              <div
-                className="flex transition-transform duration-500 ease-out"
-                style={{ transform: `translateX(-${current * 100}%)` }}
-              >
-                {items.map((d) => (
-                  <div key={d.id} className="w-full shrink-0">
-                    <div className="relative h-64 w-full overflow-hidden rounded-lg">
-                      <Image
-                        src={d.image}
-                        alt={d.title}
-                        fill
-                        sizes="100vw"
-                        className="object-cover"
-                        priority={false}
-                      />
-                    </div>
-                    <h6 className="mt-4 text-lg font-bold uppercase tracking-wide">{d.title}</h6>
+        {/* --- Mobile: horizontal scroll --- */}
+        <div className="md:hidden -mx-4">
+          <div 
+            ref={scrollContainerRef}
+            className="overflow-x-auto overflow-y-hidden px-4 scrollbar-hide snap-x snap-mandatory"
+          >
+            <div className="flex gap-4 pb-2">
+              {items.map((d) => (
+                <div key={d.id} className="flex-shrink-0 w-[85vw] snap-start">
+                  <div className="relative h-64 w-full overflow-hidden rounded-lg">
+                    <Image
+                      src={d.image}
+                      alt={d.title}
+                      fill
+                      sizes="85vw"
+                      className="object-cover"
+                      priority={false}
+                    />
                   </div>
-                ))}
-              </div>
-
-              {/* Prev/Next buttons */}
-              {items.length > 1 && (
-                <>
-                  <button
-                    type="button"
-                    onClick={prev}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/20 p-2 backdrop-blur-sm hover:bg-white/30"
-                    aria-label="Previous"
-                  >
-                    <ChevronLeft className="h-5 w-5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={next}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/20 p-2 backdrop-blur-sm hover:bg-white/30"
-                    aria-label="Next"
-                  >
-                    <ChevronRight className="h-5 w-5" />
-                  </button>
-                </>
-              )}
+                  <h6 className="mt-4 text-lg font-bold uppercase tracking-wide">{d.title}</h6>
+                </div>
+              ))}
             </div>
-
-            {/* Dots */}
-            {items.length > 1 && (
-              <div className="mt-4 flex items-center justify-center gap-2">
-                {items.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrent(clamp(i, 0, items.length - 1))}
-                    className={`h-2 rounded-full transition-all ${
-                      current === i ? "w-8 bg-white" : "w-2 bg-white/50 hover:bg-white/80"
-                    }`}
-                    aria-label={`Go to slide ${i + 1}`}
-                    type="button"
-                  />
-                ))}
-              </div>
-            )}
           </div>
+
+          {/* Dots */}
+          {items.length > 1 && (
+            <div className="mt-6 flex items-center justify-center gap-2">
+              {items.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => scrollToIndex(i)}
+                  className={`h-2 rounded-full transition-all ${
+                    activeIndex === i ? "w-8 bg-white" : "w-2 bg-white/50 hover:bg-white/80"
+                  }`}
+                  aria-label={`Go to slide ${i + 1}`}
+                  type="button"
+                />
+              ))}
+            </div>
+          )}
 
           {/* Mobile CTA */}
           {ctaLabel ? (
-            <div className="mt-8 flex justify-center ">
+            <div className="mt-8 flex justify-center">
               <button
                 type="button"
                 onClick={onCtaClick}
@@ -196,7 +166,7 @@ export default function TopDestination({
             <button
               type="button"
               onClick={onCtaClick}
-              className="group hidden items-center gap-2 text-white transition-colors hover:text-yellow-400 md:flex"
+              className="group flex items-center gap-2 text-white transition-colors hover:text-yellow-400"
               aria-label={ctaLabel}
             >
               <span className="text-sm font-medium">{ctaLabel}</span>
@@ -205,6 +175,16 @@ export default function TopDestination({
           </div>
         ) : null}
       </div>
+
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </section>
   );
 }

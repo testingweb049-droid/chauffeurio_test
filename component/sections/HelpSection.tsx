@@ -35,7 +35,7 @@ export default function HelpSection({
                   <FaAnchor size={24} />
                 </div>
                 <div>
-                  <h3 className="">{point.title}</h3>
+                  <h3 className="font-bold">{point.title}</h3>
                   <p className="text-[#5F5D5A] mt-2">{point.description}</p>
                 </div>
               </div>

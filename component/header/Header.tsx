@@ -114,8 +114,8 @@ export default function Header() {
     { id: "home", label: header?.home || "Home", href: "/" },
     { id: "about", label: header?.about || "About Us", href: "/about" },
     {
-      id: "fleet",
-      label: header?.fleet || "Our Fleet",
+      id: "services",
+      label: header?.services || "Services",
       isDropdown: true,
       items: [
         { label: header?.fleetItems?.airportTransfer || "Airport Transfer", href: "/airport-transfer" },
@@ -126,7 +126,7 @@ export default function Header() {
         { label: header?.fleetItems?.businessChauffur || "Business Chauffur", href: "/business-chauffur" },
       ],
     },
-    { id: "services", label: header?.services || "Services", href: "/services" },
+    { id: "fleet", label: header?.fleet || "Our Fleet", href: "/fleet" },
     { id: "contact", label: header?.contact || "Contact", href: "/contact" },
   ];
 

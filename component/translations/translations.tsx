@@ -443,24 +443,7 @@ testimonials: {
           comment:
             "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
         },
-        {
-          id: 5,
-          name: "David Wilson",
-          verified: true,
-          date: "2 months ago",
-          rating: 5,
-          comment:
-            "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
-        },
-        {
-          id: 6,
-          name: "Sarah Taylor",
-          verified: true,
-          date: "3 months ago",
-          rating: 5,
-          comment:
-            "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
-        }
+     
       ]
     },
     heroBottom: {
@@ -1036,24 +1019,7 @@ testimonials: {
           comment:
             "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
         },
-        {
-          id: 5,
-          name: "David Wilson",
-          verified: true,
-          date: "il y a 2 mois",
-          rating: 5,
-          comment:
-            "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
-        },
-        {
-          id: 6,
-          name: "Sarah Taylor",
-          verified: true,
-          date: "il y a 3 mois",
-          rating: 5,
-          comment:
-            "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
-        }
+       
       ]
     },
     heroBottom: {
@@ -1632,24 +1598,7 @@ faqPage: {
           comment:
             "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
         },
-        {
-          id: 5,
-          name: "David Wilson",
-          verified: true,
-          date: "hace 2 meses",
-          rating: 5,
-          comment:
-            "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
-        },
-        {
-          id: 6,
-          name: "Sarah Taylor",
-          verified: true,
-          date: "hace 3 meses",
-          rating: 5,
-          comment:
-            "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
-        }
+        
       ]
     }, 
     heroBottom: {

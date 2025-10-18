@@ -11,12 +11,12 @@ interface ContentSectionProps {
 
 export default function ContentSection({ sections }: ContentSectionProps) {
   return (
-    <section className="bg-gray-50 md:py-16 py-8 ">
-      <div className="max-w-7xl mx-auto space-y-12">
+    <section className="bg-gray-50 md:py-16 py-4 px-4">
+      <div className="max-w-7xl mx-auto md:space-y-12 space-y-6">
         {sections.map((section, index) => (
           <div
             key={index}
-            className={`flex flex-col md:flex-row items-start md:items-stretch gap-8 md:gap-16 ${
+            className={`flex flex-col md:flex-row items-start md:items-stretch gap-4 md:gap-16 ${
               section.imagePosition === 'left' ? 'md:flex-row-reverse' : ''
             }`}
           >

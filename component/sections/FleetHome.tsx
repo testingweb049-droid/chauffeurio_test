@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useRef, useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 export type FleetCard = {
@@ -44,11 +44,34 @@ export default function FleetHome({
   onCtaClick,
   className = '',
 }: FleetHomeProps) {
-  // Mobile slider state
-  const [current, setCurrent] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
   useEffect(() => {
-    if (current > (items?.length ?? 1) - 1) setCurrent(0);
-  }, [items, current]);
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      const cardWidth = container.offsetWidth * 0.85; // 85vw per card
+      const index = Math.round(scrollLeft / cardWidth);
+      setActiveIndex(index);
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToIndex = (index: number) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    
+    const cardWidth = container.offsetWidth * 0.85;
+    container.scrollTo({
+      left: cardWidth * index,
+      behavior: 'smooth'
+    });
+  };
 
   const Cta = () =>
     ctaLabel ? (
@@ -82,7 +105,7 @@ export default function FleetHome({
             src={card.image}
             alt={alt}
             fill
-            sizes="(max-width:768px) 100vw, (max-width:1024px) 50vw, 33vw"
+            sizes="(max-width:768px) 85vw, (max-width:1024px) 50vw, 33vw"
             className="object-contain p-6"
             priority={false}
           />
@@ -110,7 +133,7 @@ export default function FleetHome({
 
   return (
     <section
-      className={`relative bg-primary text-white py-14 md:py-18 px-4 overflow-hidden ${className}`}
+      className={`relative bg-primary text-white py-8 md:py-18 px-4 overflow-hidden ${className}`}
     >
       {/* soft corner glows */}
       <div className="pointer-events-none absolute -top-10 -right-10 h-[28rem] w-[28rem] rounded-full bg-gradient-to-bl from-white/15 to-transparent blur-3xl" />
@@ -132,15 +155,15 @@ export default function FleetHome({
           <Cta />
         </div>
 
-        {/* Mobile: slider */}
-        <div className="md:hidden">
-          <div className="relative overflow-hidden">
-            <div
-              className="flex transition-transform duration-500 ease-out"
-              style={{ transform: `translateX(-${current * 100}%)` }}
-            >
+        {/* Mobile: horizontal scroll */}
+        <div className="md:hidden -mx-4">
+          <div 
+            ref={scrollContainerRef}
+            className="overflow-x-auto overflow-y-hidden px-4 scrollbar-hide snap-x snap-mandatory"
+          >
+            <div className="flex gap-4 pb-2">
               {(items ?? []).map((card, i) => (
-                <div key={i} className="min-w-full pr-2">
+                <div key={i} className="flex-shrink-0 w-[85vw] snap-start">
                   <Card card={card} />
                 </div>
               ))}
@@ -149,14 +172,14 @@ export default function FleetHome({
 
           {/* dots */}
           {items.length > 1 && (
-            <div className="mt-4 flex items-center justify-center gap-2">
+            <div className="mt-6 flex items-center justify-center gap-2">
               {items.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => setCurrent(i)}
+                  onClick={() => scrollToIndex(i)}
                   aria-label={`Go to fleet slide ${i + 1}`}
                   className={`h-2 rounded-full transition-all ${
-                    current === i ? 'w-6 bg-white' : 'w-2 bg-white/60'
+                    activeIndex === i ? 'w-6 bg-white' : 'w-2 bg-white/60'
                   }`}
                   type="button"
                 />
@@ -166,8 +189,25 @@ export default function FleetHome({
 
           {/* Mobile CTA */}
           {ctaLabel && (ctaHref || onCtaClick) ? (
-            <div className="mt-6 flex justify-center">
-              <Cta />
+            <div className="mt-6 flex justify-center md:hidden">
+              {ctaHref ? (
+                <Link
+                  href={ctaHref}
+                  className="group inline-flex items-center gap-1 text-white/90 hover:text-white transition-colors"
+                >
+                  <span className="text-sm font-medium">{ctaLabel}</span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              ) : onCtaClick ? (
+                <button
+                  onClick={onCtaClick}
+                  className="group inline-flex items-center gap-1 text-white/90 hover:text-white transition-colors"
+                  type="button"
+                >
+                  <span className="text-sm font-medium">{ctaLabel}</span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              ) : null}
             </div>
           ) : null}
         </div>
@@ -179,6 +219,16 @@ export default function FleetHome({
           ))}
         </div>
       </div>
+
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </section>
   );
 }

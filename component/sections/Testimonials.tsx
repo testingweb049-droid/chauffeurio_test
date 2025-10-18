@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { CheckCircle } from "lucide-react";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
 
@@ -23,26 +23,46 @@ export default function Testimonials() {
   const allItems: TItem[] = (t?.items ?? []).map((i: TItem) => ({ ...i }));
   const badges: TBadge[] = (t?.badges ?? []).map((b: TBadge) => ({ ...b }));
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [itemsToShow, setItemsToShow] = useState(4);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      const w = window.innerWidth;
-      if (w >= 1280) setItemsToShow(4);
-      else if (w >= 1024) setItemsToShow(3);
-      else if (w >= 768) setItemsToShow(2);
-      else setItemsToShow(1);
-      setCurrentIndex(0);
+      setIsMobile(window.innerWidth < 768);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const totalSlides = Math.max(1, Math.ceil((allItems.length || 1) / itemsToShow));
-  const startIdx = currentIndex * itemsToShow;
-  const visible = allItems.slice(startIdx, startIdx + itemsToShow);
+  useEffect(() => {
+    if (!isMobile) return;
+    
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      const cardWidth = container.offsetWidth * 0.9; // 90vw per card
+      const index = Math.round(scrollLeft / cardWidth);
+      setActiveIndex(index);
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [isMobile]);
+
+  const scrollToIndex = (index: number) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    
+    const cardWidth = container.offsetWidth * 0.9;
+    container.scrollTo({
+      left: cardWidth * index,
+      behavior: 'smooth'
+    });
+  };
 
   const Stars = ({ count = 5, size = "h-3 w-3" }: { count?: number; size?: string }) => (
     <div className="flex gap-0.5">
@@ -65,6 +85,44 @@ export default function Testimonials() {
     return <span className="inline-block h-5 w-5 rounded-full bg-gray-800"> </span>;
   };
 
+  const TestimonialCard = ({ item }: { item: TItem }) => (
+    <article className="rounded-lg border bg-white p-6 transition-all duration-300 hover:shadow-lg">
+      <div className="mb-4 flex items-start justify-between">
+        <div className="flex items-center gap-3">
+          {item.avatarUrl ? (
+            <img
+              src={item.avatarUrl}
+              alt={item.name}
+              className="h-12 w-12 rounded-full object-cover ring-1 ring-gray-200"
+            />
+          ) : (
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-200 text-lg font-semibold text-gray-700">
+              {item.name?.charAt(0)}
+            </div>
+          )}
+          <div>
+            <div className="flex items-center gap-1">
+              <h4 className="text-sm font-semibold text-gray-900">{item.name}</h4>
+              {item.verified && <CheckCircle className="h-4 w-4 text-green-500" />}
+            </div>
+            {item.city ? (
+              <p className="text-xs text-gray-500">{item.city}</p>
+            ) : (
+              <p className="text-xs text-gray-500">&nbsp;</p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <p className="min-h-[84px] text-sm leading-relaxed text-gray-600">{item.comment}</p>
+
+      <div className="mt-4 flex items-center justify-between">
+        <Stars count={item.rating} size="h-3 w-3" />
+        <span className="text-xs text-gray-500">{item.date}</span>
+      </div>
+    </article>
+  );
+
   return (
     <section className="bg-gray-50 md:py-16 py-8">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
@@ -76,85 +134,77 @@ export default function Testimonials() {
           <h1 className="max-w-2xl text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
             {t?.title}
           </h1>
-<div className="hidden md:block">
-
-
-          <div className="flex flex-wrap gap-4  ">
-            {badges.map((b, i) => (
-              <div key={i} className="min-w-[160px] p-4 ring-1 ring-gray-200">
-                <div className="mb-1 flex items-center gap-2">
-                  <BadgeIcon source={b.source} />
-                  <span className="text-sm font-semibold text-gray-900">{b.source}</span>
+          
+          <div className="hidden md:block">
+            <div className="flex flex-wrap gap-4">
+              {badges.map((b, i) => (
+                <div key={i} className="min-w-[160px] p-4 ring-1 ring-gray-200">
+                  <div className="mb-1 flex items-center gap-2">
+                    <BadgeIcon source={b.source} />
+                    <span className="text-sm font-semibold text-gray-900">{b.source}</span>
+                  </div>
+                  <div className="mb-1 flex items-center gap-2">
+                    <span className="text-xl font-bold text-gray-900">{b.score}</span>
+                    <Stars />
+                  </div>
+                  <p className="text-xs text-gray-500">{b.reviews}</p>
                 </div>
-                <div className="mb-1 flex items-center gap-2">
-                  <span className="text-xl font-bold text-gray-900">{b.score}</span>
-                  <Stars />
-                </div>
-                <p className="text-xs text-gray-500">{b.reviews}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
           </div>
         </div>
 
         <div className="relative">
-          <div className="mb-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {visible.map((it) => (
-              <article
-                key={it.id}
-                className="rounded-lg border bg-white p-6 transition-all duration-300 hover:shadow-lg"
-              >
-                <div className="mb-4 flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    {it.avatarUrl ? (
-                      <img
-                        src={it.avatarUrl}
-                        alt={it.name}
-                        className="h-12 w-12 rounded-full object-cover ring-1 ring-gray-200"
-                      />
-                    ) : (
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-200 text-lg font-semibold text-gray-700">
-                        {it.name?.charAt(0)}
-                      </div>
-                    )}
-                    <div>
-                      <div className="flex items-center gap-1">
-                        <h4 className="text-sm font-semibold text-gray-900">{it.name}</h4>
-                        {it.verified && <CheckCircle className="h-4 w-4 text-green-500" />}
-                      </div>
-                      {it.city ? (
-                        <p className="text-xs text-gray-500">{it.city}</p>
-                      ) : (
-                        <p className="text-xs text-gray-500">&nbsp;</p>
-                      )}
-                    </div>
+          {/* Mobile: Horizontal Scroll */}
+          <div className="md:hidden -mx-4">
+            <div 
+              ref={scrollContainerRef}
+              className="overflow-x-auto overflow-y-hidden px-4 scrollbar-hide snap-x snap-mandatory"
+            >
+              <div className="flex gap-4 pb-2">
+                {allItems.map((item) => (
+                  <div key={item.id} className="flex-shrink-0 w-[90vw] snap-start">
+                    <TestimonialCard item={item} />
                   </div>
-                </div>
+                ))}
+              </div>
+            </div>
 
-                <p className="min-h-[84px] text-sm leading-relaxed text-gray-600">{it.comment}</p>
-
-                <div className="mt-4 flex items-center justify-between">
-                  <Stars count={it.rating} size="h-3 w-3" />
-                  <span className="text-xs text-gray-500">{it.date}</span>
-                </div>
-              </article>
-            ))}
+            {/* Dots for mobile */}
+            {allItems.length > 1 && (
+              <div className="mt-6 flex items-center justify-center gap-2">
+                {allItems.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => scrollToIndex(i)}
+                    className={`h-2 rounded-full transition-all ${
+                      activeIndex === i ? "w-8 bg-gray-800" : "w-2 bg-gray-300 hover:bg-gray-400"
+                    }`}
+                    aria-label={`Go to slide ${i + 1}`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className="flex items-center justify-center gap-2">
-            {Array.from({ length: totalSlides }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentIndex(i)}
-                className={`h-2 w-2 rounded-full transition-all ${
-                  currentIndex === i ? "w-8 bg-gray-800" : "bg-gray-300 hover:bg-gray-400"
-                }`}
-                aria-label={`Go to slide ${i + 1}`}
-              />
+          {/* Desktop: Grid */}
+          <div className="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {allItems.map((item) => (
+              <TestimonialCard key={item.id} item={item} />
             ))}
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </section>
   );
 }

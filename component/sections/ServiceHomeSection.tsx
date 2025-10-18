@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 
 export type ServiceItem = {
   href: string;
@@ -28,19 +28,9 @@ export default function ServiceHomeSection({
   items,
   className = '',
 }: ServiceHomeSectionProps) {
-  // --- mobile slider state ---
-  const [current, setCurrent] = useState(0);
-
-  // constrain index if items prop changes
-  useEffect(() => {
-    if (current > (items?.length ?? 1) - 1) setCurrent(0);
-  }, [items, current]);
-
-  const goTo = (i: number) => setCurrent(i);
-
   return (
     <section
-      className={`relative bg-primary text-white py-16 md:py-20 px-4 overflow-hidden ${className}`}
+      className={`relative bg-primary text-white py-8 md:py-20 px-4 overflow-hidden ${className}`}
     >
       {/* decorative corner glows */}
       <div className="pointer-events-none absolute -top-10 -right-10 h-[28rem] w-[28rem] rounded-full bg-gradient-to-bl from-white/15 to-transparent blur-3xl" />
@@ -67,56 +57,37 @@ export default function ServiceHomeSection({
           )}
         </div>
 
-        {/* ======== Mobile: slider (one card at a time) ======== */}
-        <div className="md:hidden">
-          <div className="relative overflow-hidden rounded-xl">
-            <div
-              className="flex transition-transform duration-500 ease-out"
-              style={{ transform: `translateX(-${current * 100}%)` }}
-            >
+        {/* ======== Mobile: horizontal scrollable ======== */}
+        <div className="md:hidden -mx-4">
+          <div className="overflow-x-auto overflow-y-hidden px-4 scrollbar-hide">
+            <div className="flex gap-4 pb-2">
               {(items ?? []).map((svc) => {
                 const alt =
                   svc.alt || (typeof svc.title === 'string' ? svc.title : 'Service');
                 return (
-                  <div key={svc.href} className="min-w-full px-1">
-                    <Link
-                      href={svc.href}
-                      className="group block  focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400"
-                    >
-                      <div className="relative h-56 w-full overflow-hidden bg-white/5">
-                        <Image
-                          src={svc.image}
-                          alt={alt}
-                          fill
-                          sizes="100vw"
-                          className="object-cover"
-                          priority={false}
-                        />
-                      </div>
-                      
-                      <h3 className="mt-4 text-lg font-bold uppercase tracking-wide">
-                        {svc.title}
-                      </h3>
-                    </Link>
-                  </div>
+                  <Link
+                    key={svc.href}
+                    href={svc.href}
+                    className="group block flex-shrink-0 w-[85vw] focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400"
+                  >
+                    <div className="relative h-56 w-full overflow-hidden bg-white/5 rounded-xl">
+                      <Image
+                        src={svc.image}
+                        alt={alt}
+                        fill
+                        sizes="85vw"
+                        className="object-cover"
+                        priority={false}
+                      />
+                    </div>
+                    
+                    <h3 className="mt-4 text-lg font-bold uppercase tracking-wide">
+                      {svc.title}
+                    </h3>
+                  </Link>
                 );
               })}
             </div>
-          </div>
-
-          {/* dots */}
-          <div className="mt-4 flex items-center justify-center gap-2">
-            {(items ?? []).map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`Go to slide ${i + 1}`}
-                onClick={() => goTo(i)}
-                className={`h-2 rounded-full transition-all ${
-                  current === i ? 'w-6 bg-white' : 'w-2 bg-white/60'
-                }`}
-              />
-            ))}
           </div>
         </div>
 
@@ -129,9 +100,9 @@ export default function ServiceHomeSection({
               <Link
                 key={svc.href}
                 href={svc.href}
-                className="group block  focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400"
+                className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400"
               >
-                <div className="relative h-56 w-full overflow-hidden bg-white/5">
+                <div className="relative h-56 w-full overflow-hidden bg-white/5 ">
                   <Image
                     src={svc.image}
                     alt={alt}
@@ -149,6 +120,16 @@ export default function ServiceHomeSection({
           })}
         </div>
       </div>
+
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </section>
   );
 }
