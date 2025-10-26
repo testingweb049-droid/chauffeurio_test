@@ -28,8 +28,8 @@ export default function FleetClasses() {
   // Flatten the fleet data to get individual vehicles
   const allVehicles = fleets.flatMap(category => 
     category.vehicles.map(vehicle => ({
-      model: vehicle.name, // Map name to model
-      imageUrl: vehicle.imageUrl,
+      model: vehicle, // vehicle is now a string, not an object
+      imageUrl: category.imageUrl, // Use category imageUrl since vehicles are now strings
       passengers: category.passengers,
       luggage: category.luggage,
       hasChargingPort: category.hasChargingPort

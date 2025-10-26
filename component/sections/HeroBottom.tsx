@@ -31,7 +31,7 @@ const list: Feature[] = [
   },
   {
     image: four,
-    text: 'Everywhere in England'
+    text: 'Valencia To Anywhere'
   },
   {
     image: '/ChatGPT Image Oct 26, 2025, 06_54_38 PM.png',
@@ -90,7 +90,7 @@ export default function HeroBottom({ items }: HeroBottomProps) {
                     />
                   </div>
                   <div className="space-y-0.5">
-                    <h6 className="text-sm font-medium text-gray-700 leading-tight">
+                    <h6 className="text-lg font-bold text-gray-700 leading-tight">
                       {item.text}
                     </h6>
                   </div>

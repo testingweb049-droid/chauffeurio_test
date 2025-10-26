@@ -1,14 +1,16 @@
 import FleetCards from "@/component/card/FleetCards";
 import HeroSection2 from "@/component/sections/HeroSection2";
 
-// Define the complete fleets data directly in this file
+// Define the complete fleets data according to requirements
 const fleets = [
   {
     category: "ECONOMY",
     displayName: "Economy",
     vehicles: [
-      { name: "Skoda Octavia", imageUrl: "/Rectangle 21.png" },
-      { name: "Toyota Prius", imageUrl: "/Rectangle 21 (1).png" }
+      { name: "Toyoya Corolla hybrid", imageUrl: "/Rectangle 21.png" },
+      { name: "Ford Mondeo", imageUrl: "/Rectangle 21.png" },
+      { name: "Volkswagen Passat", imageUrl: "/Rectangle 21.png" },
+      { name: "Skoda Octavia, or superior", imageUrl: "/Rectangle 21.png" }
     ],
     passengers: 4,
     luggage: 4,
@@ -20,12 +22,10 @@ const fleets = [
     }
   },
   {
-    category: "BUSINESS CLASS",
-    displayName: "Business Class",
+    category: "BUSINESS_SEDAN",
+    displayName: "Business Sedan",
     vehicles: [
-      { name: "Mercedes E-Class", imageUrl: "/Rectangle 21 (2).png" },
-      { name: "BMW 5 Series", imageUrl: "/Rectangle 21 (3).png" },
-      { name: "Cadillac XTS", imageUrl: "/Rectangle 21 (4).png" }
+      { name: "Mercedes E Class or superior", imageUrl: "/Rectangle 21 (2).png" }
     ],
     passengers: 4,
     luggage: 4,
@@ -37,33 +37,15 @@ const fleets = [
     }
   },
   {
-    category: "FIRST CLASS",
-    displayName: "First Class",
-    vehicles: [
-      { name: "Mercedes S-Class", imageUrl: "/Rectangle 21 (5).png" },
-      { name: "BMW 7 Series", imageUrl: "/Rectangle 21 (6).png" },
-      { name: "Audi A8", imageUrl: "/Rectangle 21 (8).png" },
-      { name: "Cadillac Escalade", imageUrl: "/Rectangle 21 (9).png" }
-    ],
-    passengers: 4,
-    luggage: 4,
-    hasChargingPort: true,
-    pricing: {
-      perKm: 2.5,
-      hourly: 55,
-      airport: 60
-    }
-  },
-  {
-    category: "ECONOMY VAN",
+    category: "ECONOMY_VAN",
     displayName: "Economy Van",
     vehicles: [
       { name: "Mercedes Vito", imageUrl: "/Rectangle 21 (11).png" },
-      { name: "Ford Custom", imageUrl: "/Rectangle 21 (12).png" },
-      { name: "Chevrolet Suburban", imageUrl: "/Rectangle 21 (13).png" }
+      { name: "Volkswagen Caravelle", imageUrl: "/Rectangle 21 (11).png" },
+      { name: "Ford Transit Custom or superior", imageUrl: "/Rectangle 21 (11).png" }
     ],
-    passengers: 7,
-    luggage: 6,
+    passengers: 8,
+    luggage: 8,
     hasChargingPort: true,
     pricing: {
       perKm: 2.0,
@@ -72,14 +54,13 @@ const fleets = [
     }
   },
   {
-    category: "PREMIUM VAN",
-    displayName: "Premium Van",
+    category: "FIRST_CLASS_VAN",
+    displayName: "First Class Van",
     vehicles: [
-      { name: "Mercedes V-Class", imageUrl: "/Rectangle 21 (14).png" },
-      { name: "Cadillac Escalade", imageUrl: "/Rectangle 21 (9).png" }
+      { name: "Mercedes V Class or similar", imageUrl: "/Rectangle 21 (14).png" }
     ],
     passengers: 7,
-    luggage: 6,
+    luggage: 7,
     hasChargingPort: true,
     pricing: {
       perKm: 2.5,
@@ -88,14 +69,13 @@ const fleets = [
     }
   },
   {
-    category: "MINIBUS 12",
+    category: "MINIBUS_12",
     displayName: "Minibus 12",
     vehicles: [
-      { name: "Mercedes Sprinter", imageUrl: "/Rectangle 21 (15).png" },
-      { name: "Ford Transit", imageUrl: "/Rectangle 21 (17).png" }
+      { name: "Mercedes sprinter or similar (or two vans)", imageUrl: "/Rectangle 21 (15).png" }
     ],
     passengers: 12,
-    luggage: 10,
+    luggage: 12,
     hasChargingPort: true,
     pricing: {
       perKm: 3.5,
@@ -104,14 +84,13 @@ const fleets = [
     }
   },
   {
-    category: "MINIBUS 16",
+    category: "MINIBUS_16",
     displayName: "Minibus 16",
     vehicles: [
-      { name: "Mercedes Sprinter", imageUrl: "/Rectangle 21 (18).png" },
-      { name: "Ford Transit", imageUrl: "/Rectangle 21 (16).png" }
+      { name: "Mercedes sprinter or similar (or two vans)", imageUrl: "/Rectangle 21 (18).png" }
     ],
     passengers: 16,
-    luggage: 12,
+    luggage: 16,
     hasChargingPort: true,
     pricing: {
       perKm: 4.0,
@@ -136,16 +115,16 @@ export default function Fleet() {
             {/* <div className="mt-3 text-[11px] tracking-widest uppercase text-gray-700 space-x-3">
               <span className="font-semibold">All</span>
               <span className="text-gray-400">/ Economy</span>
-              <span className="text-gray-400">/ Business Class</span>
-              <span className="text-gray-400">/ First Class</span>
-              <span className="text-gray-400">/ Premium Van</span>
+              <span className="text-gray-400">/ Business Sedan</span>
+              <span className="text-gray-400">/ Economy Van</span>
+              <span className="text-gray-400">/ First Class Van</span>
               <span className="text-gray-400">/ Minibus</span>
             </div> */}
           </div>
 
-          {/* 7 Cards - One for each category */}
+          {/* 6 Cards - One for each category */}
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {fleets.map((category, index) => (
+            {fleets.map((category) => (
               <FleetCards
                 key={category.category}
                 category={category.displayName}
@@ -154,8 +133,8 @@ export default function Fleet() {
                 passengers={category.passengers}
                 luggage={category.luggage}
                 hasChargingPort={category.hasChargingPort}
-                viewDetailsHref={`/fleet/${category.category.toLowerCase().replace(/\s+/g, '-')}`}
-                bookNowHref={`/book?category=${category.category.toLowerCase().replace(/\s+/g, '-')}`}
+                viewDetailsHref={`/fleet/${category.category.toLowerCase().replace(/_/g, '-')}`}
+                bookNowHref={`/book?category=${category.category.toLowerCase().replace(/_/g, '-')}`}
                 pricing={category.pricing}
               />
             ))}

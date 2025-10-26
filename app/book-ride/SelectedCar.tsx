@@ -11,14 +11,13 @@ export default function SelectedCar()
   
   if(!selectedFleet) return null;
 
-  const firstVehicle = selectedFleet.vehicles[0];
-  const vehicleNames = selectedFleet.vehicles.map(v => v.name).join(", ");
+  const vehicleNames = selectedFleet.vehicles.join(", ");
  
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4 flex items-center justify-between gap-4 w-full">
       <div className="w-16 h-12 relative">
         <Image 
-          src={firstVehicle.imageUrl} 
+          src={selectedFleet.imageUrl} 
           alt={selectedFleet.displayName} 
           fill
           className="object-contain"
@@ -27,7 +26,7 @@ export default function SelectedCar()
       
       <div className="flex-1">
         <div className="font-bold text-sm">{selectedFleet.displayName}</div>
-        <div className="text-xs text-gray-600">{vehicleNames} or similar</div>
+        <div className="text-xs text-gray-600">{vehicleNames}</div>
       </div>
       
       <div className="flex items-center gap-4">

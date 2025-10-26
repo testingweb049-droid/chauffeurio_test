@@ -74,7 +74,7 @@ export default function LocationInput({
         <Autocomplete
           onLoad={(auto) => (autocompleteRef.current = auto)}
           onPlaceChanged={handlePlaceChanged}
-          options={{ componentRestrictions: { country: "uk" } }}
+          options={{ componentRestrictions: { country: "es" } }}
           className={`w-full `}
         >
           <div className="relative flex-1 w-full">

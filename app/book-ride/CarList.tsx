@@ -10,122 +10,131 @@ import { brandColor } from "@/lib/colors";
 import { ArrowRight } from "lucide-react";
 import LoadingButton from "./LoadingButton";
 
+// Pricing structure based on your Excel sheets
+const pricingRanges = [
+  { min: 0, max: 5 },
+  { min: 5, max: 10 },
+  { min: 10, max: 15 },
+  { min: 15, max: 20 },
+  { min: 20, max: 30 },
+  { min: 30, max: 50 },
+  { min: 50, max: 75 },
+  { min: 75, max: 100 },
+  { min: 100, max: 150 },
+  { min: 150, max: 200 },
+  { min: 200, max: Infinity }
+];
+
+const categoryPricing = {
+  ECONOMY: [8.00, 5.25, 4.50, 3.20, 2.80, 2.50, 2.00, 1.80, 1.80, 1.75, 1.70],
+  BUSINESS_SEDAN: [14.00, 7.80, 5.50, 4.50, 3.80, 3.00, 2.35, 2.20, 2.12, 1.90, 1.90],
+  ECONOMY_VAN: [14.12, 8.00, 4.95, 4.95, 3.90, 3.20, 2.50, 2.40, 2.30, 2.14, 2.00],
+  BUSINESS_VAN: [26.80, 15.20, 9.30, 9.30, 7.50, 6.00, 4.75, 4.65, 4.36, 4.00, 3.80],
+  MINIBUS_12: [35.32, 20.00, 13.25, 11.50, 9.95, 8.00, 7.23, 6.30, 5.80, 5.34, 5.30],
+  MINIBUS_16: [39.60, 22.40, 14.80, 12.90, 11.15, 8.98, 8.10, 7.12, 6.48, 6.00, 5.95]
+};
+
 /**
- * Vehicle categories with their respective cars and pricing
+ * Vehicle categories with their respective cars and pricing - Updated according to requirements
  */
 export const fleets = [
   {
     category: "ECONOMY",
     displayName: "Economy",
     vehicles: [
-      { name: "Skoda Octavia", imageUrl: "/Rectangle 21.png" },
-      { name: "Toyota Prius", imageUrl: "/Rectangle 21 (1).png" }
+      "Toyoya Corolla hybrid",
+      "Ford Mondeo", 
+      "Volkswagen Passat",
+      "Skoda Octavia, or superior"
     ],
     passengers: 4,
     luggage: 4,
     hasChargingPort: true,
+    imageUrl: "/Rectangle 21.png",
     pricing: {
-      perKm: 1.5,
+      perKm: 1.5, // Fallback price
       hourly: 30,
       airport: 35
     }
   },
   {
-    category: "BUSINESS CLASS",
-    displayName: "Business Class",
+    category: "BUSINESS_SEDAN",
+    displayName: "Business Sedan",
     vehicles: [
-      { name: "Mercedes E-Class", imageUrl: "/Rectangle 21 (2).png" },
-      { name: "BMW 5 Series", imageUrl: "/Rectangle 21 (3).png" },
-      { name: "Cadillac XTS", imageUrl: "/Rectangle 21 (4).png" }
+      "Mercedes E Class or superior"
     ],
     passengers: 4,
     luggage: 4,
     hasChargingPort: true,
+    imageUrl: "/Rectangle 21 (2).png",
     pricing: {
-      perKm: 1.7,
+      perKm: 1.7, // Fallback price
       hourly: 40,
       airport: 50
     }
   },
   {
-    category: "FIRST CLASS",
-    displayName: "First Class",
-    vehicles: [
-      { name: "Mercedes S-Class", imageUrl: "/Rectangle 21 (5).png" },
-      { name: "BMW 7 Series", imageUrl: "/Rectangle 21 (6).png" },
-      { name: "Audi A8", imageUrl: "/Rectangle 21 (8).png" },
-      { name: "Cadillac Escalade", imageUrl: "/Rectangle 21 (9).png" }
-    ],
-    passengers: 4,
-    luggage: 4,
-    hasChargingPort: true,
-    pricing: {
-      perKm: 2.5,
-      hourly: 55,
-      airport: 60
-    }
-  },
-  {
-    category: "ECONOMY VAN",
+    category: "ECONOMY_VAN",
     displayName: "Economy Van",
     vehicles: [
-      { name: "Mercedes Vito", imageUrl: "/Rectangle 21 (11).png" },
-      { name: "Ford Custom", imageUrl: "/Rectangle 21 (12).png" },
-      { name: "Chevrolet Suburban", imageUrl: "/Rectangle 21 (13).png" }
+      "Mercedes Vito",
+      "Volkswagen Caravelle", 
+      "Ford Transit Custom or superior"
     ],
-    passengers: 7,
-    luggage: 6,
+    passengers: 8,
+    luggage: 8,
     hasChargingPort: true,
+    imageUrl: "/Rectangle 21 (11).png",
     pricing: {
-      perKm: 2.0,
+      perKm: 2.0, // Fallback price
       hourly: 50,
       airport: 50
     }
   },
   {
-    category: "PREMIUM VAN",
-    displayName: "Premium Van",
+    category: "BUSINESS_VAN",
+    displayName: "Business Van",
     vehicles: [
-      { name: "Mercedes V-Class", imageUrl: "/Rectangle 21 (14).png" },
-      { name: "Cadillac Escalade", imageUrl: "/Rectangle 21 (9).png" }
+      "Mercedes V Class or similar"
     ],
     passengers: 7,
-    luggage: 6,
+    luggage: 7,
     hasChargingPort: true,
+    imageUrl: "/Rectangle 21 (14).png",
     pricing: {
-      perKm: 2.5,
+      perKm: 2.5, // Fallback price
       hourly: 60,
       airport: 60
     }
   },
   {
-    category: "MINIBUS 12",
+    category: "MINIBUS_12",
     displayName: "Minibus 12",
     vehicles: [
-      { name: "Mercedes Sprinter", imageUrl: "/Rectangle 21 (15).png" },
-      { name: "Ford Transit", imageUrl: "/Rectangle 21 (17).png" }
+      "Mercedes sprinter or similar (or two vans)"
     ],
     passengers: 12,
-    luggage: 10,
+    luggage: 12,
     hasChargingPort: true,
+    imageUrl: "/Rectangle 21 (15).png",
     pricing: {
-      perKm: 3.5,
+      perKm: 3.5, // Fallback price
       hourly: 80,
       airport: 85
     }
   },
   {
-    category: "MINIBUS 16",
+    category: "MINIBUS_16",
     displayName: "Minibus 16",
     vehicles: [
-      { name: "Mercedes Sprinter", imageUrl: "/Rectangle 21 (18).png" },
-      { name: "Ford Transit", imageUrl: "/Rectangle 21 (16).png" }
+      "Mercedes sprinter or similar (or two vans)"
     ],
     passengers: 16,
-    luggage: 12,
+    luggage: 16,
     hasChargingPort: true,
+    imageUrl: "/Rectangle 21 (18).png",
     pricing: {
-      perKm: 4.0,
+      perKm: 4.0, // Fallback price
       hourly: 100,
       airport: 100
     }
@@ -144,7 +153,7 @@ function CarList() {
     changeStep(true, 2);
   };
 
-  // Calculate price based on booking type
+  // Calculate price based on distance ranges
   const calculatePrice = (categoryData: typeof fleets[0]) => {
     let computedPrice = 0;
 
@@ -155,9 +164,28 @@ function CarList() {
         ? (durationValue * categoryData.pricing.hourly) 
         : categoryData.pricing.hourly;
     } else if (category === "trip" || !category) {
-      // Point-to-point: per kilometer rate
+      // Point-to-point: dynamic pricing based on distance ranges
       const totalDistance = Number(formData.distance?.value || 0);
-      computedPrice = totalDistance * categoryData.pricing.perKm;
+      
+      if (totalDistance > 0) {
+        // Find the appropriate price range
+        const rangeIndex = pricingRanges.findIndex(range => 
+          totalDistance > range.min && totalDistance <= range.max
+        );
+        
+        if (rangeIndex !== -1) {
+          const pricePerKm = categoryPricing[categoryData.category as keyof typeof categoryPricing]?.[rangeIndex];
+          if (pricePerKm) {
+            computedPrice = totalDistance * pricePerKm;
+          } else {
+            // Fallback to perKm pricing if range not found
+            computedPrice = totalDistance * categoryData.pricing.perKm;
+          }
+        } else {
+          // Fallback for distances beyond defined ranges
+          computedPrice = totalDistance * categoryData.pricing.perKm;
+        }
+      }
     } else {
       // Airport or any other fixed rate (fallback to airport pricing)
       computedPrice = categoryData.pricing.airport;
@@ -166,13 +194,33 @@ function CarList() {
     return Number(computedPrice.toFixed(2));
   };
 
+  // Get price per km for display
+  const getPricePerKm = (categoryData: typeof fleets[0]) => {
+    const totalDistance = Number(formData.distance?.value || 0);
+    
+    if (totalDistance > 0 && (category === "trip" || !category)) {
+      const rangeIndex = pricingRanges.findIndex(range => 
+        totalDistance > range.min && totalDistance <= range.max
+      );
+      
+      if (rangeIndex !== -1) {
+        const pricePerKm = categoryPricing[categoryData.category as keyof typeof categoryPricing]?.[rangeIndex];
+        if (pricePerKm) {
+          return `€${pricePerKm.toFixed(2)}/km`;
+        }
+      }
+    }
+    
+    return `€${categoryData.pricing.perKm.toFixed(2)}/km`;
+  };
+
   return (
     <div className="w-full flex flex-col gap-3">
       {fleets.map((categoryData) => {
         const computedPrice = calculatePrice(categoryData);
         const displayPrice = computedPrice.toFixed(2);
-        const vehicleNames = categoryData.vehicles.map(v => v.name).join(", ");
-        const firstVehicle = categoryData.vehicles[0];
+        const pricePerKm = getPricePerKm(categoryData);
+        const vehicleNames = categoryData.vehicles;
 
         return (
           <div
@@ -187,7 +235,7 @@ function CarList() {
             <div className="col-span-2 flex items-center justify-center bg-white">
               <div className="w-full max-w-[140px] h-[100px] relative">
                 <Image
-                  src={firstVehicle.imageUrl}
+                  src={categoryData.imageUrl}
                   alt={categoryData.displayName}
                   fill
                   sizes="(max-width: 640px) 80px, 140px"
@@ -201,18 +249,24 @@ function CarList() {
               <h6 className="text-base md:text-xl font-semibold text-gray-900 uppercase">
                 {categoryData.displayName}
               </h6>
-              <h6 className="text-gray-600 text-xs md:text-sm">
-                {vehicleNames}
-              </h6>
+              
+              {/* Vehicle names in grid layout - max 3 per row */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-1 mt-2">
+                {vehicleNames.map((vehicle, index) => (
+                  <div key={index} className="text-gray-600 text-xs md:text-sm">
+                    {vehicle}
+                  </div>
+                ))}
+              </div>
 
               <div className="flex items-center gap-4 text-gray-700 text-sm mt-2">
                 <div className="flex items-center gap-1">
                   <GoPeople size={16} color={brandColor} />
-                  <span>{categoryData.passengers}</span>
+                  <span>{categoryData.passengers} persons</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <PiSuitcase size={16} color={brandColor} />
-                  <span>{categoryData.luggage}</span>
+                  <span>{categoryData.luggage} luggage</span>
                 </div>
               </div>
 
@@ -220,9 +274,7 @@ function CarList() {
                 <div className="text-xl md:text-2xl font-bold text-gray-900">
                   €{displayPrice}
                 </div>
-                <div className="text-xs lg:text-sm text-red-500 line-through">
-                  €{(Number(displayPrice) + Number(displayPrice) * 0.1).toFixed(2)}
-                </div>
+               
               </div>
             </div>
 
