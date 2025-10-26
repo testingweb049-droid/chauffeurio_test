@@ -213,6 +213,8 @@ export default function FleetHome({
             )}
             <h2 className="max-w-4xl text-3xl font-extrabold leading-tight text-gray-900 md:text-5xl">
               {heading}
+
+              
             </h2>
           </div>
           {showCta && (
