@@ -62,14 +62,14 @@ interface NavItemBase {
 
 interface NavItemWithHref extends NavItemBase {
   href: string;
-  isDropdown?: never; // Prevents dropdown items from having href
-  items?: never; // Prevents dropdown items from having sub-items
+  isDropdown?: never;
+  items?: never;
 }
 
 interface NavItemWithDropdown extends NavItemBase {
   isDropdown: true;
-  href?: any; // Prevents the top-level dropdown item from having href
-  items: { label: string; href: string }[]; // Sub-items for the dropdown
+  href?: any;
+  items: { label: string; href: string }[];
 }
 
 type NavItem = NavItemWithHref | NavItemWithDropdown;
@@ -81,24 +81,13 @@ export default function Header() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  const { header }= ClientSideStrings(); // Fetch translations for the current language
+  const { header } = ClientSideStrings();
 
   const handleDropdownToggle = (id: string) => {
     setActiveDropdown(activeDropdown === id ? null : id);
   };
 
-  const handleMouseEnter = (id: string) => {
-    if (typeof window !== "undefined" && window.innerWidth >= 768) {
-      setActiveDropdown(id);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (typeof window !== "undefined" && window.innerWidth >= 768) {
-      setActiveDropdown(null);
-    }
-  };
-
+  // Remove all hover-related handlers for desktop
   const toggleMobileMenu = () => setIsMobileMenuOpen((s) => !s);
 
   useEffect(() => {
@@ -106,6 +95,20 @@ export default function Header() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setActiveDropdown(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   // Define routes that should always have primary background
@@ -159,15 +162,6 @@ export default function Header() {
             </a>
 
             <div className="flex items-center gap-1 py-2">
-              {/* <a
-                href="https://instagram.com/yourhandle"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 text-white/90 hover:text-white transition"
-              >
-                <FaInstagram size={22} />
-              </a> */}
-
               <button onClick={toggleMobileMenu} className="text-white p-2" >
                 <AnimatePresence mode="wait">
                   <motion.span
@@ -191,8 +185,6 @@ export default function Header() {
                   <div
                     key={item.id}
                     className="relative"
-                    onMouseEnter={() => handleMouseEnter(item.id)}
-                    onMouseLeave={handleMouseLeave}
                     ref={dropdownRef}
                   >
                     <button
@@ -262,7 +254,6 @@ export default function Header() {
           >
             <div className="flex flex-col h-full">
               <div className="flex justify-between items-center mb-6">
-                {/* <span className="text-white/80 text-sm">{mobileMenu?.menu || "Menu"}</span> */}
                 <button onClick={toggleMobileMenu} className="text-white p-2" >
                   <HiOutlineX size={24} />
                 </button>

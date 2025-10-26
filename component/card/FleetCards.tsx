@@ -73,16 +73,13 @@ export default function FleetCards({
           <Car className="h-4 w-4" />
           Available Models:
         </h4>
-        <div className="space-y-2">
-          {vehicles.map((vehicle, index) => (
-            <div key={index} className="flex items-center justify-between text-sm">
-              <span className="text-gray-600">{vehicle.name}</span>
-              <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded">
-                Available
-              </span>
-            </div>
-          ))}
-        </div>
+      <div className="grid grid-cols-3 gap-4">
+  {vehicles.slice(0, 3).map((vehicle, index) => (
+    <div key={index} className="flex items-center justify-center text-sm">
+      <div className="text-gray-600">{vehicle.name}</div>
+    </div>
+  ))}
+</div>
       </div>
 
       {/* Features Section */}
@@ -104,40 +101,18 @@ export default function FleetCards({
               <span className="text-xs font-medium">{luggage} Luggage</span>
             </div>
           )}
-          {hasChargingPort && (
+          {/* {hasChargingPort && (
             <div className="flex items-center gap-2 text-gray-700">
               <div className="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
                 <Zap className="h-3 w-3 text-primary" />
               </div>
               <span className="text-xs font-medium">Charging Port</span>
             </div>
-          )}
+          )} */}
         </div>
       </div>
 
-      {/* Pricing Information */}
-      {pricing && (
-        <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
-          <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-            <Euro className="h-4 w-4" />
-            Starting From:
-          </h4>
-          <div className="grid grid-cols-3 gap-2 text-xs">
-            <div className="text-center">
-              <div className="font-semibold text-primary">€{pricing.perKm}</div>
-              <div className="text-gray-500">per km</div>
-            </div>
-            <div className="text-center">
-              <div className="font-semibold text-primary">€{pricing.hourly}</div>
-              <div className="text-gray-500">per hour</div>
-            </div>
-            <div className="text-center">
-              <div className="font-semibold text-primary">€{pricing.airport}</div>
-              <div className="text-gray-500">airport</div>
-            </div>
-          </div>
-        </div>
-      )}
+   
 
       {/* Action Buttons */}
       <div className="px-6 py-4">
