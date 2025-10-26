@@ -1,13 +1,20 @@
 import { type NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
-  apiVersion: "2025-06-30.basil", // ✅ CORRECT VERSION
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "")
 
 export async function POST(request: NextRequest) {
   try {
     const { amount } = await request.json()
+    
+    // Validate amount
+    if (!amount || typeof amount !== "number" || amount <= 0) {
+      return NextResponse.json(
+        { error: "Valid amount is required" }, 
+        { status: 400 }
+      )
+    }
+
     const centsAmount = Math.round(amount * 100)
 
     const paymentIntent = await stripe.paymentIntents.create({
@@ -20,9 +27,13 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       clientSecret: paymentIntent.client_secret,
+      paymentIntentId: paymentIntent.id,
     })
   } catch (error) {
     console.error("Error creating payment intent:", error)
-    return NextResponse.json({ error: "Error creating payment intent" }, { status: 500 })
+    return NextResponse.json(
+      { error: "Error creating payment intent" }, 
+      { status: 500 }
+    )
   }
 }
