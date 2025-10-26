@@ -36,7 +36,7 @@ const CtaButton = memo(({
   isMobile?: boolean;
 }) => {
   const baseClasses = "group inline-flex items-center gap-1 transition-colors";
-  const desktopClasses = "hidden md:inline-flex text-white/90 hover:text-white";
+  const desktopClasses = "hidden md:inline-flex text-primary hover:text-black";
   const mobileClasses = "text-black hover:text-primary";
   const classes = `${baseClasses} ${isMobile ? mobileClasses : desktopClasses}`;
 

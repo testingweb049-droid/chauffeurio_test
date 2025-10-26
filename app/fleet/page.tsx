@@ -133,14 +133,14 @@ export default function Fleet() {
             <span className="font-bold text-xl uppercase text-black">Our Fleet</span>
 
             {/* top filter labels (static like screenshot) */}
-            <div className="mt-3 text-[11px] tracking-widest uppercase text-gray-700 space-x-3">
+            {/* <div className="mt-3 text-[11px] tracking-widest uppercase text-gray-700 space-x-3">
               <span className="font-semibold">All</span>
               <span className="text-gray-400">/ Economy</span>
               <span className="text-gray-400">/ Business Class</span>
               <span className="text-gray-400">/ First Class</span>
               <span className="text-gray-400">/ Premium Van</span>
               <span className="text-gray-400">/ Minibus</span>
-            </div>
+            </div> */}
           </div>
 
           {/* 7 Cards - One for each category */}

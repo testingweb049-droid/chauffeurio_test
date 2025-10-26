@@ -4,10 +4,10 @@ import React, { useMemo } from "react";
 import { useReducedMotion } from "framer-motion";
 import Image from "next/image";
 
-import one from "@/assets/new-form/1.png"
-import two from "@/assets/new-form/2.png"
+import one from "@/assets/new-form/C.png"
+import two from "@/assets/new-form/euro.png"
 import three from "@/assets/new-form/3.png"
-import four from "@/assets/new-form/4.png"
+import four from "@/assets/new-form/l.png"
 import five from "@/assets/new-form/5.png"
 
 type Feature = { 
@@ -26,20 +26,16 @@ const list: Feature[] = [
     text: 'Competitive Rates'
   },
   {
-    image: two,
+    image:two,
     text: 'Online Payment'
   },
   {
-    image: three,
+    image: four,
     text: 'Everywhere in England'
   },
   {
-    image: four,
+    image: '/ChatGPT Image Oct 26, 2025, 06_54_38 PM.png',
     text: 'Trustworthy'
-  },
-  {
-    image: five,
-    text: 'Meet and Greet'
   },
 ];
 
@@ -76,29 +72,31 @@ export default function HeroBottom({ items }: HeroBottomProps) {
             </div>
           </div>
 
-          {/* Desktop/Tablet: static grid */}
-          <div className="hidden md:grid grid-cols-5 gap-3 md:gap-8">
-            {baseItems.map((item, i) => (
-              <div
-                key={i}
-                className={`flex items-center text-center gap-2 md:gap-4 ${i > 0 ? "md:border-l md:border-gray-200" : ""}`}
-              >
-                <div className="flex items-center justify-center w-12 h-12 md:w-16 md:h-16">
-                  <Image 
-                    src={item.image} 
-                    alt={item.text} 
-                    className="w-full h-full object-contain"
-                    width={64}
-                    height={64}
-                  />
+          {/* Desktop/Tablet: centered grid */}
+          <div className="hidden md:flex justify-center items-center">
+            <div className="grid grid-cols-4 gap-8 max-w-7xl w-full">
+              {baseItems.map((item, i) => (
+                <div
+                  key={i}
+                  className="flex  items-center text-center gap-3"
+                >
+                  <div className="flex items-center justify-center w-16 h-16">
+                    <Image 
+                      src={item.image} 
+                      alt={item.text} 
+                      className="w-full h-full object-contain"
+                      width={64}
+                      height={64}
+                    />
+                  </div>
+                  <div className="space-y-0.5">
+                    <h6 className="text-sm font-medium text-gray-700 leading-tight">
+                      {item.text}
+                    </h6>
+                  </div>
                 </div>
-                <div className="space-y-0.5">
-                  <h6 className="text-xs md:text-sm font-medium text-gray-700 leading-tight">
-                    {item.text}
-                  </h6>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
