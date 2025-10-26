@@ -569,7 +569,36 @@ home: {
         ],
       },
     },
-
+footer: {
+      location: "Valencia—",
+      operatingHours: "Operating Hours: Mon–Sun, 24 Hours",
+      quickLinksTitle: "Quick Links",
+      servicesTitle: "Services",
+      paymentTitle: "Payment Accepted",
+      copyright: "© 2025. All rights reserved.",
+      quickLinks: {
+        home: "Home",
+        aboutUs: "About Us",
+        ourFleets: "Our Fleets",
+        services: "Services",
+        contact: "Contact",
+        faqs: "FAQs"
+      },
+      services: {
+        airportTransfers: "Airport Transfers",
+        hourlyChauffeurs: "Hourly Chauffeurs",
+        eventTransportation: "Event Transportation",
+        cityTours: "City Tours and Excursions",
+        businessChauffeur: "Business Chauffeur Services",
+        longDistance: "Long-Distance City to City"
+      },
+      footerLinks: {
+        termsConditions: "Terms and Conditions",
+        legalWarning: "Legal Warning",
+        privacyPolicy: "Privacy Policy",
+        cookiesPolicy: "Cookies Policy"
+      }
+    },
 
 
   },
@@ -1145,7 +1174,36 @@ testimonials: {
         ],
       },
     },
-    
+    footer: {
+      location: "Valence—",
+      operatingHours: "Heures d'ouverture: Lun–Dim, 24 Heures",
+      quickLinksTitle: "Liens Rapides",
+      servicesTitle: "Services",
+      paymentTitle: "Paiement Accepté",
+      copyright: "© 2025. Tous droits réservés.",
+      quickLinks: {
+        home: "Accueil",
+        aboutUs: "À Propos",
+        ourFleets: "Notre Flotte",
+        services: "Services",
+        contact: "Contact",
+        faqs: "FAQ"
+      },
+      services: {
+        airportTransfers: "Transferts Aéroport",
+        hourlyChauffeurs: "Chauffeurs à l'Heure",
+        eventTransportation: "Transport d'Événements",
+        cityTours: "Visites et Excursions",
+        businessChauffeur: "Services de Chauffeur d'Affaires",
+        longDistance: "Ville à Ville Longue Distance"
+      },
+      footerLinks: {
+        termsConditions: "Conditions Générales",
+        legalWarning: "Avertissement Légal",
+        privacyPolicy: "Politique de Confidentialité",
+        cookiesPolicy: "Politique des Cookies"
+      }
+    },
 
 
 
@@ -1723,6 +1781,36 @@ faqPage: {
           { id: 3, title: "MUSEO DE CIENCIAS",    image: "/post10-copyright-1-890x664.jpg (2).png" },
         ],
       },
+    },
+    footer: {
+      location: "Valencia—",
+      operatingHours: "Horario de Atención: Lun–Dom, 24 Horas",
+      quickLinksTitle: "Enlaces Rápidos",
+      servicesTitle: "Servicios",
+      paymentTitle: "Pago Aceptado",
+      copyright: "© 2025. Todos los derechos reservados.",
+      quickLinks: {
+        home: "Inicio",
+        aboutUs: "Sobre Nosotros",
+        ourFleets: "Nuestra Flota",
+        services: "Servicios",
+        contact: "Contacto",
+        faqs: "Preguntas Frecuentes"
+      },
+      services: {
+        airportTransfers: "Traslados al Aeropuerto",
+        hourlyChauffeurs: "Chóferes por Hora",
+        eventTransportation: "Transporte para Eventos",
+        cityTours: "Tours y Excursiones",
+        businessChauffeur: "Servicios de Chófer Empresarial",
+        longDistance: "Ciudad a Ciudad Larga Distancia"
+      },
+      footerLinks: {
+        termsConditions: "Términos y Condiciones",
+        legalWarning: "Aviso Legal",
+        privacyPolicy: "Política de Privacidad",
+        cookiesPolicy: "Política de Cookies"
+      }
     },
   },
 } as const;

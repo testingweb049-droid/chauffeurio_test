@@ -1,39 +1,43 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import {
   Mail,
   Phone,
   Facebook,
   Instagram,
   Dribbble,
-  X as XIcon, // lucide-react "X" (Twitter/X)
+  X as XIcon,
 } from "lucide-react";
+import { ClientSideStrings } from "../translations/ClientSideTranslations";
 
 export default function Footer() {
+  const { footer } = ClientSideStrings();
+
   const quickLinks = [
-    { name: "Home", href: "#" },
-    { name: "About Us", href: "#" },
-    { name: "Our Fleets", href: "#" },
-    { name: "Services", href: "#" },
-    { name: "Contact", href: "#" },
-    { name: "FAQs", href: "/faqs" },
+    { name: footer?.quickLinks?.home || "Home", href: "/" },
+    { name: footer?.quickLinks?.aboutUs || "About Us", href: "#about" },
+    { name: footer?.quickLinks?.ourFleets || "Our Fleets", href: "#fleets" },
+    { name: footer?.quickLinks?.services || "Services", href: "#services" },
+    { name: footer?.quickLinks?.contact || "Contact", href: "#contact" },
+    { name: footer?.quickLinks?.faqs || "FAQs", href: "/faqs" },
   ];
 
   const services = [
-    { name: "Airport Transfers", href: "#" },
-    { name: "Hourly Chauffeurs", href: "#" },
-    { name: "Event Transportation", href: "#" },
-    { name: "City Tours and Excursions", href: "#" },
-    { name: "Business Chauffeur Services", href: "#" },
-    { name: "Long-Distance City to City", href: "#" },
+    { name: footer?.services?.airportTransfers || "Airport Transfers", href: "#airport" },
+    { name: footer?.services?.hourlyChauffeurs || "Hourly Chauffeurs", href: "#hourly" },
+    { name: footer?.services?.eventTransportation || "Event Transportation", href: "#events" },
+    { name: footer?.services?.cityTours || "City Tours and Excursions", href: "#tours" },
+    { name: footer?.services?.businessChauffeur || "Business Chauffeur Services", href: "#business" },
+    { name: footer?.services?.longDistance || "Long-Distance City to City", href: "#long-distance" },
   ];
 
   const footerLinks = [
-    { name: "Terms and Conditions", href: "#" },
-    { name: "Legal Warning", href: "#" },
-    { name: "Privacy Policy", href: "#" },
-    { name: "Cookies Policy", href: "#" },
+    { name: footer?.footerLinks?.termsConditions || "Terms and Conditions", href: "/terms-condition?section=terms" },
+    { name: footer?.footerLinks?.legalWarning || "Legal Warning", href: "/terms-condition?section=legal-warning" },
+    { name: footer?.footerLinks?.privacyPolicy || "Privacy Policy", href: "/terms-condition?section=privacy" },
+    { name: footer?.footerLinks?.cookiesPolicy || "Cookies Policy", href: "/terms-condition?section=cookies" },
   ];
 
   return (
@@ -43,7 +47,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Logo + Info */}
           <div className="space-y-5">
-            <a href="/" aria-label="Home" className="inline-flex items-center">
+            <Link href="/" aria-label="Home" className="inline-flex items-center">
               <Image
                 src="/logo.png"
                 alt="Company Logo"
@@ -52,26 +56,26 @@ export default function Footer() {
                 className="h-12 w-auto"
                 priority
               />
-            </a>
+            </Link>
 
             <div className="space-y-1 text-sm text-gray-300">
-              <p className="text-[#d2dde0]">Valencia—</p>
-              <p className="text-[#d2dde0]">Operating Hours: Mon–Sun, 24 Hours</p>
+              <p className="text-[#d2dde0]">{footer?.location || "Valencia—"}</p>
+              <p className="text-[#d2dde0]">{footer?.operatingHours || "Operating Hours: Mon–Sun, 24 Hours"}</p>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Quick Links</h3>
+            <h3 className="mb-4 text-lg font-semibold">{footer?.quickLinksTitle || "Quick Links"}</h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-sm text-gray-300 transition-colors hover:text-yellow-400"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -79,16 +83,16 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Services</h3>
+            <h3 className="mb-4 text-lg font-semibold">{footer?.servicesTitle || "Services"}</h3>
             <ul className="space-y-2">
               {services.map((service) => (
                 <li key={service.name}>
-                  <a
+                  <Link
                     href={service.href}
                     className="text-sm text-gray-300 transition-colors hover:text-yellow-400"
                   >
                     {service.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -97,7 +101,7 @@ export default function Footer() {
           {/* Payments + Contact + Social */}
           <div className="space-y-6">
             <div>
-              <h3 className="mb-4 text-lg font-semibold">Payment Accepted</h3>
+              <h3 className="mb-4 text-lg font-semibold">{footer?.paymentTitle || "Payment Accepted"}</h3>
               <div className="flex flex-wrap items-center gap-2">
                 <CardVisa />
                 <CardMastercard />
@@ -126,16 +130,16 @@ export default function Footer() {
 
             {/* Social */}
             <div className="flex gap-3">
-              <SocialSquare aria="Facebook" href="#">
+              <SocialSquare aria="Facebook" href="https://facebook.com">
                 <Facebook size={18} />
               </SocialSquare>
-              <SocialSquare aria="X" href="#">
+              <SocialSquare aria="X" href="https://twitter.com">
                 <XIcon size={18} />
               </SocialSquare>
-              <SocialSquare aria="Dribbble" href="#">
+              <SocialSquare aria="Dribbble" href="https://dribbble.com">
                 <Dribbble size={18} />
               </SocialSquare>
-              <SocialSquare aria="Instagram" href="#">
+              <SocialSquare aria="Instagram" href="https://instagram.com">
                 <Instagram size={18} />
               </SocialSquare>
             </div>
@@ -147,16 +151,16 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-4 py-4">
           <div className="flex flex-col items-center justify-between gap-4 text-sm text-gray-300 md:flex-row">
-            <p>© 2025. All rights reserved.</p>
+            <p>{footer?.copyright || "© 2025. All rights reserved."}</p>
             <div className="flex flex-wrap justify-center gap-6">
               {footerLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
                   href={link.href}
                   className="transition-colors hover:text-yellow-400"
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -180,6 +184,8 @@ function SocialSquare({
   return (
     <a
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label={aria}
       className="
         inline-flex h-10 w-10 items-center justify-center

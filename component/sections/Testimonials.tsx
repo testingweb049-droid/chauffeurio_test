@@ -20,7 +20,24 @@ type TBadge = { source: string; score: string; reviews: string };
 export default function Testimonials() {
   const { testimonials: t } = ClientSideStrings();
 
-  const allItems: TItem[] = (t?.items ?? []).map((i: TItem) => ({ ...i }));
+  // Dummy avatar URLs
+  const dummyAvatars = [
+    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face",
+    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=150&h=150&fit=crop&crop=face",
+    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face"
+  ];
+
+  // Add avatar URLs to items
+  const allItems: TItem[] = (t?.items ?? []).map((i: TItem, index: number) => ({ 
+    ...i, 
+    avatarUrl: dummyAvatars[index % dummyAvatars.length] // Cycle through dummy avatars
+  }));
+
   const badges: TBadge[] = (t?.badges ?? []).map((b: TBadge) => ({ ...b }));
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -85,6 +102,68 @@ export default function Testimonials() {
     return <span className="inline-block h-5 w-5 rounded-full bg-gray-800"> </span>;
   };
 
+  // Separated mapping functions
+  const renderDesktopTestimonials = () => (
+    <div className="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {allItems.map((item) => (
+        <TestimonialCard key={item.id} item={item} />
+      ))}
+    </div>
+  );
+
+  const renderMobileTestimonials = () => (
+    <div className="md:hidden -mx-4">
+      <div 
+        ref={scrollContainerRef}
+        className="overflow-x-auto overflow-y-hidden px-4 scrollbar-hide snap-x snap-mandatory"
+      >
+        <div className="flex gap-4 pb-2">
+          {allItems.map((item) => (
+            <div key={item.id} className="flex-shrink-0 w-[90vw] snap-start">
+              <TestimonialCard item={item} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Dots for mobile */}
+      {allItems.length > 1 && (
+        <div className="mt-6 flex items-center justify-center gap-2">
+          {allItems.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToIndex(i)}
+              className={`h-2 rounded-full transition-all ${
+                activeIndex === i ? "w-8 bg-gray-800" : "w-2 bg-gray-300 hover:bg-gray-400"
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  const renderBadges = () => (
+    <div className="hidden md:block">
+      <div className="flex flex-wrap gap-4">
+        {badges.map((b, i) => (
+          <div key={i} className="min-w-[160px] p-4 ring-1 ring-gray-200">
+            <div className="mb-1 flex items-center gap-2">
+              <BadgeIcon source={b.source} />
+              <span className="text-sm font-semibold text-gray-900">{b.source}</span>
+            </div>
+            <div className="mb-1 flex items-center gap-2">
+              <span className="text-xl font-bold text-gray-900">{b.score}</span>
+              <Stars />
+            </div>
+            <p className="text-xs text-gray-500">{b.reviews}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   const TestimonialCard = ({ item }: { item: TItem }) => (
     <article className="rounded-lg border bg-white p-6 transition-all duration-300 hover:shadow-lg">
       <div className="mb-4 flex items-start justify-between">
@@ -135,64 +214,12 @@ export default function Testimonials() {
             {t?.title}
           </h1>
           
-          <div className="hidden md:block">
-            <div className="flex flex-wrap gap-4">
-              {badges.map((b, i) => (
-                <div key={i} className="min-w-[160px] p-4 ring-1 ring-gray-200">
-                  <div className="mb-1 flex items-center gap-2">
-                    <BadgeIcon source={b.source} />
-                    <span className="text-sm font-semibold text-gray-900">{b.source}</span>
-                  </div>
-                  <div className="mb-1 flex items-center gap-2">
-                    <span className="text-xl font-bold text-gray-900">{b.score}</span>
-                    <Stars />
-                  </div>
-                  <p className="text-xs text-gray-500">{b.reviews}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          {renderBadges()}
         </div>
 
         <div className="relative">
-          {/* Mobile: Horizontal Scroll */}
-          <div className="md:hidden -mx-4">
-            <div 
-              ref={scrollContainerRef}
-              className="overflow-x-auto overflow-y-hidden px-4 scrollbar-hide snap-x snap-mandatory"
-            >
-              <div className="flex gap-4 pb-2">
-                {allItems.map((item) => (
-                  <div key={item.id} className="flex-shrink-0 w-[90vw] snap-start">
-                    <TestimonialCard item={item} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Dots for mobile */}
-            {allItems.length > 1 && (
-              <div className="mt-6 flex items-center justify-center gap-2">
-                {allItems.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => scrollToIndex(i)}
-                    className={`h-2 rounded-full transition-all ${
-                      activeIndex === i ? "w-8 bg-gray-800" : "w-2 bg-gray-300 hover:bg-gray-400"
-                    }`}
-                    aria-label={`Go to slide ${i + 1}`}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Desktop: Grid */}
-          <div className="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {allItems.map((item) => (
-              <TestimonialCard key={item.id} item={item} />
-            ))}
-          </div>
+          {renderMobileTestimonials()}
+          {renderDesktopTestimonials()}
         </div>
       </div>
 

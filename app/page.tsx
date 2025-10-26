@@ -1,10 +1,12 @@
 "use client";
 
 import ContentSection from "@/component/sections/ContentSection";
+import FleetClasses from "@/component/sections/FleetClasses";
 import FleetHome from "@/component/sections/FleetHome";
 import HelpSection from "@/component/sections/HelpSection";
 import HeroBottom from "@/component/sections/HeroBottom";
 import HeroSection from "@/component/sections/HeroSection";
+import HeroSectionUpdated from "@/component/sections/HeroSectionUpdated";
 import ServiceHomeSection from "@/component/sections/ServiceHomeSection";
 import Testimonials from "@/component/sections/Testimonials";
 import TopDestination from "@/component/sections/TopDestination";
@@ -25,7 +27,8 @@ export default function Home() {
 
   return (
     <>
-      <HeroSection />
+      {/* <HeroSection /> */}
+      <HeroSectionUpdated/>
       <HeroBottom />
 
     <ServiceHomeSection
@@ -49,6 +52,7 @@ export default function Home() {
   ctaHref={home?.fleet?.ctaHref ?? ""}
   items={[...(home?.fleet?.items ?? [])]} // ← force mutable copy
 />
+{/* <FleetClasses/> */}
 
       <ContentSection sections={(home?.contentSections ?? []).map((s) => ({
         title: s.title,

@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1747219532852,
+      "tag": "0000_numerous_prima",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1747221234680,
+      "tag": "0001_bouncy_juggernaut",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1748086964505,
+      "tag": "0002_misty_eternals",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1760946805787,
+      "tag": "0003_cultured_the_liberteens",
+      "breakpoints": true
+    }
+  ]
+}

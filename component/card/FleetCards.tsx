@@ -1,11 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Users, Briefcase, Zap } from "lucide-react";
+import { Users, Briefcase, Zap, Car, Euro } from "lucide-react";
+
+type Vehicle = {
+  name: string;
+  imageUrl: string;
+};
+
+type Pricing = {
+  perKm: number;
+  hourly: number;
+  airport: number;
+};
 
 type FleetCardProps = {
   category: string;
-  model: string;
+  vehicles: Vehicle[];
   imageUrl: string;
   imageAlt?: string;
   passengers?: number;
@@ -13,14 +24,15 @@ type FleetCardProps = {
   hasChargingPort?: boolean;
   viewDetailsLabel?: string;
   bookNowLabel?: string;
-  viewDetailsHref: string;  // e.g. "/fleet/skoda-octavia"
-  bookNowHref: string;      // e.g. "/book?car=skoda-octavia"
+  viewDetailsHref: string;
+  bookNowHref: string;
+  pricing?: Pricing;
   className?: string;
 };
 
 export default function FleetCards({
   category,
-  model,
+  vehicles,
   imageUrl,
   imageAlt = "Vehicle",
   passengers,
@@ -30,50 +42,111 @@ export default function FleetCards({
   bookNowLabel = "BOOK NOW",
   viewDetailsHref,
   bookNowHref,
+  pricing,
   className = "",
 }: FleetCardProps) {
   return (
-    <article className={`w-full max-w-sm  border border-gray-200  overflow-hidden bg-white ${className}`}>
-      <div className="bg-white flex items-center justify-center p-6 border-t-[8px] border-secondary">
-        <div className="relative w-full" style={{ aspectRatio: "4/2" }}>
-          <Image src={imageUrl} alt={imageAlt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 384px" />
+    <article className={`w-full border border-gray-200 overflow-hidden bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 ${className}`}>
+      {/* Category Header */}
+      <div className="bg-primary text-white py-4 px-6 text-center">
+        <h6 className="text-xl font-bold uppercase tracking-wide">{category}</h6>
+       
+      </div>
+
+      {/* Main Vehicle Image */}
+      <div className="bg-white flex items-center justify-center p-6">
+        <div className="relative w-full h-48">
+          <Image 
+            src={imageUrl} 
+            alt={imageAlt || `${category} vehicle`} 
+            fill 
+            className="object-contain" 
+            sizes="(max-width: 640px) 100vw, 384px"
+            priority={false}
+          />
         </div>
       </div>
 
-      <div className="bg-[#0A2D3A] text-center py-4 px-4">
-        <h6 className="text-lg font-semibold text-white">{category}</h6>
-        <h6 className="text-white text-[20px]  mt-1">{model}</h6>
+      {/* Vehicle Models List */}
+      <div className="px-6 py-4 bg-gray-50 border-t border-b border-gray-200">
+        <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+          <Car className="h-4 w-4" />
+          Available Models:
+        </h4>
+        <div className="space-y-2">
+          {vehicles.map((vehicle, index) => (
+            <div key={index} className="flex items-center justify-between text-sm">
+              <span className="text-gray-600">{vehicle.name}</span>
+              <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded">
+                Available
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="px-5 py-8 space-y-3">
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      {/* Features Section */}
+      <div className="px-6 py-4 space-y-3">
+        <div className="grid grid-cols-2 gap-3">
           {typeof passengers === "number" && (
             <div className="flex items-center gap-2 text-gray-700">
-              <Users className="h-4 w-4 shrink-0" />
-              <p className="text-sm">{passengers} Passengers</p>
-            </div>
-          )}
-          {hasChargingPort && (
-            <div className="flex items-center gap-2 text-gray-700">
-              <Zap className="h-4 w-4 shrink-0" />
-              <p className="text-sm">Charging port</p>
+              <div className="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
+                <Users className="h-3 w-3 text-primary" />
+              </div>
+              <span className="text-xs font-medium">{passengers} Passengers</span>
             </div>
           )}
           {typeof luggage === "number" && (
             <div className="flex items-center gap-2 text-gray-700">
-              <Briefcase className="h-4 w-4 shrink-0" />
-              <p className="text-sm">{luggage} Bags</p>
+              <div className="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
+                <Briefcase className="h-3 w-3 text-primary" />
+              </div>
+              <span className="text-xs font-medium">{luggage} Luggage</span>
+            </div>
+          )}
+          {hasChargingPort && (
+            <div className="flex items-center gap-2 text-gray-700">
+              <div className="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
+                <Zap className="h-3 w-3 text-primary" />
+              </div>
+              <span className="text-xs font-medium">Charging Port</span>
             </div>
           )}
         </div>
       </div>
 
-      <div className="px-5 pb-5">
-        <div className="flex items-center">
-          <Link href={viewDetailsHref} className="flex-1 rounded-l-full bg-[#DBDBDB] text-primary text-sm font-medium h-11 px-4 flex items-center justify-center hover:bg-gray-200 transition">
-            {viewDetailsLabel}
-          </Link>
-          <Link href={bookNowHref} className="flex-1 rounded-r-full bg-primary text-white text-sm font-semibold h-11 px-4 flex items-center justify-center hover:opacity-90 transition">
+      {/* Pricing Information */}
+      {pricing && (
+        <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
+          <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+            <Euro className="h-4 w-4" />
+            Starting From:
+          </h4>
+          <div className="grid grid-cols-3 gap-2 text-xs">
+            <div className="text-center">
+              <div className="font-semibold text-primary">€{pricing.perKm}</div>
+              <div className="text-gray-500">per km</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold text-primary">€{pricing.hourly}</div>
+              <div className="text-gray-500">per hour</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold text-primary">€{pricing.airport}</div>
+              <div className="text-gray-500">airport</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Action Buttons */}
+      <div className="px-6 py-4">
+        <div className="flex flex-col gap-2">
+          
+          <Link 
+            href="/" 
+            className="w-full bg-primary text-white text-sm font-semibold h-10 px-4 flex items-center justify-center hover:bg-primary/90 transition-colors rounded-lg"
+          >
             {bookNowLabel}
           </Link>
         </div>

@@ -108,7 +108,13 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const bgClass = isScrolled ? "bg-primary" : "bg-transparent"; // Change to `bg-primary` when scrolled
+  // Define routes that should always have primary background
+  const routesWithPrimaryBg = ['/book-ride', '/terms-condition'];
+  
+  // Set background class: primary for specific routes, otherwise based on scroll
+  const bgClass = routesWithPrimaryBg.includes(pathname || '') 
+    ? "bg-primary" 
+    : (isScrolled ? "bg-primary" : "bg-transparent");
 
   const navItems: NavItem[] = [
     { id: "home", label: header?.home || "Home", href: "/" },

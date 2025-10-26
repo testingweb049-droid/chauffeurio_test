@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 export type ServiceItem = {
   href: string;
@@ -28,6 +28,8 @@ export default function ServiceHomeSection({
   items,
   className = '',
 }: ServiceHomeSectionProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
     <section
       className={`relative bg-primary text-white py-8 md:py-20 px-4 overflow-hidden ${className}`}
@@ -50,8 +52,22 @@ export default function ServiceHomeSection({
               <p className="mt-4 leading-relaxed text-[#B2AEA8]">{introLeft}</p>
             ) : null}
           </div>
+          
+          {/* Right Intro with Read More/Less */}
           {introRight ? (
-            <p className="leading-relaxed text-[#B2AEA8]">{introRight}</p>
+            <div className="relative">
+              <p className={`leading-relaxed text-[#B2AEA8] md:block ${isExpanded ? '' : 'line-clamp-3'}`}>
+                {introRight}
+              </p>
+              
+              {/* Read More/Less Button - Mobile Only */}
+              <button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="mt-3 text-secondary text-sm font-semibold hover:text-yellow-400 transition-colors md:hidden"
+              >
+                {isExpanded ? 'Read Less' : 'Read More'}
+              </button>
+            </div>
           ) : (
             <div />
           )}
@@ -79,11 +95,13 @@ export default function ServiceHomeSection({
                         className="object-cover"
                         priority={false}
                       />
+                      {/* Text overlay on image */}
+                      <div className="absolute inset-0 bg-black/40 flex items-end p-4">
+                        <h3 className="text-lg font-bold uppercase tracking-wide text-white">
+                          {svc.title}
+                        </h3>
+                      </div>
                     </div>
-                    
-                    <h3 className="mt-4 text-lg font-bold uppercase tracking-wide">
-                      {svc.title}
-                    </h3>
                   </Link>
                 );
               })}
@@ -128,6 +146,13 @@ export default function ServiceHomeSection({
         .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
+        }
+        
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
       `}</style>
     </section>

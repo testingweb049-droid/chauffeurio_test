@@ -70,7 +70,7 @@ export default function TopDestination({
             <h1 className="max-w-4xl text-4xl font-extrabold leading-tight md:text-5xl">{heading}</h1>
           </div>
 
-          {ctaLabel ? (
+          {/* {ctaLabel ? (
             <button
               type="button"
               onClick={onCtaClick}
@@ -80,7 +80,7 @@ export default function TopDestination({
               <span className="text-sm font-medium">{ctaLabel}</span>
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </button>
-          ) : null}
+          ) : null} */}
         </div>
 
         {/* --- Mobile: horizontal scroll --- */}
@@ -126,7 +126,7 @@ export default function TopDestination({
           )}
 
           {/* Mobile CTA */}
-          {ctaLabel ? (
+          {/* {ctaLabel ? (
             <div className="mt-8 flex justify-center">
               <button
                 type="button"
@@ -138,7 +138,7 @@ export default function TopDestination({
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
               </button>
             </div>
-          ) : null}
+          ) : null} */}
         </div>
 
         {/* --- Desktop grid (md+) --- */}
@@ -161,7 +161,7 @@ export default function TopDestination({
         </div>
 
         {/* Desktop CTA */}
-        {ctaLabel ? (
+        {/* {ctaLabel ? (
           <div className="mt-8 hidden justify-center md:flex">
             <button
               type="button"
@@ -173,7 +173,7 @@ export default function TopDestination({
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </button>
           </div>
-        ) : null}
+        ) : null} */}
       </div>
 
       <style jsx global>{`

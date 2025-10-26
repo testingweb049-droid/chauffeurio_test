@@ -1,4 +1,7 @@
+'use client';
+
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface ContentSectionProps {
   sections: {
@@ -10,6 +13,16 @@ interface ContentSectionProps {
 }
 
 export default function ContentSection({ sections }: ContentSectionProps) {
+  const [expandedSections, setExpandedSections] = useState<number[]>([]);
+
+  const toggleSection = (index: number) => {
+    setExpandedSections(prev => 
+      prev.includes(index) 
+        ? prev.filter(i => i !== index)
+        : [...prev, index]
+    );
+  };
+
   return (
     <section className="bg-gray-50 md:py-16 py-4 px-4">
       <div className="max-w-7xl mx-auto md:space-y-12 space-y-6">
@@ -25,9 +38,25 @@ export default function ContentSection({ sections }: ContentSectionProps) {
               <h1 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
                 {section.title}
               </h1>
-              <p className="text-[#5F5D5A] leading-relaxed text-lg">
-                {section.description}
-              </p>
+              <div className="relative">
+                {/* Mobile: With Read More/Less */}
+                <div className="md:hidden">
+                  <p className={`text-[#5F5D5A] leading-relaxed text-lg ${expandedSections.includes(index) ? '' : 'line-clamp-3'}`}>
+                    {section.description}
+                  </p>
+                  <button
+                    onClick={() => toggleSection(index)}
+                    className="mt-3 text-secondary text-sm font-semibold hover:text-yellow-400 transition-colors"
+                  >
+                    {expandedSections.includes(index) ? 'Read Less' : 'Read More'}
+                  </button>
+                </div>
+                
+                {/* Desktop: Full description always visible */}
+                <p className="hidden md:block text-[#5F5D5A] leading-relaxed text-lg">
+                  {section.description}
+                </p>
+              </div>
             </div>
 
             {/* Image */}
@@ -47,6 +76,15 @@ export default function ContentSection({ sections }: ContentSectionProps) {
           </div>
         ))}
       </div>
+
+      <style jsx global>{`
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </section>
   );
 }

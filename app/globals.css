@@ -106,3 +106,13 @@ p {
     font-size: 14px;
   }
 }
+
+
+/* Add this to your global CSS for scrollbar hiding */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
