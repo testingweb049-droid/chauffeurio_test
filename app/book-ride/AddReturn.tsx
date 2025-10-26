@@ -30,7 +30,7 @@ export default function AddReturn() {
         isReturn ? "bg-green-100" : "bg-[#e5ebf7]"
       }`}
     >
-      <div className="text-xs px-2 py-1 bg-brand text-black absolute right-3 -top-1 rounded-md">
+      <div className="text-xs px-2 py-1 bg-primary text-white absolute right-3 -top-1 rounded-md">
         10% Off
       </div>
 

@@ -1,9 +1,22 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function TermsAndCondition() {
+// Loading component
+function Loading() {
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+        <p className="mt-4 text-gray-600">Loading legal information...</p>
+      </div>
+    </div>
+  );
+}
+
+// Main content component that uses useSearchParams
+function TermsAndConditionContent() {
   const searchParams = useSearchParams();
   const section = searchParams.get("section");
 
@@ -376,5 +389,14 @@ export default function TermsAndCondition() {
         </section>
       </div>
     </div>
+  );
+}
+
+// Main page component with Suspense boundary
+export default function TermsAndCondition() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <TermsAndConditionContent />
+    </Suspense>
   );
 }

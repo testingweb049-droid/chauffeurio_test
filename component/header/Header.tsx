@@ -213,7 +213,7 @@ export default function Header() {
                     <AnimatePresence>
                       {activeDropdown === item.id && (
                         <motion.div
-                          className="absolute top-full left-1/2 -translate-x-1/2 bg-white shadow-lg rounded-md mt-2 p-2 min-w-[320px] z-10 text-secondary"
+                          className="absolute top-full left-1/2 -translate-x-1/2 bg-white shadow-lg rounded-md mt-2 p-2 min-w-[320px] z-10 text-primary"
                           variants={dropdownVariants}
                           initial="initial"
                           animate="animate"

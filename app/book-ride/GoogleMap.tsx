@@ -127,7 +127,7 @@ export default function GoogleMapsRoute() {
       <div className="py-1 flex items-center gap-3 px-2 ">
       <div className="py-1 flex items-center gap-1 ">
        <Route color={brandColor} size={15}/>
-       <div>{distance.value ?? 0 } Mile</div>
+       <div>{distance.value ?? 0 } Km</div>
       </div>
       <div className="py-1 flex items-center gap-1 ">
        <Timer color={brandColor} size={15}/>

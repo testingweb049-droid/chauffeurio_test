@@ -8,7 +8,7 @@ function Step4() {
     const { formData } = useFormStore()
     const basePrice = Number(formData.price.value ?? 0)
     const returnPrice = formData.isReturn ?  basePrice - (basePrice / 10) : 0
-    const totalPrice = (Number(formData.price.value) + (formData.isMeetGreet.value ? 15 : 0) + (formData.isFlightTrack.value ? 7 : 0) + returnPrice).toFixed(2)
+    const totalPrice = (Number(formData.price.value) + (formData.isMeetGreet.value ? 15 : 0) + (formData.isFlightTrack.value ? 7 : 0) + returnPrice).toFixed(1)
 
   return (
     <div className='flex flex-col gap-5 w-full'>
@@ -18,19 +18,19 @@ function Step4() {
                 <div className='flex flex-col gap-2 w-full'>
                    <div className='flex items-center justify-between gap-2'>
                       <div className='text-sm text-gray-500'>Economy Sedan Transfer</div>
-                      <div className='text-sm text-gray-500'>£ {formData.price.value} </div>
+                      <div className='text-sm text-gray-500'>£ {Number(formData.price.value).toFixed(1)} </div>
                    </div>
                    {formData.isMeetGreet.value && <div className='flex items-center justify-between gap-2'>
                       <div className='text-sm text-gray-500'>Meet & Greet</div>
-                      <div className='text-sm text-gray-500'>£ 15</div>
+                      <div className='text-sm text-gray-500'>£ 15.0</div>
                    </div>}
                    {formData.isFlightTrack.value && <div className='flex items-center justify-between gap-2'>
                       <div className='text-sm text-gray-500'>Flight Track</div>
-                      <div className='text-sm text-gray-500'>£ 7</div>
+                      <div className='text-sm text-gray-500'>£ 7.0</div>
                    </div>}
                    {returnPrice > 0 && <div className='flex items-center justify-between gap-2'>
                       <div className='text-sm text-gray-500'>Return Transfer</div>
-                      <div className='text-sm text-gray-500'>£ {returnPrice}</div>
+                      <div className='text-sm text-gray-500'>£ {returnPrice.toFixed(1)}</div>
                    </div>}
                   
                 </div>

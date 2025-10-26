@@ -25,8 +25,18 @@ export default function FleetClasses() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (!fleets || fleets.length === 0) {
-    // Helpful message for debugging — can remove in production
+  // Flatten the fleet data to get individual vehicles
+  const allVehicles = fleets.flatMap(category => 
+    category.vehicles.map(vehicle => ({
+      model: vehicle.name, // Map name to model
+      imageUrl: vehicle.imageUrl,
+      passengers: category.passengers,
+      luggage: category.luggage,
+      hasChargingPort: category.hasChargingPort
+    }))
+  );
+
+  if (!allVehicles || allVehicles.length === 0) {
     return (
       <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
@@ -41,14 +51,14 @@ export default function FleetClasses() {
   const getVisibleFleets = () => {
     const visible = [];
     for (let i = 0; i < itemsToShow; i++) {
-      const index = (startIndex + i) % fleets.length;
-      visible.push(fleets[index]);
+      const index = (startIndex + i) % allVehicles.length;
+      visible.push(allVehicles[index]);
     }
     return visible;
   };
 
-  const handlePrev = () => setStartIndex((p) => (p === 0 ? fleets.length - 1 : p - 1));
-  const handleNext = () => setStartIndex((p) => (p === fleets.length - 1 ? 0 : p + 1));
+  const handlePrev = () => setStartIndex((p) => (p === 0 ? allVehicles.length - 1 : p - 1));
+  const handleNext = () => setStartIndex((p) => (p === allVehicles.length - 1 ? 0 : p + 1));
   const visible = getVisibleFleets();
 
   return (

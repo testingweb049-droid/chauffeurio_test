@@ -43,7 +43,7 @@ export const sendBookingEmail = async (values: any) => {
 
     console.log("Emails sent successfully");
   } catch (error) {
-    console.error("Error sending emails:", error.message);
+    console.error("Error sending emails:");
     throw error;
   }
 };
@@ -101,7 +101,7 @@ export const contactEmail = async (values: any) => {
 
     console.log("Emails sent successfully");
   } catch (error) {
-    console.error("Error sending emails:", error.message);
+    console.error("Error sending emails:");
     throw error;
   }
 };
