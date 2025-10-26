@@ -201,18 +201,18 @@ function CarList() {
               <h6 className="text-base md:text-xl font-semibold text-gray-900 uppercase">
                 {categoryData.displayName}
               </h6>
-              <p className="text-gray-600 text-xs md:text-sm">
-                {vehicleNames} or similar
-              </p>
+              <h6 className="text-gray-600 text-xs md:text-sm">
+                {vehicleNames}
+              </h6>
 
               <div className="flex items-center gap-4 text-gray-700 text-sm mt-2">
                 <div className="flex items-center gap-1">
                   <GoPeople size={16} color={brandColor} />
-                  <span>{categoryData.passengers} passengers</span>
+                  <span>{categoryData.passengers}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <PiSuitcase size={16} color={brandColor} />
-                  <span>{categoryData.luggage} luggage</span>
+                  <span>{categoryData.luggage}</span>
                 </div>
               </div>
 

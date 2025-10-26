@@ -198,13 +198,13 @@ function Step3() {
                     </div>
                 </div>
 
-                <SelectableCheckbox fieldName='isFlightTrack' label='Flight Track' subLabel='€ 7'  />
-                <SelectableCheckbox fieldName='isMeetGreet' label='Meet & Greet' subLabel='€ 15'  />
+                {/* <SelectableCheckbox fieldName='isFlightTrack' label='Flight Track' subLabel='€ 7'  />
+                <SelectableCheckbox fieldName='isMeetGreet' label='Meet & Greet' subLabel='€ 15'  /> */}
             </div>
             
             {
                 formLoading ? <LoadingButton/> :
-                <div onClick={()=>{changeStep(true,3);}} className='p-2 rounded-lg border border-gray-200 w-full text-center text-black font-bold cursor-pointer bg-brand'>
+                <div onClick={()=>{changeStep(true,3);}} className='p-2 rounded-lg border border-gray-200 w-full text-center text-white font-bold cursor-pointer bg-primary'>
                     Continue 
                 </div>
             }

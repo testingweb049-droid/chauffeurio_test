@@ -31,7 +31,7 @@ const HeroSectionUpdated: React.FC = () => {
               height={200}
               width={200}
               alt="10 years"
-              className="w-16 lg:w-40 object-contain"
+              className="w-16 lg:w-40 object-contain hidden md:block"
             />
 
             <h6 className="uppercase tracking-[0.2em] font-bold text-[#FFFBF6] text-xl ">

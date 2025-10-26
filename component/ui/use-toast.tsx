@@ -2,8 +2,8 @@
 
 // Adapted from https://github.com/shadcn-ui/ui/blob/main/apps/www/registry/default/ui/use-toast.ts
 import * as React from "react"
+import { ToastActionElement, ToastProps } from "./toast"
 
-import type { ToastActionElement, ToastProps } from "@/components/ui/toast"
 
 const TOAST_LIMIT = 5
 const TOAST_REMOVE_DELAY = 1000000

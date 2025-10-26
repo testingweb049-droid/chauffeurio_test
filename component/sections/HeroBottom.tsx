@@ -1,63 +1,55 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { Check, DollarSign, Phone } from "lucide-react";
-import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
 import { useReducedMotion } from "framer-motion";
+import Image from "next/image";
 
-type Feature = { icon: React.ReactNode; lines: string[] };
+import one from "@/assets/new-form/1.png"
+import two from "@/assets/new-form/2.png"
+import three from "@/assets/new-form/3.png"
+import four from "@/assets/new-form/4.png"
+import five from "@/assets/new-form/5.png"
+
+type Feature = { 
+  image: any; 
+  text: string;
+};
 
 interface HeroBottomProps {
-  /** If provided, overrides translation content */
+  /** If provided, overrides the static content */
   items?: Feature[];
 }
 
-const makeIcon = (i: number) => {
-  const common =
-    "inline-flex h-8 w-8 md:h-12 md:w-12 items-center justify-center rounded-full border-2 border-gray-700 shrink-0";
-  if (i === 1)
-    return (
-      <span className={common}>
-        <DollarSign className="h-4 w-4 md:h-6 md:w-6 text-gray-700" />
-      </span>
-    );
-  if (i === 2)
-    return (
-      <span className={common}>
-        <Phone className="h-4 w-4 md:h-6 md:w-6 text-gray-700" />
-      </span>
-    );
-  return (
-    <span className={common}>
-      <Check className="h-4 w-4 md:h-6 md:w-6 text-gray-700" />
-    </span>
-  );
-};
-
-const fallbackItems: Feature[] = [
-  { icon: makeIcon(0), lines: ["Free cancelation", "Licensed drivers", "Meet & greet"] },
-  { icon: makeIcon(1), lines: ["Pay online or in cash", "Fixed prices", "Guaranteed savings"] },
-  { icon: makeIcon(2), lines: ["24 hour customer service", "English and Spanish", "365 days of the year"] },
+const list: Feature[] = [
+  {
+    image: one,
+    text: 'Competitive Rates'
+  },
+  {
+    image: two,
+    text: 'Online Payment'
+  },
+  {
+    image: three,
+    text: 'Everywhere in England'
+  },
+  {
+    image: four,
+    text: 'Trustworthy'
+  },
+  {
+    image: five,
+    text: 'Meet and Greet'
+  },
 ];
 
 export default function HeroBottom({ items }: HeroBottomProps) {
-  const { heroBottom } = ClientSideStrings();
   const prefersReducedMotion = useReducedMotion();
 
-  // Build from i18n and clone readonly → mutable
-  const i18nItems: Feature[] | null = useMemo(() => {
-    if (!heroBottom?.items) return null;
-    return heroBottom.items.map(
-      (it: { lines: readonly string[] }, idx: number): Feature => ({
-        icon: makeIcon(idx),
-        lines: [...it.lines],
-      })
-    );
-  }, [heroBottom?.items]);
-
+  // Use provided items or fall back to static list
   const baseItems = useMemo<Feature[]>(
-    () => items ?? i18nItems ?? fallbackItems,
-    [items, i18nItems]
+    () => items || list,
+    [items]
   );
 
   // Duplicate for seamless loop: [A,B,C, A,B,C]
@@ -78,26 +70,32 @@ export default function HeroBottom({ items }: HeroBottomProps) {
               }}
               aria-hidden="true"
             >
-              {marqueeItems.map((f, i) => (
-                <FeatureCard key={`m-${i}`} feature={f} />
+              {marqueeItems.map((item, i) => (
+                <FeatureCard key={`m-${i}`} feature={item} />
               ))}
             </div>
           </div>
 
           {/* Desktop/Tablet: static grid */}
-          <div className="hidden md:grid grid-cols-3 gap-3 md:gap-8">
-            {baseItems.map((f, i) => (
+          <div className="hidden md:grid grid-cols-5 gap-3 md:gap-8">
+            {baseItems.map((item, i) => (
               <div
                 key={i}
-                className={`flex items-start gap-2 md:gap-4 md:pl-6 ${i > 0 ? "md:border-l md:border-gray-200" : ""}`}
+                className={`flex items-center text-center gap-2 md:gap-4 ${i > 0 ? "md:border-l md:border-gray-200" : ""}`}
               >
-                {f.icon}
+                <div className="flex items-center justify-center w-12 h-12 md:w-16 md:h-16">
+                  <Image 
+                    src={item.image} 
+                    alt={item.text} 
+                    className="w-full h-full object-contain"
+                    width={64}
+                    height={64}
+                  />
+                </div>
                 <div className="space-y-0.5">
-                  {f.lines.map((line, idx) => (
-                    <h6 key={idx} className="text-[7px] leading-tight text-gray-700 md:text-sm">
-                      {line}
-                    </h6>
-                  ))}
+                  <h6 className="text-xs md:text-sm font-medium text-gray-700 leading-tight">
+                    {item.text}
+                  </h6>
                 </div>
               </div>
             ))}
@@ -123,14 +121,20 @@ export default function HeroBottom({ items }: HeroBottomProps) {
 /** A single marquee "card" that won't shrink and keeps consistent spacing */
 function FeatureCard({ feature }: { feature: Feature }) {
   return (
-    <div className="flex items-start gap-2  py-2 shrink-0 min-w-[240px]">
-      {feature.icon}
+    <div className="flex items-center text-center gap-2 py-2 shrink-0">
+      <div className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12">
+        <Image 
+          src={feature.image} 
+          alt={feature.text} 
+          className="w-full h-full object-contain"
+          width={48}
+          height={48}
+        />
+      </div>
       <div className="space-y-0.5">
-        {feature.lines.map((line, idx) => (
-          <h6 key={idx} className="text-[11px] leading-tight text-gray-700">
-            {line}
-          </h6>
-        ))}
+        <h6 className="text-xs font-medium text-gray-700 leading-tight">
+          {feature.text}
+        </h6>
       </div>
     </div>
   );

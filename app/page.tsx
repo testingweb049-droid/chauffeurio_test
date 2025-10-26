@@ -12,6 +12,7 @@ import Testimonials from "@/component/sections/Testimonials";
 import TopDestination from "@/component/sections/TopDestination";
 // import Vission from "@/component/sections/VisionSection";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
+import InfiniteSlide from "./book-ride/InfiniteSlide";
 
 export default function Home() {
   const { home } = ClientSideStrings(); // ← pull translations
@@ -30,6 +31,7 @@ export default function Home() {
       {/* <HeroSection /> */}
       <HeroSectionUpdated/>
       <HeroBottom />
+      {/* <InfiniteSlide/> */}
 
     <ServiceHomeSection
   eyebrow={home?.serviceSection?.eyebrow ?? ""}

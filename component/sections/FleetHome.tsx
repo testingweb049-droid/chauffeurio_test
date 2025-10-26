@@ -2,38 +2,148 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ReactNode, useRef, useState, useEffect } from 'react';
+import { ReactNode, useRef, useState, useEffect, useCallback, memo } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 export type FleetCard = {
-  /** Optional link for the card */
   href?: string;
-  /** Main title, e.g. "Economy" */
   title: string | ReactNode;
-  /** Small line under the title, e.g. model list */
   subtitle?: string | ReactNode;
-  /** Car image (public path or absolute URL) */
   image: string;
-  /** Accessibility alt text; falls back to title if omitted */
   alt?: string;
 };
 
 interface FleetHomeProps {
-  /** Eyebrow label (e.g. "Our Fleets") */
   eyebrow?: string | ReactNode;
-  /** Big heading */
   heading: string | ReactNode;
-  /** Cards data */
   items: FleetCard[];
-  /** Optional "View More" text (hidden if empty) */
   ctaLabel?: string;
-  /** Either pass a URL… */
   ctaHref?: string;
-  /** …or a click handler */
   onCtaClick?: () => void;
-  /** Extra class on the root section */
   className?: string;
 }
+
+// Memoized CTA Component
+const CtaButton = memo(({ 
+  label, 
+  href, 
+  onClick, 
+  isMobile = false 
+}: { 
+  label: string; 
+  href?: string; 
+  onClick?: () => void; 
+  isMobile?: boolean;
+}) => {
+  const baseClasses = "group inline-flex items-center gap-1 transition-colors";
+  const desktopClasses = "hidden md:inline-flex text-white/90 hover:text-white";
+  const mobileClasses = "text-black hover:text-primary";
+  const classes = `${baseClasses} ${isMobile ? mobileClasses : desktopClasses}`;
+
+  const content = (
+    <>
+      <span className="text-sm font-medium">{label}</span>
+      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className={classes}>
+        {content}
+      </Link>
+    );
+  }
+
+  if (onClick) {
+    return (
+      <button onClick={onClick} className={classes} type="button">
+        {content}
+      </button>
+    );
+  }
+
+  return null;
+});
+
+CtaButton.displayName = 'CtaButton';
+
+// Memoized Card Component
+const FleetCardComponent = memo(({ card }: { card: FleetCard }) => {
+  const alt = card.alt || (typeof card.title === 'string' ? card.title : 'Fleet');
+  
+  const cardContent = (
+    <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+      <div className="relative h-72 w-full overflow-hidden bg-white">
+        <Image
+          src={card.image}
+          alt={alt}
+          fill
+          sizes="(max-width:768px) 85vw, (max-width:1024px) 50vw, 33vw"
+          className="object-contain p-6 transition-transform duration-300 group-hover:scale-105"
+          priority={false}
+        />
+      </div>
+      <div className="p-4">
+        <h3 className="text-[17px] font-semibold transition-colors group-hover:text-primary">
+          {card.title}
+        </h3>
+        {card.subtitle && (
+          <p className="mt-1 text-[11px] uppercase tracking-wide text-gray-600">
+            {card.subtitle}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+
+  if (card.href) {
+    return (
+      <Link
+        href={card.href}
+        className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 rounded-xl"
+      >
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return <div className="group">{cardContent}</div>;
+});
+
+FleetCardComponent.displayName = 'FleetCard';
+
+// Memoized Pagination Dots
+const PaginationDots = memo(({ 
+  count, 
+  activeIndex, 
+  onDotClick 
+}: { 
+  count: number; 
+  activeIndex: number; 
+  onDotClick: (index: number) => void;
+}) => {
+  if (count <= 1) return null;
+
+  return (
+    <div className="mt-6 flex items-center justify-center gap-2">
+      {Array.from({ length: count }).map((_, i) => (
+        <button
+          key={i}
+          onClick={() => onDotClick(i)}
+          aria-label={`Go to fleet slide ${i + 1}`}
+          aria-current={activeIndex === i ? 'true' : 'false'}
+          className={`h-2 rounded-full transition-all ${
+            activeIndex === i ? 'w-6 bg-black' : 'w-2 bg-gray-400'
+          }`}
+          type="button"
+        />
+      ))}
+    </div>
+  );
+});
+
+PaginationDots.displayName = 'PaginationDots';
 
 export default function FleetHome({
   eyebrow,
@@ -47,22 +157,31 @@ export default function FleetHome({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // Optimized scroll handler with debouncing
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
+    let timeoutId: NodeJS.Timeout;
+
     const handleScroll = () => {
-      const scrollLeft = container.scrollLeft;
-      const cardWidth = container.offsetWidth * 0.85; // 85vw per card
-      const index = Math.round(scrollLeft / cardWidth);
-      setActiveIndex(index);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        const scrollLeft = container.scrollLeft;
+        const cardWidth = container.offsetWidth * 0.85;
+        const index = Math.round(scrollLeft / cardWidth);
+        setActiveIndex(index);
+      }, 50);
     };
 
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
-  const scrollToIndex = (index: number) => {
+  const scrollToIndex = useCallback((index: number) => {
     const container = scrollContainerRef.current;
     if (!container) return;
     
@@ -71,151 +190,76 @@ export default function FleetHome({
       left: cardWidth * index,
       behavior: 'smooth'
     });
-  };
+  }, []);
 
-  const Cta = () =>
-    ctaLabel ? (
-      ctaHref ? (
-        <Link
-          href={ctaHref}
-          className="group hidden md:inline-flex items-center gap-1 text-white/90 hover:text-white transition-colors"
-        >
-          <span className="text-sm font-medium">{ctaLabel}</span>
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </Link>
-      ) : onCtaClick ? (
-        <button
-          onClick={onCtaClick}
-          className="group hidden md:inline-flex items-center gap-1 text-white/90 hover:text-white transition-colors"
-          type="button"
-        >
-          <span className="text-sm font-medium">{ctaLabel}</span>
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </button>
-      ) : null
-    ) : null;
-
-  const Card = ({ card }: { card: FleetCard }) => {
-    const alt =
-      card.alt || (typeof card.title === 'string' ? card.title : 'Fleet');
-    const body = (
-      <>
-        <div className="relative h-72 w-full overflow-hidden bg-white">
-          <Image
-            src={card.image}
-            alt={alt}
-            fill
-            sizes="(max-width:768px) 85vw, (max-width:1024px) 50vw, 33vw"
-            className="object-contain p-6"
-            priority={false}
-          />
-        </div>
-        <h3 className="mt-3 text-[17px] font-semibold">{card.title}</h3>
-        {card.subtitle ? (
-          <p className="mt-1 text-[11px] uppercase tracking-wide text-white/70">
-            {card.subtitle}
-          </p>
-        ) : null}
-      </>
-    );
-
-    return card.href ? (
-      <Link
-        href={card.href}
-        className="group block rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400"
-      >
-        {body}
-      </Link>
-    ) : (
-      <div className="block">{body}</div>
-    );
-  };
+  const showCta = Boolean(ctaLabel && (ctaHref || onCtaClick));
 
   return (
     <section
-      className={`relative bg-primary text-white py-8 md:py-18 px-4 overflow-hidden ${className}`}
+      className={`relative bg-white text-black py-8 md:py-18 px-4 overflow-hidden ${className}`}
     >
-      {/* soft corner glows */}
-      <div className="pointer-events-none absolute -top-10 -right-10 h-[28rem] w-[28rem] rounded-full bg-gradient-to-bl from-white/15 to-transparent blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-10 -left-10 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr from-white/15 to-transparent blur-3xl" />
+      {/* Background Glows */}
+      <div className="pointer-events-none absolute -top-10 -right-10 h-[28rem] w-[28rem] rounded-full bg-gradient-to-bl from-gray-100/50 to-transparent blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-10 -left-10 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr from-gray-100/50 to-transparent blur-3xl" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Header */}
-        <div className="mb-8 flex items-start justify-between">
-          <div>
-            {eyebrow ? (
-              <h4 className="mb-2 text-xs uppercase tracking-wider text-secondary">
+        <div className="mb-8 flex items-start justify-between gap-4">
+          <div className="flex-1">
+            {eyebrow && (
+              <h4 className="mb-2 text-xs uppercase tracking-wider text-secondary font-semibold">
                 {eyebrow}
               </h4>
-            ) : null}
-            <h1 className="max-w-4xl text-3xl font-extrabold leading-tight md:text-5xl">
+            )}
+            <h2 className="max-w-4xl text-3xl font-extrabold leading-tight text-gray-900 md:text-5xl">
               {heading}
-            </h1>
+
+              
+            </h2>
           </div>
-          <Cta />
+          {showCta && (
+            <CtaButton label={ctaLabel!} href={ctaHref} onClick={onCtaClick} />
+          )}
         </div>
 
-        {/* Mobile: horizontal scroll */}
-        <div className="md:hidden -mx-4">
+       
+        <div className="md:hidden">
           <div 
             ref={scrollContainerRef}
-            className="overflow-x-auto overflow-y-hidden px-4 scrollbar-hide snap-x snap-mandatory"
+            className="overflow-x-auto overflow-y-hidden -mx-4 px-4 scrollbar-hide snap-x snap-mandatory"
           >
             <div className="flex gap-4 pb-2">
-              {(items ?? []).map((card, i) => (
+              {items.map((card, i) => (
                 <div key={i} className="flex-shrink-0 w-[85vw] snap-start">
-                  <Card card={card} />
+                  <FleetCardComponent card={card} />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* dots */}
-          {items.length > 1 && (
-            <div className="mt-6 flex items-center justify-center gap-2">
-              {items.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => scrollToIndex(i)}
-                  aria-label={`Go to fleet slide ${i + 1}`}
-                  className={`h-2 rounded-full transition-all ${
-                    activeIndex === i ? 'w-6 bg-white' : 'w-2 bg-white/60'
-                  }`}
-                  type="button"
-                />
-              ))}
-            </div>
-          )}
+          <PaginationDots 
+            count={items.length} 
+            activeIndex={activeIndex} 
+            onDotClick={scrollToIndex} 
+          />
 
           {/* Mobile CTA */}
-          {ctaLabel && (ctaHref || onCtaClick) ? (
-            <div className="mt-6 flex justify-center md:hidden">
-              {ctaHref ? (
-                <Link
-                  href={ctaHref}
-                  className="group inline-flex items-center gap-1 text-white/90 hover:text-white transition-colors"
-                >
-                  <span className="text-sm font-medium">{ctaLabel}</span>
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              ) : onCtaClick ? (
-                <button
-                  onClick={onCtaClick}
-                  className="group inline-flex items-center gap-1 text-white/90 hover:text-white transition-colors"
-                  type="button"
-                >
-                  <span className="text-sm font-medium">{ctaLabel}</span>
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </button>
-              ) : null}
+          {showCta && (
+            <div className="mt-6 flex justify-center">
+              <CtaButton 
+                label={ctaLabel!} 
+                href={ctaHref} 
+                onClick={onCtaClick} 
+                isMobile 
+              />
             </div>
-          ) : null}
+          )}
         </div>
 
-        {/* Desktop: 3-column grid */}
+        {/* Desktop: Grid */}
         <div className="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {(items ?? []).map((card, i) => (
-            <Card key={i} card={card} />
+          {items.map((card, i) => (
+            <FleetCardComponent key={i} card={card} />
           ))}
         </div>
       </div>
