@@ -259,7 +259,7 @@ function CarList() {
             {/* Badge */}
             {badge && (
               <div className={cn(
-                "absolute top-3 left-3 z-10 flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold",
+                "absolute top-3 right-3 z-10 flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold",
                 badge.bgColor,
                 badge.textColor
               )}>
