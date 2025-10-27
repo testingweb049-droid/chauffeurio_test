@@ -329,7 +329,7 @@ faqPage: {
 
       // Contact details (you can localize or keep the same for all locales)
       address: "C/ Dama De Elche 26, 46023 Valencia",
-      phone: "+34 666 253 660",
+      phone: " +34 614 014 277",
       email: "Info@Chauffeurio.com",
 
       form: {
@@ -457,7 +457,7 @@ home: {
   hero: {
           eyebrow: "Chauffeur Service in Valencia",
           titleLines: [
-            "Reliable airport transfers and executive travel with comfort and style.",
+            "Airport Taxi Service Serving Whole Valencia",
           ],
         },
       serviceSection: {
@@ -470,7 +470,7 @@ home: {
         items: [
           { href: "/airport-transfer",  title: "Airport Transfers",               image: "/Container (1).png" },
           { href: "/hourly-chauffurs",  title: "Hourly Chauffeurs",               image: "/post32-copyright-890x664.jpg.png" },
-          { href: "/event-transport",   title: "Event Transportation",            image: "/post32-copyright-890x664.jpg.png" },
+          { href: "/event-transport",   title: "Event Transportation",            image: "/mercedes-minibus-16-seater-side.jpg" },
           { href: "/tours-excursions",  title: "City Tours and Excursions",       image: "/post36-copyright-890x664.jpg.png" },
           { href: "/business-chauffur", title: "Business Chauffeur Services",     image: "/post35-copyright-890x664.jpg.png" },
           { href: "/city-to-city",      title: "Long–Distance City to City",      image: "/Container (2).png" },
@@ -520,19 +520,19 @@ home: {
           {
             href: "/fleet/economy",
             title: "Economy",
-            subtitle: "Skoda Octavia, Toyota Prius or similar",
+            subtitle: "Toyoya Corolla hybrid , Ford Mondeo ",
             image: "/Econamy.webp",
           },
           {
             href: "/fleet/first-class",
-            title: "First Class",
-            subtitle: "Mercedes S Class, BMW 7, Audi A8, Cadillac Escalade",
+            title: "Business Sedan",
+            subtitle: "Mercedes E Class or superior",
             image: "/Mercedes-S-Class-cutout.webp",
           },
           {
             href: "/fleet/business-class",
-            title: "Business Class",
-            subtitle: "Mercedes E Class, BMW 5 Series, Cadillac XTS",
+            title: "Economy Van",
+            subtitle: "Mercedes Vito, Volkswagen Caravelle",
             image: "/TeslaModelS.webp",
           },
         ],
@@ -552,7 +552,7 @@ home: {
             "Explore Valencia and Beyond in Style with Executive Chauffeur Travel",
           description:
             "While Valencia is our home, our services extend across the nation. From its historic heart to the stunning beaches of the Costa Blanca and beyond, we provide premium travel to any destination in Spain. (List of Locations) Valencia City Centre • Albufera • Cullera • Gandia • Denia • Jávea • Benidorm • Sagunto • Alicante • Peñíscola • Moraira",
-          image: "/Rectangle 9 (1).png",
+          image: "/Spain.png",
           imagePosition: "left",
         },
       ],
@@ -933,7 +933,7 @@ faqPage: {
         "Vous avez des questions ou besoin d’aide ? Contactez notre équipe à tout moment.",
 
       address: "C/ Dama De Elche 26, 46023 Valence",
-      phone: "+34 666 253 660",
+      phone: " +34 614 014 277",
       email: "Info@Chauffeurio.com",
 
       form: {
@@ -1062,7 +1062,7 @@ testimonials: {
       hero: {
           eyebrow: "Service de chauffeur à Valence",
           titleLines: [
-            "Transferts aéroport et déplacements exécutifs fiables, alliant confort et style.",
+            "Service de taxi aéroportuaire desservant toute la ville de Valence",
           ],
         },
       serviceSection: {
@@ -1075,7 +1075,7 @@ testimonials: {
         items: [
           { href: "/airport-transfer",  title: "Transferts aéroport",              image: "/Container (1).png" },
           { href: "/hourly-chauffurs",  title: "Chauffeur à l’heure",             image: "/post32-copyright-890x664.jpg.png" },
-          { href: "/event-transport",   title: "Transport d’événements",          image: "/post32-copyright-890x664.jpg.png" },
+          { href: "/event-transport",   title: "Transport d’événements",          image: "/mercedes-minibus-16-seater-side.jpg"},
           { href: "/tours-excursions",  title: "Visites et excursions en ville",  image: "/post36-copyright-890x664.jpg.png" },
           { href: "/business-chauffur", title: "Chauffeur d’affaires",            image: "/post35-copyright-890x664.jpg.png" },
           { href: "/city-to-city",      title: "Longue distance de ville à ville", image: "/Container (2).png" },
@@ -1157,7 +1157,7 @@ testimonials: {
             "Explorez Valence et au-delà avec style grâce à notre service exécutif",
           description:
             "Valence est notre base, mais nos services couvrent tout le pays. Du cœur historique aux plages de la Costa Blanca et au-delà, nous proposons un transport premium vers toute destination en Espagne. (Zones) Centre de Valence • Albufera • Cullera • Gandía • Dénia • Xàbia • Benidorm • Sagunto • Alicante • Peñíscola • Moraira",
-          image: "/Rectangle 9 (1).png",
+          image: "/Spain.png",
           imagePosition: "left",
         },
       ],
@@ -1541,7 +1541,7 @@ faqPage: {
         "¿Tienes preguntas o necesitas ayuda? Ponte en contacto con nuestro equipo en cualquier momento.",
 
       address: "C/ Dama De Elche 26, 46023 Valencia",
-      phone: "+34 666 253 660",
+      phone: " +34 614 014 277",
       email: "Info@Chauffeurio.com",
 
       form: {
@@ -1670,7 +1670,7 @@ faqPage: {
       hero: {
           eyebrow: "Servicio de chófer en Valencia",
           titleLines: [
-            "Traslados al aeropuerto y viajes ejecutivos fiables, con comodidad y estilo.",
+            "Servicio de taxi al aeropuerto que sirve a toda Valencia",
           ],
         },
       serviceSection: {
@@ -1683,7 +1683,7 @@ faqPage: {
         items: [
           { href: "/airport-transfer",  title: "Traslados al aeropuerto",        image: "/Container (1).png" },
           { href: "/hourly-chauffurs",  title: "Chófer por horas",                image: "/post32-copyright-890x664.jpg.png" },
-          { href: "/event-transport",   title: "Transporte para eventos",         image: "/post32-copyright-890x664.jpg.png" },
+          { href: "/event-transport",   title: "Transporte para eventos",         image:"/mercedes-minibus-16-seater-side.jpg"},
           { href: "/tours-excursions",  title: "Tours y excursiones por la ciudad", image: "/post36-copyright-890x664.jpg.png" },
           { href: "/business-chauffur", title: "Chófer para empresas",            image: "/post35-copyright-890x664.jpg.png" },
           { href: "/city-to-city",      title: "Larga distancia entre ciudades",  image: "/Container (2).png" },
@@ -1765,7 +1765,7 @@ faqPage: {
             "Explora Valencia y más allá con estilo gracias a nuestro servicio ejecutivo",
           description:
             "Aunque Valencia es nuestra casa, nuestros servicios cubren todo el país. Desde su casco histórico hasta las playas de la Costa Blanca y más allá, ofrecemos transporte premium a cualquier destino de España. (Zonas) Centro de Valencia • Albufera • Cullera • Gandía • Denia • Jávea • Benidorm • Sagunto • Alicante • Peñíscola • Moraira",
-          image: "/Rectangle 9 (1).png",
+          image: "/Spain.png",
           imagePosition: "left",
         },
       ],

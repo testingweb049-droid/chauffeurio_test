@@ -85,7 +85,6 @@ function Step3() {
     const [childSeat, setChildSeat] = React.useState(0);
     const [infantSeat, setInfantSeat] = React.useState(0);
     const [boosterSeat, setBoosterSeat] = React.useState(0);
-    const [extraStop, setExtraStop] = React.useState(0);
     
     // Find the selected fleet category
     const selectedFleet = fleets.find((item) => item.category === formData.car.value);
@@ -188,14 +187,7 @@ function Step3() {
                             onChange={setBoosterSeat}
                         />
                     </div>
-                    <div className="px-4">
-                        <ExtraCounter 
-                            label="Extra Stop In Same Town" 
-                            price={15.00} 
-                            value={extraStop}
-                            onChange={setExtraStop}
-                        />
-                    </div>
+                   
                 </div>
 
                 {/* <SelectableCheckbox fieldName='isFlightTrack' label='Flight Track' subLabel='€ 7'  />

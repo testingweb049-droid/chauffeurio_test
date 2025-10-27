@@ -46,7 +46,7 @@ function Page() {
                 {step>=4 && <PersonalDetails/>}
                 {step==3 && <FeatureList/>}
              </div>
-             <div onClick={()=>toggleMobileDropdown()} className='bg-brand p-2 rounded-sm font-bold flex items-center justify-between' >
+             <div onClick={()=>toggleMobileDropdown()} className='bg-primary text-white p-2 rounded-sm font-bold flex items-center justify-between' >
               <div>Ride Details</div>
               {isMobileDropdownOpen ?   <ArrowUp/> : <ArrowDown/>}
              </div>

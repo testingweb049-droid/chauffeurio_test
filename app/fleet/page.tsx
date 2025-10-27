@@ -7,10 +7,10 @@ const fleets = [
     category: "ECONOMY",
     displayName: "Economy",
     vehicles: [
-      { name: "Toyoya Corolla hybrid", imageUrl: "/Rectangle 21.png" },
-      { name: "Ford Mondeo", imageUrl: "/Rectangle 21.png" },
-      { name: "Volkswagen Passat", imageUrl: "/Rectangle 21.png" },
-      { name: "Skoda Octavia, or superior", imageUrl: "/Rectangle 21.png" }
+      { name: "Toyoya Corolla hybrid", imageUrl: "/Econamy.webp" },
+      { name: "Ford Mondeo", imageUrl: "/Econamy.webp" },
+      { name: "Volkswagen Passat", imageUrl: "/Econamy.webp" },
+      { name: "Skoda Octavia, or superior", imageUrl: "/Econamy.webp" }
     ],
     passengers: 4,
     luggage: 4,
@@ -25,7 +25,7 @@ const fleets = [
     category: "BUSINESS_SEDAN",
     displayName: "Business Sedan",
     vehicles: [
-      { name: "Mercedes E Class or superior", imageUrl: "/Rectangle 21 (2).png" }
+      { name: "Mercedes E Class or superior", imageUrl: "/Mercedes-S-Class-cutout.webp" }
     ],
     passengers: 4,
     luggage: 4,
@@ -40,9 +40,9 @@ const fleets = [
     category: "ECONOMY_VAN",
     displayName: "Economy Van",
     vehicles: [
-      { name: "Mercedes Vito", imageUrl: "/Rectangle 21 (11).png" },
-      { name: "Volkswagen Caravelle", imageUrl: "/Rectangle 21 (11).png" },
-      { name: "Ford Transit Custom or superior", imageUrl: "/Rectangle 21 (11).png" }
+      { name: "Mercedes Vito", imageUrl: "/Economy Van.png" },
+      { name: "Volkswagen Caravelle", imageUrl: "/Economy Van.png" },
+      { name: "Ford Transit Custom or superior", imageUrl: "/Economy Van.png" }
     ],
     passengers: 8,
     luggage: 8,
@@ -57,7 +57,7 @@ const fleets = [
     category: "FIRST_CLASS_VAN",
     displayName: "First Class Van",
     vehicles: [
-      { name: "Mercedes V Class or similar", imageUrl: "/Rectangle 21 (14).png" }
+      { name: "Mercedes V Class or similar", imageUrl: "/First Class Van.png" }
     ],
     passengers: 7,
     luggage: 7,
@@ -72,7 +72,7 @@ const fleets = [
     category: "MINIBUS_12",
     displayName: "Minibus 12",
     vehicles: [
-      { name: "Mercedes sprinter or similar (or two vans)", imageUrl: "/Rectangle 21 (15).png" }
+      { name: "Mercedes sprinter or similar (or two vans)", imageUrl: "/Minibus 12.png" }
     ],
     passengers: 12,
     luggage: 12,
@@ -87,7 +87,7 @@ const fleets = [
     category: "MINIBUS_16",
     displayName: "Minibus 16",
     vehicles: [
-      { name: "Mercedes sprinter or similar (or two vans)", imageUrl: "/Rectangle 21 (18).png" }
+      { name: "Mercedes sprinter or similar (or two vans)", imageUrl: "/Minibus 16.png" }
     ],
     passengers: 16,
     luggage: 16,
@@ -103,23 +103,13 @@ const fleets = [
 export default function Fleet() {
   return (
     <>
-      <HeroSection2 bgImage="/hero.jpg" text="Our Fleet" />
+      <HeroSection2 bgImage="/9b3e2fe554a6c651efdaa05128427c86bb81250b.jpg" text="Our Fleet" />
 
       {/* Breadcrumb + header */}
       <section className="px-4 md:px-6 lg:px-10 xl:px-16 py-10">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <span className="font-bold text-xl uppercase text-black">Our Fleet</span>
-
-            {/* top filter labels (static like screenshot) */}
-            {/* <div className="mt-3 text-[11px] tracking-widest uppercase text-gray-700 space-x-3">
-              <span className="font-semibold">All</span>
-              <span className="text-gray-400">/ Economy</span>
-              <span className="text-gray-400">/ Business Sedan</span>
-              <span className="text-gray-400">/ Economy Van</span>
-              <span className="text-gray-400">/ First Class Van</span>
-              <span className="text-gray-400">/ Minibus</span>
-            </div> */}
           </div>
 
           {/* 6 Cards - One for each category */}

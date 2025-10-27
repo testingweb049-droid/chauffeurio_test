@@ -13,7 +13,7 @@ export default function BusinessChffurs() {
 
   return (
     <>
-      <HeroSection2 bgImage="hero.jpg" text={businessChhuff?.title} />
+      <HeroSection2 bgImage="/8772706bd9889910cc3815aae8ed0fe07a0f13c5.jpg" text={businessChhuff?.title} />
 
       <ImageDetailSection
         title={businessChhuff?.title}

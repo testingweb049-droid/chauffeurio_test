@@ -13,7 +13,7 @@ export default function EventTransport() {
 
   return (
     <>
-      <HeroSection2 bgImage="hero.jpg" text={eventTransport?.title} />
+      <HeroSection2 bgImage="/ee5a8e8dbc6cf814d4468277aea201feacd965ed.jpg" text={eventTransport?.title} />
 
       <ImageDetailSection
         title={eventTransport?.title}

@@ -229,7 +229,7 @@ export const blogData = [
           "1. Choose a Reputable Taxi Service",
           "Start with a trusted, licensed provider in your area. Look for clear contact information, positive reviews, and an easy-to-navigate website—like OK Taxis, which serves Manchester and the surrounding areas.",
           "2. Visit the Booking Page",
-          "This is usually a dedicated page on the taxi company's website (e.g., http://localhost:3001/booking). You'll enter your travel details here:",
+          "This is usually a dedicated page on the taxi company's website (e.g., https://chauffeurio.com/booking). You'll enter your travel details here:",
           {
             list: [
               "Pickup and drop-off location",
@@ -566,7 +566,7 @@ export const blogData = [
           "Step-by-step guide:",
           {
             list: [
-              "Visit the booking page (e.g., http://localhost:3001/booking)",
+              "Visit the booking page (e.g., https://chauffeurio.com/booking)",
               "Enter pickup (airport terminal) and destination",
               "Choose your vehicle type",
               "Add flight number for tracking",

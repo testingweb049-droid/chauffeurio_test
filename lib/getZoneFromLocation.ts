@@ -1,7 +1,7 @@
 // utils/getZoneFromLocation.ts
 export async function getZoneFromLocation(address: string): Promise<string | null> {
   try {
-    const res = await fetch(`http://localhost:3001/api/taxigate/price-with-zone`, {
+    const res = await fetch(`https://chauffeurio.com/api/taxigate/price-with-zone`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -40,7 +40,7 @@ export default function SelectableCheckbox({
       <Checkbox
         checked={value}
         onCheckedChange={handleChange}
-        className="bg-white"
+        className="bg-white text-white"
       />
       <div className="flex flex-col">
         <label

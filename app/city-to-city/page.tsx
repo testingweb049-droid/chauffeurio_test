@@ -13,7 +13,7 @@ export default function CityToCity() {
 
   return (
     <>
-      <HeroSection2 bgImage="hero.jpg" text={citytocity?.title} />
+      <HeroSection2 bgImage="/4d0647dd70dc271856ddae5c30eec62f9bcc0f86.jpg" text={citytocity?.title} />
 
       <ImageDetailSection
         title={citytocity?.title}

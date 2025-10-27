@@ -13,7 +13,7 @@ export default function HourlyChuffers() {
 
   return (
     <>
-      <HeroSection2 bgImage="hero.jpg" text={hourlyChauffeurs?.title} />
+      <HeroSection2 bgImage="/fe0f8d949fc5f87500499fe8c27ea1f865c3cc8b.jpg" text={hourlyChauffeurs?.title} />
 
       <ImageDetailSection
         title={hourlyChauffeurs?.title}

@@ -150,7 +150,7 @@ function MyPaymentForm({price}:{price:string}) {
   useEffect(() => {
     const fetchClientSecret = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/create-payment-intent", {
+        const response = await fetch("https://chauffeurio.com/api/create-payment-intent", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

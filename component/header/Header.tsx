@@ -121,7 +121,7 @@ export default function Header() {
 
   const navItems: NavItem[] = [
     { id: "home", label: header?.home || "Home", href: "/" },
-    { id: "about", label: header?.about || "About Us", href: "/about" },
+    
     {
       id: "services",
       label: header?.services || "Services",
@@ -136,6 +136,7 @@ export default function Header() {
       ],
     },
     { id: "fleet", label: header?.fleet || "Our Fleet", href: "/fleet" },
+    { id: "about", label: header?.about || "About Us", href: "/about" },
     { id: "contact", label: header?.contact || "Contact", href: "/contact" },
   ];
 

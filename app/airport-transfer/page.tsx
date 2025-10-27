@@ -13,7 +13,7 @@ export default function AirportTransfer() {
 
   return (
     <>
-      <HeroSection2 bgImage="/hero.jpg" text={airportTransfer?.title} />
+      <HeroSection2 bgImage="/3ad4e7022387a357178d9df015a040e8b0e80c24.jpg" text={airportTransfer?.title} />
 
       <ImageDetailSection
         title={airportTransfer?.title}

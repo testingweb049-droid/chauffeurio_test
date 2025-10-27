@@ -53,7 +53,7 @@ export async function createOrder(data: FrontendOrderData) {
     }
 
     // ✅ Email setup
-    const orderLink = `http://localhost:3001/order/${order.id}`;
+    const orderLink = `https://chauffeurio.com/order/${order.id}`;
     const transporter = nodemailer.createTransport(emailConfig);
 
     await transporter.sendMail({
