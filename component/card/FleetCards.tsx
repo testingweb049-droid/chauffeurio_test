@@ -60,8 +60,8 @@ export default function FleetCards({
             src={imageUrl} 
             alt={imageAlt || `${category} vehicle`} 
             fill 
-            className="object-contain" 
-            sizes="(max-width: 640px) 100vw, 384px"
+            className="object-cover" 
+            // sizes="(max-width: 640px) 100vw, 384px"
             priority={false}
           />
         </div>
@@ -73,24 +73,28 @@ export default function FleetCards({
           <Car className="h-4 w-4" />
           Available Models:
         </h4>
-      <div className="grid grid-cols-3 gap-4">
-  {vehicles.slice(0, 3).map((vehicle, index) => (
-    <div key={index} className="flex items-center justify-center text-sm">
-      <div className="text-gray-600">{vehicle.name}</div>
-    </div>
+     <div className="flex flex-wrap items-center gap-1 text-sm text-gray-600">
+  {vehicles.slice(0, 3).map((vehicle, index, array) => (
+    <span 
+      key={index} 
+      className="flex items-center max-w-full truncate"
+    >
+      <span className="truncate">{vehicle.name}</span>
+      {index < array.length - 1 && <span>,</span>}
+    </span>
   ))}
 </div>
       </div>
 
       {/* Features Section */}
-      <div className="px-6 py-4 space-y-3">
+      <div className="px-6 py-2">
         <div className="grid grid-cols-2 gap-3">
           {typeof passengers === "number" && (
             <div className="flex items-center gap-2 text-gray-700">
               <div className="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
                 <Users className="h-3 w-3 text-primary" />
               </div>
-              <span className="text-xs font-medium">{passengers} Passengers</span>
+              <span className="text-xs font-medium">{passengers}</span>
             </div>
           )}
           {typeof luggage === "number" && (
@@ -98,24 +102,17 @@ export default function FleetCards({
               <div className="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
                 <Briefcase className="h-3 w-3 text-primary" />
               </div>
-              <span className="text-xs font-medium">{luggage} Luggage</span>
+              <span className="text-xs font-medium">{luggage}</span>
             </div>
           )}
-          {/* {hasChargingPort && (
-            <div className="flex items-center gap-2 text-gray-700">
-              <div className="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
-                <Zap className="h-3 w-3 text-primary" />
-              </div>
-              <span className="text-xs font-medium">Charging Port</span>
-            </div>
-          )} */}
+         
         </div>
       </div>
 
    
 
       {/* Action Buttons */}
-      <div className="px-6 py-4">
+      <div className="px-6 py-2">
         <div className="flex flex-col gap-2">
           
           <Link 

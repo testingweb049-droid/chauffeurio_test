@@ -19,15 +19,15 @@ export default function AddReturn() {
   const subText = isReturn
     ? `Return transfer from ${to || "your destination"} to ${
         from || "your departure point"
-      } has been added for ${formattedPrice} Pound.`
+      } has been added for ${formattedPrice} Euro.`
     : `Add your return transfer${to ? ` from ${to}` : ""} to ${
         from || "your departure point"
-      } for an additional ${formattedPrice} Pound.`
+      } for an additional ${formattedPrice} Euro.`
 
   return (
     <div
       className={`p-2 md:p-3 flex gap-2 md:gap-7 items-center w-full relative rounded-md transition-all duration-300 ${
-        isReturn ? "bg-green-100" : "bg-[#e5ebf7]"
+        isReturn ? "bg-secondary/50" : "bg-[#e5ebf7]"
       }`}
     >
       <div className="text-xs px-2 py-1 bg-primary text-white absolute right-3 -top-1 rounded-md">
@@ -36,7 +36,7 @@ export default function AddReturn() {
 
       <div
         className={`flex items-center text-lg md:text-2xl justify-center p-2 rounded-full transition-all ${
-          isReturn ? "bg-green-600" : "bg-black"
+          isReturn ? "bg-primary" : "bg-black"
         }`}
       >
         <ArrowRightLeft size={12} className=" text-white md:hidden" />
@@ -47,7 +47,7 @@ export default function AddReturn() {
         <div className="text-sm md:text-lg font-semibold md:font-bold text-black">{headingText}</div>
         <div
           className={`text-xs md:text-sm ${
-            isReturn ? "text-green-700" : "text-gray-800"
+            isReturn ? "text-primary" : "text-gray-800"
           } transition-all`}
         >
           {subText}

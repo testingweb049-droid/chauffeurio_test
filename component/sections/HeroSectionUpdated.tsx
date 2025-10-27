@@ -3,6 +3,7 @@ import Image from "next/image";
 import HeroForm from "./HeroForm";
 import YearsImage from "@/assets/new-form/10years.png";
 import { ClientSideStrings } from "../translations/ClientSideTranslations";
+import heroBackground from '@/assets/new-form/ddd.png'
 
 const HeroSectionUpdated: React.FC = () => {
   const { home } = ClientSideStrings();
@@ -12,12 +13,14 @@ const HeroSectionUpdated: React.FC = () => {
     <div className="relative">
       {/* Background image */}
       <Image
-        src="/hero.jpg"
-        height={400}
-        width={400}
-        alt="Background"
-        className="absolute w-full h-[500px] lg:h-full left-0 right-0 object-cover"
+        src={heroBackground}
+        alt="Car rental service background"
+        fill
+        className="object-cover"
         priority
+        quality={85}
+        placeholder="blur"
+        sizes="100vw"
       />
 
       {/* Overlay */}

@@ -44,7 +44,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <HeroSection2 bgImage="hero.jpg" text={contact?.heroTitle ?? 'Contact'} />
+      <HeroSection2 bgImage="/6ce6a2448617cf44ef818888d89aebce1e4d2614.jpg" text={contact?.heroTitle ?? 'Contact'} />
 
       <section className="py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
@@ -76,10 +76,10 @@ export default function ContactPage() {
               <li className="flex items-start gap-3">
                 <span className="text-[#002C3F]"><Phone size={20} /></span>
                 <a
-                  href={`tel:${(contact?.phone ?? '+34 666 253 660').replace(/\s+/g, '')}`}
+                  href={`tel:${('+34 614 014 277').replace(/\s+/g, '')}`}
                   className="#5F5D5A hover:underline"
                 >
-                  {contact?.phone ?? '+34 666 253 660'}
+                  {contact?.phone ?? '+34 614 014 277'}
                 </a>
               </li>
 
@@ -161,7 +161,7 @@ export default function ContactPage() {
                 />
                 <span>
                   {contact?.form?.privacyPrefix ?? 'I agree with the'}{' '}
-                  <a href="/privacy-policy" className="underline">
+                  <a href="/terms-condition" className="underline">
                     {contact?.form?.privacyLink ?? 'Privacy Policy'}
                   </a>.
                 </span>

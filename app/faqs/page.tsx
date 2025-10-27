@@ -17,7 +17,7 @@ export default function FaqsPage() {
 
   return (
     <div>
-      <HeroSection2 bgImage="hero.jpg" text={faqPage?.title ?? "FAQS"} />
+      <HeroSection2 bgImage="/e8413d5a6c22ee75ffa12886e488ceddcb609400.jpg" text={faqPage?.title ?? "FAQS"} />
       <div className="max-w-7xl m-auto md:py-16 py-8">
         <FaqsCard faqs={faqsForCard} />
       </div>

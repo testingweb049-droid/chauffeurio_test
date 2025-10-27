@@ -16,7 +16,7 @@ export default function About() {
 
   return (
     <>
-      <HeroSection2 bgImage="/hero.jpg" text={about?.heroTitle} />
+      <HeroSection2 bgImage="/84652a96fd9233308809fcf62694bb2205623ba3.jpg" text={about?.heroTitle} />
 
       <ImageDetailSection
         title={about?.imageDetail?.title}

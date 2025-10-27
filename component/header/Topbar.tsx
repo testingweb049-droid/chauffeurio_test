@@ -31,7 +31,7 @@ const Topbar: React.FC = () => {
       {/* Left Section: Phone Number with Icon */}
       <div className="py-2 flex items-center justify-between max-w-5xl m-auto ">
           
-          <p className="text-white text-sm pt-1 flex items-center gap-3"> <FaPhoneAlt className="text-white text-md" /> +34 910 123 456</p>
+          <p className="text-white text-sm pt-1 flex items-center gap-3"> <FaPhoneAlt className="text-white text-md" />+34 614 014 277</p>
 
         {/* Center Section: Logo */}
         <div className="flex items-center justify-center">
@@ -64,13 +64,13 @@ const Topbar: React.FC = () => {
             >
               <FaInstagram />
             </a>
-            <a
+            {/* <a
               href="https://wa.me"
               className="text-white text-lg hover:text-yellow-500 transition-colors"
               aria-label="WhatsApp"
             >
               <FaWhatsapp />
-            </a>
+            </a> */}
           </div>
         </div>
       </div>

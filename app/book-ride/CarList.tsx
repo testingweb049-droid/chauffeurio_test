@@ -7,7 +7,7 @@ import { PiSuitcase } from "react-icons/pi";
 import { cn } from "@/lib/utils";
 import useFormStore from "@/stores/FormStore";
 import { brandColor } from "@/lib/colors";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, TrendingDown, Award, Flame } from "lucide-react";
 import LoadingButton from "./LoadingButton";
 
 // Pricing structure based on your Excel sheets
@@ -34,6 +34,28 @@ const categoryPricing = {
   MINIBUS_16: [39.60, 22.40, 14.80, 12.90, 11.15, 8.98, 8.10, 7.12, 6.48, 6.00, 5.95]
 };
 
+// Badge configuration for different categories
+const categoryBadges = {
+  ECONOMY: {
+    text: "Best Value",
+    bgColor: "bg-green-500",
+    textColor: "text-white",
+    icon: TrendingDown
+  },
+  BUSINESS_VAN: {
+    text: "Top Class",
+    bgColor: "bg-gray-700",
+    textColor: "text-white",
+    icon: Award
+  },
+  BUSINESS_SEDAN: {
+    text: "Most Popular",
+    bgColor: "bg-red-500",
+    textColor: "text-white",
+    icon: Flame
+  }
+};
+
 /**
  * Vehicle categories with their respective cars and pricing - Updated according to requirements
  */
@@ -43,14 +65,15 @@ export const fleets = [
     displayName: "Economy",
     vehicles: [
       "Toyoya Corolla hybrid",
-      "Ford Mondeo", 
-      "Volkswagen Passat",
-      "Skoda Octavia, or superior"
+      // "Ford Mondeo", 
+      "Or Similar", 
+      // "Volkswagen Passat",
+      // "Skoda Octavia, or superior"
     ],
     passengers: 4,
     luggage: 4,
     hasChargingPort: true,
-    imageUrl: "/Rectangle 21.png",
+    imageUrl: "/Econamy.webp",
     pricing: {
       perKm: 1.5, // Fallback price
       hourly: 30,
@@ -66,7 +89,7 @@ export const fleets = [
     passengers: 4,
     luggage: 4,
     hasChargingPort: true,
-    imageUrl: "/Rectangle 21 (2).png",
+    imageUrl: "/Mercedes-S-Class-cutout.webp",
     pricing: {
       perKm: 1.7, // Fallback price
       hourly: 40,
@@ -78,13 +101,13 @@ export const fleets = [
     displayName: "Economy Van",
     vehicles: [
       "Mercedes Vito",
-      "Volkswagen Caravelle", 
-      "Ford Transit Custom or superior"
+      // "Volkswagen Caravelle", 
+      "Or Similar"
     ],
     passengers: 8,
     luggage: 8,
     hasChargingPort: true,
-    imageUrl: "/Rectangle 21 (11).png",
+    imageUrl: "/Economy Van.png",
     pricing: {
       perKm: 2.0, // Fallback price
       hourly: 50,
@@ -93,14 +116,14 @@ export const fleets = [
   },
   {
     category: "BUSINESS_VAN",
-    displayName: "Business Van",
+    displayName: "First Class Van",
     vehicles: [
       "Mercedes V Class or similar"
     ],
     passengers: 7,
     luggage: 7,
     hasChargingPort: true,
-    imageUrl: "/Rectangle 21 (14).png",
+    imageUrl: "/First Class Van.png",
     pricing: {
       perKm: 2.5, // Fallback price
       hourly: 60,
@@ -109,14 +132,14 @@ export const fleets = [
   },
   {
     category: "MINIBUS_12",
-    displayName: "Minibus 12",
+    displayName: "Minibus 12 (or two vans)",
     vehicles: [
-      "Mercedes sprinter or similar (or two vans)"
+      "Mercedes sprinter or similar"
     ],
     passengers: 12,
     luggage: 12,
     hasChargingPort: true,
-    imageUrl: "/Rectangle 21 (15).png",
+    imageUrl: "/Minibus 12.png",
     pricing: {
       perKm: 3.5, // Fallback price
       hourly: 80,
@@ -125,14 +148,14 @@ export const fleets = [
   },
   {
     category: "MINIBUS_16",
-    displayName: "Minibus 16",
+    displayName: "Minibus 16 (or two vans)",
     vehicles: [
-      "Mercedes sprinter or similar (or two vans)"
+      "Mercedes sprinter or similar"
     ],
     passengers: 16,
     luggage: 16,
     hasChargingPort: true,
-    imageUrl: "/Rectangle 21 (18).png",
+    imageUrl: "/Minibus 16.png",
     pricing: {
       perKm: 4.0, // Fallback price
       hourly: 100,
@@ -221,16 +244,30 @@ function CarList() {
         const displayPrice = computedPrice.toFixed(2);
         const pricePerKm = getPricePerKm(categoryData);
         const vehicleNames = categoryData.vehicles;
+        const badge = categoryBadges[categoryData.category as keyof typeof categoryBadges];
+        const BadgeIcon = badge?.icon;
 
         return (
           <div
             key={categoryData.category}
             className={cn(
-              "grid grid-cols-8 gap-3 bg-white border rounded-xl shadow-sm overflow-hidden p-3",
+              "grid grid-cols-8 gap-3 bg-white border rounded-xl shadow-sm overflow-hidden p-3 relative",
               "hover:shadow-md transition-shadow duration-200",
               categoryData.category === formData.car.value ? "border-brand" : "border-gray-200"
             )}
           >
+            {/* Badge */}
+            {badge && (
+              <div className={cn(
+                "absolute top-3 left-3 z-10 flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold",
+                badge.bgColor,
+                badge.textColor
+              )}>
+                {BadgeIcon && <BadgeIcon size={14} />}
+                <span>{badge.text}</span>
+              </div>
+            )}
+
             {/* Image */}
             <div className="col-span-2 flex items-center justify-center bg-white">
               <div className="w-full max-w-[140px] h-[100px] relative">
@@ -246,27 +283,29 @@ function CarList() {
 
             {/* Details */}
             <div className="col-span-4 flex flex-col justify-center gap-1">
-              <h6 className="text-base md:text-xl font-semibold text-gray-900 uppercase">
+              <h6 className="text-[12px] md:text-xl font-semibold text-gray-900 uppercase">
                 {categoryData.displayName}
               </h6>
-              
-              {/* Vehicle names in grid layout - max 3 per row */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-1 mt-2">
-                {vehicleNames.map((vehicle, index) => (
-                  <div key={index} className="text-gray-600 text-xs md:text-sm">
-                    {vehicle}
-                  </div>
+              <div className="flex flex-wrap items-center gap-1 text-[10px] text-gray-600">
+                {vehicleNames.slice(0, 3).map((vehicle, index, array) => (
+                  <span 
+                    key={index} 
+                    className="flex items-center max-w-full truncate"
+                  >
+                    <span className="">{vehicle}</span>
+                    {index < array.length - 1 && <span>,</span>}
+                  </span>
                 ))}
               </div>
 
               <div className="flex items-center gap-4 text-gray-700 text-sm mt-2">
                 <div className="flex items-center gap-1">
                   <GoPeople size={16} color={brandColor} />
-                  <span>{categoryData.passengers} persons</span>
+                  <span>{categoryData.passengers}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <PiSuitcase size={16} color={brandColor} />
-                  <span>{categoryData.luggage} luggage</span>
+                  <span>{categoryData.luggage}</span>
                 </div>
               </div>
 
@@ -274,7 +313,6 @@ function CarList() {
                 <div className="text-xl md:text-2xl font-bold text-gray-900">
                   €{displayPrice}
                 </div>
-               
               </div>
             </div>
 

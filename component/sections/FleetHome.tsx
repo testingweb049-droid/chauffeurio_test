@@ -78,9 +78,9 @@ const FleetCardComponent = memo(({ card }: { card: FleetCard }) => {
         <Image
           src={card.image}
           alt={alt}
-          fill
-          sizes="(max-width:768px) 85vw, (max-width:1024px) 50vw, 33vw"
-          className="object-contain p-6 transition-transform duration-300 group-hover:scale-105"
+        fill
+          // sizes="(max-width:768px) 85vw, (max-width:1024px) 50vw, 33vw"
+          className="object-cover p-8 transition-transform duration-300 group-hover:scale-105"
           priority={false}
         />
       </div>
@@ -89,9 +89,9 @@ const FleetCardComponent = memo(({ card }: { card: FleetCard }) => {
           {card.title}
         </h3>
         {card.subtitle && (
-          <p className="mt-1 text-[11px] uppercase tracking-wide text-gray-600">
+          <h6 className="mt-1 text-[11px] uppercase tracking-wide text-gray-600">
             {card.subtitle}
-          </p>
+          </h6>
         )}
       </div>
     </div>

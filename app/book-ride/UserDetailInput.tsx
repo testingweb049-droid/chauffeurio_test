@@ -25,8 +25,9 @@ export function PhoneInput() {
     const {formData, setFormData} = useFormStore()
   return (
     <ReactPhoneInput
-    country={'gb'}
+    country={'es'}
     value={formData.phone.value}
+    placeholder=''
     onChange={phone => setFormData('phone', phone)}
     inputStyle={{
    width: '100%',                        
