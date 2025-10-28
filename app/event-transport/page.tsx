@@ -7,12 +7,14 @@ import HelpSection from "@/component/sections/HelpSection";
 import WorkSection from "@/component/sections/WorkSection";
 import ContentSection from "@/component/sections/ContentSection";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
+import SEO from "@/component/SEO";
 
 export default function EventTransport() {
   const { eventTransport } = ClientSideStrings();
 
   return (
     <>
+    <SEO />
       <HeroSection2 bgImage="/ee5a8e8dbc6cf814d4468277aea201feacd965ed.jpg" text={eventTransport?.title} />
 
       <ImageDetailSection

@@ -157,6 +157,7 @@ export default function NewDateTimePicker({
             <div className="font-semibold">Time</div>
             <input
               type="time"
+              placeholder="Time"
               ref={timeInputRef} 
               className="w-full text-black rounded-lg px-2 py-1 bg-gray-100 max-w-32"
               value={selectedTime || ""}

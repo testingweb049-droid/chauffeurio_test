@@ -39,6 +39,11 @@ import { create } from "zustand";
   isFlightTrack: FieldType<boolean>;
   isMeetGreet: FieldType<boolean>;
   isReturn: FieldType<boolean>;
+  // Add extras fields
+  childSeat: FieldType<number>;
+  infantSeat: FieldType<number>;
+  boosterSeat: FieldType<number>;
+  description: FieldType<string>;
   }
 
   interface FormStoreType {
@@ -67,6 +72,10 @@ import { create } from "zustand";
   manageStops: (action: "add" | "remove", index?: number) => void;
   toggleMobileDropdown: () => void;
   resetForm: () => void;
+  // Add method to update extras
+  updateExtra: (extraType: 'childSeat' | 'infantSeat' | 'boosterSeat', value: number) => void;
+  // Add method to calculate total price with extras
+  getTotalPrice: () => number;
   }
 
   const makeStop = (required = false): FieldType<string> => ({
@@ -86,9 +95,17 @@ import { create } from "zustand";
   category: "trip",
   formError: "",
   formLoading: false,
-  formData: tripInitialFormData,
+  formData: {
+    ...tripInitialFormData,
+    // Initialize extras with default values
+    childSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+    infantSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+    boosterSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+    description: { value: "", error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+  },
   isOrderDone: false,
   orderId:'',
+  
   setFormData: (key, value, coardinates = "", index) => {
     if (key === "stops" && typeof index === "number") {
       set((state) => {
@@ -105,6 +122,7 @@ import { create } from "zustand";
       },
     }));
   },
+  
   setFieldOptions: (key, required) => {
     if(key==='stops') return;
     set((state) => ({
@@ -113,6 +131,30 @@ import { create } from "zustand";
         [key]: { ...state.formData[key as keyof FormDataType], error:'', required  },
       },
     }));
+  },
+
+  // Add method to update extras
+  updateExtra: (extraType, value) => {
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        [extraType]: { ...state.formData[extraType], value, error: '' },
+      },
+    }));
+  },
+
+  getTotalPrice: () => {
+    const { formData } = get();
+    const basePrice = parseFloat(formData.price.value) || 0;
+    
+    const extrasTotal = 
+      (formData.childSeat.value * 5) +
+      (formData.infantSeat.value * 5) + 
+      (formData.boosterSeat.value * 5) + 
+      (formData.isFlightTrack.value ? 7 : 0) + 
+      (formData.isMeetGreet.value ? 15 : 0);  
+    
+    return basePrice + extrasTotal;
   },
 
   validateData: (_step:number) => {
@@ -124,10 +166,10 @@ import { create } from "zustand";
     // validate simple fields
     (Object.keys(formData) as (keyof FormDataType)[]).forEach((k) => {
       if (k === "stops") return;
-      const item = formData[k] as FieldType<string>;
+      const item = formData[k] as FieldType<any>;
       const hasErr = item.step === _step && item.required && !item.value;
       const hasErr2 = item.step === _step && item.coardinatesRequired && !item.coardinates;
-      (updated[k] as FieldType<string>) = { ...item, error: hasErr ? `${k} is required` : hasErr2 ? `${k} coordinates required` : "" };
+      (updated[k] as FieldType<any>) = { ...item, error: hasErr ? `${k} is required` : hasErr2 ? `${k} coordinates required` : "" };
     });
 
     // validate stops
@@ -154,7 +196,7 @@ import { create } from "zustand";
   },
 
   changeStep: async (isNext: boolean, _step:number) => {
-    const { formData, category, validateData } = get();
+    const { formData, category, validateData, getTotalPrice } = get();
     if (!isNext) {
       set((state) => ({
         ...state,
@@ -200,14 +242,28 @@ import { create } from "zustand";
     }
 
     if (_step === 4) {
+      const totalPrice = getTotalPrice();
+      
       const orderData = Object.entries(formData).reduce<Record<string, any>>((acc, [key, item]) => {
         if (key === "stops") {
           acc.stops = formData.stops.map((s) => (s.value));
+        } else if (key === "price") {
+          acc[key] = totalPrice.toString();
         } else {
           acc[key] = (item as FieldType<any>).value;
         }
         return acc;
       }, {});
+
+      orderData.extras = {
+        childSeat: formData.childSeat.value,
+        infantSeat: formData.infantSeat.value,
+        boosterSeat: formData.boosterSeat.value,
+        flightTrack: formData.isFlightTrack.value,
+        meetGreet: formData.isMeetGreet.value,
+        description: formData.description.value,
+        extrasTotal: totalPrice - (parseFloat(formData.price.value) || 0)
+      };
 
       try {
         const response = await createOrder(orderData);
@@ -235,10 +291,37 @@ import { create } from "zustand";
   changeCategory: (newCategory) => {
     const { category } = get();
     if (category === newCategory) return;
+    
+    const baseFormData = newCategory === "trip" ? tripInitialFormData : hourlyInitialFormData;
+    
     if (newCategory === "trip") {
-      set({ formData: tripInitialFormData, step: 1, category: "trip", formError: "", formLoading: false });
+      set({ 
+        formData: {
+          ...baseFormData,
+          childSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+          infantSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+          boosterSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+          description: { value: "", error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+        }, 
+        step: 1, 
+        category: "trip", 
+        formError: "", 
+        formLoading: false 
+      });
     } else {
-      set({ formData: hourlyInitialFormData, step: 1, category: "hourly", formError: "", formLoading: false });
+      set({ 
+        formData: {
+          ...baseFormData,
+          childSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+          infantSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+          boosterSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+          description: { value: "", error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+        }, 
+        step: 1, 
+        category: "hourly", 
+        formError: "", 
+        formLoading: false 
+      });
     }
   },
 
@@ -259,7 +342,22 @@ import { create } from "zustand";
     set((state)=>({...state, isMobileDropdownOpen:!state.isMobileDropdownOpen}))
   },
   
-  resetForm: () => set({ formData: tripInitialFormData, step: 1, category: "trip", formError: "", formLoading: false, isMobileDropdownOpen:false, isOrderDone:false, orderId:'' }),
+  resetForm: () => set({ 
+    formData: {
+      ...tripInitialFormData,
+      childSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+      infantSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+      boosterSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+      description: { value: "", error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+    }, 
+    step: 1, 
+    category: "trip", 
+    formError: "", 
+    formLoading: false, 
+    isMobileDropdownOpen:false, 
+    isOrderDone:false, 
+    orderId:'' 
+  }),
   }));
 
 export default useFormStore;

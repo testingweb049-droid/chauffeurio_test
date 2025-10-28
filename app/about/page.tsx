@@ -5,6 +5,7 @@ import HeroSection2 from "@/component/sections/HeroSection2";
 import ImageDetailSection from "@/component/sections/ImageDetailSection";
 import Testimonials from "@/component/sections/Testimonials";
 import ValueAndMission from "@/component/sections/ValueAndMission";
+import SEO from "@/component/SEO";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
 
 export default function About() {
@@ -16,6 +17,7 @@ export default function About() {
 
   return (
     <>
+    <SEO/>
       <HeroSection2 bgImage="/84652a96fd9233308809fcf62694bb2205623ba3.jpg" text={about?.heroTitle} />
 
       <ImageDetailSection

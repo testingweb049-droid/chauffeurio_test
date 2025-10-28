@@ -61,10 +61,10 @@ export default function LocationInput({
         <div className="flex flex-col gap-1 w-full">
           <div className="text-sm font-semibold text-gray-700">{label}</div>
         <div className="relative flex-1">
-          <SlLocationPin className="absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <SlLocationPin className="absolute text-sm left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <input
             placeholder="Loading..."
-            className="w-full pl-8 md:pl-10 pr-2 md:pr-3 py-2 md:py-2.5 border border-gray-300 rounded-lg text-gray-500 bg-gray-50 cursor-not-allowed"
+            className="w-full pl-8 text-sm md:pl-10 pr-2 md:pr-3 py-2 md:py-2.5 border border-gray-300 rounded-lg text-gray-500 bg-gray-50 cursor-not-allowed"
             />
         </div>
             </div>
@@ -83,7 +83,7 @@ export default function LocationInput({
               value={fieldData?.value || ""}
               onChange={(e) => handleInputChange(e.target.value)}
               placeholder={placeholder}
-              className={`w-full pl-8 md:pl-10 pr-2 md:pr-3 py-2 md:py-2.5 border  rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F4910B] text-black text-sm md:text-base bg-white ${fieldData.error ? ' border-red-500' : 'border-gray-300'} `}
+              className={`w-full text-sm pl-8 md:pl-10 pr-2 md:pr-3 py-2 md:py-2.5 border  rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F4910B] text-black  md:text-base bg-white ${fieldData.error ? ' border-red-500' : 'border-gray-300'} `}
             />
           </div>
         </Autocomplete>

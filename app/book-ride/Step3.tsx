@@ -15,29 +15,31 @@ import BackButton from './BackButton'
 function ExtraCounter({
     label,
     price,
-    value,
-    onChange
+    extraType
 }: {
     label: string;
     price: number;
-    value: number;
-    onChange: (newValue: number) => void;
+        extraType: 'childSeat' | 'infantSeat' | 'boosterSeat';
 }) {
+    const { formData, updateExtra } = useFormStore();
+
+    const value = formData[extraType]?.value || 0;
+
     const increment = () => {
-        onChange(value + 1);
+        updateExtra(extraType, value + 1);
     };
 
     const decrement = () => {
         if (value > 0) {
-            onChange(value - 1);
+            updateExtra(extraType, value - 1);
         }
     };
 
     const handleCheckboxChange = () => {
         if (value > 0) {
-            onChange(0);
+            updateExtra(extraType, 0);
         } else {
-            onChange(1);
+            updateExtra(extraType, 1);
         }
     };
 
@@ -83,11 +85,6 @@ function ExtraCounter({
 function Step3() {
     const { formData, setFormData, changeStep, formLoading } = useFormStore();
 
-    // Local state for extras (since they're not in FormStore)
-    const [childSeat, setChildSeat] = React.useState(0);
-    const [infantSeat, setInfantSeat] = React.useState(0);
-    const [boosterSeat, setBoosterSeat] = React.useState(0);
-
     // Find the selected fleet category
     const selectedFleet = fleets.find((item) => item.category === formData.car.value);
 
@@ -116,7 +113,20 @@ function Step3() {
     // Calculate total price (moved from Step4)
     const basePrice = Number(formData.price.value ?? 0)
     const returnPrice = formData.isReturn ? basePrice - (basePrice / 10) : 0
-    const totalPrice = (Number(formData.price.value) + (formData.isMeetGreet.value ? 15 : 0) + (formData.isFlightTrack.value ? 7 : 0) + returnPrice).toFixed(1)
+
+    // Calculate extras total from form store
+    const childSeatTotal = (formData.childSeat?.value || 0) * 5;
+    const infantSeatTotal = (formData.infantSeat?.value || 0) * 5;
+    const boosterSeatTotal = (formData.boosterSeat?.value || 0) * 5;
+    const extrasTotal = childSeatTotal + infantSeatTotal + boosterSeatTotal;
+
+    const totalPrice = (
+        Number(formData.price.value) +
+        (formData.isMeetGreet.value ? 15 : 0) +
+        (formData.isFlightTrack.value ? 7 : 0) +
+        returnPrice +
+        extrasTotal
+    ).toFixed(1)
 
     return (
         <div className='flex flex-col gap-5 w-full'>
@@ -174,24 +184,21 @@ function Step3() {
                         <ExtraCounter
                             label="Child Seat"
                             price={5.00}
-                            value={childSeat}
-                            onChange={setChildSeat}
+                            extraType="childSeat"
                         />
                     </div>
                     <div className="px-4">
                         <ExtraCounter
                             label="Infant Seat"
                             price={5.00}
-                            value={infantSeat}
-                            onChange={setInfantSeat}
+                            extraType="infantSeat"
                         />
                     </div>
                     <div className="px-4">
                         <ExtraCounter
                             label="Booster Seat"
                             price={5.00}
-                            value={boosterSeat}
-                            onChange={setBoosterSeat}
+                            extraType="boosterSeat"
                         />
                     </div>
                 </div>
@@ -219,22 +226,22 @@ function Step3() {
                             </div>}
 
                             {/* Add extras to price breakdown */}
-                            {childSeat > 0 && (
+                            {(formData.childSeat?.value || 0) > 0 && (
                                 <div className='flex items-center justify-between gap-2'>
-                                    <div className='text-sm text-gray-500'>Child Seat × {childSeat}</div>
-                                    <div className='text-sm text-gray-500'>£ {(childSeat * 5).toFixed(1)}</div>
+                                    <div className='text-sm text-gray-500'>Child Seat × {formData.childSeat.value}</div>
+                                    <div className='text-sm text-gray-500'>£ {childSeatTotal.toFixed(1)}</div>
                                 </div>
                             )}
-                            {infantSeat > 0 && (
+                            {(formData.infantSeat?.value || 0) > 0 && (
                                 <div className='flex items-center justify-between gap-2'>
-                                    <div className='text-sm text-gray-500'>Infant Seat × {infantSeat}</div>
-                                    <div className='text-sm text-gray-500'>£ {(infantSeat * 5).toFixed(1)}</div>
+                                    <div className='text-sm text-gray-500'>Infant Seat × {formData.infantSeat.value}</div>
+                                    <div className='text-sm text-gray-500'>£ {infantSeatTotal.toFixed(1)}</div>
                                 </div>
                             )}
-                            {boosterSeat > 0 && (
+                            {(formData.boosterSeat?.value || 0) > 0 && (
                                 <div className='flex items-center justify-between gap-2'>
-                                    <div className='text-sm text-gray-500'>Booster Seat × {boosterSeat}</div>
-                                    <div className='text-sm text-gray-500'>£ {(boosterSeat * 5).toFixed(1)}</div>
+                                    <div className='text-sm text-gray-500'>Booster Seat × {formData.boosterSeat.value}</div>
+                                    <div className='text-sm text-gray-500'>£ {boosterSeatTotal.toFixed(1)}</div>
                                 </div>
                             )}
                         </div>
