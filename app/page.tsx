@@ -13,6 +13,7 @@ import TopDestination from "@/component/sections/TopDestination";
 // import Vission from "@/component/sections/VisionSection";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
 import InfiniteSlide from "./book-ride/InfiniteSlide";
+import SEO from "@/component/SEO";
 
 export default function Home() {
   const { home } = ClientSideStrings(); // ← pull translations
@@ -28,6 +29,7 @@ export default function Home() {
 
   return (
     <>
+    <SEO />
       {/* <HeroSection /> */}
       <HeroSectionUpdated/>
       <HeroBottom />

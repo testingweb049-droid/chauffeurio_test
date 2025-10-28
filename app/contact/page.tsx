@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import Button from '@/component/button/Button';
 import { ClientSideStrings } from '@/component/translations/ClientSideTranslations';
+import SEO from '@/component/SEO';
 
 type InputProps = {
   icon: React.ReactNode;
@@ -44,6 +45,7 @@ export default function ContactPage() {
 
   return (
     <>
+    <SEO />
       <HeroSection2 bgImage="/6ce6a2448617cf44ef818888d89aebce1e4d2614.jpg" text={contact?.heroTitle ?? 'Contact'} />
 
       <section className="py-12 md:py-20">

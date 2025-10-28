@@ -7,12 +7,14 @@ import HelpSection from "@/component/sections/HelpSection";
 import WorkSection from "@/component/sections/WorkSection";
 import ContentSection from "@/component/sections/ContentSection";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
+import SEO from "@/component/SEO";
 
 export default function BusinessChffurs() {
   const { businessChhuff } = ClientSideStrings();
 
   return (
     <>
+    <SEO />
       <HeroSection2 bgImage="/8772706bd9889910cc3815aae8ed0fe07a0f13c5.jpg" text={businessChhuff?.title} />
 
       <ImageDetailSection

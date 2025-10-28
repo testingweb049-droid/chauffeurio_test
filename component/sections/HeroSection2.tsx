@@ -2,18 +2,38 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { StaticImageData } from "next/image";
+import Image from "next/image";
 
 interface HeroSection2Props {
-  bgImage: string;
+  bgImage: StaticImageData | string;
   text: string;
 }
 
 export default function HeroSection2({ bgImage, text }: HeroSection2Props) {
+  // Check if bgImage is StaticImageData or string
+  const isStaticImage = typeof bgImage !== 'string';
+
   return (
-    <section
-      className="relative w-full md:h-[60vh] h-[40vh] bg-cover bg-center overflow-hidden"
-      style={{ backgroundImage: `url(${bgImage})` }}
-    >
+    <section className="relative w-full md:h-[60vh] h-[40vh] overflow-hidden">
+      {/* Background Image */}
+      {isStaticImage ? (
+        // Use Next.js Image for StaticImageData
+        <Image
+          src={bgImage}
+          alt="Hero background"
+          fill
+          className="object-cover"
+          priority
+        />
+      ) : (
+        // Use inline style for string URL
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${bgImage})` }}
+        />
+      )}
+
       {/* Overlay */}
       <div className="absolute inset-0 bg-primary opacity-50"></div>
 

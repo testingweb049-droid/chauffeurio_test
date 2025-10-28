@@ -1,9 +1,9 @@
 export const emailConfig = {
-      host: "smtp.hostinger.com",
+      host: "smtpout.secureserver.net",
       port: 465,
       secure: true,
       auth: {
-        user: "reservation@oktaxis.co.uk", 
-        pass: ";U3nJxy=hs",
+        user: "info@chauffeurio.com", 
+        pass: "Valencia2025@",
       },
     };

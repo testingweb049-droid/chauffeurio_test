@@ -7,13 +7,16 @@ import HelpSection from "@/component/sections/HelpSection";
 import WorkSection from "@/component/sections/WorkSection";
 import ContentSection from "@/component/sections/ContentSection";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
+import SEO from "@/component/SEO";
+import heroBackground from '@/assets/new-form/ddd.png'
 
 export default function AirportTransfer() {
   const { airportTransfer } = ClientSideStrings();
 
   return (
     <>
-      <HeroSection2 bgImage="/3ad4e7022387a357178d9df015a040e8b0e80c24.jpg" text={airportTransfer?.title} />
+    <SEO />
+      <HeroSection2 bgImage={heroBackground} text={airportTransfer?.title} />
 
       <ImageDetailSection
         title={airportTransfer?.title}
