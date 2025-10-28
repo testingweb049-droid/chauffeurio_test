@@ -36,7 +36,7 @@ export default function HelpSection({
     <section className="max-w-7xl mx-auto md:py-16 py-6 px-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <div className="w-full flex flex-col justify-start md:gap-8 gap-4">
-          {subtitle ? <h4 className="text-secondary">{subtitle}</h4> : null}
+          {/* {subtitle ? <h4 className="text-secondary">{subtitle}</h4> : null} */}
           <h1 className="md:leading-12">{heading}</h1>
           
           {/* Main Description with Read More - Mobile Only */}

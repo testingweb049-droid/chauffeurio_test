@@ -7,12 +7,14 @@ import HelpSection from "@/component/sections/HelpSection";
 import WorkSection from "@/component/sections/WorkSection";
 import ContentSection from "@/component/sections/ContentSection";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
+import SEO from "@/component/SEO";
 
 export default function CityToCity() {
   const { citytocity } = ClientSideStrings();
 
   return (
     <>
+    <SEO />
       <HeroSection2 bgImage="/4d0647dd70dc271856ddae5c30eec62f9bcc0f86.jpg" text={citytocity?.title} />
 
       <ImageDetailSection

@@ -145,7 +145,7 @@ export default function Testimonials() {
   );
 
   const renderBadges = () => (
-    <div className="hidden md:block">
+    <div className="hidden md:hidden">
       <div className="flex flex-wrap gap-4">
         {badges.map((b, i) => (
           <div key={i} className="min-w-[160px] p-4 ring-1 ring-gray-200">

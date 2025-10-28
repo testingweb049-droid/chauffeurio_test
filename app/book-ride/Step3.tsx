@@ -9,33 +9,35 @@ import SelectableCheckbox from './SelectableCheckbox'
 import AddReturn from './AddReturn'
 import LoadingButton from './LoadingButton'
 
-// Counter component for extras
+// Updated Counter component for extras using form store
 function ExtraCounter({ 
     label, 
     price, 
-    value,
-    onChange
+    extraType
 }: { 
     label: string; 
     price: number; 
-    value: number;
-    onChange: (newValue: number) => void;
+    extraType: 'childSeat' | 'infantSeat' | 'boosterSeat';
 }) {
+    const { formData, updateExtra } = useFormStore();
+    
+    const value = formData[extraType].value;
+
     const increment = () => {
-        onChange(value + 1);
+        updateExtra(extraType, value + 1);
     };
 
     const decrement = () => {
         if (value > 0) {
-            onChange(value - 1);
+            updateExtra(extraType, value - 1);
         }
     };
 
     const handleCheckboxChange = () => {
         if (value > 0) {
-            onChange(0);
+            updateExtra(extraType, 0);
         } else {
-            onChange(1);
+            updateExtra(extraType, 1);
         }
     };
 
@@ -80,11 +82,6 @@ function ExtraCounter({
 
 function Step3() {
     const {formData, setFormData, changeStep, formLoading} = useFormStore();
-    
-    // Local state for extras (since they're not in FormStore)
-    const [childSeat, setChildSeat] = React.useState(0);
-    const [infantSeat, setInfantSeat] = React.useState(0);
-    const [boosterSeat, setBoosterSeat] = React.useState(0);
     
     // Find the selected fleet category
     const selectedFleet = fleets.find((item) => item.category === formData.car.value);
@@ -167,31 +164,38 @@ function Step3() {
                         <ExtraCounter 
                             label="Child Seat" 
                             price={5.00} 
-                            value={childSeat}
-                            onChange={setChildSeat}
+                            extraType="childSeat"
                         />
                     </div>
                     <div className="px-4">
                         <ExtraCounter 
                             label="Infant Seat" 
                             price={5.00} 
-                            value={infantSeat}
-                            onChange={setInfantSeat}
+                            extraType="infantSeat"
                         />
                     </div>
                     <div className="px-4">
                         <ExtraCounter 
                             label="Booster Seat" 
                             price={5.00} 
-                            value={boosterSeat}
-                            onChange={setBoosterSeat}
+                            extraType="boosterSeat"
                         />
                     </div>
-                   
                 </div>
 
-                {/* <SelectableCheckbox fieldName='isFlightTrack' label='Flight Track' subLabel='€ 7'  />
-                <SelectableCheckbox fieldName='isMeetGreet' label='Meet & Greet' subLabel='€ 15'  /> */}
+                {/* Description Field */}
+                <div className="w-full">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Additional Instructions (Optional)
+                    </label>
+                    <textarea
+                        value={formData.description.value}
+                        onChange={(e) => setFormData('description', e.target.value)}
+                        placeholder="Any special requirements or instructions for your ride..."
+                        rows={4}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                    />
+                </div>
             </div>
             
             {

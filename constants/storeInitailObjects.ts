@@ -1,6 +1,5 @@
 import { FormDataType } from "@/stores/FormStore"
 
-
 const commonFormDataFields = {
   fromLocation: {
     value: "",
@@ -53,6 +52,11 @@ const commonFormDataFields = {
   isMeetGreet: { value: false, error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
   isReturn: { value: false, error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
   paymentId: { value: "", error: "", required: true, step: 4, coardinates: "", coardinatesRequired: false },
+  // New extras fields
+  childSeat: { value: 0, error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
+  infantSeat: { value: 0, error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
+  boosterSeat: { value: 0, error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
+  description: { value: "", error: "", required: false, step: 3, coardinates: "", coardinatesRequired: false },
 }
 
 export const tripInitialFormData: FormDataType = {

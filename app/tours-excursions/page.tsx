@@ -7,12 +7,14 @@ import HelpSection from "@/component/sections/HelpSection";
 import WorkSection from "@/component/sections/WorkSection";
 import ContentSection from "@/component/sections/ContentSection";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
+import SEO from "@/component/SEO";
 
 export default function TourAndExcursions() {
   const { tour } = ClientSideStrings();
 
   return (
     <>
+    <SEO />
       <HeroSection2 bgImage="/3adc8cbd03fa4372d00a4b351db1cf88e91389e1.jpg" text={tour?.title} />
 
       <ImageDetailSection

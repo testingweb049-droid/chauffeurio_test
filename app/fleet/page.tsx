@@ -1,6 +1,7 @@
 import FleetCards from "@/component/card/FleetCards";
 import HeroSection2 from "@/component/sections/HeroSection2";
-
+import heroBackground from '@/assets/new-form/ddd.png'
+import SEO from "@/component/SEO";
 // Define the complete fleets data according to requirements
 const fleets = [
   {
@@ -103,7 +104,8 @@ const fleets = [
 export default function Fleet() {
   return (
     <>
-      <HeroSection2 bgImage="/9b3e2fe554a6c651efdaa05128427c86bb81250b.jpg" text="Our Fleet" />
+    <SEO />
+      <HeroSection2 bgImage={heroBackground} text="Our Fleet" />
 
       {/* Breadcrumb + header */}
       <section className="px-4 md:px-6 lg:px-10 xl:px-16 py-10">
