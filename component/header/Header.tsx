@@ -78,17 +78,23 @@ export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   const { header } = ClientSideStrings();
 
   const handleDropdownToggle = (id: string) => {
-    setActiveDropdown(activeDropdown === id ? null : id);
+    setActiveDropdown((prev) => (prev === id ? null : id));
   };
 
-  // Remove all hover-related handlers for desktop
-  const toggleMobileMenu = () => setIsMobileMenuOpen((s) => !s);
+  // Close mobile menu and clear dropdown when toggling
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen((prev) => {
+      const next = !prev;
+      // If we are closing the mobile menu, also reset the active dropdown
+      if (!next) setActiveDropdown(null);
+      return next;
+    });
+  };
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 10);
@@ -97,31 +103,34 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close dropdown when clicking outside
+  // Close dropdown when clicking outside of any dropdown element
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      const target = event.target as HTMLElement | null;
+      // if the click is not inside any element that has data-dropdown attribute, close
+      if (target && !target.closest("[data-dropdown]")) {
         setActiveDropdown(null);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   // Define routes that should always have primary background
-  const routesWithPrimaryBg = ['/book-ride', '/terms-condition'];
-  
+  const routesWithPrimaryBg = ["/book-ride", "/terms-condition"];
+
   // Set background class: primary for specific routes, otherwise based on scroll
-  const bgClass = routesWithPrimaryBg.includes(pathname || '') 
-    ? "bg-primary" 
-    : (isScrolled ? "bg-primary" : "bg-transparent");
+  const bgClass = routesWithPrimaryBg.includes(pathname || "")
+    ? "bg-primary"
+    : isScrolled
+    ? "bg-primary"
+    : "bg-transparent";
 
   const navItems: NavItem[] = [
     { id: "home", label: header?.home || "Home", href: "/" },
-    
     {
       id: "services",
       label: header?.services || "Services",
@@ -153,7 +162,7 @@ export default function Header() {
           <div className="flex items-start justify-between md:hidden">
             <a href="/" aria-label="Home" className="flex items-center">
               <Image
-                src="/logo.png"
+                src="/Chauffeurio Logo PNG.png"
                 alt="Company Logo"
                 width={120}
                 height={60}
@@ -163,7 +172,7 @@ export default function Header() {
             </a>
 
             <div className="flex items-center gap-1 py-2">
-              <button onClick={toggleMobileMenu} className="text-white p-2" >
+              <button onClick={toggleMobileMenu} className="text-white p-2">
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={isMobileMenuOpen ? "close" : "open"}
@@ -183,14 +192,10 @@ export default function Header() {
             <nav className="flex items-center justify-center gap-8">
               {navItems.map((item) =>
                 item.isDropdown ? (
-                  <div
-                    key={item.id}
-                    className="relative"
-                    ref={dropdownRef}
-                  >
+                  <div key={item.id} className="relative" data-dropdown>
                     <button
                       onClick={() => handleDropdownToggle(item.id)}
-                      className={`text-md font-normal py-2 transition-colors flex items-center ${isActive(item.href) ? 'border-b-2 border-secondary text-secondary' : 'text-white hover:text-white/90'}`}
+                      className={`text-md font-normal py-2 transition-colors flex items-center ${isActive((item as any).href) ? 'border-b-2 border-secondary text-secondary' : 'text-white hover:text-white/90'}`}
                     >
                       {item.label}
                       <svg
@@ -211,6 +216,7 @@ export default function Header() {
                           initial="initial"
                           animate="animate"
                           exit="exit"
+                          data-dropdown
                         >
                           <ul className="space-y-1">
                             {item.items?.map((subItem, index) => (
@@ -255,7 +261,7 @@ export default function Header() {
           >
             <div className="flex flex-col h-full">
               <div className="flex justify-between items-center mb-6">
-                <button onClick={toggleMobileMenu} className="text-white p-2" >
+                <button onClick={toggleMobileMenu} className="text-white p-2">
                   <HiOutlineX size={24} />
                 </button>
               </div>
@@ -263,7 +269,7 @@ export default function Header() {
               <nav className="flex-1">
                 {navItems.map((item) =>
                   item.isDropdown ? (
-                    <div key={item.id} className="relative mb-4">
+                    <div key={item.id} className="relative mb-4" data-dropdown>
                       <button
                         onClick={() => handleDropdownToggle(item.id)}
                         className="text-white font-medium text-lg w-full text-left flex items-center justify-between py-2"
@@ -278,6 +284,7 @@ export default function Header() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </button>
+
                       <AnimatePresence>
                         {activeDropdown === item.id && (
                           <motion.div
@@ -286,6 +293,7 @@ export default function Header() {
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.3 }}
+                            data-dropdown
                           >
                             <ul className="space-y-2 py-2">
                               {item.items?.map((subItem, subIndex) => (
@@ -293,7 +301,11 @@ export default function Header() {
                                   <a
                                     href={subItem.href}
                                     className="block px-3 py-2 text-white/70 hover:text-white transition-colors"
-                                    onClick={toggleMobileMenu}
+                                    onClick={() => {
+                                      // close mobile menu and reset dropdown
+                                      setIsMobileMenuOpen(false);
+                                      setActiveDropdown(null);
+                                    }}
                                   >
                                     {subItem.label}
                                   </a>
@@ -309,7 +321,10 @@ export default function Header() {
                       key={item.id}
                       href={item.href}
                       className="text-white font-medium text-lg hover:text-white/90 transition-colors block py-2"
-                      onClick={toggleMobileMenu}
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        setActiveDropdown(null);
+                      }}
                     >
                       {item.label}
                     </a>
