@@ -265,17 +265,17 @@ import { create } from "zustand";
         extrasTotal: totalPrice - (parseFloat(formData.price.value) || 0)
       };
 
-      try {
-        const response = await createOrder(orderData);
-        if (response.status !== 201) {
-          set({ formError: response.error, formLoading: false });
-          return false;
-        }
-        set({ formError: "", formLoading: false, orderId:response?.order?.id ?? ''  });
-      } catch (error) {
-        set({ formError: error instanceof Error ? error.message : "Failed to place order", formLoading: false });
-        return false;
-      }
+      // try {
+      //   const response = await createOrder(orderData);
+      //   if (response.status !== 201) {
+      //     set({ formError: response.error, formLoading: false });
+      //     return false;
+      //   }
+      //   set({ formError: "", formLoading: false, orderId:response?.order?.id ?? ''  });
+      // } catch (error) {
+      //   set({ formError: error instanceof Error ? error.message : "Failed to place order", formLoading: false });
+      //   return false;
+      // }
     }
     if(_step===4 && isNext){
       set((state) => ({ ...state, formError: "", formLoading: false, step: 1, isOrderDone:true }));

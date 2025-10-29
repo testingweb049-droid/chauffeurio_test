@@ -76,17 +76,19 @@ export default function NewDropdownInput({
         </button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
+      <PopoverContent
+        className="w-[var(--radix-popover-trigger-width)] p-0 bg-white border border-gray-200 shadow-lg rounded-md z-[9999] !opacity-100 !bg-opacity-100 backdrop-blur-none text-primary"
+        sideOffset={4}
+      >
         <Command shouldFilter={false}>
           <CommandInput
             placeholder="Search..."
             value={search}
             onValueChange={setSearch}
-            className=""
+            className="text-primary placeholder:text-gray-400"
           />
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty className="text-gray-400">No results found.</CommandEmpty>
           <CommandGroup>
-            {/* ✅ ScrollArea fixed here */}
             <ScrollArea className="max-h-56 overflow-y-auto">
               <div className="py-1">
                 {filtered.map((opt) => (
@@ -94,11 +96,11 @@ export default function NewDropdownInput({
                     key={opt.value}
                     value={opt.value}
                     onSelect={() => handleSelect(opt.value)}
-                    className="flex items-center justify-between px-2 py-2 cursor-pointer"
+                    className="flex items-center justify-between px-2 py-2 cursor-pointer text-primary hover:bg-[#FFF4E5]"
                   >
                     <span>{opt.label}</span>
                     {value === opt.value && (
-                      <Check className="h-4 w-4 text-[#F4910B]" />
+                      <Check className="h-4 w-4 text-primary" />
                     )}
                   </CommandItem>
                 ))}
@@ -107,6 +109,7 @@ export default function NewDropdownInput({
           </CommandGroup>
         </Command>
       </PopoverContent>
+
     </Popover>
   )
 }

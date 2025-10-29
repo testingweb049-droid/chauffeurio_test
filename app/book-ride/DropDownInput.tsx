@@ -4,23 +4,16 @@ import { useEffect, useState } from "react"
 import { Check, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import useFormStore, { FormDataType } from "@/stores/FormStore"
-// import {
-//   Popover,
-//   PopoverContent,
-//   PopoverTrigger,
-// } from "@/components/ui/popover"
-// import {
-//   Command,
-//   CommandEmpty,
-//   CommandGroup,
-//   CommandInput,
-//   CommandItem,
-// } from "@/components/ui/command"
-// import { ScrollArea } from "@/components/ui/scroll-area"
 import { LucideProps } from "lucide-react"
 import { Popover, PopoverContent, PopoverTrigger } from "@/component/ui/popover"
 import { ScrollArea } from "@/component/ui/scroll-area"
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/component/ui/command"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/component/ui/command"
 
 interface DropdownOption {
   label: string
@@ -71,11 +64,12 @@ export default function NewDropdownInput({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
+      {/* Trigger Button */}
       <PopoverTrigger asChild>
         <button
           type="button"
           className={cn(
-            "w-full justify-between text-left p-2 rounded-md border text-sm flex items-center gap-2 bg-white text-black",
+            "w-full justify-between text-left p-2 rounded-md border text-sm flex items-center gap-2 bg-white text-primary",
             error ? "border-red-500" : "border-gray-300"
           )}
         >
@@ -85,21 +79,25 @@ export default function NewDropdownInput({
               ? options.find((opt) => opt.value === value)?.label
               : placeholder}
           </span>
-          <ChevronDown className="h-4 w-4 opacity-50" />
+          <ChevronDown className="h-4 w-4 opacity-50 text-primary" />
         </button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 bg-white">
+      {/* Dropdown Content */}
+      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 bg-white border border-gray-200 rounded-md shadow-lg text-primary z-[9999]">
         <Command shouldFilter={false}>
+          {/* Search Input */}
           <CommandInput
             placeholder="Search..."
             value={search}
             onValueChange={setSearch}
-            className=""
+            className="text-primary placeholder:text-primary/60"
           />
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty className="text-primary/70 px-2 py-2">
+            No results found.
+          </CommandEmpty>
+
           <CommandGroup>
-            {/* ✅ ScrollArea fixed here */}
             <ScrollArea className="max-h-56 bg-white overflow-y-auto">
               <div className="py-1">
                 {filtered.map((opt) => (
@@ -107,11 +105,14 @@ export default function NewDropdownInput({
                     key={opt.value}
                     value={opt.value}
                     onSelect={() => handleSelect(opt.value)}
-                    className="flex items-center justify-between px-2 py-2 cursor-pointer"
+                    className={cn(
+                      "flex items-center justify-between px-2 py-2 cursor-pointer transition-colors",
+                      "text-primary hover:bg-primary/10 hover:text-primary"
+                    )}
                   >
                     <span>{opt.label}</span>
                     {value === opt.value && (
-                      <Check className="h-4 w-4 text-[#F4910B]" />
+                      <Check className="h-4 w-4 text-primary" />
                     )}
                   </CommandItem>
                 ))}
