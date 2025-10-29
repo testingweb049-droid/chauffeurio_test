@@ -37,11 +37,11 @@ const HeroSectionUpdated: React.FC = () => {
               className="w-16 lg:w-40 object-contain hidden md:block"
             />
 
-            <h6 className="uppercase tracking-[0.2em] font-bold text-[#FFFBF6] text-xl ">
+            <h2 className=" font-semibold md:font-bold text-[#FFFBF6] md:text-xl text-[12px] pt-6">
               {hero.eyebrow}
-            </h6>
+            </h2>
 
-            <h1 className="font-semibold text-2xl md:text-3xl lg:text-4xl ">
+            <h1 className="font-semibold hidden text-2xl md:text-3xl lg:text-4xl ">
               {hero.titleLines.map((line, i) => (
                 <span key={i} className="block">
                   {line}

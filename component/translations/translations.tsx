@@ -455,7 +455,7 @@ testimonials: {
     },
 home: {
   hero: {
-          eyebrow: "Private Transfers & Executive Chauffeur Service in Valencia",
+          eyebrow: "Private Transfers & Airport Chauffeur Service in Valencia",
           titleLines: [
             "Experience seamless, first-class transfers across Valencia and beyond — where comfort, style, and discretion define every journey. ",
           ],
@@ -572,7 +572,7 @@ home: {
     },
 footer: {
       location: "Valencia—",
-      operatingHours: "Operating Hours: Mon–Sun, 24 Hours",
+      operatingHours: "Experience seamless, first-class transfers across Valencia and beyond  where comfort, style, and discretion define every journey.",
       quickLinksTitle: "Quick Links",
       servicesTitle: "Services",
       paymentTitle: "Payment Accepted",
@@ -597,7 +597,8 @@ footer: {
         termsConditions: "Terms and Conditions",
         legalWarning: "Legal Warning",
         privacyPolicy: "Privacy Policy",
-        cookiesPolicy: "Cookies Policy"
+        cookiesPolicy: "Cookies Policy",
+        develope: "Develop by The Dev Square"
       }
     },
 
@@ -1202,7 +1203,8 @@ testimonials: {
         termsConditions: "Conditions Générales",
         legalWarning: "Avertissement Légal",
         privacyPolicy: "Politique de Confidentialité",
-        cookiesPolicy: "Politique des Cookies"
+        cookiesPolicy: "Politique des Cookies",
+        develope: "Develop by The Dev Square"
       }
     },
 
@@ -1810,7 +1812,8 @@ faqPage: {
         termsConditions: "Términos y Condiciones",
         legalWarning: "Aviso Legal",
         privacyPolicy: "Política de Privacidad",
-        cookiesPolicy: "Política de Cookies"
+        cookiesPolicy: "Política de Cookies",
+        develope: "Develop by The Dev Square"
       }
     },
   },

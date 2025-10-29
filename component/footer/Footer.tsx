@@ -38,6 +38,7 @@ export default function Footer() {
     { name: footer?.footerLinks?.legalWarning || "Legal Warning", href: "/terms-condition?section=legal-warning" },
     { name: footer?.footerLinks?.privacyPolicy || "Privacy Policy", href: "/terms-condition?section=privacy" },
     { name: footer?.footerLinks?.cookiesPolicy || "Cookies Policy", href: "/terms-condition?section=cookies" },
+    { name: footer?.footerLinks?.develope || "Cookies Policy", href: "https://www.thedevsquare.com/" },
   ];
 
   return (
@@ -59,7 +60,7 @@ export default function Footer() {
             </Link>
 
             <div className="space-y-1 text-sm text-gray-300">
-              <p className="text-[#d2dde0]">{footer?.location || "Valencia—"}</p>
+              {/* <p className="text-[#d2dde0]">{footer?.location || "Valencia—"}</p> */}
               <p className="text-[#d2dde0]">{footer?.operatingHours || "Operating Hours: Mon–Sun, 24 Hours"}</p>
             </div>
           </div>
