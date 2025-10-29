@@ -139,7 +139,7 @@ export const fleets = [
     passengers: 12,
     luggage: 12,
     hasChargingPort: true,
-    imageUrl: "/Minibus 12.png",
+    imageUrl: "/Minibus 16.png",
     pricing: {
       perKm: 3.5, // Fallback price
       hourly: 80,

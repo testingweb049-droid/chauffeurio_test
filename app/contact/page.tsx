@@ -68,12 +68,12 @@ export default function ContactPage() {
             </p>
 
             <ul className="mt-8 space-y-5 text-[#303B40]">
-              <li className="flex items-start gap-3">
+              {/* <li className="flex items-start gap-3">
                 <span className="text-[#002C3F]"><MapPin size={20} /></span>
                 <span className="#5F5D5A">
                   {contact?.address ?? 'C/ Dama De Elche 26, 46023 Valencia'}
                 </span>
-              </li>
+              </li> */}
 
               <li className="flex items-start gap-3">
                 <span className="text-[#002C3F]"><Phone size={20} /></span>

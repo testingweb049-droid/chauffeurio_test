@@ -45,8 +45,8 @@ const fleets = [
       { name: "Volkswagen Caravelle", imageUrl: "/Economy Van.png" },
       { name: "Ford Transit Custom or superior", imageUrl: "/Economy Van.png" }
     ],
-    passengers: 8,
-    luggage: 8,
+    passengers: 6,
+    luggage: 6,
     hasChargingPort: true,
     pricing: {
       perKm: 2.0,
@@ -73,7 +73,7 @@ const fleets = [
     category: "MINIBUS_12",
     displayName: "Minibus 12",
     vehicles: [
-      { name: "Mercedes sprinter or similar (or two vans)", imageUrl: "/Minibus 12.png" }
+      { name: "Mercedes sprinter or similar (or two vans)", imageUrl: "/Minibus 16.png" }
     ],
     passengers: 12,
     luggage: 12,
@@ -105,7 +105,7 @@ export default function Fleet() {
   return (
     <>
     <SEO />
-      <HeroSection2 bgImage={heroBackground} text="Our Fleet" />
+      <HeroSection2 bgImage="/fleethome.png" text="Our Fleet" />
 
       {/* Breadcrumb + header */}
       <section className="px-4 md:px-6 lg:px-10 xl:px-16 py-10">
