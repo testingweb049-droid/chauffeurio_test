@@ -49,7 +49,7 @@ export default function Footer() {
           <div className="space-y-5">
             <Link href="/" aria-label="Home" className="inline-flex items-center">
               <Image
-                src="/logo.png"
+                src="/Chauffeurio Logo PNG.png"
                 alt="Company Logo"
                 width={160}
                 height={64}

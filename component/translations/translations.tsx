@@ -31,14 +31,14 @@ export const translations = {
         { title: "Flight Tracking", description: "24/7 monitoring; we’re here, even if your flight is delayed." },
         { title: "Wide Vehicle Choice", description: "From budget rides to luxury cars and minibuses." },
         { title: "Meet & Greet Service", description: "Driver waiting with your name sign, helping with bags." },
-        { title: "Flat Rates", description: "No hidden fees, clear and upfront pricing." },
+        { title: "Fixed Rates", description: "No hidden fees, clear and upfront pricing." },
         { title: "Family & Business Friendly", description: "Kid seats, Comfort and quiet space available." },
       ],
       workSteps: [
         { title: "Book Your Ride ", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
-        { title: "Travel in Comfort", description: "Air-conditioned vehicles and with Wi-Fi, bottled water, and phone chargers." },
+        { title: "Travel in Comfort", description: "Air-conditioned vehicles and with bottled water, and phone chargers." },
         { title: "24/7 Availability", description: "Whether day or night, we are ready, also  for flight delays and longer trips" },
-        { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Spain, with punctual drivers" },
+        { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Valencia, with punctual drivers" },
       ],
       contentSections: [
         {
@@ -59,27 +59,27 @@ export const translations = {
     },
     hourlyChauffeurs: {
       title: "HOURLY CHAUFFEURs",
-      heroSubtitle: "Hourly Chauffeur Services in Spain with Chauffeurio",
+      heroSubtitle: "Hourly Chauffeur Services in Valencia with Chauffeurio",
       helpSubtitle: "HOW WE HELP",
       workEyebrow: "How We Work",
       worksectionTitle: "Simple Booking and Reliable Service",
       description:
-        "Need a driver on standby? Chauffeurio’s hourly chauffeur services give you flexibility across Spain’s major cities — Madrid, Barcelona, Valencia, Málaga, Seville, and the Costa del Sol. Whether it’s running errands, attending meetings, shopping, or sightseeing, our professional chauffeurs adapt to your schedule so you can move at your own pace.",
-      whyChoose: "Why Choose Chauffeurio Hourly Service in Spain",
+        "Need a driver on standby? Chauffeurio’s hourly chauffeur services in Valencia give you complete flexibility wherever your day takes you. Whether you’re running errands, attending meetings, shopping, or sightseeing, our professional chauffeurs adapt to your schedule — so you can move around Valencia at your own pace.",
+      whyChoose: "Why Choose Chauffeurio Hourly Service in Valencia",
       helpDescription:
         "Our by-the-hour hire is designed for travelers who want freedom without the hassle of fixed routes. Book the hours you need, and your chauffeur is ready to go wherever the day takes you. From quick business runs to full-day leisure plans, we provide vehicles for solo travelers, families, or groups. Enjoy the flexibility of adjusting your schedule on the go, with no pressure to rush. With Chauffeurio, every hour is tailored to your needs, making travel seamless and stress-free.",
       points: [
         { title: "Flight Tracking", description: "24/7 monitoring; we’re here, even if your flight is delayed." },
         { title: "Wide Vehicle Choice", description: "From budget rides to luxury cars and minibuses." },
         { title: "Meet & Greet Service", description: "Driver waiting with your name sign, helping with bags." },
-        { title: "Flat Rates", description: "No hidden fees, clear and upfront pricing." },
+        { title: "Fixed Rates", description: "No hidden fees, clear and upfront pricing." },
         { title: "Family & Business Friendly", description: "Kid seats, Comfort and quiet space available." },
       ],
       workSteps: [
         { title: "Book Your Ride ", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
-        { title: "Travel in Comfort", description: "Air-conditioned vehicles and with Wi-Fi, bottled water, and phone chargers." },
+        { title: "Travel in Comfort", description: "Air-conditioned vehicles and with bottled water, and phone chargers." },
         { title: "24/7 Availability", description: "Whether day or night, we are ready, also  for flight delays and longer trips" },
-        { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Spain, with punctual drivers" },
+        { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Valencia, with punctual drivers" },
       ],
       contentSections: [
         {
@@ -100,12 +100,12 @@ export const translations = {
     },
   eventTransport: {
   title: "EVENT TRANSPORT",
-  heroSubtitle: "Event Transfers in Valencia with Chauffeurio",
+  heroSubtitle: "Luxury Chauffeur Service in Valencia for Your Special Events",
   helpSubtitle: "HOW WE HELP",
   workEyebrow: "How We Work",
   worksectionTitle: "Simple Booking and Reliable Service",
   description:
-    "Big event coming up? Skip the stress of parking and traffic — Chauffeurio takes care of event transfers across Spain so you can arrive ready for the spotlight. Whether it’s a wedding in Seville, a corporate conference in Madrid, a festival in Valencia, or a concert, our professional chauffeurs ensure your group arrives together, on time, and in comfort.",
+    "Hosting or attending a prestigious event in Valencia? Experience seamless elegance with Chauffeurio, the leading luxury chauffeur service in Valencia. We specialize in premium event transfers, offering a flawless experience for weddings, corporate events, festivals, and private celebrations. Our professional private drivers in Valencia ensure you and your guests arrive in absolute comfort, style, and perfect timing. Whether you need VIP transportation in Valencia or a private chauffeur for a special occasion, Chauffeurio delivers the sophistication and reliability you deserve. Relax and enjoy the journey — we will take care of every detail, from door to destination.",
   whyChoose: "Why Choose Chauffeurio for Event Transfers in Valencia",
   helpDescription:
     "Traveling for an event should be smooth, stylish, and stress-free. At Chauffeurio, we specialize in tailored event transport for weddings, business gatherings, parties, and more. From budget-friendly options to luxury rides, we match your group and vibe. Our chauffeurs greet you curbside, help with luggage, and drop you right at the venue door.",
@@ -113,20 +113,20 @@ export const translations = {
     { title: "Flexible Fleet Choices:", description: "24/7 monitoring; we’re here, even if your flight is delayed." },
     { title: "Wide Vehicle Choice", description: "From budget rides to luxury cars and minibuses." },
     { title: "Meet & Greet Service", description: "Driver waiting with your name sign, helping with bags." },
-    { title: "Flat Rates", description: "No hidden fees, clear and upfront pricing." },
+    { title: "Fixed Rates", description: "No hidden fees, clear and upfront pricing." },
     { title: "Family & Business Friendly", description: "Kid seats, Comfort and quiet space available." },
   ],
   workSteps: [
     { title: "Book Your Ride ", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
-    { title: "Travel in Comfort", description: "Air-conditioned vehicles and with Wi-Fi, bottled water, and phone chargers." },
+    { title: "Travel in Comfort", description: "Air-conditioned vehicles and with  bottled water, and phone chargers." },
     { title: "24/7 Availability", description: "Whether day or night, we are ready, also  for flight delays and longer trips" },
-    { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Spain, with punctual drivers" },
+    { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Valencia, with punctual drivers" },
   ],
   contentSections: [
     {
       title: "Smooth Event Journeys from Start to Finish",
       description:
-        "Whether it’s a wedding in Seville, a festival in Valencia, or a business event in Madrid, Chauffeurio guarantees smooth arrivals and departures. Your chauffeur will be ready with a personalized meet-and-greet, assist with luggage, and adjust timings if your schedule changes. With flat-rate pricing and expert drivers, you can count on a stress-free transfer from start to finish.",
+        "Whether it’s a wedding in Valencia, a luxury event, or an exclusive corporate function, Chauffeurio guarantees a seamless arrival and departure every time. Your private chauffeur in Valencia will be ready with a personalized meet-and-greet, assist with your luggage, and adapt effortlessly to any schedule changes. With transparent flat-rate pricing and experienced professional drivers, you can count on a stress-free, elegant transfer from start to finish.",
       image: "/Rectangle 9.png",
       imagePosition: "right",
     },
@@ -154,14 +154,14 @@ export const translations = {
     { title: "Flexible Fleet Choices:", description: "24/7 monitoring; we’re here, even if your flight is delayed." },
     { title: "Wide Vehicle Choice", description: "From budget rides to luxury cars and minibuses." },
     { title: "Meet & Greet Service", description: "Driver waiting with your name sign, helping with bags." },
-    { title: "Flat Rates", description: "No hidden fees, clear and upfront pricing." },
+    { title: "Fixed Rates", description: "No hidden fees, clear and upfront pricing." },
     { title: "Family & Business Friendly", description: "Kid seats, Comfort and quiet space available." },
   ],
   workSteps: [
     { title: "Book Your Ride ", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
-    { title: "Travel in Comfort", description: "Air-conditioned vehicles and with Wi-Fi, bottled water, and phone chargers." },
+    { title: "Travel in Comfort", description: "Air-conditioned vehicles and with bottled water, and phone chargers." },
     { title: "24/7 Availability", description: "Whether day or night, we are ready, also  for flight delays and longer trips" },
-    { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Spain, with punctual drivers" },
+    { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Valencia, with punctual drivers" },
   ],
   contentSections: [
     {
@@ -174,7 +174,7 @@ export const translations = {
     {
       title: "VIP and Extended Excursions",
       description:
-        "Turn your trip into a luxury journey with our premium fleet, from Mercedes S-Class to Cadillac Escalade. Perfect for day-long explorations, coastal drives, or multi-city adventures, complete with comfort, privacy, and a touch of elegance. Enjoy onboard perks like refreshments, Wi-Fi, and spacious seating. With Chauffeurio, your excursion feels less like travel and more like a first-class experience.",
+        "Turn your trip into a luxury journey with our premium fleet, from Mercedes S-Class to Cadillac Escalade. Perfect for day-long explorations, coastal drives, or multi-city adventures, complete with comfort, privacy, and a touch of elegance. Enjoy onboard perks like refreshments and spacious seating. With Chauffeurio, your excursion feels less like travel and more like a first-class experience.",
       image: "/Rectangle 9 (1).png",
       imagePosition: "left",
     },
@@ -195,14 +195,14 @@ export const translations = {
     { title: "Flexible Fleet Choices:", description: "24/7 monitoring; we’re here, even if your flight is delayed." },
     { title: "Wide Vehicle Choice", description: "From budget rides to luxury cars and minibuses." },
     { title: "Meet & Greet Service", description: "Driver waiting with your name sign, helping with bags." },
-    { title: "Flat Rates", description: "No hidden fees, clear and upfront pricing." },
+    { title: "Fixed Rates", description: "No hidden fees, clear and upfront pricing." },
     { title: "Family & Business Friendly", description: "Kid seats, Comfort and quiet space available." },
   ],
   workSteps: [
     { title: "Book Your Ride ", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
-    { title: "Travel in Comfort", description: "Air-conditioned vehicles and with Wi-Fi, bottled water, and phone chargers." },
+    { title: "Travel in Comfort", description: "Air-conditioned vehicles and with bottled water, and phone chargers." },
     { title: "24/7 Availability", description: "Whether day or night, we are ready, also  for flight delays and longer trips" },
-    { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Spain, with punctual drivers" },
+    { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Valencia, with punctual drivers" },
   ],
   contentSections: [
     {
@@ -236,14 +236,14 @@ export const translations = {
     { title: "Flexible Fleet Choices:", description: "24/7 monitoring; we’re here, even if your flight is delayed." },
     { title: "Wide Vehicle Choice", description: "From budget rides to luxury cars and minibuses." },
     { title: "Meet & Greet Service", description: "Driver waiting with your name sign, helping with bags." },
-    { title: "Flat Rates", description: "No hidden fees, clear and upfront pricing." },
+    { title: "Fixed Rates", description: "No hidden fees, clear and upfront pricing." },
     { title: "Family & Business Friendly", description: "Kid seats, Comfort and quiet space available." },
   ],
   workSteps: [
     { title: "Book Your Ride ", description: "Get an instant quote and confirm your transfer online, by phone, or by email." },
-    { title: "Travel in Comfort", description: "Air-conditioned vehicles and with Wi-Fi, bottled water, and phone chargers." },
+    { title: "Travel in Comfort", description: "Air-conditioned vehicles and with bottled water, and phone chargers." },
     { title: "24/7 Availability", description: "Whether day or night, we are ready, also  for flight delays and longer trips" },
-    { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Spain, with punctual drivers" },
+    { title: "Arrive with Confidence", description: "Chauffeurio ensures smooth airport transfers across Valencia, with punctual drivers" },
   ],
   contentSections: [
     {
@@ -399,7 +399,7 @@ faqPage: {
       },
     },
 testimonials: {
-      eyebrow: "TESTIMONIALS",
+      eyebrow: "Our Reviews",
       title: "Explore Valencia with Our Executive Chauffeur Travel",
       badges: [
         { source: "Google", score: "4.9", reviews: "2,394 reviews" },
@@ -409,7 +409,7 @@ testimonials: {
       items: [
         {
           id: 1,
-          name: "Nick Evans",
+          name: "Olivia",
           verified: true,
           date: "1 week ago",
           rating: 5,
@@ -455,9 +455,9 @@ testimonials: {
     },
 home: {
   hero: {
-          eyebrow: "Chauffeur Service in Valencia",
+          eyebrow: "Private Transfers & Executive Chauffeur Service in Valencia",
           titleLines: [
-            "Airport Taxi Service Serving Whole Valencia",
+            "Experience seamless, first-class transfers across Valencia and beyond — where comfort, style, and discretion define every journey. ",
           ],
         },
       serviceSection: {
@@ -466,7 +466,7 @@ home: {
         introLeft:
           "We offer a complete range of bespoke transportation solutions designed to meet the highest standards of quality, safety, and discretion.",
         introRight:
-          "Experience Spain like never before with our range of tailored transport options. We offer a fleet of high-end vehicles driven by expert chauffeurs who know the local routes inside out. From economy rides for everyday needs to first-class luxury for special occasions, we've got the perfect fit. Looking for affordable private hire in Valencia or executive transport in Seville? Our services ensure you travel in style without worries.",
+          "Experience Spain like never before with our range of tailored transport options. We offer a fleet of high-end vehicles driven by expert chauffeurs who know the local routes inside out. From economy rides for everyday needs to first-class luxury for special occasions, we've got the perfect fit. Looking for affordable private hire in Valencia or executive transport? Our services ensure you travel in style without worries.",
         items: [
           { href: "/airport-transfer",  title: "Airport Transfers",               image: "/WhatsApp Image 2025-10-26 at 21.29.20 (1).jpeg" },
           
@@ -534,7 +534,7 @@ home: {
             href: "/fleet/business-class",
             title: "Economy Van",
             subtitle: "Mercedes Vito, Volkswagen Caravelle",
-            image: "/Economy Van.png",
+            image: "/WhatsApp Image 2025-10-29 at 22.41.28.jpeg",
           },
         ],
       },
@@ -542,7 +542,7 @@ home: {
       contentSections: [
         {
           title:
-            "Comprehensive Chauffeur Solutions for Every Occasion in Valencia and across Spain.",
+            "Comprehensive Chauffeur Solutions for Every Occasion in Valencia.",
           description:
             "Whether you need a reliable airport taxi service in Valencia or a sophisticated transport solution for a VIP delegation, we tailor every journey to your specific needs. We manage complex itineraries, multi-stop tours, and special requests with flawless execution, ensuring your plans proceed without a hitch. Experience the true convenience of our VIP intercity private driver services in Spain.",
           image: "/Rectangle 9.png",
@@ -564,9 +564,9 @@ home: {
           "Explore Valencia's Top Destinations in Style with Executive Chauffeur Travel",
         ctaLabel: "View Cities",
         items: [
-          { id: 1, title: "OCEANOGRÀFIC AQUARIUM", image: "/post10-copyright-1-890x664.jpg.png" },
-          { id: 2, title: "LA LONJA DE LA SEDA",   image: "/post10-copyright-1-890x664.jpg (1).png" },
-          { id: 3, title: "SCIENCE MUSEUM",        image: "/post10-copyright-1-890x664.jpg (2).png" },
+          { id: 1, title: "Torres Serranos", image: "/premium_photo-1697730336238-5d1d342127e8.avif" },
+          { id: 2, title: "Mercado Central",   image: "/premium_photo-1749499938590-40291c621d2d.avif" },
+          { id: 3, title: "Plaza De La Reina",        image: "/premium_photo-1694475224827-bbfced873eb8.avif" },
         ],
       },
     },
@@ -640,7 +640,7 @@ footer: {
       ],
       workSteps: [
         { title: "Réservez votre trajet", description: "Obtenez un devis instantané et confirmez en ligne, par téléphone ou par e-mail." },
-        { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs." },
+        { title: "Voyagez confortablement", description: "Véhicules climatisés avec eau en bouteille et chargeurs." },
         { title: "Disponibilité 24/7", description: "De jour comme de nuit, prêts y compris en cas de retard ou longs trajets." },
         { title: "Arrivez en toute confiance", description: "Transferts aéroport fluides dans toute l’Espagne, chauffeurs ponctuels." },
       ],
@@ -681,7 +681,7 @@ footer: {
       ],
       workSteps: [
         { title: "Réservez votre trajet", description: "Devis instantané et confirmation en ligne, par téléphone ou par e-mail." },
-        { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs." },
+        { title: "Voyagez confortablement", description: "Véhicules climatisés avec eau en bouteille et chargeurs." },
         { title: "Disponibilité 24/7", description: "De jour comme de nuit ; prêts aussi pour les retards et longs trajets." },
         { title: "Arrivez en toute confiance", description: "Chauffeurio assure un service fluide partout en Espagne, avec des chauffeurs ponctuels." }
       ],
@@ -722,7 +722,7 @@ footer: {
   ],
   workSteps: [
     { title: "Réservez votre trajet", description: "Devis instantané et confirmation en ligne, par téléphone ou par e-mail." },
-    { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs." },
+    { title: "Voyagez confortablement", description: "Véhicules climatisés avec eau en bouteille et chargeurs." },
     { title: "Disponibilité 24/7", description: "De jour comme de nuit ; prêts aussi pour retards et longs trajets." },
     { title: "Arrivez en toute confiance", description: "Service fluide dans toute l’Espagne, chauffeurs ponctuels." },
   ],
@@ -763,7 +763,7 @@ tour: {
   ],
   workSteps: [
     { title: "Réservez votre trajet", description: "Devis instantané et confirmation en ligne, par téléphone ou par e-mail." },
-    { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs." },
+    { title: "Voyagez confortablement", description: "Véhicules climatisés avec eau en bouteille et chargeurs." },
     { title: "Disponibilité 24/7", description: "De jour comme de nuit ; prêts aussi pour retards et longs trajets." },
     { title: "Arrivez en toute confiance", description: "Chauffeurio assure des transferts fluides dans toute l’Espagne, avec des chauffeurs ponctuels." },
   ],
@@ -778,7 +778,7 @@ tour: {
     {
       title: "Excursions VIP et étendues",
       description:
-        "Transformez votre voyage en expérience premium grâce à notre flotte haut de gamme, de la Mercedes Classe S au Cadillac Escalade. Parfait pour des journées complètes, routes côtières ou aventures multi-villes, avec confort, confidentialité et une touche d’élégance. Profitez d’avantages à bord : rafraîchissements, Wi-Fi et espaces généreux. Avec Chauffeurio, votre excursion ressemble à une expérience de première classe.",
+        "Transformez votre voyage en expérience premium grâce à notre flotte haut de gamme, de la Mercedes Classe S au Cadillac Escalade. Parfait pour des journées complètes, routes côtières ou aventures multi-villes, avec confort, confidentialité et une touche d’élégance. Profitez d’avantages à bord : rafraîchissements et espaces généreux. Avec Chauffeurio, votre excursion ressemble à une expérience de première classe.",
       image: "/Rectangle 9 (1).png",
       imagePosition: "left",
     },
@@ -804,7 +804,7 @@ citytocity: {
   ],
   workSteps: [
     { title: "Réservez votre trajet", description: "Devis instantané et confirmation en ligne, par téléphone ou par e-mail." },
-    { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs." },
+    { title: "Voyagez confortablement", description: "Véhicules climatisés avec eau en bouteille et chargeurs." },
     { title: "Disponibilité 24/7", description: "De jour comme de nuit ; prêts aussi pour retards et longs trajets." },
     { title: "Arrivez en toute confiance", description: "Chauffeurio assure des trajets interurbains fluides en Espagne, avec des chauffeurs ponctuels." },
   ],
@@ -845,7 +845,7 @@ businessChhuff: {
   ],
   workSteps: [
     { title: "Réservez votre trajet", description: "Devis instantané et confirmation en ligne, par téléphone ou par e-mail." },
-    { title: "Voyagez confortablement", description: "Véhicules climatisés avec Wi-Fi, eau en bouteille et chargeurs." },
+    { title: "Voyagez confortablement", description: "Véhicules climatisés avec eau en bouteille et chargeurs." },
     { title: "Disponibilité 24/7", description: "De jour comme de nuit ; prêts aussi pour retards et longs trajets." },
     { title: "Arrivez en toute confiance", description: "Chauffeurio assure des transferts fluides en Espagne, avec des chauffeurs ponctuels." },
   ],
@@ -1139,7 +1139,7 @@ testimonials: {
             href: "/fleet/business-class",
             title: "Classe Affaires",
             subtitle: "Mercedes E Class, BMW 5 Series, Cadillac XTS",
-            image: "/Economy Van.png",
+            image: "/WhatsApp Image 2025-10-29 at 22.41.28.jpeg",
           },
         ],
       },
@@ -1248,7 +1248,7 @@ testimonials: {
       ],
       workSteps: [
         { title: "Reserve su viaje", description: "Obtenga una cotización instantánea y confirme en línea, por teléfono o por correo electrónico." },
-        { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores." },
+        { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, agua embotellada y cargadores." },
         { title: "Disponibilidad 24/7", description: "Listos de día y de noche, también para retrasos y trayectos largos." },
         { title: "Llegue con confianza", description: "Traslados al aeropuerto sin contratiempos en toda España, chóferes puntuales." },
       ],
@@ -1289,7 +1289,7 @@ testimonials: {
       ],
       workSteps: [
         { title: "Reserve su viaje", description: "Cotización instantánea y confirmación en línea, por teléfono o por correo electrónico." },
-        { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores." },
+        { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado agua embotellada y cargadores." },
         { title: "Disponibilidad 24/7", description: "De día o de noche; listos también para retrasos y trayectos largos." },
         { title: "Llegue con confianza", description: "Chauffeurio garantiza un servicio fluido en toda España, con conductores puntuales." }
       ],
@@ -1330,7 +1330,7 @@ testimonials: {
   ],
   workSteps: [
     { title: "Reserve su viaje", description: "Cotización instantánea y confirmación en línea, por teléfono o por correo electrónico." },
-    { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores." },
+    { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, agua embotellada y cargadores." },
     { title: "Disponibilidad 24/7", description: "Listos de día o de noche; también para retrasos y trayectos largos." },
     { title: "Llegue con confianza", description: "Servicio fluido en toda España, con conductores puntuales." },
   ],
@@ -1371,7 +1371,7 @@ tour: {
   ],
   workSteps: [
     { title: "Reserve su viaje", description: "Cotización instantánea y confirmación en línea, por teléfono o por correo electrónico." },
-    { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores." },
+    { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, agua embotellada y cargadores." },
     { title: "Disponibilidad 24/7", description: "Listos de día o de noche; también para retrasos y trayectos largos." },
     { title: "Llegue con confianza", description: "Chauffeurio garantiza traslados fluidos en toda España, con conductores puntuales." },
   ],
@@ -1386,7 +1386,7 @@ tour: {
     {
       title: "Excursiones VIP y extendidas",
       description:
-        "Convierta su viaje en una experiencia de lujo con nuestra flota premium, desde Mercedes Clase S hasta Cadillac Escalade. Ideal para exploraciones de día completo, rutas costeras o aventuras entre ciudades, con confort, privacidad y un toque de elegancia. Disfrute de Wi-Fi, refrigerios y asientos espaciosos. Con Chauffeurio, su excursión se siente como primera clase.",
+        "Convierta su viaje en una experiencia de lujo con nuestra flota premium, desde Mercedes Clase S hasta Cadillac Escalade. Ideal para exploraciones de día completo, rutas costeras o aventuras entre ciudades, con confort, privacidad y un toque de elegancia. Disfrute de refrigerios y asientos espaciosos. Con Chauffeurio, su excursión se siente como primera clase.",
       image: "/Rectangle 9 (1).png",
       imagePosition: "left",
     },
@@ -1412,7 +1412,7 @@ citytocity: {
   ],
   workSteps: [
     { title: "Reserve su viaje", description: "Cotización instantánea y confirmación en línea, por teléfono o por correo electrónico." },
-    { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores." },
+    { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, agua embotellada y cargadores." },
     { title: "Disponibilidad 24/7", description: "De día o de noche; listos también para retrasos y trayectos largos." },
     { title: "Llegue con confianza", description: "Chauffeurio garantiza traslados interurbanos fluidos en toda España, con conductores puntuales." },
   ],
@@ -1453,7 +1453,7 @@ businessChhuff: {
   ],
   workSteps: [
     { title: "Reserve su viaje", description: "Cotización instantánea y confirmación en línea, por teléfono o por correo electrónico." },
-    { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, Wi-Fi, agua embotellada y cargadores." },
+    { title: "Viaje con comodidad", description: "Vehículos con aire acondicionado, agua embotellada y cargadores." },
     { title: "Disponibilidad 24/7", description: "De día o de noche; listos también para retrasos y trayectos largos." },
     { title: "Llegue con confianza", description: "Chauffeurio garantiza traslados fluidos en toda España, con conductores puntuales." },
   ],
@@ -1747,7 +1747,7 @@ faqPage: {
             href: "/fleet/business-class",
             title: "Clase Ejecutiva",
             subtitle: "Mercedes E Class, BMW 5 Series, Cadillac XTS",
-            image: "/Economy Van.png",
+            image: "/WhatsApp Image 2025-10-29 at 22.41.28.jpeg",
           },
         ],
       },

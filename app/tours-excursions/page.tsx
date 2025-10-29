@@ -15,7 +15,7 @@ export default function TourAndExcursions() {
   return (
     <>
     <SEO />
-      <HeroSection2 bgImage="/3adc8cbd03fa4372d00a4b351db1cf88e91389e1.jpg" text={tour?.title} />
+      <HeroSection2 bgImage="/mm.jpg" text={tour?.title} />
 
       <ImageDetailSection
         title={tour?.title}

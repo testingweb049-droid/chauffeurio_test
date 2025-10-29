@@ -230,7 +230,7 @@ export default function FleetHome({
           >
             <div className="flex gap-4 pb-2">
               {items.map((card, i) => (
-                <div key={i} className="flex-shrink-0 w-[85vw] snap-start">
+                <div key={i} className="flex-shrink-0 w-[100vw] snap-start">
                   <FleetCardComponent card={card} />
                 </div>
               ))}

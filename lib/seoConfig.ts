@@ -66,7 +66,7 @@ export const seoConfig: Record<string, SEOProps> = {
   },
   '/airport-transfer': {
     title: 'Airport Transfers Valencia | Meet & Greet, Fixed Rates | Chauffeurio',
-    description: 'Enjoy stress-free airport transfers in Valencia with Chauffeurio. Meet & greet service, 24/7 availability, and transparent flat rates. Arrive on time with professional chauffeurs and a modern fleet.',
+    description: 'Enjoy stress-free airport transfers in Valencia with Chauffeurio. Meet & greet service, 24/7 availability, and transparent Fixed Rates. Arrive on time with professional chauffeurs and a modern fleet.',
     canonicalUrl: 'https://chauffeurio.com/airport-transfer',
     schemaMarkup: {
       "@context": "https://schema.org",
