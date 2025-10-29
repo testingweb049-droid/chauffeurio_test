@@ -1,7 +1,18 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isSameDay, isBefore, startOfDay } from "date-fns"
+import {
+  format,
+  addMonths,
+  subMonths,
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  getDay,
+  isSameDay,
+  isBefore,
+  startOfDay,
+} from "date-fns"
 import { ChevronRight, TimerIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import useFormStore, { FormDataType } from "@/stores/FormStore"
@@ -22,7 +33,6 @@ interface DateTimePickerProps {
   isDisable?: boolean
 }
 
-
 export default function NewDateTimePicker({
   selectedDate,
   selectedTime,
@@ -31,7 +41,7 @@ export default function NewDateTimePicker({
   timeFieldName,
   minSelectableDate,
   placeholder,
-  isDisable
+  isDisable,
 }: DateTimePickerProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [open, setOpen] = useState(false)
@@ -40,10 +50,9 @@ export default function NewDateTimePicker({
 
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
-  // Calendar logic
+  // Calendar days generator
   const getCalendarDays = () => {
     const startOfCurrentMonth = startOfMonth(currentMonth)
-    const endOfCurrentMonth = endOfMonth(currentMonth)
     const startDayOfWeek = (getDay(startOfCurrentMonth) + 6) % 7
 
     const startDate = new Date(startOfCurrentMonth)
@@ -68,112 +77,134 @@ export default function NewDateTimePicker({
   const handleTimeSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(timeFieldName, e.target.value)
   }
-  const isError = !Array.isArray(formData[dateFieldName]) && formData[dateFieldName].error || !Array.isArray(formData[timeFieldName]) && formData[timeFieldName].error ;
+
+  const isError =
+    (!Array.isArray(formData[dateFieldName]) && formData[dateFieldName].error) ||
+    (!Array.isArray(formData[timeFieldName]) && formData[timeFieldName].error)
+
   return (
-    <div className="relative w-full ">
-        <div className={`p-2 rounded-md w-full border text-sm flex items-center gap-2 md:gap-5 bg-white ${isError ? 'border-red-500' : 'border-gray-300'}`}>
-
+    <div className="relative w-full">
+      {/* Input field */}
+      <div
+        className={cn(
+          "p-2 rounded-md w-full border text-sm flex items-center gap-2 md:gap-5 bg-white",
+          isError ? "border-red-500" : "border-gray-300"
+        )}
+      >
         <TimerIcon color="gray" />
-      <input
-        type="text"
-        readOnly
-        value={
+        <input
+          type="text"
+          readOnly
+          value={
             selectedDate || selectedTime
-            ? `${selectedDate ? format(new Date(selectedDate), "EEE, dd MMM yyyy") : ""} ${
-                selectedTime ? selectedTime : ""
-            }`
-            : ""
-        }
-        onClick={() => { if(isDisable){ return;} setOpen((prev) => !prev)}}
-        className="w-full focus:outline-none bg-transparent border-transparent"
-        placeholder={placeholder}
+              ? `${selectedDate ? format(new Date(selectedDate), "EEE, dd MMM yyyy") : ""} ${selectedTime ? selectedTime : ""
+              }`
+              : ""
+          }
+          onClick={() => {
+            if (isDisable) return
+            setOpen((prev) => !prev)
+          }}
+          className={cn(
+            "w-full focus:outline-none bg-transparent border-transparent",
+            selectedDate || selectedTime ? "text-primary" : "text-gray-500 placeholder:text-primary/60"
+          )}
+          placeholder={placeholder}
         />
+      </div>
 
-        </div>
+      {/* Calendar popup */}
       {open && (
-        <div className="absolute top-full left-0 mt-2 z-30 bg-black text-white rounded-xl shadow-2xl border border-gray-700 p-3 w-full max-w-72 md:max-w-80 ">
-          {/* Calendar Header */}
+        <div className="absolute top-full left-0 mt-2 z-30 bg-white text-primary rounded-xl shadow-2xl border border-gray-200 p-3 w-full max-w-72 md:max-w-80">
+          {/* Header */}
           <div className="flex items-center justify-between text-sm mb-2">
             <button
               type="button"
               onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-              className="p-1 hover:bg-gray-800 rounded-md"
+              className="p-1 hover:bg-gray-100 rounded-md"
             >
-              <ChevronRight className="h-4 w-4 rotate-180" />
+              <ChevronRight className="h-4 w-4 rotate-180 text-primary" />
             </button>
-            <span>{format(currentMonth, "MMMM yyyy")}</span>
+            <span className="font-medium">{format(currentMonth, "MMMM yyyy")}</span>
             <button
               type="button"
               onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-              className="p-1 hover:bg-gray-800 rounded-md"
+              className="p-1 hover:bg-gray-100 rounded-md"
             >
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4 text-primary" />
             </button>
           </div>
 
           {/* Days of week */}
-          <div className="grid grid-cols-7 text-center text-xs mb-1 text-gray-400">
+          <div className="grid grid-cols-7 text-center text-xs mb-1 text-primary/70">
             {daysOfWeek.map((day) => (
               <div key={day}>{day}</div>
             ))}
           </div>
 
           {/* Calendar Days */}
-        {/* Calendar Days */}
-<div className="grid grid-cols-7 text-center text-sm gap-1">
-  {getCalendarDays().map((date, idx) => {
-    const inactive = date.getMonth() !== currentMonth.getMonth()
-    const today = startOfDay(new Date())
+          <div className="grid grid-cols-7 text-center text-sm gap-1">
+            {getCalendarDays().map((date, idx) => {
+              const inactive = date.getMonth() !== currentMonth.getMonth()
+              const today = startOfDay(new Date())
+              const disabled =
+                (minSelectableDate && isBefore(date, startOfDay(minSelectableDate))) ||
+                !isBefore(today, date)
+              const isSelected = selectedDate && isSameDay(date, new Date(selectedDate))
 
-    // Disable today and all previous days
-    const disabled =
-      (minSelectableDate && isBefore(date, startOfDay(minSelectableDate))) ||
-      !isBefore(today, date)
+              return (
+                <div
+                  key={idx}
+                  onClick={() => !disabled && handleDateSelect(date)}
+                  className={cn(
+                    "py-1 rounded-lg cursor-pointer transition-all",
+                    disabled
+                      ? "text-gray-400 cursor-not-allowed"
+                      : inactive
+                        ? "text-gray-400"
+                        : "hover:bg-primary/10 hover:text-primary",
+                    isSelected ? "bg-primary/10 text-primary font-semibold" : ""
+                  )}
+                >
+                  {date.getDate()}
+                </div>
+              )
+            })}
+          </div>
 
-    const isSelected =
-      selectedDate && isSameDay(date, new Date(selectedDate))
+          {/* Time selector */}
+          {!Array.isArray(formData[dateFieldName]) && formData[dateFieldName].value && (
+            <div className="mt-3 md:mt-4 flex items-center justify-between gap-10">
+              <div className="font-semibold">Time</div>
+              <input
+                type="time"
+                placeholder="Select time"
+                ref={timeInputRef}
+                className={cn(
+                  "w-full rounded-lg px-2 py-1 bg-gray-100 max-w-32 focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-primary/60",
+                  selectedTime ? "text-primary font-semibold" : "text-primary/60"
+                )}
+                value={selectedTime || ""}
+                onChange={handleTimeSelect}
+              />
+            </div>
+          )}
 
-    return (
-      <div
-        key={idx}
-        onClick={() => !disabled && handleDateSelect(date)}
-        className={cn(
-          "py-1 rounded-lg cursor-pointer transition-all",
-          disabled
-            ? "text-gray-600 cursor-not-allowed"
-            : inactive
-            ? "text-gray-500"
-            : "hover:bg-[#F4910B]/30 hover:text-white",
-          isSelected ? "bg-[#F4910B] text-white font-semibold" : ""
-        )}
-      >
-        {date.getDate()}
-      </div>
-    )
-  })}
-</div>
-
-          { !Array.isArray(formData[dateFieldName]) && formData[dateFieldName].value &&  <div className="mt-2 md:mt-4 flex items-center justify-between gap-10">
-            <div className="font-semibold">Time</div>
-            <input
-              type="time"
-              placeholder="Time"
-              ref={timeInputRef} 
-              className="w-full text-black rounded-lg px-2 py-1 bg-gray-100 max-w-32"
-              value={selectedTime || ""}
-              onChange={handleTimeSelect}
-            />
-          </div>}
-         
-          {!Array.isArray(formData[timeFieldName]) && !Array.isArray(formData[dateFieldName]) && formData[timeFieldName].value && formData[dateFieldName].value && <div className="mt-2 md:mt-4">
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="w-full bg-[#F4910B] hover:bg-[#e8840a] text-white text-sm font-medium py-2 rounded-lg transition-all"
-            >
-              ✓ Done
-            </button>
-          </div>}
+          {/* Done button */}
+          {!Array.isArray(formData[timeFieldName]) &&
+            !Array.isArray(formData[dateFieldName]) &&
+            formData[timeFieldName].value &&
+            formData[dateFieldName].value && (
+              <div className="mt-3 md:mt-4">
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                className="w-full bg-primary hover:bg-primary/90 text-white text-sm font-medium py-2 rounded-lg transition-all"
+              >
+                ✓ Done
+              </button>
+              </div>
+            )}
         </div>
       )}
     </div>

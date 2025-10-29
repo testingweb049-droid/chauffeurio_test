@@ -1,5 +1,5 @@
 import { LuggageIcon, User, Users, Mail, Plane } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import { DetailsInput, PhoneInput } from './UserDetailInput'
 import NewDateTimePicker from './NewDateTimePicker'
 import useFormStore from '@/stores/FormStore'
@@ -9,37 +9,33 @@ import SelectableCheckbox from './SelectableCheckbox'
 import AddReturn from './AddReturn'
 import LoadingButton from './LoadingButton'
 import MyPaymentForm from './PaymentForm'
-import BackButton from './BackButton'
-
 // Counter component for extras
 function ExtraCounter({
     label,
     price,
-    extraType
+    value,
+    onChange
 }: {
     label: string;
     price: number;
-        extraType: 'childSeat' | 'infantSeat' | 'boosterSeat';
+    value: number;
+    onChange: (newValue: number) => void;
 }) {
-    const { formData, updateExtra } = useFormStore();
-
-    const value = formData[extraType]?.value || 0;
-
     const increment = () => {
-        updateExtra(extraType, value + 1);
+        onChange(value + 1);
     };
 
     const decrement = () => {
         if (value > 0) {
-            updateExtra(extraType, value - 1);
+            onChange(value - 1);
         }
     };
 
     const handleCheckboxChange = () => {
         if (value > 0) {
-            updateExtra(extraType, 0);
+            onChange(0);
         } else {
-            updateExtra(extraType, 1);
+            onChange(1);
         }
     };
 
@@ -85,6 +81,12 @@ function ExtraCounter({
 function Step3() {
     const { formData, setFormData, changeStep, formLoading } = useFormStore();
 
+    // Local state for extras
+    const [childSeat, setChildSeat] = useState(0);
+    const [infantSeat, setInfantSeat] = useState(0);
+    const [boosterSeat, setBoosterSeat] = useState(0);
+    const [extraStop, setExtraStop] = useState(0);
+
     // Find the selected fleet category
     const selectedFleet = fleets.find((item) => item.category === formData.car.value);
 
@@ -110,27 +112,24 @@ function Step3() {
         }
     )
 
-    // Calculate total price (moved from Step4)
-    const basePrice = Number(formData.price.value ?? 0)
-    const returnPrice = formData.isReturn ? basePrice - (basePrice / 10) : 0
+    // Calculate total price including extras
+    const calculateTotalPrice = () => {
+        // Get base price from formData
+        const basePrice = parseFloat(formData.price?.value || "0");
+        const extrasPrice = (childSeat * 5) + (infantSeat * 5) + (boosterSeat * 5);
+        return (basePrice + extrasPrice).toFixed(2);
+    }
 
-    // Calculate extras total from form store
-    const childSeatTotal = (formData.childSeat?.value || 0) * 5;
-    const infantSeatTotal = (formData.infantSeat?.value || 0) * 5;
-    const boosterSeatTotal = (formData.boosterSeat?.value || 0) * 5;
-    const extrasTotal = childSeatTotal + infantSeatTotal + boosterSeatTotal;
-
-    const totalPrice = (
-        Number(formData.price.value) +
-        (formData.isMeetGreet.value ? 15 : 0) +
-        (formData.isFlightTrack.value ? 7 : 0) +
-        returnPrice +
-        extrasTotal
-    ).toFixed(1)
+    // Save extras to form store whenever they change
+    React.useEffect(() => {
+        setFormData('childSeat', childSeat.toString());
+        setFormData('infantSeat', infantSeat.toString());
+        setFormData('boosterSeat', boosterSeat.toString());
+    }, [childSeat, infantSeat, boosterSeat]);
 
     return (
         <div className='flex flex-col gap-5 w-full'>
-            <div className='text-2xl font-semibold'>Details</div>
+            <div className='text-2xl font-semibold text-primary'>Details</div>
 
             <div className='flex flex-col gap-3 w-full'>
                 <DetailsInput field='name' placeholder='Passenger full name' Icon={User} type='text' />
@@ -177,87 +176,45 @@ function Step3() {
                     </div>
                 </div>
 
-                <div className='font-bold text-lg mt-2'>Equipment and Extras</div>
+                <div className='font-bold text-lg mt-2 text-primary'>Equipment and Extras</div>
 
                 <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
                     <div className="px-4">
                         <ExtraCounter
                             label="Child Seat"
                             price={5.00}
-                            extraType="childSeat"
+                            value={childSeat}
+                            onChange={setChildSeat}
                         />
                     </div>
                     <div className="px-4">
                         <ExtraCounter
                             label="Infant Seat"
                             price={5.00}
-                            extraType="infantSeat"
+                            value={infantSeat}
+                            onChange={setInfantSeat}
                         />
                     </div>
                     <div className="px-4">
                         <ExtraCounter
                             label="Booster Seat"
                             price={5.00}
-                            extraType="boosterSeat"
+                            value={boosterSeat}
+                            onChange={setBoosterSeat}
                         />
                     </div>
                 </div>
-
-                {/* Price Breakdown Section (moved from Step4) */}
-                <div className='flex flex-col gap-6 w-full mt-6'>
-                    <div className='flex flex-col gap-5 w-full'>
-                        <div className='font-bold text-lg'>Price Breakdown</div>
-                        <div className='flex flex-col gap-2 w-full'>
-                            <div className='flex items-center justify-between gap-2'>
-                                <div className='text-sm text-gray-500'>Economy Sedan Transfer</div>
-                                <div className='text-sm text-gray-500'>£ {Number(formData.price.value).toFixed(1)} </div>
-                            </div>
-                            {formData.isMeetGreet.value && <div className='flex items-center justify-between gap-2'>
-                                <div className='text-sm text-gray-500'>Meet & Greet</div>
-                                <div className='text-sm text-gray-500'>£ 15.0</div>
-                            </div>}
-                            {formData.isFlightTrack.value && <div className='flex items-center justify-between gap-2'>
-                                <div className='text-sm text-gray-500'>Flight Track</div>
-                                <div className='text-sm text-gray-500'>£ 7.0</div>
-                            </div>}
-                            {returnPrice > 0 && <div className='flex items-center justify-between gap-2'>
-                                <div className='text-sm text-gray-500'>Return Transfer</div>
-                                <div className='text-sm text-gray-500'>£ {returnPrice.toFixed(1)}</div>
-                            </div>}
-
-                            {/* Add extras to price breakdown */}
-                            {(formData.childSeat?.value || 0) > 0 && (
-                                <div className='flex items-center justify-between gap-2'>
-                                    <div className='text-sm text-gray-500'>Child Seat × {formData.childSeat.value}</div>
-                                    <div className='text-sm text-gray-500'>£ {childSeatTotal.toFixed(1)}</div>
-                                </div>
-                            )}
-                            {(formData.infantSeat?.value || 0) > 0 && (
-                                <div className='flex items-center justify-between gap-2'>
-                                    <div className='text-sm text-gray-500'>Infant Seat × {formData.infantSeat.value}</div>
-                                    <div className='text-sm text-gray-500'>£ {infantSeatTotal.toFixed(1)}</div>
-                                </div>
-                            )}
-                            {(formData.boosterSeat?.value || 0) > 0 && (
-                                <div className='flex items-center justify-between gap-2'>
-                                    <div className='text-sm text-gray-500'>Booster Seat × {formData.boosterSeat.value}</div>
-                                    <div className='text-sm text-gray-500'>£ {boosterSeatTotal.toFixed(1)}</div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    <div className='flex items-center justify-between gap-2 pt-2 border-t-2 border-black border-dashed text-2xl font-bold text-black'>
-                        <div>Total:</div>
-                        <div>£ {totalPrice}</div>
-                    </div>
+                <div className="w-full border-t-2 border-gray-300 pt-5 mt-5">
+                    <div className='text-2xl font-semibold mb-5 text-primary'>Payment</div>
+                    <MyPaymentForm price={calculateTotalPrice()} />
                 </div>
-
-                {/* Payment Form Section (moved from Step4) */}
-                <MyPaymentForm price={totalPrice} />
             </div>
-
-            {/* Back Button */}
-            <BackButton step={3} />
+            <div
+                onClick={() => { changeStep(false, 3); }}
+                className='p-2 rounded-lg border border-gray-500 w-full text-center text-gray-700 font-semibold cursor-pointer'
+            >
+                Back
+            </div>
         </div>
     )
 }

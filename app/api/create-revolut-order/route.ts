@@ -29,8 +29,8 @@ export async function POST(request: Request) {
       security_checks: {
         card: {
           challenge_notification_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/revolut-webhook`,
-          exemption: "LOW_VALUE", // or "TRANSACTION_RISK_ANALYSIS" based on your needs
-          three_ds_required: true, // Explicitly enable 3DS
+          exemption: "LOW_VALUE",
+          three_ds_required: true,
         }
       },
       // Webhook and redirect URLs
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
       headers: {
         "Authorization": `Bearer ${process.env.REVOLUT_API_KEY}`,
         "Content-Type": "application/json",
-        "Revolut-Api-Version": "2023-09-01", // Ensure API version
+        "Revolut-Api-Version": "2023-09-01",
       },
       body: JSON.stringify(payload),
     })
