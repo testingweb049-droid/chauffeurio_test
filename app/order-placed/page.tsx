@@ -48,7 +48,6 @@ interface FormData {
   boosterSeat: FormField
   description: FormField
 }
-
 // 🧩 Fleet type
 interface Fleet {
   category: string
@@ -56,7 +55,6 @@ interface Fleet {
   vehicles: string[]
   passengers: number
   luggage: number
-  hasChargingPort: boolean
   imageUrl: string
   pricing: {
     perKm: number
@@ -100,21 +98,21 @@ function Page() {
   }, [isOrderDone, router])
 
   return (
-    <div className="w-full flex flex-col min-h-screen bg-gray-100 dark:bg-[#0b1623] text-gray-900 dark:text-gray-100 transition-colors duration-500">
+    <div className="w-full flex flex-col min-h-screen bg-white text-gray-900 transition-colors duration-500">
       {/* Header Spacer */}
-      <div ref={headerRef} className="h-24 w-full bg-[#01303f] dark:bg-[#08111a]" />
+      <div ref={headerRef} className="h-24 w-full bg-[#01303f]" />
 
       <div className="max-w-7xl mx-auto py-16 px-4 lg:px-8 flex flex-col items-center justify-center gap-12 text-center">
         {/* ✅ Confirmation Section */}
         <div className="flex flex-col items-center justify-center gap-4">
           <MdDone className="p-3 text-white bg-green-500 rounded-full shadow-md" size={55} />
-          <p className="text-lg text-gray-700 dark:text-gray-300">
+          <p className="text-lg text-gray-700">
             Great choice, <span className="font-semibold">{formData.name.value}</span>
           </p>
-          <h1 className="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white tracking-tight">
+          <h1 className="text-3xl lg:text-5xl font-bold text-gray-900 tracking-tight">
             YOUR RESERVATION IS CONFIRMED
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600">
             We&apos;ve sent a confirmation email to {formData.email.value}
           </p>
         </div>
@@ -122,29 +120,29 @@ function Page() {
         {/* ✅ Main Layout */}
         <div className="w-full grid lg:grid-cols-3 gap-8">
           {/* 🧾 LEFT: Order Details */}
-          <div className="lg:col-span-2 w-full bg-white dark:bg-[#121e2d] border border-gray-300 dark:border-gray-700 rounded-2xl p-6 lg:p-8 shadow-md">
-            <h2 className="text-2xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+          <div className="lg:col-span-2 w-full bg-white border border-gray-300 rounded-2xl p-6 lg:p-8 shadow-md">
+            <h2 className="text-2xl font-semibold mb-4 border-b border-gray-200 pb-2">
               Order Details
             </h2>
 
             <div className="grid grid-cols-2 gap-3 text-sm sm:text-base text-left">
-              <div><span className="text-gray-500 dark:text-gray-400">Order ID:</span> {orderId}</div>
-              <div><span className="text-gray-500 dark:text-gray-400">Car Type:</span> {formData.car.value}</div>
-              <div><span className="text-gray-500 dark:text-gray-400">Passengers:</span> {formData.passengers.value}</div>
-              <div><span className="text-gray-500 dark:text-gray-400">Bags:</span> {formData.bags.value}</div>
-              <div><span className="text-gray-500 dark:text-gray-400">Price:</span> €{formData.price.value}</div>
-              <div><span className="text-gray-500 dark:text-gray-400">Distance:</span> {formData.distance.value} km</div>
-              <div><span className="text-gray-500 dark:text-gray-400">Phone:</span> {formData.phone.value}</div>
-              <div><span className="text-gray-500 dark:text-gray-400">Email:</span> {formData.email.value}</div>
-              <div><span className="text-gray-500 dark:text-gray-400">Child Seats:</span> {formData.childSeat.value}</div>
-              <div><span className="text-gray-500 dark:text-gray-400">Infant Seats:</span> {formData.infantSeat.value}</div>
-              <div><span className="text-gray-500 dark:text-gray-400">Booster Seats:</span> {formData.boosterSeat.value}</div>
-              <div><span className="text-gray-500 dark:text-gray-400">Meet & Greet:</span> {formData.isMeetGreet.value ? 'Yes' : 'No'}</div>
-              <div><span className="text-gray-500 dark:text-gray-400">Return Trip:</span> {formData.isReturn.value ? 'Yes' : 'No'}</div>
+              <div><span className="text-gray-500">Order ID:</span> {orderId}</div>
+              <div><span className="text-gray-500">Car Type:</span> {formData.car.value}</div>
+              <div><span className="text-gray-500">Passengers:</span> {formData.passengers.value}</div>
+              <div><span className="text-gray-500">Bags:</span> {formData.bags.value}</div>
+              <div><span className="text-gray-500">Price:</span> €{formData.price.value}</div>
+              <div><span className="text-gray-500">Distance:</span> {formData.distance.value} km</div>
+              <div><span className="text-gray-500">Phone:</span> {formData.phone.value}</div>
+              <div><span className="text-gray-500">Email:</span> {formData.email.value}</div>
+              <div><span className="text-gray-500">Child Seats:</span> {formData.childSeat.value}</div>
+              <div><span className="text-gray-500">Infant Seats:</span> {formData.infantSeat.value}</div>
+              <div><span className="text-gray-500">Booster Seats:</span> {formData.boosterSeat.value}</div>
+              <div><span className="text-gray-500">Meet & Greet:</span> {formData.isMeetGreet.value ? 'Yes' : 'No'}</div>
+              <div><span className="text-gray-500">Return Trip:</span> {formData.isReturn.value ? 'Yes' : 'No'}</div>
             </div>
 
             <div className="text-left leading-relaxed py-4 border-t mt-6">
-              <span className="text-gray-500 dark:text-gray-400 font-semibold">Notes:</span>{' '}
+              <span className="text-gray-500 font-semibold">Notes:</span>{' '}
               {formData.description.value ? (
                 <span>{formData.description.value}</span>
               ) : (
@@ -163,7 +161,7 @@ function Page() {
             <div className="flex justify-end mt-6">
               <Link
                 href={`/order/${orderId}`}
-                className="bg-yellow-400 dark:bg-yellow-500 hover:bg-yellow-500 dark:hover:bg-yellow-600 text-black font-semibold px-5 py-2.5 rounded-lg transition-all duration-300 shadow"
+                className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-5 py-2.5 rounded-lg transition-all duration-300 shadow"
               >
                 View Order Details
               </Link>
@@ -172,7 +170,7 @@ function Page() {
 
           {/* 🚗 RIGHT: Image + Itinerary */}
           {selectedFleet && (
-            <div className="rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#121e2d] p-5 flex flex-col items-center justify-start shadow-md">
+            <div className="rounded-2xl border border-gray-300 bg-white p-5 flex flex-col items-center justify-start shadow-md">
               <Image
                 src={selectedFleet.imageUrl}
                 alt={selectedFleet.displayName}
@@ -180,32 +178,32 @@ function Page() {
                 width={400}
                 height={250}
               />
-              <div className="mt-3 font-semibold text-lg text-gray-900 dark:text-gray-100">
+              <div className="mt-3 font-semibold text-lg text-gray-900">
                 {selectedFleet.displayName}
               </div>
 
               {/* ✈️ Itinerary below image */}
               <div className="w-full mt-8 text-left">
-                <h2 className="text-2xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                <h2 className="text-2xl font-semibold mb-4 border-b border-gray-200 pb-2">
                   Your Itinerary
                 </h2>
 
                 <div className="flex flex-col gap-3">
                   {locations.map((item, idx) => (
-                    <div key={idx} className="text-sm sm:text-base text-gray-800 dark:text-gray-200">
+                    <div key={idx} className="text-sm sm:text-base text-gray-800">
                       {String(item.value)}
                     </div>
                   ))}
                 </div>
 
                 <div className="mt-4 text-sm sm:text-base">
-                  <div className="text-gray-500 dark:text-gray-400">Pickup Date & Time</div>
+                  <div className="text-gray-500">Pickup Date & Time</div>
                   <div className="font-medium">{formData.date.value} {formData.time.value}</div>
                 </div>
 
                 {formData.isReturn.value && (
                   <div className="mt-2 text-sm sm:text-base">
-                    <div className="text-gray-500 dark:text-gray-400">Return Date & Time</div>
+                    <div className="text-gray-500">Return Date & Time</div>
                     <div className="font-medium">{formData.returnDate.value} {formData.returnTime.value}</div>
                   </div>
                 )}
