@@ -13,7 +13,7 @@ import {
   isBefore,
   startOfDay,
 } from "date-fns"
-import { ChevronRight, TimerIcon } from "lucide-react"
+import { ChevronRight, TimerIcon, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import useFormStore, { FormDataType } from "@/stores/FormStore"
 
@@ -71,11 +71,16 @@ export default function NewDateTimePicker({
     setFormData(dateFieldName, formatted)
     setTimeout(() => {
       timeInputRef.current?.focus()
+      timeInputRef.current?.showPicker?.()
     }, 100)
   }
 
   const handleTimeSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(timeFieldName, e.target.value)
+  }
+
+  const handleTimeInputClick = () => {
+    timeInputRef.current?.showPicker?.()
   }
 
   const isError =
@@ -172,21 +177,34 @@ export default function NewDateTimePicker({
             })}
           </div>
 
-          {/* Time selector */}
+          {/* Time selector - Cross-browser compatible */}
           {!Array.isArray(formData[dateFieldName]) && formData[dateFieldName].value && (
             <div className="mt-3 md:mt-4 flex items-center justify-between gap-10">
               <div className="font-semibold">Time</div>
-              <input
-                type="time"
-                placeholder="Select time"
-                ref={timeInputRef}
-                className={cn(
-                  "w-full rounded-lg px-2 py-1 bg-gray-100 max-w-32 focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-primary/60",
-                  selectedTime ? "text-primary font-semibold" : "text-primary/60"
+              <div
+                className="relative w-full max-w-32 cursor-pointer"
+                onClick={handleTimeInputClick}
+              >
+                <input
+                  type="time"
+                  ref={timeInputRef}
+                  className={cn(
+                    "w-full rounded-lg  bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/30 cursor-pointer w-[90%] py-1",
+                    selectedTime ? "text-primary font-semibold" : "text-transparent"
+                  )}
+                  value={selectedTime || ""}
+                  onChange={handleTimeSelect}
+                  style={{
+                    colorScheme: 'light',
+                  }}
+                />
+                {!selectedTime && (
+                  <div className="absolute inset-0 pointer-events-none flex items-center justify-between px-3 pb-1">
+                    <span className="text-primary/60 text-sm">Select time</span>
+                    {/* <Clock className="h-4 w-4 text-primary/60" /> */}
+                  </div>
                 )}
-                value={selectedTime || ""}
-                onChange={handleTimeSelect}
-              />
+              </div>
             </div>
           )}
 

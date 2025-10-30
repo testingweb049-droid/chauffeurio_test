@@ -29,8 +29,8 @@ useEffect(()=>{
   return (
     <div className='flex flex-col gap-3 sm:gap-5 w-full max-w-screen-sm'>
       <div className='grid grid-cols-3 lg:grid-cols-2 gap-5 max-lg:px-3 '>
-        <div onClick={() => changeCategory('trip')} className={`p-2 w-full  text-center font-semibold rounded-3xl cursor-pointer ${category==='trip' ? 'bg-primary text-white' : 'bg-white'}`}>Trip</div>
-        <div onClick={() => changeCategory('hourly')} className={`p-2 w-full  text-center font-semibold rounded-3xl cursor-pointer ${category==='hourly' ? 'bg-primary text-white' : 'bg-white'}`}>Hourly</div>
+        <div onClick={() => changeCategory('trip')} className={`p-2 w-full  text-center font-semibold rounded-3xl cursor-pointer ${category === 'trip' ? 'bg-primary text-white' : 'bg-white text-primary'}`}>Trip</div>
+        <div onClick={() => changeCategory('hourly')} className={`p-2 w-full  text-center font-semibold rounded-3xl cursor-pointer ${category === 'hourly' ? 'bg-primary text-white' : 'bg-white text-primary'}`}>Hourly</div>
       </div>
 
       <div className='max-lg:px-3 max-lg:py-5 sm:p-5 rounded-2xl bg-white flex flex-col gap-5 border border-gray-300'>

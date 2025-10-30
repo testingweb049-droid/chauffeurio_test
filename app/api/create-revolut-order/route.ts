@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 export async function POST(request: Request) {
   console.log("---------------------------------")
   try {
-    const { amount, customerDetails } = await request.json()
+    const { amount, customerDetails, environment = 'sandbox' } = await request.json()
 
     if (!amount || !customerDetails?.email) {
       return NextResponse.json(
@@ -12,10 +12,27 @@ export async function POST(request: Request) {
       )
     }
 
+    // Environment-based configuration
+    const isProduction = environment === 'production'
+    const revolutApiUrl = isProduction 
+      ? process.env.REVOLUT_PRODUCTION_API_URL 
+      : process.env.REVOLUT_API_URL
+    
+    const revolutApiKey = isProduction 
+      ? process.env.REVOLUT_PRODUCTION_API_KEY 
+      : process.env.REVOLUT_API_KEY
+
+    if (!revolutApiUrl || !revolutApiKey) {
+      return NextResponse.json(
+        { error: "Revolut configuration missing" },
+        { status: 500 }
+      )
+    }
+
     // Revolut expects amount in minor units (pence)
     const payload = {
       amount: Math.round(amount * 100),
-      currency: "GBP",
+      currency: "EUR",
       capture_mode: "AUTOMATIC",
       merchant_order_ext_ref: `order_${Date.now()}`,
       description: "Chauffeur Booking",
@@ -39,12 +56,12 @@ export async function POST(request: Request) {
       failure_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-failed`,
     }
 
-    console.log("Sending payload to Revolut:", payload)
+    console.log(`Sending payload to Revolut ${environment}:`, payload)
 
-    const res = await fetch(process.env.REVOLUT_API_URL!, {
+    const res = await fetch(revolutApiUrl, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.REVOLUT_API_KEY}`,
+        "Authorization": `Bearer ${revolutApiKey}`,
         "Content-Type": "application/json",
         "Revolut-Api-Version": "2023-09-01",
       },
@@ -52,10 +69,10 @@ export async function POST(request: Request) {
     })
 
     const data = await res.json()
-    console.log("Revolut API response:", data)
+    console.log(`Revolut ${environment} API response:`, data)
 
     if (!res.ok) {
-      console.error("Revolut API error:", data)
+      console.error(`Revolut ${environment} API error:`, data)
       return NextResponse.json(
         { error: data.message || `Revolut order failed: ${res.status}` },
         { status: res.status }

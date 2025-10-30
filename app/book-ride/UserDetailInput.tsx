@@ -22,37 +22,36 @@ export function DetailsInput({field, placeholder, Icon, type}:DetailInputType) {
   )
 }
 export function PhoneInput() {
-    const {formData, setFormData} = useFormStore()
+  const { formData, setFormData } = useFormStore()
   return (
     <ReactPhoneInput
-    country={'es'}
-    value={formData.phone.value}
-    placeholder=''
-    onChange={phone => setFormData('phone', phone)}
-    inputStyle={{
-   width: '100%',                        
-   paddingTop: '8px',                     
-    paddingBottom: '8px',
-    paddingLeft: '50px',
-   paddingRight: '8px',
-   fontSize: '14px',                      
-   display: 'flex',                       
-      alignItems: 'center',  
-      color: '#002C3F',                
-   gap: '8px',                           
-   backgroundColor: 'white',              
-   border: formData.phone.error 
-          ? '1px solid #f87171'          
-          : '1px solid #d1d5db',         
-   borderRadius: '6px'                   
-    }}
+      country={'es'}
+      value={formData.phone.value}
+      placeholder=''
+      onChange={phone => setFormData('phone', phone)}
+      inputStyle={{
+        width: '100%',
+        paddingTop: '8px',
+        paddingBottom: '8px',
+        paddingLeft: '50px',
+        paddingRight: '8px',
+        fontSize: '16px', // Changed from 14px to 16px
+        display: 'flex',
+        alignItems: 'center',
+        color: '#002C3F',
+        gap: '8px',
+        backgroundColor: 'white',
+        border: formData.phone.error
+          ? '1px solid #f87171'
+          : '1px solid #d1d5db',
+        borderRadius: '6px'
+      }}
 
-buttonStyle={{
-  border: formData.phone.error 
-          ? '1px solid #f87171' 
+      buttonStyle={{
+        border: formData.phone.error
+          ? '1px solid #f87171'
           : '1px solid #d1d5db'
-}}
-
+      }}
     />
   )
 }

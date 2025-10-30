@@ -65,17 +65,14 @@ export const fleets = [
     displayName: "Economy",
     vehicles: [
       "Toyoya Corolla hybrid",
-      // "Ford Mondeo", 
-      "Or Similar", 
-      // "Volkswagen Passat",
-      // "Skoda Octavia, or superior"
+      "Or Similar",
     ],
     passengers: 4,
     luggage: 4,
     hasChargingPort: true,
     imageUrl: "/Econamy.webp",
     pricing: {
-      perKm: 1.5, // Fallback price
+      perKm: 1.5,
       hourly: 30,
       airport: 35
     }
@@ -91,7 +88,7 @@ export const fleets = [
     hasChargingPort: true,
     imageUrl: "/Mercedes-S-Class-cutout.webp",
     pricing: {
-      perKm: 1.7, // Fallback price
+      perKm: 1.7,
       hourly: 40,
       airport: 50
     }
@@ -101,7 +98,6 @@ export const fleets = [
     displayName: "Economy Van",
     vehicles: [
       "Mercedes Vito",
-      // "Volkswagen Caravelle", 
       "Or Similar"
     ],
     passengers: 8,
@@ -109,7 +105,7 @@ export const fleets = [
     hasChargingPort: true,
     imageUrl: "/Economy Van.png",
     pricing: {
-      perKm: 2.0, // Fallback price
+      perKm: 2.0,
       hourly: 50,
       airport: 50
     }
@@ -125,7 +121,7 @@ export const fleets = [
     hasChargingPort: true,
     imageUrl: "/First Class Van.png",
     pricing: {
-      perKm: 2.5, // Fallback price
+      perKm: 2.5,
       hourly: 60,
       airport: 60
     }
@@ -141,7 +137,7 @@ export const fleets = [
     hasChargingPort: true,
     imageUrl: "/Minibus 16.png",
     pricing: {
-      perKm: 3.5, // Fallback price
+      perKm: 3.5,
       hourly: 80,
       airport: 85
     }
@@ -157,7 +153,7 @@ export const fleets = [
     hasChargingPort: true,
     imageUrl: "/Minibus 16.png",
     pricing: {
-      perKm: 4.0, // Fallback price
+      perKm: 4.0,
       hourly: 100,
       airport: 100
     }
@@ -181,36 +177,30 @@ function CarList() {
     let computedPrice = 0;
 
     if (category === "hourly") {
-      // Hourly rate calculation
       const durationValue = Number(formData.duration?.value || 1);
-      computedPrice = isFinite(durationValue) 
-        ? (durationValue * categoryData.pricing.hourly) 
+      computedPrice = isFinite(durationValue)
+        ? (durationValue * categoryData.pricing.hourly)
         : categoryData.pricing.hourly;
     } else if (category === "trip" || !category) {
-      // Point-to-point: dynamic pricing based on distance ranges
       const totalDistance = Number(formData.distance?.value || 0);
-      
+
       if (totalDistance > 0) {
-        // Find the appropriate price range
-        const rangeIndex = pricingRanges.findIndex(range => 
+        const rangeIndex = pricingRanges.findIndex(range =>
           totalDistance > range.min && totalDistance <= range.max
         );
-        
+
         if (rangeIndex !== -1) {
           const pricePerKm = categoryPricing[categoryData.category as keyof typeof categoryPricing]?.[rangeIndex];
           if (pricePerKm) {
             computedPrice = totalDistance * pricePerKm;
           } else {
-            // Fallback to perKm pricing if range not found
             computedPrice = totalDistance * categoryData.pricing.perKm;
           }
         } else {
-          // Fallback for distances beyond defined ranges
           computedPrice = totalDistance * categoryData.pricing.perKm;
         }
       }
     } else {
-      // Airport or any other fixed rate (fallback to airport pricing)
       computedPrice = categoryData.pricing.airport;
     }
 
@@ -220,12 +210,12 @@ function CarList() {
   // Get price per km for display
   const getPricePerKm = (categoryData: typeof fleets[0]) => {
     const totalDistance = Number(formData.distance?.value || 0);
-    
+
     if (totalDistance > 0 && (category === "trip" || !category)) {
-      const rangeIndex = pricingRanges.findIndex(range => 
+      const rangeIndex = pricingRanges.findIndex(range =>
         totalDistance > range.min && totalDistance <= range.max
       );
-      
+
       if (rangeIndex !== -1) {
         const pricePerKm = categoryPricing[categoryData.category as keyof typeof categoryPricing]?.[rangeIndex];
         if (pricePerKm) {
@@ -233,7 +223,7 @@ function CarList() {
         }
       }
     }
-    
+
     return `€${categoryData.pricing.perKm.toFixed(2)}/km`;
   };
 
@@ -251,7 +241,7 @@ function CarList() {
           <div
             key={categoryData.category}
             className={cn(
-              "grid grid-cols-8 gap-3 bg-white border rounded-xl shadow-sm overflow-hidden p-3 relative",
+              "bg-white border rounded-xl shadow-sm overflow-hidden p-3 relative",
               "hover:shadow-md transition-shadow duration-200",
               categoryData.category === formData.car.value ? "border-brand" : "border-gray-200"
             )}
@@ -259,78 +249,143 @@ function CarList() {
             {/* Badge */}
             {badge && (
               <div className={cn(
-                "absolute top-3 right-3 z-10 flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold",
+                "absolute top-2 right-2 md:top-3 md:right-3 z-10 flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold",
                 badge.bgColor,
                 badge.textColor
               )}>
-                {BadgeIcon && <BadgeIcon size={14} />}
-                <span>{badge.text}</span>
+                {BadgeIcon && <BadgeIcon size={12} className="md:w-[14px] md:h-[14px]" />}
+                <span className="text-[10px] md:text-xs">{badge.text}</span>
               </div>
             )}
 
-            {/* Image */}
-            <div className="col-span-2 flex items-center justify-center bg-white">
-              <div className="w-full max-w-[140px] h-[100px] relative">
-                <Image
-                  src={categoryData.imageUrl}
-                  alt={categoryData.displayName}
-                  fill
-                  sizes="(max-width: 640px) 80px, 140px"
-                  className="md:object-cover object-contain"
-                />
-              </div>
-            </div>
-
-            {/* Details */}
-            <div className="col-span-4 flex flex-col justify-center gap-1">
-              <h6 className="text-[12px] md:text-xl font-semibold text-gray-900 uppercase">
-                {categoryData.displayName}
-              </h6>
-              <div className="flex flex-wrap items-center gap-1 text-[10px] text-gray-600">
-                {vehicleNames.slice(0, 3).map((vehicle, index, array) => (
-                  <span 
-                    key={index} 
-                    className="flex items-center max-w-full truncate"
-                  >
-                    <span className="">{vehicle}</span>
-                    {index < array.length - 1 && <span>,</span>}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-4 text-gray-700 text-sm mt-2">
-                <div className="flex items-center gap-1">
-                  <GoPeople size={16} color={brandColor} />
-                  <span>{categoryData.passengers}</span>
+            {/* Mobile Layout (below md) */}
+            <div className="md:hidden flex flex-col gap-3">
+              {/* Image and Title Row */}
+              <div className="flex items-center gap-3">
+                <div className="w-20 h-16 relative flex-shrink-0">
+                  <Image
+                    src={categoryData.imageUrl}
+                    alt={categoryData.displayName}
+                    fill
+                    sizes="80px"
+                    className="object-contain"
+                  />
                 </div>
-                <div className="flex items-center gap-1">
-                  <PiSuitcase size={16} color={brandColor} />
-                  <span>{categoryData.luggage}</span>
+                <div className="flex-1 min-w-0">
+                  <h6 className="text-sm font-semibold text-gray-900 uppercase truncate">
+                    {categoryData.displayName}
+                  </h6>
+                  <div className="flex flex-wrap items-center gap-1 text-[10px] text-gray-600 mt-1">
+                    {vehicleNames.slice(0, 2).map((vehicle, index, array) => (
+                      <span key={index} className="flex items-center">
+                        <span>{vehicle}</span>
+                        {index < array.length - 1 && <span>,</span>}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              <div className="flex items-end gap-3 mt-3">
-                <div className="text-xl md:text-2xl font-bold text-gray-900">
+              {/* Info Row */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3 text-gray-700 text-sm">
+                  <div className="flex items-center gap-1">
+                    <GoPeople size={14} color={brandColor} />
+                    <span className="text-xs">{categoryData.passengers}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <PiSuitcase size={14} color={brandColor} />
+                    <span className="text-xs">{categoryData.luggage}</span>
+                  </div>
+                </div>
+                <div className="text-lg font-bold text-gray-900">
                   €{displayPrice}
                 </div>
               </div>
+
+              {/* Action Button */}
+              <div className="w-full">
+                {formLoading && formData.car.value === categoryData.category ? (
+                  <LoadingButton />
+                ) : (
+                  <button
+                    onClick={() => handleSelect(categoryData, Number(displayPrice))}
+                    className="bg-primary hover:bg-[#ffb300] text-white rounded-lg px-4 py-2.5 transition-all w-full flex items-center justify-center gap-2 font-medium text-sm"
+                    aria-label={`Select ${categoryData.displayName}`}
+                  >
+                    <span>Select Vehicle</span>
+                    <ArrowRight size={16} />
+                  </button>
+                )}
+              </div>
             </div>
 
-            {/* Action */}
-            <div className="col-span-2 flex items-end justify-center">
-              {formLoading && formData.car.value === categoryData.category ? (
-                <LoadingButton />
-              ) : (
-                <button
-                  onClick={() => handleSelect(categoryData, Number(displayPrice))}
-                  className="bg-primary hover:bg-[#ffb300] text-white rounded-md px-3 py-2 transition-all w-full flex items-center justify-center gap-2"
-                  aria-label={`Select ${categoryData.displayName}`}
-                >
-                  <span>Select</span>
-                  <span className="hidden md:inline">Vehicle</span>
-                  <ArrowRight size={18} />
-                </button>
-              )}
+            {/* Desktop Layout (md and above) */}
+            <div className="hidden md:grid grid-cols-8 gap-3">
+              {/* Image */}
+              <div className="col-span-2 flex items-center justify-center bg-white">
+                <div className="w-full max-w-[140px] h-[100px] relative">
+                  <Image
+                    src={categoryData.imageUrl}
+                    alt={categoryData.displayName}
+                    fill
+                    sizes="140px"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Details */}
+              <div className="col-span-4 flex flex-col justify-center gap-1">
+                <h6 className="text-xl font-semibold text-gray-900 uppercase">
+                  {categoryData.displayName}
+                </h6>
+                <div className="flex flex-wrap items-center gap-1 text-[10px] text-gray-600">
+                  {vehicleNames.slice(0, 3).map((vehicle, index, array) => (
+                    <span
+                      key={index}
+                      className="flex items-center max-w-full truncate"
+                    >
+                      <span>{vehicle}</span>
+                      {index < array.length - 1 && <span>,</span>}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-4 text-gray-700 text-sm mt-2">
+                  <div className="flex items-center gap-1">
+                    <GoPeople size={16} color={brandColor} />
+                    <span>{categoryData.passengers}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <PiSuitcase size={16} color={brandColor} />
+                    <span>{categoryData.luggage}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-end gap-3 mt-3">
+                  <div className="text-2xl font-bold text-gray-900">
+                    €{displayPrice}
+                  </div>
+                </div>
+              </div>
+
+              {/* Action */}
+              <div className="col-span-2 flex items-end justify-center">
+                {formLoading && formData.car.value === categoryData.category ? (
+                  <LoadingButton />
+                ) : (
+                  <button
+                    onClick={() => handleSelect(categoryData, Number(displayPrice))}
+                    className="bg-primary hover:bg-[#ffb300] text-white rounded-md px-3 py-2 transition-all w-full flex items-center justify-center gap-2"
+                    aria-label={`Select ${categoryData.displayName}`}
+                  >
+                    <span>Select</span>
+                    <span>Vehicle</span>
+                    <ArrowRight size={18} />
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         );
@@ -341,7 +396,7 @@ function CarList() {
         onClick={() => {
           changeStep(false, 2);
         }}
-        className="p-2 rounded-lg border border-gray-500 w-full text-center text-gray-700 font-semibold cursor-pointer"
+        className="p-2 rounded-lg border border-gray-500 w-full text-center text-gray-700 font-semibold cursor-pointer hover:bg-gray-50 transition-colors"
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
