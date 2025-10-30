@@ -64,6 +64,7 @@ export const fleets = [
     luggage: 4,
     imageUrl: "/Econamy.webp",
     pricing: { perKm: 1.5, hourly: 30, airport: 35 },
+    hasChargingPort: false, // Add this
   },
   {
     category: "BUSINESS_SEDAN",
@@ -73,6 +74,7 @@ export const fleets = [
     luggage: 4,
     imageUrl: "/Mercedes-S-Class-cutout.webp",
     pricing: { perKm: 1.7, hourly: 40, airport: 50 },
+    hasChargingPort: true, // Add this
   },
   {
     category: "ECONOMY_VAN",
@@ -82,6 +84,7 @@ export const fleets = [
     luggage: 8,
     imageUrl: "/Economy Van.png",
     pricing: { perKm: 2.0, hourly: 50, airport: 50 },
+    hasChargingPort: false, // Add this
   },
   {
     category: "BUSINESS_VAN",
@@ -91,6 +94,7 @@ export const fleets = [
     luggage: 7,
     imageUrl: "/First Class Van.png",
     pricing: { perKm: 2.5, hourly: 60, airport: 60 },
+    hasChargingPort: true, // Add this
   },
   {
     category: "MINIBUS_12",
@@ -100,6 +104,7 @@ export const fleets = [
     luggage: 12,
     imageUrl: "/Minibus 12.png",
     pricing: { perKm: 3.5, hourly: 80, airport: 85 },
+    hasChargingPort: true, // Add this
   },
   {
     category: "MINIBUS_16",
@@ -109,6 +114,7 @@ export const fleets = [
     luggage: 16,
     imageUrl: "/Minibus 16.png",
     pricing: { perKm: 4.0, hourly: 100, airport: 100 },
+    hasChargingPort: true, // Add this
   },
 ];
 
