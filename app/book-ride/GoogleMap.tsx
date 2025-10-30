@@ -126,12 +126,12 @@ export default function GoogleMapsRoute() {
       <div ref={mapRef} className="w-full h-full rounded-sm" />
       <div className="py-1 flex items-center gap-3 px-2 ">
       <div className="py-1 flex items-center gap-1 ">
-       <Route color={brandColor} size={15}/>
-       <div>{distance.value ?? 0 } Km</div>
+          <Route color={brandColor} size={18} />
+          <div className="text-primary">{distance.value ?? 0} Km</div>
       </div>
       <div className="py-1 flex items-center gap-1 ">
-       <Timer color={brandColor} size={15}/>
-       <div>{duration.value !== '' ? duration.value : 0} hours</div>
+          <Timer color={brandColor} size={18} />
+          <div className="text-primary">{duration.value !== '' ? duration.value : 0} hours</div>
       </div>
       </div>
     </div>

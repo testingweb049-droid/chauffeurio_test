@@ -27,6 +27,8 @@ export async function POST(req: Request) {
       // TODO: Update your database or form state here
       // Mark payment as successful in your database
       
+      // You can also update any temporary storage here
+      
     } else if (event === "ORDER_AUTHORISED") {
       console.log("Payment authorised - 3DS may be required:", order_id)
     } else if (event === "ORDER_PAYMENT_DECLINED" || state === "DECLINED") {
