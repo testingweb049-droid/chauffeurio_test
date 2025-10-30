@@ -1,7 +1,7 @@
 "use client"
 
 import useFormStore from "@/stores/FormStore"
-import { ArrowRightLeft } from "lucide-react"
+import { ArrowRightLeft, CheckCircle } from "lucide-react"
 import React from "react"
 
 export default function AddReturn() {
@@ -14,67 +14,88 @@ export default function AddReturn() {
 
   const discountedPrice = basePrice - basePrice / 10
   const formattedPrice = discountedPrice.toFixed(2)
+  const savings = (basePrice / 10).toFixed(2)
 
-  const headingText = `Heading back to ${from || "your location"}?`
-  const subText = isReturn
-    ? `Return transfer from ${to || "your destination"} to ${from || "your departure point"
-    } has been added for ${formattedPrice} Euro.`
-    : `Add your return transfer${to ? ` from ${to}` : ""} to ${from || "your departure point"
-    } for an additional ${formattedPrice} Euro.`
+  const handleToggle = () => {
+    setFormData("isReturn", !isReturn)
+    setFieldOptions("returnDate", !isReturn)
+    setFieldOptions("returnTime", !isReturn)
+  }
 
   return (
-    <div
-      className={`p-2 md:p-3 flex gap-2 md:gap-7 items-center w-full relative rounded-md transition-all duration-300 ${isReturn ? "bg-secondary/50" : "bg-[#e5ebf7]"
-        }`}
-    >
-      {/* Discount badge */}
-      <div className="text-xs px-2 py-1 bg-primary text-white absolute right-3 -top-1 rounded-md">
-        10% Off
-      </div>
-
-      {/* Icon bubble */}
+    <div className="w-full">
+      {/* Professional Toggle */}
       <div
-        className={`flex items-center text-lg md:text-2xl justify-center p-2 rounded-full transition-all ${isReturn ? "bg-primary" : "bg-black"
+        className={`p-4 rounded-lg border-2 transition-all duration-300 cursor-pointer relative ${isReturn
+          ? 'bg-primary/10 border-primary shadow-sm'
+          : 'bg-gray-50 border-gray-200 hover:border-gray-300'
           }`}
+        onClick={handleToggle}
       >
-        <ArrowRightLeft size={12} className="text-white md:hidden" />
-        <ArrowRightLeft size={25} className="text-white max-md:hidden" />
+        {/* Discount Badge - Top Right */}
+        {!isReturn && (
+          <div className="absolute -top-2 -right-2">
+            <div className="bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
+              {/* <span>🎉</span> */}
+              <span>10% OFF</span>
+            </div>
+          </div>
+        )}
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            {/* Toggle Switch with better styling */}
+            <div className={`w-12 h-6 rounded-full transition-all duration-300 relative ${isReturn ? 'bg-primary' : 'bg-gray-300'
+              }`}>
+              <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all duration-300 shadow-md ${isReturn ? 'left-7' : 'left-1'
+                }`} />
+            </div>
+
+            {/* Content */}
+            <div className="flex items-center gap-3">
+              <ArrowRightLeft size={20} className={isReturn ? 'text-primary' : 'text-gray-500'} />
+              <div>
+                <div className={`font-semibold ${isReturn ? 'text-primary' : 'text-gray-900'}`}>
+                  {isReturn ? 'Return Transfer Included' : 'Include Return Transfer'}
+                </div>
+                <div className="text-sm text-gray-600">
+                  {isReturn
+                    ? 'Your return journey is confirmed'
+                    : `Save €${savings} with return trip`
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Price & Savings */}
+          <div className="text-right">
+            <div className={`font-bold text-lg ${isReturn ? 'text-primary' : 'text-gray-900'}`}>
+              €{formattedPrice}
+            </div>
+            {!isReturn && (
+              <div className="text-xs text-green-700 font-medium mt-1">
+                Save €{savings}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* Text content */}
-      <div className="flex flex-col gap-1 sm:gap-2 w-full max-w-[70%]">
-        <div className="text-sm md:text-lg font-semibold md:font-bold text-black">
-          {headingText}
+      {/* Route Details when Active */}
+      {isReturn && (
+        <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+          <div className="flex items-center gap-2 text-sm text-green-700">
+            <CheckCircle size={16} className="text-green-600" />
+            <span>
+              <strong>Return Route:</strong> {to} → {from}
+            </span>
+          </div>
+          <div className="text-xs text-green-600 mt-1">
+            Your return transfer has been added to the booking
+          </div>
         </div>
-        <div
-          className={`text-xs md:text-sm ${isReturn ? "text-primary" : "text-gray-800"
-            } transition-all`}
-        >
-          {subText}
-        </div>
-      </div>
-
-      {/* Button */}
-      <div className="h-full flex items-end justify-end ml-auto">
-        <button
-          type="button"
-          onClick={() => {
-            setFormData("isReturn", !isReturn)
-            setFieldOptions("returnDate", isReturn ? false : true)
-            setFieldOptions("returnTime", isReturn ? false : true)
-          }}
-          className={`
-            px-2 md:px-6 py-1 md:py-2 rounded-sm border text-nowrap cursor-pointer
-            transition-all duration-200 max-lg:text-sm font-medium
-            ${isReturn
-              ? "bg-primary text-white border-primary hover:bg-red-600 hover:border-red-600"
-              : "bg-white text-primary border-primary hover:bg-primary hover:text-white"
-            }
-          `}
-        >
-          {isReturn ? "Cancel Return" : "Add Return"}
-        </button>
-      </div>
+      )}
     </div>
   )
 }

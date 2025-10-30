@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 export async function POST(request: Request) {
   console.log("---------------------------------")
   try {
-    const { amount, customerDetails, environment = 'sandbox' } = await request.json()
+    const { amount, customerDetails, paymentMethod, environment = 'sandbox' } = await request.json()
 
     if (!amount || !customerDetails?.email) {
       return NextResponse.json(
@@ -29,6 +29,15 @@ export async function POST(request: Request) {
       )
     }
 
+    // Define payment methods based on selection
+    let paymentMethodsInclude = ["CARD"]
+    
+    if (paymentMethod === "apple_pay") {
+      paymentMethodsInclude = ["APPLE_PAY"]
+    } else if (paymentMethod === "google_pay") {
+      paymentMethodsInclude = ["GOOGLE_PAY"]
+    }
+
     // Revolut expects amount in minor units (pence)
     const payload = {
       amount: Math.round(amount * 100),
@@ -41,8 +50,8 @@ export async function POST(request: Request) {
         phone: customerDetails.phone,
         full_name: customerDetails.name,
       },
-      // 3DS Configuration
-      payment_methods_include: ["CARD"],
+      // Enable all payment methods
+      payment_methods_include: paymentMethodsInclude,
       security_checks: {
         card: {
           challenge_notification_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/revolut-webhook`,

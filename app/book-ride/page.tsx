@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import Step4 from './Step4'
 import PersonalDetails from './PersonalDetails'
 import { ArrowDown, ArrowUp } from 'lucide-react'
+import FeaturesIncluded from './FeaturesIncluded'
 
 
 function Page() {
@@ -42,6 +43,7 @@ function Page() {
               `}>
                 {step==2 && <GoogleMapsRoute/>}
                 {step>=2 &&  <PickupTripDetails/>}
+            {step >= 2 && <FeaturesIncluded />}
                 {step>=3 && <SelectedCar/>}
                 {step>=4 && <PersonalDetails/>}
                 {step==3 && <FeatureList/>}
@@ -62,6 +64,7 @@ function Page() {
                 <div className='hidden lg:flex flex-col gap-5 w-full'>
                 {step==2 && <GoogleMapsRoute/>}
                 {step>=2 &&  <PickupTripDetails/>}
+            {step >= 2 && <FeaturesIncluded />}
                 {step>=3 && <SelectedCar/>}
                 {step>=4 && <PersonalDetails/>}
                 {step==3 && <FeatureList/>}
