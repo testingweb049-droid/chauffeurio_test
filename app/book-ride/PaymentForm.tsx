@@ -29,22 +29,9 @@ interface PriceBreakdown {
   carLabel: string;
   totalPrice: number;
 }
-
 declare global {
   interface Window {
     RevolutCheckout: any;
-    ApplePaySession?: {
-      canMakePayments: () => boolean;
-      supportsVersion: (version: number) => boolean;
-    };
-    google?: {
-      payments: {
-        api: {
-          PaymentsClient: any;
-        };
-      };
-    };
-    PaymentRequest?: any;
   }
 }
 
