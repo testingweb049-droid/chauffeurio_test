@@ -1,4 +1,4 @@
-import { LuggageIcon, User, Users, Mail, Plane } from 'lucide-react'
+import { LuggageIcon, User, Users, Mail, Plane, ChevronDown, ChevronUp } from 'lucide-react'
 import React, { useState } from 'react'
 import { DetailsInput, PhoneInput } from './UserDetailInput'
 import NewDateTimePicker from './NewDateTimePicker'
@@ -9,6 +9,7 @@ import SelectableCheckbox from './SelectableCheckbox'
 import AddReturn from './AddReturn'
 import LoadingButton from './LoadingButton'
 import MyPaymentForm from './PaymentForm'
+
 // Counter component for extras
 function ExtraCounter({
     label,
@@ -78,6 +79,83 @@ function ExtraCounter({
     );
 }
 
+// Accordion Component for Equipment and Extras
+function EquipmentExtrasAccordion({
+    childSeat,
+    setChildSeat,
+    infantSeat,
+    setInfantSeat,
+    boosterSeat,
+    setBoosterSeat
+}: {
+    childSeat: number;
+    setChildSeat: (value: number) => void;
+    infantSeat: number;
+    setInfantSeat: (value: number) => void;
+    boosterSeat: number;
+    setBoosterSeat: (value: number) => void;
+}) {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <div className="border border-gray-200 rounded-lg overflow-hidden">
+            {/* Accordion Header */}
+            <button
+                type="button"
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors"
+            >
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <LuggageIcon className="w-4 h-4 text-blue-600" />
+                    </div>
+                    <div className="text-left">
+                        <div className="font-bold text-lg text-primary">Equipment and Extras</div>
+                        <div className="text-sm text-gray-600">Add child seats, booster seats, and more</div>
+                    </div>
+                </div>
+                <div className="text-gray-500">
+                    {isOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                </div>
+            </button>
+
+            {/* Accordion Content */}
+            {isOpen && (
+                <div className="border-t border-gray-200 bg-gray-50">
+                    <div className="p-4">
+                        <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
+                            <div className="px-4">
+                                <ExtraCounter
+                                    label="Child Seat"
+                                    price={5.00}
+                                    value={childSeat}
+                                    onChange={setChildSeat}
+                                />
+                            </div>
+                            <div className="px-4">
+                                <ExtraCounter
+                                    label="Infant Seat"
+                                    price={5.00}
+                                    value={infantSeat}
+                                    onChange={setInfantSeat}
+                                />
+                            </div>
+                            <div className="px-4">
+                                <ExtraCounter
+                                    label="Booster Seat"
+                                    price={5.00}
+                                    value={boosterSeat}
+                                    onChange={setBoosterSeat}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
+
 function Step3() {
     const { formData, setFormData, changeStep, formLoading } = useFormStore();
 
@@ -86,6 +164,7 @@ function Step3() {
     const [infantSeat, setInfantSeat] = useState(0);
     const [boosterSeat, setBoosterSeat] = useState(0);
     const [extraStop, setExtraStop] = useState(0);
+    const [showPayment, setShowPayment] = useState(false);
 
     // Find the selected fleet category
     const selectedFleet = fleets.find((item) => item.category === formData.car.value);
@@ -112,6 +191,19 @@ function Step3() {
         }
     )
 
+    // Check if all required fields are filled
+    const isFormValid = () => {
+        return (
+            formData.name.value &&
+            formData.email.value &&
+            formData.phone.value &&
+            formData.date.value &&
+            formData.time.value &&
+            formData.passengers.value &&
+            formData.bags.value
+        )
+    }
+
     // Calculate total price including extras
     const calculateTotalPrice = () => {
         // Get base price from formData
@@ -126,6 +218,15 @@ function Step3() {
         setFormData('infantSeat', infantSeat.toString());
         setFormData('boosterSeat', boosterSeat.toString());
     }, [childSeat, infantSeat, boosterSeat]);
+
+    const handleContinueToPayment = () => {
+        if (isFormValid()) {
+            setShowPayment(true)
+        } else {
+            // Show error or highlight missing fields
+            console.log("Please fill all required fields")
+        }
+    }
 
     return (
         <div className='flex flex-col gap-5 w-full'>
@@ -176,38 +277,41 @@ function Step3() {
                     </div>
                 </div>
 
-                <div className='font-bold text-lg mt-2 text-primary'>Equipment and Extras</div>
+                {/* Equipment and Extras Accordion */}
+                <EquipmentExtrasAccordion
+                    childSeat={childSeat}
+                    setChildSeat={setChildSeat}
+                    infantSeat={infantSeat}
+                    setInfantSeat={setInfantSeat}
+                    boosterSeat={boosterSeat}
+                    setBoosterSeat={setBoosterSeat}
+                />
 
-                <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
-                    <div className="px-4">
-                        <ExtraCounter
-                            label="Child Seat"
-                            price={5.00}
-                            value={childSeat}
-                            onChange={setChildSeat}
-                        />
+                {/* Continue to Payment Button - Only show when payment section is hidden */}
+                {!showPayment && (
+                    <div className="w-full border-t-2 border-gray-300 pt-5 mt-5">
+                        <div className='text-2xl font-semibold mb-5 text-primary'>Payment</div>
+                        <button
+                            type="button"
+                            onClick={handleContinueToPayment}
+                            disabled={!isFormValid()}
+                            className={`w-full py-4 px-6 rounded-lg font-semibold text-lg transition-all ${isFormValid()
+                                ? "bg-blue-600 text-white hover:bg-blue-700"
+                                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                }`}
+                        >
+                            Continue to Payment - € {calculateTotalPrice()}
+                        </button>
                     </div>
-                    <div className="px-4">
-                        <ExtraCounter
-                            label="Infant Seat"
-                            price={5.00}
-                            value={infantSeat}
-                            onChange={setInfantSeat}
-                        />
+                )}
+
+                {/* Payment Section - Only show after Continue to Payment is clicked */}
+                {showPayment && (
+                    <div className="w-full border-t-2 border-gray-300 pt-5 mt-5">
+                        <div className='text-2xl font-semibold mb-5 text-primary'>Payment</div>
+                        <MyPaymentForm price={calculateTotalPrice()} />
                     </div>
-                    <div className="px-4">
-                        <ExtraCounter
-                            label="Booster Seat"
-                            price={5.00}
-                            value={boosterSeat}
-                            onChange={setBoosterSeat}
-                        />
-                    </div>
-                </div>
-                <div className="w-full border-t-2 border-gray-300 pt-5 mt-5">
-                    <div className='text-2xl font-semibold mb-5 text-primary'>Payment</div>
-                    <MyPaymentForm price={calculateTotalPrice()} />
-                </div>
+                )}
             </div>
             <div
                 onClick={() => { changeStep(false, 3); }}

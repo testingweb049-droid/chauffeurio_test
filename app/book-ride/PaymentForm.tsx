@@ -24,11 +24,19 @@ export default function MyPaymentForm({ price }: { price: string }) {
 
   const amount = Number(price)
 
+  // Environment detection
+  const isProduction = process.env.NEXT_PUBLIC_APP_ENV === 'production'
+  const revolutScriptUrl = isProduction
+    ? process.env.NEXT_PUBLIC_REVOLUT_PRODUCTION_SCRIPT || "https://merchant.revolut.com/embed.js"
+    : process.env.NEXT_PUBLIC_REVOLUT_SANDBOX_SCRIPT || "https://sandbox-merchant.revolut.com/embed.js"
+
+  const revolutEnvironment = isProduction ? "production" : "sandbox"
+
   // Validate price
   if (isNaN(amount) || amount <= 0) {
     return (
       <div className="text-red-500 text-center p-4 border border-red-300 rounded-lg">
-        Invalid price amount: £{price}. Please check your booking details.
+        Invalid price amount: €{price}. Please check your booking details.
       </div>
     )
   }
@@ -55,7 +63,7 @@ export default function MyPaymentForm({ price }: { price: string }) {
         return
       }
 
-      console.log(`Creating Revolut order for amount: ${amount} with method: ${paymentMethod}`)
+      console.log(`Creating Revolut order for amount: ${amount} with method: ${paymentMethod} in ${revolutEnvironment}`)
 
       // Create Revolut payment order
       const response = await fetch("/api/create-revolut-order", {
@@ -70,7 +78,8 @@ export default function MyPaymentForm({ price }: { price: string }) {
             email: formData.email.value,
             phone: formData.phone.value,
           },
-          paymentMethod: paymentMethod
+          paymentMethod: paymentMethod,
+          environment: revolutEnvironment
         }),
       })
 
@@ -84,11 +93,11 @@ export default function MyPaymentForm({ price }: { price: string }) {
         return
       }
 
-      // For card payment - use popup (works in sandbox)
-      if (paymentMethod === "card" && scriptLoaded && window.RevolutCheckout) {
+      // For ALL payment methods - use Revolut popup/modal (wait method)
+      if (scriptLoaded && window.RevolutCheckout) {
         try {
-          console.log("Opening Revolut payment modal...")
-          const RC = window.RevolutCheckout(data.public_id, "sandbox")
+          console.log(`Opening Revolut payment modal for method: ${paymentMethod} in ${revolutEnvironment}`)
+          const RC = window.RevolutCheckout(data.public_id, revolutEnvironment)
 
           RC.payWithPopup({
             onSuccess() {
@@ -101,8 +110,7 @@ export default function MyPaymentForm({ price }: { price: string }) {
                   router.refresh()
                 }
               })
-            }
-            ,
+            },
             onError(error: any) {
               console.error("Payment error:", error)
               setError(error.message || "Payment failed")
@@ -121,26 +129,8 @@ export default function MyPaymentForm({ price }: { price: string }) {
         }
         return
       }
-      if (data.checkout_url) {
-        if (data.id) {
-          setFormData("paymentId", data.id)
-        }
-        window.location.href = data.checkout_url
-        return
-      }
-      if (data.status === "COMPLETED" || data.state === "COMPLETED") {
-        setFormData("paymentId", data.id)
-        console.log("Payment completed successfully:", data.id)
-
-        const isOk = await changeStep(true, 4)
-        if (isOk) {
-          router.replace("/order-placed")
-          router.refresh()
-        }
-      } else {
-        setError("Payment processing failed. Please try again.")
-        setLoading(false)
-      }
+      setError("Payment system not ready. Please try again.")
+      setLoading(false)
 
     } catch (err: any) {
       console.error("Payment error:", err)
@@ -152,13 +142,13 @@ export default function MyPaymentForm({ price }: { price: string }) {
   return (
     <>
       <Script
-        src="https://sandbox-merchant.revolut.com/embed.js"
+        src={revolutScriptUrl}
         onLoad={() => {
-          console.log("Revolut script loaded successfully")
+          console.log(`Revolut ${revolutEnvironment} script loaded successfully`)
           setScriptLoaded(true)
         }}
         onError={() => {
-          console.error("Failed to load Revolut script")
+          console.error(`Failed to load Revolut ${revolutEnvironment} script`)
           setError("Failed to load payment system")
         }}
       />
@@ -245,8 +235,8 @@ export default function MyPaymentForm({ price }: { price: string }) {
               formData.paymentId.value
                 ? "Processing Payment..."
                 : paymentMethod === "card"
-                  ? `Pay £${price} Securely`
-                  : `Pay £${price}${paymentMethod === "apple_pay" ? " with Apple Pay" : " with Google Pay"}`
+                  ? `Pay € ${price} Securely With Card`
+                  : `Pay € ${price}${paymentMethod === "apple_pay" ? " with Apple Pay" : " with Google Pay"}`
             }
             loading={loading}
             type="submit"
