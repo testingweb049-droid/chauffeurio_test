@@ -72,7 +72,7 @@ export default function AddReturn() {
             </div>
 
             {!isReturn && (
-              <span className="text-xs font-medium bg-primary/10 text-primary px-2 py-1 rounded">
+              <span className="text-sm bg-primary/10 text-red-500 font-bold px-2 py-1 rounded">
                 Save €{savings}
               </span>
             )}
