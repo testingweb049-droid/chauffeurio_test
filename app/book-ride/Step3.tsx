@@ -235,7 +235,7 @@ function Step3() {
 
     return (
         <div className='flex flex-col gap-5 w-full'>
-            <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md py-2 flex justify-start border-b border-gray-200">
+            {/* <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md py-2 flex justify-start border-b border-gray-200">
                 <button
                     onClick={() => changeStep(false, 3)}
                     className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg border border-gray-300 transition-all shadow-sm hover:shadow-md active:scale-[0.98] md:w-auto justify-center w-fit"
@@ -244,7 +244,7 @@ function Step3() {
                     <ArrowLeft size={18} />
                     <span>Back</span>
                 </button>
-            </div>
+            </div> */}
 
             <div className='text-2xl font-semibold text-primary'>Passenger Details</div>
 

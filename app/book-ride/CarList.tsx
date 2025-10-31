@@ -153,7 +153,7 @@ function CarList() {
   return (
     <div className="w-full flex flex-col gap-4 overflow-x-hidden"> {/* 🧱 Fix overflow */}
       {/* 🟨 Sticky Back Button */}
-      <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md py-2 flex justify-start border-b border-gray-200">
+      {/* <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md py-2 flex justify-start border-b border-gray-200">
         <button
           onClick={() => changeStep(false, 2)}
           className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg border border-gray-300 transition-all shadow-sm hover:shadow-md active:scale-[0.98] w-fit md:w-auto justify-center"
@@ -162,7 +162,7 @@ function CarList() {
           <ArrowLeft size={18} />
           <span>Back</span>
         </button>
-      </div>
+      </div> */}
 
       {fleets.map((categoryData) => {
         const computedPrice = calculatePrice(categoryData);
@@ -183,6 +183,7 @@ function CarList() {
               <div
                 className={cn(
                   "absolute top-2 right-2 md:top-3 md:right-3 z-10 flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold",
+                  "hidden md:flex", // ← YEH LINE ADD KAREN
                   badge.bgColor,
                   badge.textColor
                 )}
