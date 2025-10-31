@@ -180,7 +180,7 @@ export default function NewDateTimePicker({
           {/* Time selector - Cross-browser compatible */}
           {!Array.isArray(formData[dateFieldName]) && formData[dateFieldName].value && (
             <div className="mt-3 md:mt-4 flex items-center justify-between gap-10">
-              <div className="font-semibold">Time</div>
+              <div className="font-semibold text-[#FFB400]">Time</div>
               <div
                 className="relative w-full max-w-32 cursor-pointer"
                 onClick={handleTimeInputClick}
@@ -200,7 +200,7 @@ export default function NewDateTimePicker({
                 />
                 {!selectedTime && (
                   <div className="absolute inset-0 pointer-events-none flex items-center justify-between px-3 pb-1">
-                    <span className="text-primary/60 text-sm">Select time</span>
+                    <span className="text-primary text-sm ">Select time</span>
                     {/* <Clock className="h-4 w-4 text-primary/60" /> */}
                   </div>
                 )}
