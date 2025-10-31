@@ -1,6 +1,6 @@
 "use client"
 
-import { LuggageIcon, User, Users, Mail, Plane, ChevronDown, ChevronUp, ArrowLeft } from 'lucide-react'
+import { LuggageIcon, User, Users, Mail, Plane, ChevronDown, ChevronUp, ArrowLeft, MessageCircle } from 'lucide-react'
 import React, { useState } from 'react'
 import { DetailsInput, PhoneInput } from './UserDetailInput'
 import NewDateTimePicker from './NewDateTimePicker'
@@ -79,147 +79,6 @@ function ExtraCounter({
     );
 }
 
-// Toggle Component for Equipment and Extras
-function EquipmentExtrasToggle({
-    childSeat,
-    setChildSeat,
-    infantSeat,
-    setInfantSeat,
-    boosterSeat,
-    setBoosterSeat
-}: {
-    childSeat: number;
-    setChildSeat: (value: number) => void;
-    infantSeat: number;
-    setInfantSeat: (value: number) => void;
-    boosterSeat: number;
-    setBoosterSeat: (value: number) => void;
-}) {
-    const [isOpen, setIsOpen] = useState(false);
-    const hasExtras = childSeat > 0 || infantSeat > 0 || boosterSeat > 0;
-
-    const handleToggle = () => {
-        setIsOpen(!isOpen);
-    };
-
-    return (
-        <div className="border border-gray-200 rounded-lg overflow-hidden">
-            {/* Toggle Header */}
-            <div
-                className="flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors cursor-pointer"
-                onClick={handleToggle}
-            >
-                <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <LuggageIcon className="w-4 h-4 text-blue-600" />
-                    </div>
-                    <div className="text-left">
-                        <div className="font-bold text-lg text-primary">Equipment and Extras</div>
-                        <div className="text-sm text-gray-600">
-                            {hasExtras ? 'Additional equipment added' : 'Add child seats, booster seats, and more'}
-                        </div>
-                    </div>
-                </div>
-                <div className="flex items-center gap-3">
-                    {hasExtras && (
-                        <div className="text-sm text-primary font-medium bg-primary/10 px-2 py-1 rounded">
-                            Added
-                        </div>
-                    )}
-                    <div className="text-gray-500">
-                        {isOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-                    </div>
-                </div>
-            </div>
-
-            {/* Toggle Content */}
-            {isOpen && (
-                <div className="border-t border-gray-200 bg-gray-50">
-                    <div className="p-4">
-                        <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
-                            <div className="px-4">
-                                <ExtraCounter
-                                    label="Child Seat"
-                                    price={5.00}
-                                    value={childSeat}
-                                    onChange={setChildSeat}
-                                />
-                            </div>
-                            <div className="px-4">
-                                <ExtraCounter
-                                    label="Infant Seat"
-                                    price={5.00}
-                                    value={infantSeat}
-                                    onChange={setInfantSeat}
-                                />
-                            </div>
-                            <div className="px-4">
-                                <ExtraCounter
-                                    label="Booster Seat"
-                                    price={5.00}
-                                    value={boosterSeat}
-                                    onChange={setBoosterSeat}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
-    );
-}
-
-// Toggle Component for Airport Pickup
-function AirportPickupToggle() {
-    const { formData, setFormData } = useFormStore();
-    const [isOpen, setIsOpen] = useState(Boolean(formData.isAirportPickup.value));
-
-    const handleToggle = () => {
-        const newValue = !isOpen;
-        setIsOpen(newValue);
-        setFormData('isAirportPickup', newValue.toString());
-    };
-
-    return (
-        <div className="w-full">
-            {/* Airport Pickup Toggle */}
-            <div
-                className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
-                onClick={handleToggle}
-            >
-                <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <Plane className="w-4 h-4 text-blue-600" />
-                    </div>
-                    <div className="text-left">
-                        <div className="font-bold text-lg text-primary">Airport Pickup Details</div>
-                        <div className="text-sm text-gray-600">
-                            {isOpen ? 'Flight details added' : 'Add airline and flight information'}
-                        </div>
-                    </div>
-                </div>
-                <div className="flex items-center gap-3">
-                    <div className={`w-10 h-6 rounded-full transition-all duration-300 relative ${isOpen ? 'bg-primary' : 'bg-gray-300'
-                        }`}>
-                        <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all duration-300 ${isOpen ? 'left-5' : 'left-1'
-                            }`} />
-                    </div>
-                </div>
-            </div>
-
-            {/* Airport Details when Active */}
-            {isOpen && (
-                <div className="mt-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <div className="flex flex-col gap-3">
-                        <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
-                        <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
-                    </div>
-                </div>
-            )}
-        </div>
-    );
-}
-
 function Step3() {
     const { formData, setFormData, changeStep } = useFormStore();
 
@@ -228,6 +87,14 @@ function Step3() {
     const [infantSeat, setInfantSeat] = useState(Number(formData.infantSeat.value) || 0);
     const [boosterSeat, setBoosterSeat] = useState(Number(formData.boosterSeat.value) || 0);
     const [showPayment, setShowPayment] = useState(false);
+
+    // State for toggles
+    const [isAirportPickupOpen, setIsAirportPickupOpen] = useState(Boolean(formData.isAirportPickup.value));
+    const [isEquipmentExtrasOpen, setIsEquipmentExtrasOpen] = useState(false);
+    const [isInstructionsOpen, setIsInstructionsOpen] = useState(Boolean(formData.description.value));
+
+    const hasExtras = childSeat > 0 || infantSeat > 0 || boosterSeat > 0;
+    const hasInstructions = Boolean(formData.description.value);
 
     // Find the selected fleet category
     const selectedFleet = fleets.find((item) => item.category === formData.car.value);
@@ -262,8 +129,7 @@ function Step3() {
             formData.phone.value &&
             formData.date.value &&
             formData.time.value &&
-            formData.passengers.value &&
-            formData.bags.value
+            formData.passengers.value
         )
     }
 
@@ -291,6 +157,16 @@ function Step3() {
         setFormData('infantSeat', infantSeat.toString());
         setFormData('boosterSeat', boosterSeat.toString());
     }, [childSeat, infantSeat, boosterSeat, setFormData]);
+
+    // Save airport pickup state to form store
+    React.useEffect(() => {
+        setFormData('isAirportPickup', isAirportPickupOpen.toString());
+    }, [isAirportPickupOpen, setFormData]);
+
+    // Handle instructions change
+    const handleInstructionsChange = (value: string) => {
+        setFormData('description', value);
+    };
 
     const handleContinueToPayment = () => {
         if (isFormValid()) {
@@ -372,28 +248,162 @@ function Step3() {
 
             <div className='text-2xl font-semibold text-primary'>Passenger Details</div>
 
-            <div className='flex flex-col gap-3 w-full'>
-                <DetailsInput field='name' placeholder='Passenger full name' Icon={User} type='text' />
-                <PhoneInput />
-                <DetailsInput field='email' placeholder='Your email' Icon={Mail} type='email' />
+            <div className='flex flex-col gap-4 w-full'>
+                {/* Passenger Name and Email - Side by side on desktop, stacked on mobile */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <DetailsInput field='name' placeholder='Passenger full name' Icon={User} type='text' />
+                    <DetailsInput field='email' placeholder='Your email' Icon={Mail} type='email' />
+                </div>
 
-                <NewDateTimePicker
-                    selectedDate={formData.date.value}
-                    selectedTime={formData.time.value}
-                    setFormData={setFormData}
-                    dateFieldName="date"
-                    timeFieldName="time"
-                    placeholder='Select Date & Time'
-                    isDisable={false}
-                />
+                {/* Phone and Date/Time - Side by side on desktop, stacked on mobile */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <PhoneInput />
+                    <NewDateTimePicker
+                        selectedDate={formData.date.value}
+                        selectedTime={formData.time.value}
+                        setFormData={setFormData}
+                        dateFieldName="date"
+                        timeFieldName="time"
+                        placeholder='Select Date & Time'
+                        isDisable={false}
+                    />
+                </div>
 
-                <div className='grid grid-cols-2 gap-3'>
+                {/* Passengers and Bags - Always side by side */}
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                     <NewDropdownInput Icon={Users} fieldName='passengers' placeholder='No. of Passengers' options={passengersArray} />
                     <NewDropdownInput Icon={LuggageIcon} fieldName='bags' placeholder='No. of Bags' options={bagsArray} />
                 </div>
 
-                <AddReturn />
+                {/* Toggle Buttons Side by Side */}
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
+                    {/* Airport Pickup Toggle Button */}
+                    <div className="flex items-center justify-start gap-2 w-full">
+                        <div
+                            className="flex items-center gap-3 cursor-pointer"
+                            onClick={() => setIsAirportPickupOpen(!isAirportPickupOpen)}
+                        >
+                            <div className={`w-12 h-6 rounded-full transition-all duration-300 relative ${isAirportPickupOpen ? 'bg-green-500' : 'bg-gray-300'}`}>
+                                <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all duration-300 ${isAirportPickupOpen ? 'left-7' : 'left-1'}`} />
+                            </div>
+                        </div>
+                        <div className="text-left">
+                            <div className="font-semibold text-gray-900">Airport Pickup</div>
+                        </div>
+                    </div>
 
+                    {/* Equipment Extras Toggle Button */}
+                    <div className="flex items-center justify-start gap-2 w-full">
+                        <div
+                            className="flex items-center gap-3 cursor-pointer"
+                            onClick={() => setIsEquipmentExtrasOpen(!isEquipmentExtrasOpen)}
+                        >
+                            <div className={`w-12 h-6 rounded-full transition-all duration-300 relative ${isEquipmentExtrasOpen ? 'bg-green-500' : 'bg-gray-300'}`}>
+                                <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all duration-300 ${isEquipmentExtrasOpen ? 'left-7' : 'left-1'}`} />
+                            </div>
+                        </div>
+                        <div className="text-left">
+                            <div className="font-semibold text-gray-900 text-sm">Equipment & Extras</div>
+                        </div>
+                        {hasExtras && (
+                            <div className="text-sm text-green-600 font-medium bg-green-100 px-2 py-1 rounded">
+                                Added
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Add Instructions Toggle Button */}
+                    <div className="flex items-center justify-start gap-2 w-full">
+                        <div
+                            className="flex items-center gap-3 cursor-pointer"
+                            onClick={() => setIsInstructionsOpen(!isInstructionsOpen)}
+                        >
+                            <div className={`w-12 h-6 rounded-full transition-all duration-300 relative ${isInstructionsOpen ? 'bg-green-500' : 'bg-gray-300'}`}>
+                                <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all duration-300 ${isInstructionsOpen ? 'left-7' : 'left-1'}`} />
+                            </div>
+                        </div>
+                        <div className="text-left">
+                            <div className="font-semibold text-gray-900">Add Instructions</div>
+                        </div>
+                        {hasInstructions && (
+                            <div className="text-sm text-green-600 font-medium bg-green-100 px-2 py-1 rounded">
+                                Added
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Content Sections - Stacked Uper Neechay */}
+                <div className='flex flex-col gap-4 w-full'>
+                    {/* Airport Pickup Content */}
+                    {isAirportPickupOpen && (
+                        <div className="p-4 border border-primary/60 rounded-lg w-full">
+                            {/* Airport Pickup Title */}
+                            <div className="mb-2">
+                                <p className="text-sm text-gray-600">Add your flight information for airport pickup</p>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
+                                <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Equipment Extras Content */}
+                    {isEquipmentExtrasOpen && (
+                        <div className="p-4 border border-primary/60 rounded-lg w-full">
+                            {/* Equipment and Extras Title */}
+                            <div className="mb-2">
+                                <p className="text-sm text-gray-600">Select additional equipment for your journey</p>
+                            </div>
+                            <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
+                                <div className="px-4">
+                                    <ExtraCounter
+                                        label="Child Seat"
+                                        price={5.00}
+                                        value={childSeat}
+                                        onChange={setChildSeat}
+                                    />
+                                </div>
+                                <div className="px-4">
+                                    <ExtraCounter
+                                        label="Infant Seat"
+                                        price={5.00}
+                                        value={infantSeat}
+                                        onChange={setInfantSeat}
+                                    />
+                                </div>
+                                <div className="px-4">
+                                    <ExtraCounter
+                                        label="Booster Seat"
+                                        price={5.00}
+                                        value={boosterSeat}
+                                        onChange={setBoosterSeat}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Add Instructions Content */}
+                    {isInstructionsOpen && (
+                        <div className="p-4 border border-primary/60 rounded-lg w-full">
+                            {/* Add Instructions Title */}
+                            <div className="mb-2">
+                                <p className="text-sm text-gray-600">Add any special instructions for your journey</p>
+                            </div>
+                            <textarea
+                                value={formData.description.value}
+                                onChange={(e) => handleInstructionsChange(e.target.value)}
+                                placeholder="Enter any special instructions, pickup details, or requirements..."
+                                className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                rows={4}
+                            />
+                        </div>
+                    )}
+                </div>
+
+                <AddReturn />
                 {formData.isReturn.value && (
                     <NewDateTimePicker
                         selectedDate={formData.returnDate.value}
@@ -406,19 +416,6 @@ function Step3() {
                         placeholder='Select Return Date & Time'
                     />
                 )}
-
-                {/* Airport Pickup Toggle */}
-                <AirportPickupToggle />
-
-                {/* Equipment and Extras Toggle */}
-                <EquipmentExtrasToggle
-                    childSeat={childSeat}
-                    setChildSeat={setChildSeat}
-                    infantSeat={infantSeat}
-                    setInfantSeat={setInfantSeat}
-                    boosterSeat={boosterSeat}
-                    setBoosterSeat={setBoosterSeat}
-                />
 
                 {/* Continue to Payment Button - Only show when payment section is hidden */}
                 {!showPayment && (
@@ -437,7 +434,7 @@ function Step3() {
                             type="button"
                             onClick={handleContinueToPayment}
                             disabled={!isFormValid()}
-                            className={`w-full py-3 px-6 rounded-lg font-semibold text-lg transition-all ${isFormValid()
+                            className={`w-full py-2 px-6 rounded-lg font-semibold text-lg transition-all ${isFormValid()
                                 ? "bg-blue-600 text-white hover:bg-blue-700 shadow-md"
                                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
                                 }`}
