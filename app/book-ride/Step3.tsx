@@ -204,7 +204,7 @@ function Step3() {
                     </div>
                     <NewDropdownInput Icon={LuggageIcon} fieldName='bags' placeholder='No. of Bags' options={bagsArray} />
                 </div>
-
+                <AddReturn />
                 {/* ✅ Your toggle buttons remain intact */}
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
                     <div className="flex items-center justify-start gap-2 w-full">
@@ -233,7 +233,7 @@ function Step3() {
                         <div className="text-left">
                             <div className="font-semibold text-gray-900 text-sm">Equipment & Extras</div>
                         </div>
-                        {hasExtras && <div className="text-sm text-green-600 font-medium bg-green-100 px-2 py-1 rounded">Added</div>}
+                        {/* {hasExtras && <div className="text-sm text-green-600 font-medium bg-green-100 px-2 py-1 rounded">Added</div>} */}
                     </div>
 
                     <div className="flex items-center justify-start gap-2 w-full">
@@ -248,7 +248,7 @@ function Step3() {
                         <div className="text-left">
                             <div className="font-semibold text-gray-900">Add Instructions</div>
                         </div>
-                        {hasInstructions && <div className="text-sm text-green-600 font-medium bg-green-100 px-2 py-1 rounded">Added</div>}
+                        {/* {hasInstructions && <div className="text-sm text-green-600 font-medium bg-green-100 px-2 py-1 rounded">Added</div>} */}
                     </div>
                 </div>
 
@@ -288,13 +288,13 @@ function Step3() {
                                 value={formData.description.value}
                                 onChange={(e) => handleInstructionsChange(e.target.value)}
                                 placeholder="Enter any special instructions, pickup details, or requirements..."
-                                className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-primary"
                             />
                         </div>
                     )}
                 </div>
 
-                <AddReturn />
+
 
                 {formData.isReturn.value && (
                     <NewDateTimePicker
@@ -322,8 +322,7 @@ function Step3() {
                 )}
 
                 {showPayment && (
-                    <div className="w-full border-t-2 border-gray-300 pt-5 mt-5">
-                        <div className='text-2xl font-semibold mb-5 text-primary'>Payment</div>
+                    <div className="w-full border-t-2 border-gray-300">
                         <MyPaymentForm price={calculateTotalPrice()} />
                     </div>
                 )}

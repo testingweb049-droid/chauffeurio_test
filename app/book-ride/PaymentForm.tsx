@@ -2,19 +2,18 @@
 
 import React, { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import ContinueButton from "./ContinueButton"
 import useFormStore from "@/stores/FormStore"
+import { Loader2 } from "lucide-react"
 
 export default function MyPaymentForm({ price }: { price: string }) {
   const router = useRouter()
-  const { formError, setFormData, changeStep, formData } = useFormStore()
+  const { formError, setFormData, formData } = useFormStore()
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
-  const [paymentProcessing, setPaymentProcessing] = useState(false)
+  const [paymentProcessing, setPaymentProcessing] = useState(false) // stays in logic but not displayed
 
   const amount = Number(price)
-
   const isProduction = process.env.NEXT_PUBLIC_APP_ENV === "production"
   const revolutEnvironment = isProduction ? "production" : "sandbox"
 
@@ -29,14 +28,9 @@ export default function MyPaymentForm({ price }: { price: string }) {
           if (data.status === "COMPLETED") {
             setFormData("paymentId", pendingPaymentId)
             sessionStorage.removeItem("pendingRevolutPayment")
-
-            // ✅ Automatically redirect to order-placed page
             router.replace("/order-placed")
           } else if (data.status === "PENDING" || data.status === "AUTHORIZED") {
-            // Payment still processing, check again after 2 seconds
-            setTimeout(() => {
-              checkPendingPayment()
-            }, 2000)
+            setTimeout(() => checkPendingPayment(), 2000)
           }
         } catch (error) {
           console.error("Error verifying payment:", error)
@@ -50,17 +44,17 @@ export default function MyPaymentForm({ price }: { price: string }) {
 
   // Auto-initiate payment when component mounts (when showPayment becomes true)
   useEffect(() => {
-    handlePaymentInitiation();
-  }, []);
+    handlePaymentInitiation()
+  }, [])
 
   const handlePaymentInitiation = async () => {
     if (!formData.name.value || !formData.email.value || !formData.phone.value) {
       setError("Please complete all customer details before payment")
-      return;
+      return
     }
 
-    setLoading(true);
-    setError("");
+    setLoading(true)
+    setError("")
 
     try {
       const response = await fetch("/api/create-revolut-order", {
@@ -88,13 +82,11 @@ export default function MyPaymentForm({ price }: { price: string }) {
       sessionStorage.setItem("pendingRevolutPayment", data.id)
 
       if (data.checkout_url) {
-        // Redirect to Revolut's default checkout page
-        window.location.href = data.checkout_url;
+        window.location.href = data.checkout_url
       } else {
         setError("No checkout URL received from payment provider")
         setLoading(false)
       }
-
     } catch (err: any) {
       setError(err.message || "Failed to initiate payment. Please try again.")
       setLoading(false)
@@ -115,60 +107,40 @@ export default function MyPaymentForm({ price }: { price: string }) {
     )
   }
 
-  if (paymentProcessing) {
-    return (
-      <div className="w-full flex flex-col items-center justify-center p-8">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
-        <p className="text-lg font-medium">Processing your payment...</p>
-        <p className="text-gray-600 mt-2">Please wait while we confirm your payment</p>
-      </div>
-    )
-  }
-
+  // ✅ No paymentProcessing UI — all visual feedback handled in the button
   return (
     <div className="w-full flex flex-col gap-6">
-      {/* Loading State */}
-      {loading && (
-        <div className="w-full flex flex-col items-center justify-center p-8">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
-          <p className="text-lg font-medium">Redirecting to secure payment...</p>
-          <p className="text-gray-600 mt-2">Please wait while we connect to Revolut</p>
-        </div>
-      )}
-
-      {/* Simple Payment Button - Only show if not loading */}
-      {!loading && (
-        <form onSubmit={handleManualPayment} className="flex flex-col gap-5">
-          <div className="text-center">
-            <p className="text-gray-600 mb-4">
-              You will be redirected to Revolut's secure payment page to complete your booking.
-            </p>
+      <form onSubmit={handleManualPayment} className="flex flex-col gap-5">
+        {formError && (
+          <div className="text-red-500 text-center bg-red-50 p-3 rounded-lg border border-red-200">
+            {formError}
           </div>
+        )}
 
-          {formError && (
-            <div className="text-red-500 text-center bg-red-50 p-3 rounded-lg border border-red-200">
-              {formError}
-            </div>
+        {error && (
+          <div className="text-red-500 text-center bg-red-50 p-3 rounded-lg border border-red-200">
+            {error}
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className={`w-full flex items-center justify-center gap-2 py-3 px-6 rounded-lg font-semibold text-lg transition-all ${loading
+            ? "bg-blue-500 text-white opacity-80 cursor-not-allowed"
+            : "bg-blue-600 text-white hover:bg-blue-700 shadow-md"
+            }`}
+        >
+          {loading ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              Redirecting to Payment...
+            </>
+          ) : (
+            <>Pay Securely - € {price}</>
           )}
-
-          {error && (
-            <div className="text-red-500 text-center bg-red-50 p-3 rounded-lg border border-red-200">
-              {error}
-            </div>
-          )}
-
-          <ContinueButton
-            title={
-              loading
-                ? "Redirecting to Payment..."
-                : `Pay Securely - € ${price}`
-            }
-            loading={loading}
-            type="submit"
-            step={4}
-          />
-        </form>
-      )}
+        </button>
+      </form>
     </div>
   )
 }
