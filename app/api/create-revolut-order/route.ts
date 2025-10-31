@@ -38,7 +38,6 @@ export async function POST(request: Request) {
     const payload: Record<string, any> = {
       amount: Math.round(amount * 100),
       currency: "EUR",
-      capture_mode: "AUTOMATIC",
       customer_email: customerDetails.email,
       description: "Chauffeur Booking",
       merchant_order_ext_ref: `order_${Date.now()}`,
