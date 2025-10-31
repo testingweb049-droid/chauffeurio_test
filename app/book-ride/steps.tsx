@@ -24,7 +24,7 @@ export default function Steps() {
       <div className="hidden lg:flex justify-start">
         <button
           onClick={() => changeStep(false, step)}
-          className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg border border-gray-300 transition-all shadow-sm hover:shadow-md active:scale-[0.98] w-fit justify-center"
+          className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg border border-gray-300 transition-all shadow-sm hover:shadow-md active:scale-[0.98] w-full justify-center"
           aria-label="Go back"
         >
           <ArrowLeft size={18} />

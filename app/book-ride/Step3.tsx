@@ -79,6 +79,104 @@ function ExtraCounter({
     );
 }
 
+// Price Breakdown Component
+function PriceBreakdownSection({ priceBreakdown }: { priceBreakdown: any }) {
+    const CURRENCY = '€';
+    const format = (n: number) => n.toFixed(2);
+
+    return (
+        <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+            <div className="flex flex-col gap-5 w-full">
+                <div className="font-bold text-lg text-gray-900">Price Breakdown</div>
+
+                <div className="flex flex-col gap-3 w-full">
+                    {/* Base Price */}
+                    <div className="flex items-center justify-between gap-2">
+                        <div className="text-sm text-gray-600">{priceBreakdown.carLabel}</div>
+                        <div className="text-sm text-gray-600">
+                            {CURRENCY} {format(priceBreakdown.basePrice)}
+                        </div>
+                    </div>
+
+                    {/* Child Seats */}
+                    {priceBreakdown.childSeats > 0 && (
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="text-sm text-gray-600">
+                                Child Seat{priceBreakdown.childSeats > 1 ? 's' : ''} (x{priceBreakdown.childSeats})
+                            </div>
+                            <div className="text-sm text-gray-600">
+                                {CURRENCY} {format(priceBreakdown.childSeatTotal)}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Infant Seats */}
+                    {priceBreakdown.infantSeats > 0 && (
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="text-sm text-gray-600">
+                                Infant Seat{priceBreakdown.infantSeats > 1 ? 's' : ''} (x{priceBreakdown.infantSeats})
+                            </div>
+                            <div className="text-sm text-gray-600">
+                                {CURRENCY} {format(priceBreakdown.infantSeatTotal)}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Booster Seats */}
+                    {priceBreakdown.boosterSeats > 0 && (
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="text-sm text-gray-600">
+                                Booster Seat{priceBreakdown.boosterSeats > 1 ? 's' : ''} (x{priceBreakdown.boosterSeats})
+                            </div>
+                            <div className="text-sm text-gray-600">
+                                {CURRENCY} {format(priceBreakdown.boosterSeatTotal)}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Meet & Greet */}
+                    {priceBreakdown.isMeetGreet && (
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="text-sm text-gray-600">Meet & Greet</div>
+                            <div className="text-sm text-gray-600">
+                                {CURRENCY} {format(priceBreakdown.meetGreetTotal)}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Flight Track */}
+                    {priceBreakdown.isFlightTrack && (
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="text-sm text-gray-600">Flight Track</div>
+                            <div className="text-sm text-gray-600">
+                                {CURRENCY} {format(priceBreakdown.flightTrackTotal)}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Return Transfer */}
+                    {priceBreakdown.isReturn && (
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="text-sm text-gray-600">Return Transfer</div>
+                            <div className="text-sm text-gray-600">
+                                {CURRENCY} {format(priceBreakdown.returnPrice)}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Total */}
+            <div className="flex items-center justify-between gap-2 pt-4 mt-4 border-t-2 border-black border-dashed text-xl font-bold text-black">
+                <div>Total:</div>
+                <div>
+                    {CURRENCY} {format(priceBreakdown.totalPrice)}
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function Step3() {
     const { formData, setFormData, changeStep } = useFormStore();
 
@@ -168,16 +266,7 @@ function Step3() {
         setFormData('description', value);
     };
 
-    const handleContinueToPayment = () => {
-        if (isFormValid()) {
-            setShowPayment(true)
-        } else {
-            // Show error or highlight missing fields
-            alert("Please fill all required fields before proceeding to payment.")
-        }
-    }
-
-    // Prepare price breakdown data for PaymentForm
+    // Prepare price breakdown data
     const getPriceBreakdown = () => {
         const basePriceNum = Number(formData.price.value ?? 0);
         const isReturn = Boolean(formData.isReturn.value);
@@ -233,19 +322,27 @@ function Step3() {
         };
     };
 
+    const handleContinueToPayment = () => {
+        if (isFormValid()) {
+            setShowPayment(true);
+
+            // Automatically initiate Revolut payment when showing payment section
+            setTimeout(() => {
+                const paymentForm = document.querySelector('form') as HTMLFormElement;
+                if (paymentForm) {
+                    const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+                    paymentForm.dispatchEvent(submitEvent);
+                }
+            }, 100);
+        } else {
+            alert("Please fill all required fields before proceeding to payment.");
+        }
+    }
+
+    const priceBreakdown = getPriceBreakdown();
+
     return (
         <div className='flex flex-col gap-5 w-full'>
-            {/* <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md py-2 flex justify-start border-b border-gray-200">
-                <button
-                    onClick={() => changeStep(false, 3)}
-                    className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg border border-gray-300 transition-all shadow-sm hover:shadow-md active:scale-[0.98] md:w-auto justify-center w-fit"
-                    aria-label="Go back"
-                >
-                    <ArrowLeft size={18} />
-                    <span>Back</span>
-                </button>
-            </div> */}
-
             <div className='text-2xl font-semibold text-primary'>Passenger Details</div>
 
             <div className='flex flex-col gap-4 w-full'>
@@ -422,28 +519,25 @@ function Step3() {
                     <div className="w-full border-t-2 border-gray-300 pt-5 mt-5">
                         <div className='text-2xl font-semibold mb-5 text-primary'>Payment Summary</div>
 
-                        {/* Quick Price Summary */}
-                        <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                            <div className="flex justify-between items-center">
-                                <span className="font-semibold text-lg text-primary">Total Amount:</span>
-                                <span className="font-bold text-xl text-primary">€ {calculateTotalPrice()}</span>
-                            </div>
-                        </div>
+                        {/* Price Breakdown - Now shown in Step3 */}
+                        <PriceBreakdownSection priceBreakdown={priceBreakdown} />
 
-                        <button
-                            type="button"
-                            onClick={handleContinueToPayment}
-                            disabled={!isFormValid()}
-                            className={`w-full py-2 px-6 rounded-lg font-semibold text-lg transition-all ${isFormValid()
-                                ? "bg-blue-600 text-white hover:bg-blue-700 shadow-md"
-                                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                }`}
-                        >
-                            {isFormValid()
-                                ? `Proceed to Payment - € ${calculateTotalPrice()}`
-                                : "Please Fill All Required Fields"
-                            }
-                        </button>
+                        <div className="mt-6">
+                            <button
+                                type="button"
+                                onClick={handleContinueToPayment}
+                                disabled={!isFormValid()}
+                                className={`w-full py-3 px-6 rounded-lg font-semibold text-lg transition-all ${isFormValid()
+                                    ? "bg-blue-600 text-white hover:bg-blue-700 shadow-md"
+                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    }`}
+                            >
+                                {isFormValid()
+                                    ? `Proceed to Payment - € ${calculateTotalPrice()}`
+                                    : "Please Fill All Required Fields"
+                                }
+                            </button>
+                        </div>
                     </div>
                 )}
 
@@ -453,7 +547,6 @@ function Step3() {
                         <div className='text-2xl font-semibold mb-5 text-primary'>Payment</div>
                         <MyPaymentForm
                             price={calculateTotalPrice()}
-                            priceBreakdown={getPriceBreakdown()}
                         />
                     </div>
                 )}

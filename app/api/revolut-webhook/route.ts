@@ -24,10 +24,11 @@ export async function POST(req: Request) {
         currency
       })
       
-      // TODO: Update your database or form state here
+      // ✅ Update your database or form state here
       // Mark payment as successful in your database
       
       // You can also update any temporary storage here
+      // The frontend will automatically redirect based on the success_url
       
     } else if (event === "ORDER_AUTHORISED") {
       console.log("Payment authorised - 3DS may be required:", order_id)

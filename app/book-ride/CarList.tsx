@@ -64,7 +64,7 @@ export const fleets = [
     luggage: 4,
     imageUrl: "/Econamy.webp",
     pricing: { perKm: 1.5, hourly: 30, airport: 35 },
-    hasChargingPort: false, // Add this
+    hasChargingPort: false,
   },
   {
     category: "BUSINESS_SEDAN",
@@ -74,7 +74,8 @@ export const fleets = [
     luggage: 4,
     imageUrl: "/Mercedes-S-Class-cutout.webp",
     pricing: { perKm: 1.7, hourly: 40, airport: 50 },
-    hasChargingPort: true, // Add this
+    hasChargingPort: true,
+    priceIncrease: 0.08, // 8% increase
   },
   {
     category: "ECONOMY_VAN",
@@ -84,7 +85,7 @@ export const fleets = [
     luggage: 8,
     imageUrl: "/Economy Van.png",
     pricing: { perKm: 2.0, hourly: 50, airport: 50 },
-    hasChargingPort: false, // Add this
+    hasChargingPort: false,
   },
   {
     category: "BUSINESS_VAN",
@@ -94,7 +95,8 @@ export const fleets = [
     luggage: 7,
     imageUrl: "/First Class Van.png",
     pricing: { perKm: 2.5, hourly: 60, airport: 60 },
-    hasChargingPort: true, // Add this
+    hasChargingPort: true,
+    priceIncrease: 0.10, // 10% increase
   },
   {
     category: "MINIBUS_12",
@@ -104,7 +106,7 @@ export const fleets = [
     luggage: 12,
     imageUrl: "/Minibus 12.png",
     pricing: { perKm: 3.5, hourly: 80, airport: 85 },
-    hasChargingPort: true, // Add this
+    hasChargingPort: true,
   },
   {
     category: "MINIBUS_16",
@@ -114,7 +116,7 @@ export const fleets = [
     luggage: 16,
     imageUrl: "/Minibus 16.png",
     pricing: { perKm: 4.0, hourly: 100, airport: 100 },
-    hasChargingPort: true, // Add this
+    hasChargingPort: true,
   },
 ];
 
@@ -147,28 +149,36 @@ function CarList() {
     } else {
       computedPrice = categoryData.pricing.airport;
     }
-    return Number(computedPrice.toFixed(2));
+
+    // Calculate original and increased prices
+    const originalPrice = Number(computedPrice.toFixed(2));
+    const priceIncrease = (categoryData as any).priceIncrease || 0;
+
+    // Apply price increase to get the new increased price
+    const increasedPrice = priceIncrease > 0
+      ? Number((computedPrice * (1 + priceIncrease)).toFixed(2))
+      : originalPrice;
+
+    return {
+      original: originalPrice,
+      increased: increasedPrice
+    };
+  };
+
+  // Function to check if category has price increase
+  const hasPriceIncrease = (category: string) => {
+    return category === "BUSINESS_SEDAN" || category === "BUSINESS_VAN";
   };
 
   return (
-    <div className="w-full flex flex-col gap-4 overflow-x-hidden"> {/* 🧱 Fix overflow */}
-      {/* 🟨 Sticky Back Button */}
-      {/* <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md py-2 flex justify-start border-b border-gray-200">
-        <button
-          onClick={() => changeStep(false, 2)}
-          className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg border border-gray-300 transition-all shadow-sm hover:shadow-md active:scale-[0.98] w-fit md:w-auto justify-center"
-          aria-label="Go back"
-        >
-          <ArrowLeft size={18} />
-          <span>Back</span>
-        </button>
-      </div> */}
-
+    <div className="w-full flex flex-col gap-4 overflow-x-hidden">
       {fleets.map((categoryData) => {
-        const computedPrice = calculatePrice(categoryData);
-        const displayPrice = computedPrice.toFixed(2);
+        const priceData = calculatePrice(categoryData);
+        const originalPrice = priceData.original.toFixed(2);
+        const increasedPrice = priceData.increased.toFixed(2);
         const badge = categoryBadges[categoryData.category as keyof typeof categoryBadges];
         const BadgeIcon = badge?.icon;
+        const shouldShowIncreasedPrice = hasPriceIncrease(categoryData.category);
 
         return (
           <div
@@ -183,7 +193,7 @@ function CarList() {
               <div
                 className={cn(
                   "absolute top-2 right-2 md:top-3 md:right-3 z-10 flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold",
-                  "hidden md:flex", // ← YEH LINE ADD KAREN
+                  "hidden md:flex",
                   badge.bgColor,
                   badge.textColor
                 )}
@@ -231,7 +241,16 @@ function CarList() {
                     <span>{categoryData.luggage}</span>
                   </div>
                 </div>
-                <div className="text-xl font-bold text-gray-900">€{displayPrice}</div>
+                <div className="flex items-center gap-2">
+                  {shouldShowIncreasedPrice ? (
+                    <>
+                      <div className="text-lg font-bold text-red-600">€{originalPrice}</div>
+                      <div className="text-base text-gray-500 line-through">€{increasedPrice}</div>
+                    </>
+                  ) : (
+                    <div className="text-xl font-bold text-gray-900">€{originalPrice}</div>
+                  )}
+                </div>
               </div>
 
               <div className="w-full">
@@ -239,7 +258,7 @@ function CarList() {
                   <LoadingButton />
                 ) : (
                   <button
-                    onClick={() => handleSelect(categoryData, Number(displayPrice))}
+                      onClick={() => handleSelect(categoryData, Number(originalPrice))}
                       className="bg-primary hover:bg-[#ffb300] text-white rounded-lg px-4 py-2 transition-all w-full flex items-center justify-center gap-2 font-semibold text-base"
                     aria-label={`Select ${categoryData.displayName}`}
                   >
@@ -289,7 +308,14 @@ function CarList() {
                 </div>
 
                 <div className="flex items-end gap-3 mt-3">
-                  <div className="text-2xl font-bold text-gray-900">€{displayPrice}</div>
+                  {shouldShowIncreasedPrice ? (
+                    <div className="flex items-center gap-3">
+                      <div className="text-2xl font-bold text-red-600">€{originalPrice}</div>
+                      <div className="text-xl text-gray-500 line-through">€{increasedPrice}</div>
+                    </div>
+                  ) : (
+                    <div className="text-2xl font-bold text-gray-900">€{originalPrice}</div>
+                  )}
                 </div>
               </div>
 
@@ -298,7 +324,7 @@ function CarList() {
                   <LoadingButton />
                 ) : (
                   <button
-                    onClick={() => handleSelect(categoryData, Number(displayPrice))}
+                      onClick={() => handleSelect(categoryData, Number(originalPrice))}
                       className="bg-primary hover:bg-[#ffb300] text-white rounded-md py-2 transition-all w-full flex items-center justify-center gap-2 font-medium text-base"
                     aria-label={`Select ${categoryData.displayName}`}
                   >
