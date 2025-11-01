@@ -156,31 +156,31 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
 
     const _price = Number(price) + (flight_track ? 7 : 0) + (meet_greet ? 15 : 0);
     startLoading(async () => {
-      const response = await createOrder({
-        bags,
-        dropoff_location,
-        email,
-        payment_id: payment_id ?? 'N/A',
-        flight: flight ?? 'N/A',
-        duration,
-        kids,
-        name,
-        passengers,
-        phone,
-        pickup_time: _pickup_time,
-        pickup_date, // now always a Date
-        pickup_location,
-        payment_method,
-        price: _price,
-        car,
-        distance: Number(distance),
-        category: category ?? 'n/a',
-        flight_track,
-        meet_greet,
-        return_date,
-        return_time: _return_time,
-        is_return
-      });
+      // const response = await createOrder({
+      //   bags,
+      //   dropoff_location,
+      //   email,
+      //   payment_id: payment_id ?? 'N/A',
+      //   flight: flight ?? 'N/A',
+      //   duration,
+      //   kids,
+      //   name,
+      //   passengers,
+      //   phone,
+      //   pickup_time: _pickup_time,
+      //   pickup_date, // now always a Date
+      //   pickup_location,
+      //   payment_method,
+      //   price: _price,
+      //   car,
+      //   distance: Number(distance),
+      //   category: category ?? 'n/a',
+      //   flight_track,
+      //   meet_greet,
+      //   return_date,
+      //   return_time: _return_time,
+      //   is_return
+      // });
       localStorage.setItem("orderData", JSON.stringify({
         bags,
         dropoff_location,
@@ -207,14 +207,14 @@ export function CustomFormProvider({ children }: { children: ReactNode }) {
         is_return,
       }));
 
-      console.log('response : ', response)
-      if (response.status === 201 && response.order) {
-        setOrder(response.order) 
-        resetForm();
-        router.push('/order-placed') 
-      }
+      // console.log('response : ', response)
+      // if (response.status === 201 && response.order) {
+      //   setOrder(response.order) 
+      //   resetForm();
+      //   router.push('/order-placed') 
+      // }
 
-      setError(response.error)
+      // setError(response.error)
     })
   }
 
