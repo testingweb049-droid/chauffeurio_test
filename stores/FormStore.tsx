@@ -17,6 +17,7 @@ import { create } from "zustand";
   }
 
   export interface FormDataType {
+    [x: string]: any;
   fromLocation: FieldType<string>;
   toLocation: FieldType<string>;
   stops: FieldType<string>[];        

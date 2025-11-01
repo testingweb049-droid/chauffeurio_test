@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 import useFormStore from "@/stores/FormStore"
 import { Loader2 } from "lucide-react"
@@ -11,41 +11,8 @@ export default function MyPaymentForm({ price }: { price: string }) {
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
-  const [paymentProcessing, setPaymentProcessing] = useState(false) // stays in logic but not displayed
 
   const amount = Number(price)
-  const isProduction = process.env.NEXT_PUBLIC_APP_ENV === "production"
-  const revolutEnvironment = isProduction ? "production" : "sandbox"
-
-  useEffect(() => {
-    const checkPendingPayment = async () => {
-      const pendingPaymentId = sessionStorage.getItem("pendingRevolutPayment")
-      if (pendingPaymentId && !formData.paymentId.value) {
-        setPaymentProcessing(true)
-        try {
-          const response = await fetch(`/api/verify-payment?orderId=${pendingPaymentId}`)
-          const data = await response.json()
-          if (data.status === "COMPLETED") {
-            setFormData("paymentId", pendingPaymentId)
-            sessionStorage.removeItem("pendingRevolutPayment")
-            router.replace("/order-placed")
-          } else if (data.status === "PENDING" || data.status === "AUTHORIZED") {
-            setTimeout(() => checkPendingPayment(), 2000)
-          }
-        } catch (error) {
-          console.error("Error verifying payment:", error)
-          setPaymentProcessing(false)
-        }
-      }
-    }
-
-    checkPendingPayment()
-  }, [formData.paymentId.value, router, setFormData])
-
-  // Auto-initiate payment when component mounts (when showPayment becomes true)
-  useEffect(() => {
-    handlePaymentInitiation()
-  }, [])
 
   const handlePaymentInitiation = async () => {
     if (!formData.name.value || !formData.email.value || !formData.phone.value) {
@@ -57,7 +24,7 @@ export default function MyPaymentForm({ price }: { price: string }) {
     setError("")
 
     try {
-      const response = await fetch("/api/create-revolut-order", {
+      const res = await fetch("/api/create-stripe-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -67,30 +34,29 @@ export default function MyPaymentForm({ price }: { price: string }) {
             email: formData.email.value,
             phone: formData.phone.value,
           },
-          environment: revolutEnvironment,
         }),
       })
 
-      const data = await response.json()
-      if (!response.ok) {
-        setError(data.error || `Payment failed: ${response.status}`)
+      const data = await res.json()
+      if (!res.ok || !data.url) {
+        setError(data.error || "Failed to create Stripe session")
         setLoading(false)
         return
       }
 
-      // Store order ID and redirect to Revolut checkout
-      sessionStorage.setItem("pendingRevolutPayment", data.id)
-
-      if (data.checkout_url) {
-        window.location.href = data.checkout_url
-      } else {
-        setError("No checkout URL received from payment provider")
-        setLoading(false)
+      // Save order in localStorage
+      const orderForStorage = {
+        ...formData,
+        price: { ...formData.price, value: price },
+        orderId: "pending-" + Date.now(), // temporary ID until payment completes
       }
+      localStorage.setItem("lastOrder", JSON.stringify(orderForStorage))
+
+      // Redirect to Stripe checkout
+      window.location.href = data.url
     } catch (err: any) {
-      setError(err.message || "Failed to initiate payment. Please try again.")
+      setError(err.message || "Payment initiation failed")
       setLoading(false)
-      sessionStorage.removeItem("pendingRevolutPayment")
     }
   }
 
@@ -107,7 +73,6 @@ export default function MyPaymentForm({ price }: { price: string }) {
     )
   }
 
-  // ✅ No paymentProcessing UI — all visual feedback handled in the button
   return (
     <div className="w-full flex flex-col gap-6">
       <form onSubmit={handleManualPayment} className="flex flex-col gap-5">
@@ -116,7 +81,6 @@ export default function MyPaymentForm({ price }: { price: string }) {
             {formError}
           </div>
         )}
-
         {error && (
           <div className="text-red-500 text-center bg-red-50 p-3 rounded-lg border border-red-200">
             {error}
