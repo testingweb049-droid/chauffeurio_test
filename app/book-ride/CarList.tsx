@@ -7,7 +7,7 @@ import { PiSuitcase } from "react-icons/pi";
 import { cn } from "@/lib/utils";
 import useFormStore from "@/stores/FormStore";
 import { brandColor } from "@/lib/colors";
-import { ArrowRight, ArrowLeft, TrendingDown, Award, Flame } from "lucide-react";
+import { ArrowRight, TrendingDown, Award, Flame } from "lucide-react";
 import LoadingButton from "./LoadingButton";
 
 // --- Pricing configuration ---
@@ -122,7 +122,6 @@ export const fleets = [
 
 function CarList() {
   const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
-  console.log(formData)
 
   const handleSelect = (categoryData: typeof fleets[0], price: number) => {
     setFormData("car", categoryData.category, "");
@@ -150,22 +149,14 @@ function CarList() {
       computedPrice = categoryData.pricing.airport;
     }
 
-    // Calculate original and increased prices
     const originalPrice = Number(computedPrice.toFixed(2));
     const priceIncrease = (categoryData as any).priceIncrease || 0;
+    const increasedPrice =
+      priceIncrease > 0 ? Number((computedPrice * (1 + priceIncrease)).toFixed(2)) : originalPrice;
 
-    // Apply price increase to get the new increased price
-    const increasedPrice = priceIncrease > 0
-      ? Number((computedPrice * (1 + priceIncrease)).toFixed(2))
-      : originalPrice;
-
-    return {
-      original: originalPrice,
-      increased: increasedPrice
-    };
+    return { original: originalPrice, increased: increasedPrice };
   };
 
-  // Function to check if category has price increase
   const hasPriceIncrease = (category: string) => {
     return category === "BUSINESS_SEDAN" || category === "BUSINESS_VAN";
   };
@@ -189,11 +180,11 @@ function CarList() {
               categoryData.category === formData.car.value ? "border-brand" : "border-gray-200"
             )}
           >
+            {/* Desktop badge in top right */}
             {badge && (
               <div
                 className={cn(
-                  "absolute top-2 right-2 md:top-3 md:right-3 z-10 flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold",
-                  "hidden md:flex",
+                  "absolute top-2 right-2 md:top-3 md:right-3 z-10 hidden md:flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold",
                   badge.bgColor,
                   badge.textColor
                 )}
@@ -216,9 +207,23 @@ function CarList() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h6 className="text-base font-semibold text-gray-900 uppercase truncate">
-                    {categoryData.displayName}
-                  </h6>
+                  <div className="flex items-center gap-2">
+                    <h6 className="text-base font-semibold text-gray-900 uppercase truncate">
+                      {categoryData.displayName}
+                    </h6>
+                    {badge && (
+                      <div
+                        className={cn(
+                          "flex md:hidden items-center gap-1 px-1 py-0.5 rounded text-[10px] font-semibold",
+                          badge.bgColor,
+                          badge.textColor
+                        )}
+                      >
+                        {BadgeIcon && <BadgeIcon size={10} />}
+                        <span>{badge.text}</span>
+                      </div>
+                    )}
+                  </div>
                   <div className="flex flex-wrap items-center gap-1 text-xs text-gray-700 mt-1">
                     {categoryData.vehicles.map((v, i, arr) => (
                       <span key={i}>
