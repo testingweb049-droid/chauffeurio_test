@@ -1,3 +1,4 @@
+import { redirect } from "next/dist/server/api-utils"
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
@@ -42,6 +43,7 @@ export async function POST(request: Request) {
       description: "Chauffeur Booking",
       merchant_order_ext_ref: `order_${Date.now()}`,
       payment_methods: ["card", "apple_pay", "google_pay"],
+      redirect_url: `${process.env.NEXT_PUBLIC_BASE_URL}/order-placed?payment=success`,
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/order-placed?payment=success`,
       failure_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-failed?payment=failed`,
       merchant_notify_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/revolut-webhook`,
@@ -60,7 +62,7 @@ export async function POST(request: Request) {
       headers: {
         "Authorization": `Bearer ${revolutApiKey}`,
         "Content-Type": "application/json",
-        "Revolut-Api-Version": "2023-09-01",
+"Revolut-Api-Version": "2024-09-01"
       },
       body: JSON.stringify(payload),
     })

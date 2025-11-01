@@ -1,7 +1,8 @@
 'use client';
 
-import { createOrder } from "@/actions/add-order";
+import { createOrder, OrderDataType } from "@/actions/add-order";
 import { calculateDistance } from "@/actions/get-distance";
+import { fleets } from "@/app/book-ride/CarList";
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/storeInitailObjects";
 // import { hourlyInitialFormData, tripInitialFormData } from "@/constants/storeInitailObjects";
 import { create } from "zustand";
@@ -243,39 +244,55 @@ import { create } from "zustand";
 
     if (_step === 4) {
       const totalPrice = getTotalPrice();
-      
-      const orderData = Object.entries(formData).reduce<Record<string, any>>((acc, [key, item]) => {
-        if (key === "stops") {
-          acc.stops = formData.stops.map((s) => (s.value));
-        } else if (key === "price") {
-          acc[key] = totalPrice.toString();
-        } else {
-          acc[key] = (item as FieldType<any>).value;
+      const carImage = fleets.find((item)=>item.displayName===formData.car.value)?.imageUrl
+     const orderData: OrderDataType = {
+  fromLocation: formData.fromLocation.value,
+  toLocation: formData.toLocation.value,
+  stops: formData.stops.map((s) => s.value),
+  duration: formData.duration.value,
+  distance: formData.distance.value,
+  car: formData.car.value,
+  price: totalPrice.toString(),
+  name: formData.name.value,
+  phone: formData.phone.value,
+  email: formData.email.value,
+  date: formData.date.value,
+  time: formData.time.value,
+  returnDate: formData.returnDate.value,
+  returnTime: formData.returnTime.value,
+  passengers: formData.passengers.value,
+  bags: formData.bags.value,
+  flightName: formData.flightName.value,
+  flightNumber: formData.flightNumber.value,
+  paymentId: formData.paymentId.value,
+  isAirportPickup: formData.isAirportPickup.value,
+  isFlightTrack: formData.isFlightTrack.value,
+  isMeetGreet: formData.isMeetGreet.value,
+  isReturn: formData.isReturn.value,
+  carImage,
+  category: get().category, 
+  extras: {
+    childSeat: formData.childSeat.value.toString(),
+    infantSeat: formData.infantSeat.value.toString(),
+    boosterSeat: formData.boosterSeat.value.toString(),
+    flightTrack: formData.isFlightTrack.value ? "yes" : "no",
+    meetGreet: formData.isMeetGreet.value ? "yes" : "no",
+    description: formData.description.value,
+    extrasTotal: (totalPrice - (parseFloat(formData.price.value) || 0)).toString(),
+  },
+};
+
+      try {
+        const response = await createOrder(orderData);
+        if (response.status !== 201) {
+          set({ formError: response.error, formLoading: false });
+          return false;
         }
-        return acc;
-      }, {});
-
-      orderData.extras = {
-        childSeat: formData.childSeat.value,
-        infantSeat: formData.infantSeat.value,
-        boosterSeat: formData.boosterSeat.value,
-        flightTrack: formData.isFlightTrack.value,
-        meetGreet: formData.isMeetGreet.value,
-        description: formData.description.value,
-        extrasTotal: totalPrice - (parseFloat(formData.price.value) || 0)
-      };
-
-      // try {
-      //   const response = await createOrder(orderData);
-      //   if (response.status !== 201) {
-      //     set({ formError: response.error, formLoading: false });
-      //     return false;
-      //   }
-      //   set({ formError: "", formLoading: false, orderId:response?.order?.id ?? ''  });
-      // } catch (error) {
-      //   set({ formError: error instanceof Error ? error.message : "Failed to place order", formLoading: false });
-      //   return false;
-      // }
+        set({ formError: "", formLoading: false, orderId:response?.order?.id ?? ''  });
+      } catch (error) {
+        set({ formError: error instanceof Error ? error.message : "Failed to place order", formLoading: false });
+        return false;
+      }
     }
     if(_step===4 && isNext){
       set((state) => ({ ...state, formError: "", formLoading: false, step: 1, isOrderDone:true }));

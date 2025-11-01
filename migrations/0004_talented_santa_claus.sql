@@ -1,0 +1,31 @@
+CREATE TABLE "chauffeurio_orders" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"category" varchar NOT NULL,
+	"price" varchar NOT NULL,
+	"car" varchar NOT NULL,
+	"distance" varchar,
+	"stops" text[],
+	"pickup_date" timestamp,
+	"pickup_time" varchar,
+	"return_date" timestamp,
+	"return_time" varchar,
+	"is_return" boolean,
+	"pickup_location" varchar NOT NULL,
+	"dropoff_location" varchar,
+	"passengers" integer NOT NULL,
+	"kids" integer NOT NULL,
+	"bags" integer NOT NULL,
+	"name" varchar NOT NULL,
+	"email" varchar NOT NULL,
+	"phone" varchar NOT NULL,
+	"flight" varchar,
+	"payment_id" varchar,
+	"payment_method" varchar,
+	"duration" integer,
+	"flight_track" boolean,
+	"meet_greet" boolean,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+DROP TABLE "okataxis_orders" CASCADE;

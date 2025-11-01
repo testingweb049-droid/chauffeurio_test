@@ -4,12 +4,48 @@ import { db } from '@/db/drizzle';
 import { orders } from '@/db/schema';
 import nodemailer from 'nodemailer';
 import { emailConfig } from '@/lib/emailConfig';
+import { render } from '@react-email/components';
+import { TripOrderEmailTemplate } from '@/component/emails/BookingEmailTemplate';
 
-interface FrontendOrderData {
-  [key: string]: any;
+export interface OrderDataType {
+  fromLocation: string;
+  toLocation: string;
+  stops: string[];
+  duration: string;
+  distance: number;
+  car: string;
+  price: string;
+  name: string;
+  phone: string;
+  email: string;
+  date: string;
+  time: string;
+  returnDate: string;
+  returnTime: string;
+  passengers: string;
+  bags: string;
+  flightName: string;
+  flightNumber: string;
+  paymentId: string;
+  isAirportPickup: boolean;
+  isFlightTrack: boolean;
+  isMeetGreet: boolean;
+  isReturn: boolean;
+  carImage?: string; 
+  category: 'hourly' | 'trip';
+  extras: {
+    childSeat: string,
+        infantSeat: string,
+        boosterSeat: string,
+        flightTrack: string,
+        meetGreet: string,
+        description: string,
+        extrasTotal: string
+  }
 }
 
-export async function createOrder(data: FrontendOrderData) {
+
+export async function createOrder(data: OrderDataType) {
   try {
    
     const orderData = {
@@ -55,45 +91,15 @@ export async function createOrder(data: FrontendOrderData) {
     // ✅ Email setup
     const orderLink = `https://chauffeurio.com/order/${order.id}`;
     const transporter = nodemailer.createTransport(emailConfig);
+    const carImage = `https://chauffeurio.com/order/${data.carImage}`;
+    const stops = data.stops.map((item,index)=>({label:index===0? 'Pickup Location' : data.stops.length-1 === index ? data.category==='hourly' ? 'Duration' : 'Stop ' + index  : 'Dropoff Location' , value:data.stops.length-1 === index && data.category==='hourly' ? item + ' hours' : item}))
+    const htmEmail = await render(TripOrderEmailTemplate({carImage, stops, viewOrderLink:orderLink}))
 
     await transporter.sendMail({
-      from: 'reservation@oktaxis.co.uk',
-      to: [order.email, 'reservation@oktaxis.co.uk'],
-      subject: 'Your OKTaxis Booking Confirmation 🚕',
-      html: `
-        <html lang="en">
-          <body style="font-family: 'Segoe UI', sans-serif; background: #f9fafb; padding: 0; margin: 0;">
-            <div style="max-width: 600px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden;">
-              <div style="background: #000; color: #fff; padding: 25px; text-align: center;">
-                <h2 style="color: #F7931E;">Booking Confirmed!</h2>
-                <p>Thank you for choosing OKTaxis</p>
-              </div>
-              <div style="padding: 25px;">
-                <p>Dear <strong>${order.name}</strong>,</p>
-                <p>Your booking has been successfully placed. Below are your details:</p>
-                <ul style="line-height: 1.7; color: #333;">
-                  <li><strong>Pickup:</strong> ${order.pickup_location}</li>
-                  <li><strong>Dropoff:</strong> ${order.dropoff_location ?? '-'}</li>
-                  <li><strong>Date:</strong> ${order.pickup_date?.toLocaleDateString() || '-'}</li>
-                  <li><strong>Time:</strong> ${order.pickup_time}</li>
-                  <li><strong>Car:</strong> ${order.car}</li>
-                  <li><strong>Price:</strong> £${order.price}</li>
-                </ul>
-                <div style="text-align: center; margin-top: 25px;">
-                  <a href="${orderLink}" style="background: #F7931E; color: #fff; padding: 12px 20px; border-radius: 6px; text-decoration: none;">View Your Booking</a>
-                </div>
-                <p style="margin-top: 30px; color: #555; font-size: 14px;">
-                  For assistance, contact us at 
-                  <a href="mailto:reservation@oktaxis.co.uk" style="color: #F7931E;">reservation@oktaxis.co.uk</a>.
-                </p>
-              </div>
-              <div style="background: #f3f4f6; padding: 15px; text-align: center; font-size: 13px; color: #777;">
-                © ${new Date().getFullYear()} OKTaxis. All rights reserved.
-              </div>
-            </div>
-          </body>
-        </html>
-      `,
+      from: 'info@chauffeurio.com',
+      to: [order.email, 'info@chauffeurio.com'],
+      subject: 'Your Chauffeurio Booking Confirmation 🚕',
+      html: htmEmail,
     });
 
     return { order, status: 201, error: '' };

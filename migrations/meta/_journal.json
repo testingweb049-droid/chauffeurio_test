@@ -29,6 +29,20 @@
       "when": 1760946805787,
       "tag": "0003_cultured_the_liberteens",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1761997019200,
+      "tag": "0004_talented_santa_claus",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1761997083072,
+      "tag": "0005_numerous_wolf_cub",
+      "breakpoints": true
     }
   ]
 }

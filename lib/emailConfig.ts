@@ -4,6 +4,8 @@ export const emailConfig = {
       secure: true,
       auth: {
         user: "info@chauffeurio.com", 
-        pass: "Valencia2025@",
+        pass: "Valenciaspain2025@@",
       },
     };
+
+    
