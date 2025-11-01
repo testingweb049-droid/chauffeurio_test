@@ -5,6 +5,7 @@ import { Loader, TimerIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import LocationInput from './LocationPicker'
 import NewDropdownInput from './DropDownInput'
+import CustomLocationInput from './CustomLocationPicker'
 
 function HeroForm() {
   const { category, changeCategory, formError, formLoading, changeStep, formData, manageStops, isOrderDone, step, resetForm } = useFormStore()

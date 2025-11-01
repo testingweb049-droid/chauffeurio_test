@@ -73,7 +73,7 @@ useEffect(()=>{
         <div key={`marker-${i}`} className="relative flex items-center justify-center">
           <div
             className={`relative rounded-full bg-white z-10 flex items-center justify-center
-              ${isStart || isEnd ? 'border-[4px] border-gray-700 w-4 h-4' : 'border-[2px] border-gray-600 w-4 h-4'}`}
+              ${isStart || isEnd ? 'border-4 border-gray-700 w-4 h-4' : 'border-2 border-gray-600 w-4 h-4'}`}
           >
        
             {!isStart && !isEnd && (
