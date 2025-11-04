@@ -1,12 +1,9 @@
 "use client"
 
-import { LuggageIcon, User, Users, Mail, Plane } from 'lucide-react'
+import { User, Mail, Plane } from 'lucide-react'
 import React, { useState } from 'react'
 import { DetailsInput, PhoneInput } from './UserDetailInput'
-import NewDateTimePicker from './NewDateTimePicker'
 import useFormStore from '@/stores/FormStore'
-import NewDropdownInput from './DropDownInput'
-import { fleets } from './CarList'
 import AddReturn from './AddReturn'
 import MyPaymentForm from './PaymentForm'
 
@@ -75,7 +72,6 @@ function Step3() {
     const [showPayment, setShowPayment] = useState(false);
 
     const [isAirportPickupOpen, setIsAirportPickupOpen] = useState(Boolean(formData.isAirportPickup.value));
-    const [isEquipmentExtrasOpen, setIsEquipmentExtrasOpen] = useState(false);
     const [isInstructionsOpen, setIsInstructionsOpen] = useState(Boolean(formData.description.value));
 
     // ✅ Error tracking state
@@ -83,23 +79,6 @@ function Step3() {
 
     const hasExtras = childSeat > 0 || infantSeat > 0 || boosterSeat > 0;
     const hasInstructions = Boolean(formData.description.value);
-    const selectedFleet = fleets.find((item) => item.category === formData.car.value);
-
-    const passengersArray = Array.from(
-        { length: selectedFleet?.passengers ?? 0 },
-        (_, i) => ({
-            label: `${i + 1} ${i === 0 ? "Passenger" : "Passengers"}`,
-            value: (i + 1).toString(),
-        })
-    );
-
-    const bagsArray = Array.from(
-        { length: selectedFleet?.luggage ?? 0 },
-        (_, i) => ({
-            label: `${i + 1} ${i === 0 ? "Bag" : "Bags"}`,
-            value: (i + 1).toString(),
-        })
-    );
 
     // ✅ Validation function
     const validateForm = () => {
@@ -108,9 +87,6 @@ function Step3() {
         if (!formData.name.value) newErrors.name = "Full name is required.";
         if (!formData.email.value) newErrors.email = "Email is required.";
         if (!formData.phone.value) newErrors.phone = "Phone number is required.";
-        if (!formData.date.value) newErrors.date = "Pickup date is required.";
-        if (!formData.time.value) newErrors.time = "Pickup time is required.";
-        if (!formData.passengers.value) newErrors.passengers = "Number of passengers is required.";
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -176,137 +152,105 @@ function Step3() {
                     </div>
                 </div>
 
-                {/* Phone + DateTime */}
+                {/* Phone */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div data-error={!!errors.phone}>
                         <PhoneInput />
                         {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                     </div>
-                    <div data-error={!!errors.date || !!errors.time}>
-                        <NewDateTimePicker
-                            selectedDate={formData.date.value}
-                            selectedTime={formData.time.value}
-                            setFormData={setFormData}
-                            dateFieldName="date"
-                            timeFieldName="time"
-                            placeholder='Select Date & Time'
-                            isDisable={false}
-                        />
-                        {(errors.date || errors.time) && <p className="text-red-500 text-sm mt-1">{errors.date || errors.time}</p>}
-                    </div>
                 </div>
 
-                {/* Passengers + Bags */}
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                    <div data-error={!!errors.passengers}>
-                        <NewDropdownInput Icon={Users} fieldName='passengers' placeholder='No. of Passengers' options={passengersArray} />
-                        {errors.passengers && <p className="text-red-500 text-sm mt-1">{errors.passengers}</p>}
-                    </div>
-                    <NewDropdownInput Icon={LuggageIcon} fieldName='bags' placeholder='No. of Bags' options={bagsArray} />
-                </div>
                 <AddReturn />
-                {/* ✅ Your toggle buttons remain intact */}
-                <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
-                    <div className="flex items-center justify-start gap-2 w-full">
-                        <div
-                            className="flex items-center gap-3 cursor-pointer"
-                            onClick={() => setIsAirportPickupOpen(!isAirportPickupOpen)}
-                        >
-                            <div className={`w-12 h-6 rounded-full transition-all duration-300 relative ${isAirportPickupOpen ? 'bg-green-500' : 'bg-gray-300'}`}>
-                                <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all duration-300 ${isAirportPickupOpen ? 'left-7' : 'left-1'}`} />
-                            </div>
+                {/* Equipment & Extras - Always Show (No Toggle) */}
+                <div className="p-4 border border-primary/60 rounded-lg w-full">
+                    <div className="font-semibold text-gray-900 mb-4">Equipment & Extras</div>
+                    <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
+                        <div className="px-4">
+                            <ExtraCounter label="Child Seat" price={5.00} value={childSeat} onChange={setChildSeat} />
                         </div>
-                        <div className="text-left">
-                            <div className="font-semibold text-gray-900">Airport Pickup</div>
+                        <div className="px-4">
+                            <ExtraCounter label="Infant Seat" price={5.00} value={infantSeat} onChange={setInfantSeat} />
+                        </div>
+                        <div className="px-4">
+                            <ExtraCounter label="Booster Seat" price={5.00} value={boosterSeat} onChange={setBoosterSeat} />
                         </div>
                     </div>
-
-                    <div className="flex items-center justify-start gap-2 w-full">
-                        <div
-                            className="flex items-center gap-3 cursor-pointer"
-                            onClick={() => setIsEquipmentExtrasOpen(!isEquipmentExtrasOpen)}
-                        >
-                            <div className={`w-12 h-6 rounded-full transition-all duration-300 relative ${isEquipmentExtrasOpen ? 'bg-green-500' : 'bg-gray-300'}`}>
-                                <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all duration-300 ${isEquipmentExtrasOpen ? 'left-7' : 'left-1'}`} />
-                            </div>
-                        </div>
-                        <div className="text-left">
-                            <div className="font-semibold text-gray-900 text-sm">Equipment & Extras</div>
-                        </div>
-                        {/* {hasExtras && <div className="text-sm text-green-600 font-medium bg-green-100 px-2 py-1 rounded">Added</div>} */}
-                    </div>
-
-                    <div className="flex items-center justify-start gap-2 w-full">
-                        <div
-                            className="flex items-center gap-3 cursor-pointer"
-                            onClick={() => setIsInstructionsOpen(!isInstructionsOpen)}
-                        >
-                            <div className={`w-12 h-6 rounded-full transition-all duration-300 relative ${isInstructionsOpen ? 'bg-green-500' : 'bg-gray-300'}`}>
-                                <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all duration-300 ${isInstructionsOpen ? 'left-7' : 'left-1'}`} />
-                            </div>
-                        </div>
-                        <div className="text-left">
-                            <div className="font-semibold text-gray-900">Add Instructions</div>
-                        </div>
-                        {/* {hasInstructions && <div className="text-sm text-green-600 font-medium bg-green-100 px-2 py-1 rounded">Added</div>} */}
+                </div>
+                {/* Airport Pickup Checkbox */}
+                <div className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg bg-white">
+                    <input
+                        type="checkbox"
+                        checked={isAirportPickupOpen}
+                        onChange={(e) => setIsAirportPickupOpen(e.target.checked)}
+                        className="w-5 h-5 rounded border-gray-300 cursor-pointer accent-brand"
+                    />
+                    <div className="flex-1">
+                        <div className="font-semibold text-gray-900">Airport Pickup</div>
                     </div>
                 </div>
 
-                {/* Toggle content sections */}
-                <div className='flex flex-col gap-4 w-full'>
-                    {isAirportPickupOpen && (
-                        <div className="p-4 border border-primary/60 rounded-lg w-full">
-                            <p className="text-sm text-gray-600 mb-2">Add your flight information for airport pickup</p>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
-                                <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
-                            </div>
+                {/* Airport Pickup Details - Show when checkbox is checked */}
+                {isAirportPickupOpen && (
+                    <div className="p-4 border border-primary/60 rounded-lg w-full">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
+                            <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
                         </div>
-                    )}
+                    </div>
+                )}
 
-                    {isEquipmentExtrasOpen && (
-                        <div className="p-4 border border-primary/60 rounded-lg w-full">
-                            <p className="text-sm text-gray-600 mb-2">Select additional equipment for your journey</p>
-                            <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
-                                <div className="px-4">
-                                    <ExtraCounter label="Child Seat" price={5.00} value={childSeat} onChange={setChildSeat} />
-                                </div>
-                                <div className="px-4">
-                                    <ExtraCounter label="Infant Seat" price={5.00} value={infantSeat} onChange={setInfantSeat} />
-                                </div>
-                                <div className="px-4">
-                                    <ExtraCounter label="Booster Seat" price={5.00} value={boosterSeat} onChange={setBoosterSeat} />
-                                </div>
-                            </div>
-                        </div>
-                    )}
 
-                    {isInstructionsOpen && (
-                        <div className="p-4 border border-primary/60 rounded-lg w-full">
-                            <p className="text-sm text-gray-600 mb-2">Add any special instructions for your journey</p>
-                            <textarea
-                                value={formData.description.value}
-                                onChange={(e) => handleInstructionsChange(e.target.value)}
-                                placeholder="Enter any special instructions, pickup details, or requirements..."
-                                className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-primary"
-                            />
-                        </div>
-                    )}
+
+                {/* Add Instructions Toggle */}
+                <div className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg bg-white">
+                    <input
+                        type="checkbox"
+                        checked={isInstructionsOpen}
+                        onChange={(e) => setIsInstructionsOpen(e.target.checked)}
+                        className="w-5 h-5 rounded border-gray-300 cursor-pointer accent-brand"
+                    />
+                    <div className="flex-1">
+                        <div className="font-semibold text-gray-900">Add Instructions</div>
+                    </div>
                 </div>
 
-
+                {/* Instructions - Show when checkbox is checked */}
+                {isInstructionsOpen && (
+                    <div className="p-4 border border-primary/60 rounded-lg w-full">
+                        <textarea
+                            value={formData.description.value}
+                            onChange={(e) => handleInstructionsChange(e.target.value)}
+                            placeholder="Enter any special instructions, pickup details, or requirements..."
+                            className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-primary"
+                        />
+                    </div>
+                )}
 
                 {formData.isReturn.value && (
-                    <NewDateTimePicker
-                        selectedDate={formData.returnDate.value}
-                        selectedTime={formData.returnTime.value}
-                        setFormData={setFormData}
-                        dateFieldName="returnDate"
-                        minSelectableDate={new Date(formData.date.value)}
-                        isDisable={formData.date.value === ''}
-                        timeFieldName="returnTime"
-                        placeholder='Select Return Date & Time'
-                    />
+                    <div className="p-4 border border-primary/60 rounded-lg">
+                        <h4 className="font-semibold text-gray-900 mb-3">Return Trip Details</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Return Date</label>
+                                <input
+                                    type="date"
+                                    value={formData.returnDate.value}
+                                    onChange={(e) => setFormData('returnDate', e.target.value)}
+                                    min={formData.date.value}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Return Time</label>
+                                <input
+                                    type="time"
+                                    value={formData.returnTime.value}
+                                    onChange={(e) => setFormData('returnTime', e.target.value)}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 )}
 
                 {!showPayment && (
@@ -314,9 +258,9 @@ function Step3() {
                         <button
                             type="button"
                             onClick={handleContinueToPayment}
-                            className="w-full py-3 px-6 rounded-lg font-semibold text-lg bg-blue-600 text-white hover:bg-blue-700 shadow-md transition-all"
+                            className="w-full py-3 px-6 rounded-lg font-semibold text-lg bg-primary text-white hover:bg-primary/80 shadow-md transition-all"
                         >
-                            Proceed to Payment - € {calculateTotalPrice()}
+                            Pay - € {calculateTotalPrice()}
                         </button>
                     </div>
                 )}

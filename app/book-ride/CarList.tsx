@@ -123,6 +123,15 @@ export const fleets = [
 function CarList() {
   const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
 
+  // Get passengers and bags from form store
+  const passengers = Number(formData.passengers?.value) || 1;
+  const bags = Number(formData.bags?.value) || 0;
+
+  // Filter fleets based on passengers and bags capacity
+  const filteredFleets = fleets.filter(car =>
+    car.passengers >= passengers && car.luggage >= bags
+  );
+
   const handleSelect = (categoryData: typeof fleets[0], price: number) => {
     setFormData("car", categoryData.category, "");
     setFormData("price", price.toString(), "");
@@ -161,9 +170,30 @@ function CarList() {
     return category === "BUSINESS_SEDAN" || category === "BUSINESS_VAN";
   };
 
+  // Show message if no cars available
+  if (filteredFleets.length === 0) {
+    return (
+      <div className="w-full text-center py-8">
+        <div className="text-gray-500 text-lg mb-4">
+          No vehicles available for {passengers} passengers and {bags} bags
+        </div>
+        <div className="text-sm text-gray-400">
+          Please adjust your passenger or bag count and try again
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full flex flex-col gap-4 overflow-x-hidden">
-      {fleets.map((categoryData) => {
+      {/* Show selected passengers and bags info */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-2">
+        <div className="text-sm text-blue-800 text-center">
+          Showing vehicles for <span className="font-semibold">{passengers} passengers</span> and <span className="font-semibold">{bags} bags</span>
+        </div>
+      </div>
+
+      {filteredFleets.map((categoryData) => {
         const priceData = calculatePrice(categoryData);
         const originalPrice = priceData.original.toFixed(2);
         const increasedPrice = priceData.increased.toFixed(2);
