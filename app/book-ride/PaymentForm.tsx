@@ -106,8 +106,8 @@ export default function MyPaymentForm({ price }: { price: string }) {
           type="submit"
           disabled={loading}
           className={`w-full flex items-center justify-center gap-2 py-3 px-6 rounded-lg font-semibold text-lg transition-all ${loading
-            ? "bg-blue-500 text-white opacity-80 cursor-not-allowed"
-            : "bg-blue-600 text-white hover:bg-blue-700 shadow-md"
+            ? "bg-primary text-white opacity-80 cursor-not-allowed"
+            : "bg-primary text-white hover:bg-primary/80 shadow-md"
             }`}
         >
           {loading ? (

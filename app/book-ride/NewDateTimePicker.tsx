@@ -205,13 +205,13 @@ export default function NewDateTimePicker({
           <input
             type="time"
             ref={timeInputRef}
-            className="absolute opacity-0 pointer-events-none"
+            className="absolute opacity-0 pointer-events-none d-none"
             value={selectedTime || ""}
             onChange={handleTimeSelect}
           />
 
           {/* Custom Time Picker Popup - Compact */}
-          {timeOpen && (
+          {/* {timeOpen && (
             <div className="absolute top-full left-0 mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-4 w-full max-w-80 max-h-64 overflow-y-auto">
               <div className="space-y-2">
                 {Array.from({ length: 24 * 4 }, (_, i) => {
@@ -240,7 +240,7 @@ export default function NewDateTimePicker({
                 })}
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

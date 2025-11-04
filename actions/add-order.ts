@@ -35,15 +35,14 @@ export interface OrderDataType {
   category: 'hourly' | 'trip';
   extras: {
     childSeat: string,
-        infantSeat: string,
-        boosterSeat: string,
-        flightTrack: string,
-        meetGreet: string,
-        description: string,
-        extrasTotal: string
+    infantSeat: string,
+    boosterSeat: string,
+    flightTrack: string,
+    meetGreet: string,
+    description: string,
+    extrasTotal: string
   }
 }
-
 
 export async function createOrder(data: OrderDataType) {
   try {
@@ -88,23 +87,48 @@ export async function createOrder(data: OrderDataType) {
       return { error: 'Order not placed due to backend issue.', status: 500 };
     }
 
-    // ✅ Email setup
-    const orderLink = `https://chauffeurio.com/order/${order.id}`;
-    const transporter = nodemailer.createTransport(emailConfig);
-    const carImage = `https://chauffeurio.com/order/${data.carImage}`;
-    const stops = data.stops.map((item,index)=>({label:index===0? 'Pickup Location' : data.stops.length-1 === index ? data.category==='hourly' ? 'Duration' : 'Stop ' + index  : 'Dropoff Location' , value:data.stops.length-1 === index && data.category==='hourly' ? item + ' hours' : item}))
-    const htmEmail = await render(TripOrderEmailTemplate({carImage, stops, viewOrderLink:orderLink}))
+    console.log('Order created successfully with ID:', order.id);
+    console.log('Customer email:', order.email);
 
-    await transporter.sendMail({
-      from: 'info@chauffeurio.com',
-      to: [order.email, 'info@chauffeurio.com'],
-      subject: 'Your Chauffeurio Booking Confirmation 🚕',
-      html: htmEmail,
-    });
+    // EMAIL SENDING WITH PROPER ERROR IGNORING
+    try {
+      const orderLink = `https://chauffeurio.com/order/${order.id}`;
+      const transporter = nodemailer.createTransport(emailConfig);
+      const carImage = `https://chauffeurio.com/order/${data.carImage}`;
+      const stops = data.stops.map((item,index)=>({
+        label: index===0 ? 'Pickup Location' : 
+               data.stops.length-1 === index ? 
+                 data.category==='hourly' ? 'Duration' : 'Stop ' + index : 
+                 'Dropoff Location', 
+        value: data.stops.length-1 === index && data.category==='hourly' ? item + ' hours' : item
+      }));
+      
+      const htmEmail = await render(TripOrderEmailTemplate({carImage, stops, viewOrderLink:orderLink}))
 
-    return { order, status: 201, error: '' };
+      await transporter.sendMail({
+        from: 'info@chauffeurio.com',
+        to: [order.email, 'info@chauffeurio.com'],
+        subject: 'Your Chauffeurio Booking Confirmation 🚕',
+        html: htmEmail,
+      });
+
+      console.log('✅ Confirmation email sent successfully');
+      
+    } catch (emailError: any) {
+      console.warn('⚠️ Email sending failed, but order was created successfully');
+      console.warn('Email error details:', emailError.message);
+    }
+    return { 
+      order, 
+      status: 201, 
+      error: '' 
+    };
+    
   } catch (error) {
-    console.error('Error creating order:', error);
-    return { error: 'An error occurred while creating the order.', status: 500 };
+    console.error('❌ Error creating order:', error);
+    return { 
+      error: 'An error occurred while creating the order.', 
+      status: 500 
+    };
   }
 }
