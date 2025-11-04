@@ -25,7 +25,7 @@ const HeroSectionUpdated: React.FC = () => {
 
       {/* Overlay */}
       <div className="relative bg-black/40 w-full max-lg:rounded-b-3xl">
-        <div className="grid lg:grid-cols-2 gap-10 items-center pt-16 lg:py-48 w-full max-w-screen-2xl mx-auto px-0 lg:px-4">
+        <div className="grid lg:grid-cols-2 gap-10 items-center pt-52 pb-10 w-full max-w-screen-2xl mx-auto px-0 lg:px-4">
           
           {/* LEFT SIDE — Text content */}
           <div className="flex flex-col gap-4 md:gap-6 justify-center text-left text-white px-4 lg:px-0">

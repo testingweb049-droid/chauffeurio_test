@@ -73,14 +73,10 @@ function Step3() {
 
     const [isAirportPickupOpen, setIsAirportPickupOpen] = useState(Boolean(formData.isAirportPickup.value));
     const [isInstructionsOpen, setIsInstructionsOpen] = useState(Boolean(formData.description.value));
-
-    // ✅ Error tracking state
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     const hasExtras = childSeat > 0 || infantSeat > 0 || boosterSeat > 0;
     const hasInstructions = Boolean(formData.description.value);
-
-    // ✅ Validation function
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
 
@@ -161,6 +157,33 @@ function Step3() {
                 </div>
 
                 <AddReturn />
+
+                {formData.isReturn.value && (
+                    <div className="p-4 border border-primary/60 rounded-lg">
+                        <h4 className="font-semibold text-gray-900 mb-3">Return Trip Details</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Return Date</label>
+                                <input
+                                    type="date"
+                                    value={formData.returnDate.value}
+                                    onChange={(e) => setFormData('returnDate', e.target.value)}
+                                    min={formData.date.value}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Return Time</label>
+                                <input
+                                    type="time"
+                                    value={formData.returnTime.value}
+                                    onChange={(e) => setFormData('returnTime', e.target.value)}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
                 {/* Equipment & Extras - Always Show (No Toggle) */}
                 <div className="p-4 border border-primary/60 rounded-lg w-full">
                     <div className="font-semibold text-gray-900 mb-4">Equipment & Extras</div>
@@ -226,32 +249,6 @@ function Step3() {
                     </div>
                 )}
 
-                {formData.isReturn.value && (
-                    <div className="p-4 border border-primary/60 rounded-lg">
-                        <h4 className="font-semibold text-gray-900 mb-3">Return Trip Details</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Return Date</label>
-                                <input
-                                    type="date"
-                                    value={formData.returnDate.value}
-                                    onChange={(e) => setFormData('returnDate', e.target.value)}
-                                    min={formData.date.value}
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Return Time</label>
-                                <input
-                                    type="time"
-                                    value={formData.returnTime.value}
-                                    onChange={(e) => setFormData('returnTime', e.target.value)}
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                )}
 
                 {!showPayment && (
                     <div className="w-full border-t-2 border-gray-300 pt-5 mt-5">

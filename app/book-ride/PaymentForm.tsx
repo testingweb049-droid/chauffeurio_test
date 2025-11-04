@@ -7,12 +7,13 @@ import { Loader2 } from "lucide-react"
 
 export default function MyPaymentForm({ price }: { price: string }) {
   const router = useRouter()
-  const { formError, setFormData, formData } = useFormStore()
+  const { formData, orderId, getActualOrderId, createOrderForPayment } = useFormStore()
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
   const amount = Number(price)
+  const actualOrderId = getActualOrderId();
 
   const handlePaymentInitiation = async () => {
     if (!formData.name.value || !formData.email.value || !formData.phone.value) {
@@ -24,11 +25,29 @@ export default function MyPaymentForm({ price }: { price: string }) {
     setError("")
 
     try {
+      // ✅ STEP 1: First create the order
+      let orderIdToUse = actualOrderId;
+
+      if (!orderIdToUse) {
+        const orderResult = await createOrderForPayment();
+        if (!orderResult.success) {
+          setError(orderResult.error || "Failed to create order");
+          setLoading(false);
+          return;
+        }
+        orderIdToUse = orderResult.orderId!;
+        console.log("✅ Using newly created order ID:", orderIdToUse);
+      } else {
+        console.log("✅ Using existing order ID:", orderIdToUse);
+      }
+
+      // ✅ STEP 2: Now create Stripe session with the order ID
       const res = await fetch("/api/create-stripe-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount,
+          orderId: orderIdToUse, // Pass the actual order ID
           customerDetails: {
             name: formData.name.value,
             email: formData.email.value,
@@ -48,7 +67,8 @@ export default function MyPaymentForm({ price }: { price: string }) {
       const orderForStorage = {
         ...formData,
         price: { ...formData.price, value: price },
-        orderId: "pending-" + Date.now(), // temporary ID until payment completes
+        orderId: orderIdToUse,
+        paymentStatus: "pending",
       }
       localStorage.setItem("lastOrder", JSON.stringify(orderForStorage))
 
@@ -76,11 +96,6 @@ export default function MyPaymentForm({ price }: { price: string }) {
   return (
     <div className="w-full flex flex-col gap-6">
       <form onSubmit={handleManualPayment} className="flex flex-col gap-5">
-        {formError && (
-          <div className="text-red-500 text-center bg-red-50 p-3 rounded-lg border border-red-200">
-            {formError}
-          </div>
-        )}
         {error && (
           <div className="text-red-500 text-center bg-red-50 p-3 rounded-lg border border-red-200">
             {error}
@@ -98,7 +113,7 @@ export default function MyPaymentForm({ price }: { price: string }) {
           {loading ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />
-              Redirecting to Payment...
+              {"Redirecting to Payment..."}
             </>
           ) : (
             <>Pay Securely - € {price}</>

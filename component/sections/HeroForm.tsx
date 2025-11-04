@@ -7,36 +7,56 @@ import LocationInput from './LocationPicker'
 import NewDropdownInput from './DropDownInput'
 import NewDateTimePicker from '@/app/book-ride/NewDateTimePicker'
 
-// Counter component for Passengers and Bags
-function Counter({ label, value, onChange }: { label: string, value: number, onChange: (val: number) => void }) {
+function Counter({
+  label,
+  value,
+  onChange,
+}: {
+  label: string
+  value: number
+  onChange: (val: number) => void
+}) {
   const increment = () => onChange(value + 1)
   const decrement = () => value > 0 && onChange(value - 1)
 
   return (
-    <div className="flex items-center justify-between w-full py-3 border-b border-gray-200 last:border-b-0">
-      <div className="flex items-center gap-3">
-        {label === 'Passengers' ? <Users size={20} className="text-gray-600" /> : <LuggageIcon size={20} className="text-gray-600" />}
-        <span className="font-medium text-gray-700">{label}</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <button
-          onClick={decrement}
-          disabled={value === 0}
-          className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-        >
-          -
-        </button>
-        <span className="w-8 text-center font-semibold">{value}</span>
-        <button
-          onClick={increment}
-          className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors"
-        >
-          +
-        </button>
+    <div className="flex flex-col w-full mt-3">
+      {/* Label */}
+      <label className="text-sm font-medium text-gray-700 flex items-center gap-2 mb-1.5">
+        {label === 'Passengers' ? (
+          <Users size={18} className="text-gray-600" />
+        ) : (
+          <LuggageIcon size={18} className="text-gray-600" />
+        )}
+        {label}
+      </label>
+
+      {/* Field */}
+      <div className="flex items-center justify-between border border-gray-300 rounded-lg px-3 py-2 bg-white">
+        {/* Value */}
+        <span className="text-base font-semibold text-gray-800">{value}</span>
+
+        {/* Buttons */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={decrement}
+            disabled={value === 0}
+            className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          >
+            -
+          </button>
+          <button
+            onClick={increment}
+            className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors"
+          >
+            +
+          </button>
+        </div>
       </div>
     </div>
   )
 }
+
 
 function HeroForm() {
   const { category, changeCategory, formError, formLoading, changeStep, formData, manageStops, isOrderDone, step, resetForm, setFormData } = useFormStore()

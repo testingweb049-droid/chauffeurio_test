@@ -12,8 +12,6 @@ import {
 import { IoCarSportSharp } from 'react-icons/io5';
 import { BiUserCircle } from 'react-icons/bi';
 import useFormStore from '@/stores/FormStore';
-import WhiteLogo from "@/assets/logo-white.png";
-import Image from 'next/image';
 
 export interface OrderProps {
   id: string;
@@ -52,33 +50,33 @@ function OrderPage({ id }: { id: string }) {
   const { resetForm, isOrderDone } = useFormStore();
 
   useEffect(() => {
-  const fetchOrder = async () => {
-    try {
-      const result = await getOrderById(id);
-      if (result.status === 200 && result.order) {
-        const orderData = result.order;
+    const fetchOrder = async () => {
+      try {
+        const result = await getOrderById(id);
+        if (result.status === 200 && result.order) {
+          const orderData = result.order;
 
-        // Convert Date fields to string
-        const formattedOrder = {
-          ...orderData,
-          pickup_date: orderData.pickup_date ? orderData.pickup_date.toISOString() : null,
-          return_date: orderData.return_date ? orderData.return_date.toISOString() : null,
-          updated_at: orderData.updated_at ? orderData.updated_at.toISOString() : "",
-          created_at: orderData.created_at ? orderData.created_at.toISOString() : "",
-        };
+          // Convert Date fields to string
+          const formattedOrder = {
+            ...orderData,
+            pickup_date: orderData.pickup_date ? orderData.pickup_date.toISOString() : null,
+            return_date: orderData.return_date ? orderData.return_date.toISOString() : null,
+            updated_at: orderData.updated_at ? orderData.updated_at.toISOString() : "",
+            created_at: orderData.created_at ? orderData.created_at.toISOString() : "",
+          };
 
-        setOrder(formattedOrder);
-      } else {
-        setError(result.error);
+          setOrder(formattedOrder);
+        } else {
+          setError(result.error);
+        }
+      } catch (err) {
+        console.log("error : ", err);
+        setError("Failed to fetch the order.");
       }
-    } catch (err) {
-      console.log("error : ", err);
-      setError("Failed to fetch the order.");
-    }
-  };
+    };
 
-  if (id) fetchOrder();
-}, [id]);
+    if (id) fetchOrder();
+  }, [id]);
 
 
   useEffect(() => {
@@ -110,152 +108,144 @@ function OrderPage({ id }: { id: string }) {
       {/* Header */}
       <div className='px-3'>
 
-      
-      <header className="bg-[#181818] text-white flex justify-between items-center px-6 sm:px-10 py-5 max-w-screen-lg mx-auto rounded-2xl">
-       <Image
-                      src="/Chauffeurio Logo PNG.png"
-                      alt="Company Logo"
-                      width={120}
-                      height={60}
-                      className='max-w-16 sm:max-w-32 object-contain'
-                      priority
-                    />
-        
-        <div className="text-right">
-          <p className="text-sm text-gray-300">Order ID</p>
-          <div className="flex items-center gap-1 justify-end">
-            <p className="text-white font-medium text-[10px] sm:text-sm">{order.id}</p>
-            <TbCopy
-              onClick={() => navigator.clipboard.writeText(order.id)}
-              className="cursor-pointer text-gray-400 hover:text-gray-200"
-            />
-          </div>
-        </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="max-w-5xl mx-auto py-10">
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <SummaryCard
-            label="Total Amount"
-            value={`£${Number(order.price).toFixed(2)}`}
-            color="text-red-600"
-          />
-          {order.category==='hourly' ? <SummaryCard
-            label="Duration"
-            value={`${order.duration} hours`}
-          /> :
-            <SummaryCard
-            label="Distance"
-            value={`${toMiles(order.distance)} miles`}
-          />}
-          <SummaryCard label="Vehicle Type" value={order.car || 'Premium'} />
-        </div>
+        <header className="bg-[#181818] text-white flex justify-between items-center px-6 sm:px-10 py-5 max-w-screen-lg mx-auto rounded-2xl">
 
-        {/* Route Information */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-            <IoCarSportSharp className="text-brandColor text-xl" /> Route
-            Information
-          </h2>
-
-          <div className="relative pl-6">
-            {/* Pickup */}
-            <TimelineItem
-              color="green"
-              label="Pick-Up"
-              value={order.pickup_location}
-              date={order.pickup_date}
-              time={order.pickup_time}
-            />
-
-            {/* Stops */}
-            {stops.map((stop, i) => (
-              <TimelineItem
-                key={i}
-                color="blue"
-                label={`Stop ${i + 1}`}
-                value={stop}
+          <div className="text-right">
+            <p className="text-sm text-gray-300">Order ID</p>
+            <div className="flex items-center gap-1 justify-end">
+              <p className="text-white font-medium text-[10px] sm:text-sm">{order.id}</p>
+              <TbCopy
+                onClick={() => navigator.clipboard.writeText(order.id)}
+                className="cursor-pointer text-gray-400 hover:text-gray-200"
               />
-            ))}
+            </div>
+          </div>
+        </header>
 
-            {/* Drop-off */}
-            { order.category === 'hourly' ? 
-             <TimelineItem
-              color="red"
+        {/* Main Content */}
+        <main className="max-w-5xl mx-auto py-10">
+          {/* Summary Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            <SummaryCard
+              label="Total Amount"
+              value={`£${Number(order.price).toFixed(2)}`}
+              color="text-red-600"
+            />
+            {order.category === 'hourly' ? <SummaryCard
               label="Duration"
-              value={order.duration?.toString() || 'N/A'}
-            />
-            :
+              value={`${order.duration} hours`}
+            /> :
+              <SummaryCard
+                label="Distance"
+                value={`${toMiles(order.distance)} miles`}
+              />}
+            <SummaryCard label="Vehicle Type" value={order.car || 'Premium'} />
+          </div>
+
+          {/* Route Information */}
+          <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <IoCarSportSharp className="text-brandColor text-xl" /> Route
+              Information
+            </h2>
+
+            <div className="relative pl-6">
+              {/* Pickup */}
               <TimelineItem
-              color="red"
-              label="Drop-Off"
-              value={order.dropoff_location || 'N/A'}
-            />}
+                color="green"
+                label="Pick-Up"
+                value={order.pickup_location}
+                date={order.pickup_date}
+                time={order.pickup_time}
+              />
+
+              {/* Stops */}
+              {stops.map((stop, i) => (
+                <TimelineItem
+                  key={i}
+                  color="blue"
+                  label={`Stop ${i + 1}`}
+                  value={stop}
+                />
+              ))}
+
+              {/* Drop-off */}
+              {order.category === 'hourly' ?
+                <TimelineItem
+                  color="red"
+                  label="Duration"
+                  value={order.duration?.toString() || 'N/A'}
+                />
+                :
+                <TimelineItem
+                  color="red"
+                  label="Drop-Off"
+                  value={order.dropoff_location || 'N/A'}
+                />}
+            </div>
           </div>
-        </div>
 
-        {/* Trip + Customer Info */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-          {/* Trip Details */}
-          <InfoCard title="Trip Details">
-            <InfoField
-              label="Return Date"
-              value={formatDate(order.return_date)}
-            />
-            <InfoField label="Return Time" value={order.return_time || 'N/A'} />
-            <InfoField
-              label="Flight Track"
-              value={order.flight_track ? 'Yes' : 'No'}
-            />
-            <InfoField
-              label="Meet & Greet"
-              value={order.meet_greet ? 'Yes' : 'No'}
-            />
-          </InfoCard>
+          {/* Trip + Customer Info */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+            {/* Trip Details */}
+            <InfoCard title="Trip Details">
+              <InfoField
+                label="Return Date"
+                value={formatDate(order.return_date)}
+              />
+              <InfoField label="Return Time" value={order.return_time || 'N/A'} />
+              <InfoField
+                label="Flight Track"
+                value={order.flight_track ? 'Yes' : 'No'}
+              />
+              <InfoField
+                label="Meet & Greet"
+                value={order.meet_greet ? 'Yes' : 'No'}
+              />
+            </InfoCard>
 
-          {/* Customer Info */}
-          <InfoCard title="Customer Information">
-            <InfoField
-              label="Name"
-              value={order.name}
-              icon={<BiUserCircle />}
-            />
-            <InfoField
-              label="Email"
-              value={order.email}
-              icon={<MdOutlineEmail />}
-            />
-            <InfoField
-              label="Phone"
-              value={order.phone}
-              icon={<MdOutlinePhone />}
-            />
-            <InfoField
-              label="Flight Number"
-              value={order.flight || 'N/A'}
-              icon={<MdOutlineFlight />}
-            />
-          </InfoCard>
-        </div>
-
-        {/* Payment Info */}
-        <InfoCard title="Payment Information">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <InfoField
-              label="Payment Method"
-              value={order.payment_method || 'N/A'}
-              icon={<MdOutlinePayment />}
-            />
-            <InfoField label="Payment ID" value={order.payment_id || 'N/A'} />
-            <InfoField
-              label="Ordered At"
-              value={formatDate(order.created_at)}
-            />
+            {/* Customer Info */}
+            <InfoCard title="Customer Information">
+              <InfoField
+                label="Name"
+                value={order.name}
+                icon={<BiUserCircle />}
+              />
+              <InfoField
+                label="Email"
+                value={order.email}
+                icon={<MdOutlineEmail />}
+              />
+              <InfoField
+                label="Phone"
+                value={order.phone}
+                icon={<MdOutlinePhone />}
+              />
+              <InfoField
+                label="Flight Number"
+                value={order.flight || 'N/A'}
+                icon={<MdOutlineFlight />}
+              />
+            </InfoCard>
           </div>
-        </InfoCard>
-      </main>
+
+          {/* Payment Info */}
+          <InfoCard title="Payment Information">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <InfoField
+                label="Payment Method"
+                value={order.payment_method || 'N/A'}
+                icon={<MdOutlinePayment />}
+              />
+              <InfoField label="Payment ID" value={order.payment_id || 'N/A'} />
+              <InfoField
+                label="Ordered At"
+                value={formatDate(order.created_at)}
+              />
+            </div>
+          </InfoCard>
+        </main>
       </div>
     </div>
   );
