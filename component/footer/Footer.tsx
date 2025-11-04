@@ -17,20 +17,19 @@ export default function Footer() {
 
   const quickLinks = [
     { name: footer?.quickLinks?.home || "Home", href: "/" },
-    { name: footer?.quickLinks?.aboutUs || "About Us", href: "#about" },
-    { name: footer?.quickLinks?.ourFleets || "Our Fleets", href: "#fleets" },
-    { name: footer?.quickLinks?.services || "Services", href: "#services" },
-    { name: footer?.quickLinks?.contact || "Contact", href: "#contact" },
+    { name: footer?.quickLinks?.aboutUs || "About Us", href: "/about" },
+    { name: footer?.quickLinks?.ourFleets || "Our Fleets", href: "/fleet" },
+    { name: footer?.quickLinks?.contact || "Contact", href: "/contact" },
     { name: footer?.quickLinks?.faqs || "FAQs", href: "/faqs" },
   ];
 
   const services = [
-    { name: footer?.services?.airportTransfers || "Airport Transfers", href: "#airport" },
-    { name: footer?.services?.hourlyChauffeurs || "Hourly Chauffeurs", href: "#hourly" },
-    { name: footer?.services?.eventTransportation || "Event Transportation", href: "#events" },
-    { name: footer?.services?.cityTours || "City Tours and Excursions", href: "#tours" },
-    { name: footer?.services?.businessChauffeur || "Business Chauffeur Services", href: "#business" },
-    { name: footer?.services?.longDistance || "Long-Distance City to City", href: "#long-distance" },
+    { name: footer?.services?.airportTransfers || "Airport Transfers", href: "/airport-transfer" },
+    { name: footer?.services?.hourlyChauffeurs || "Hourly Chauffeurs", href: "/hourly-chauffurs" },
+    { name: footer?.services?.eventTransportation || "Event Transportation", href: "/event-transport" },
+    { name: footer?.services?.cityTours || "City Tours and Excursions", href: "/tours-excursions" },
+    { name: footer?.services?.businessChauffeur || "Business Chauffeur Services", href: "/business-chauffur" },
+    { name: footer?.services?.longDistance || "Long-Distance City to City", href: "/city-to-city" },
   ];
 
   const footerLinks = [

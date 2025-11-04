@@ -4,23 +4,22 @@ import { createOrder, OrderDataType } from "@/actions/add-order";
 import { calculateDistance } from "@/actions/get-distance";
 import { fleets } from "@/app/book-ride/CarList";
 import { hourlyInitialFormData, tripInitialFormData } from "@/constants/storeInitailObjects";
-// import { hourlyInitialFormData, tripInitialFormData } from "@/constants/storeInitailObjects";
 import { create } from "zustand";
 
-  interface FieldType<T> {
+interface FieldType<T> {
   value: T;
   error: string;
   coardinates: string;
   coardinatesRequired: boolean;
   required: boolean;
   step: number;
-  }
+}
 
-  export interface FormDataType {
-    [x: string]: any;
+export interface FormDataType {
+  [x: string]: any;
   fromLocation: FieldType<string>;
   toLocation: FieldType<string>;
-  stops: FieldType<string>[];        
+  stops: FieldType<string>[];
   duration: FieldType<string>;
   distance: FieldType<number>;
   car: FieldType<string>;
@@ -41,14 +40,13 @@ import { create } from "zustand";
   isFlightTrack: FieldType<boolean>;
   isMeetGreet: FieldType<boolean>;
   isReturn: FieldType<boolean>;
-  // Add extras fields
   childSeat: FieldType<number>;
   infantSeat: FieldType<number>;
   boosterSeat: FieldType<number>;
   description: FieldType<string>;
-  }
+}
 
-  interface FormStoreType {
+interface FormStoreType {
   step: number;
   isMobileDropdownOpen: boolean;
   category: "trip" | "hourly";
@@ -65,33 +63,30 @@ import { create } from "zustand";
   ) => void;
   setFieldOptions: (
     key: keyof FormDataType | "stops",
-    required:  boolean ,
-   
+    required: boolean,
   ) => void;
-  validateData: ( _step:number) => boolean;
-  changeStep: (isNext: boolean, _step:number) => Promise<boolean>;
+  validateData: (_step: number) => boolean;
+  changeStep: (isNext: boolean, _step: number) => Promise<boolean>;
   changeCategory: (newCategory: "trip" | "hourly") => void;
   manageStops: (action: "add" | "remove", index?: number) => void;
   toggleMobileDropdown: () => void;
   resetForm: () => void;
-  // Add method to update extras
   updateExtra: (extraType: 'childSeat' | 'infantSeat' | 'boosterSeat', value: number) => void;
-  // Add method to calculate total price with extras
   getTotalPrice: () => number;
-  }
+  createOrderForPayment: () => Promise<{ success: boolean; orderId?: string; error?: string }>;
+  getActualOrderId: () => string;
+}
 
-  const makeStop = (required = false): FieldType<string> => ({
+const makeStop = (required = false): FieldType<string> => ({
   value: "",
   coardinates: "",
   error: "",
   required,
   coardinatesRequired: required,
   step: 1,
-  });
+});
 
-
-
-  const useFormStore = create<FormStoreType>((set, get) => ({
+const useFormStore = create<FormStoreType>((set, get) => ({
   step: 1,
   isMobileDropdownOpen: false,
   category: "trip",
@@ -99,20 +94,19 @@ import { create } from "zustand";
   formLoading: false,
   formData: {
     ...tripInitialFormData,
-    // Initialize extras with default values
     childSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
     infantSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
     boosterSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
     description: { value: "", error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
   },
   isOrderDone: false,
-  orderId:'',
-  
+  orderId: '',
+
   setFormData: (key, value, coardinates = "", index) => {
     if (key === "stops" && typeof index === "number") {
       set((state) => {
         const stops = [...state.formData.stops];
-        stops[index] = { ...stops[index], value: value as string, coardinates, error:'' };
+        stops[index] = { ...stops[index], value: value as string, coardinates, error: '' };
         return { formData: { ...state.formData, stops } };
       });
       return;
@@ -120,22 +114,21 @@ import { create } from "zustand";
     set((state) => ({
       formData: {
         ...state.formData,
-        [key]: { ...state.formData[key as keyof FormDataType], value, coardinates, error:''  },
-      },
-    }));
-  },
-  
-  setFieldOptions: (key, required) => {
-    if(key==='stops') return;
-    set((state) => ({
-      formData: {
-        ...state.formData,
-        [key]: { ...state.formData[key as keyof FormDataType], error:'', required  },
+        [key]: { ...state.formData[key as keyof FormDataType], value, coardinates, error: '' },
       },
     }));
   },
 
-  // Add method to update extras
+  setFieldOptions: (key, required) => {
+    if (key === 'stops') return;
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        [key]: { ...state.formData[key as keyof FormDataType], error: '', required },
+      },
+    }));
+  },
+
   updateExtra: (extraType, value) => {
     set((state) => ({
       formData: {
@@ -148,24 +141,100 @@ import { create } from "zustand";
   getTotalPrice: () => {
     const { formData } = get();
     const basePrice = parseFloat(formData.price.value) || 0;
-    
-    const extrasTotal = 
+
+    const extrasTotal =
       (formData.childSeat.value * 5) +
-      (formData.infantSeat.value * 5) + 
-      (formData.boosterSeat.value * 5) + 
-      (formData.isFlightTrack.value ? 7 : 0) + 
-      (formData.isMeetGreet.value ? 15 : 0);  
-    
+      (formData.infantSeat.value * 5) +
+      (formData.boosterSeat.value * 5) +
+      (formData.isFlightTrack.value ? 7 : 0) +
+      (formData.isMeetGreet.value ? 15 : 0);
+
     return basePrice + extrasTotal;
   },
 
-  validateData: (_step:number) => {
-    const { formData } = get();
+  // ✅ NEW: Get actual order ID
+  getActualOrderId: () => {
+    const { orderId } = get();
+    return orderId && !orderId.startsWith('pending-') ? orderId : '';
+  },
 
-    // Validate all fields (including dynamic stops)
+  // ✅ NEW: Separate method to create order for payment
+  createOrderForPayment: async () => {
+    const { formData, getTotalPrice, category } = get();
+
+    const totalPrice = getTotalPrice();
+    const carImage = fleets.find((item) => item.displayName === formData.car.value)?.imageUrl;
+
+    const orderData: OrderDataType = {
+      fromLocation: formData.fromLocation.value,
+      toLocation: formData.toLocation.value,
+      stops: formData.stops.map((s) => s.value),
+      duration: formData.duration.value,
+      distance: formData.distance.value,
+      car: formData.car.value,
+      price: totalPrice.toString(),
+      name: formData.name.value,
+      phone: formData.phone.value,
+      email: formData.email.value,
+      date: formData.date.value,
+      time: formData.time.value,
+      returnDate: formData.returnDate.value,
+      returnTime: formData.returnTime.value,
+      passengers: formData.passengers.value,
+      bags: formData.bags.value,
+      flightName: formData.flightName.value,
+      flightNumber: formData.flightNumber.value,
+      paymentId: formData.paymentId.value,
+      isAirportPickup: formData.isAirportPickup.value,
+      isFlightTrack: formData.isFlightTrack.value,
+      isMeetGreet: formData.isMeetGreet.value,
+      isReturn: formData.isReturn.value,
+      carImage,
+      category: category,
+      extras: {
+        childSeat: formData.childSeat.value.toString(),
+        infantSeat: formData.infantSeat.value.toString(),
+        boosterSeat: formData.boosterSeat.value.toString(),
+        flightTrack: formData.isFlightTrack.value ? "yes" : "no",
+        meetGreet: formData.isMeetGreet.value ? "yes" : "no",
+        description: formData.description.value,
+        extrasTotal: (totalPrice - (parseFloat(formData.price.value) || 0)).toString(),
+      },
+    };
+
+    try {
+      const response = await createOrder(orderData);
+      console.log("Order creation response:", response);
+
+      if (response.status !== 201) {
+        return { success: false, error: response.error };
+      }
+
+      const actualOrderId = response?.order?.id || '';
+      console.log("✅ Order created with ID:", actualOrderId);
+
+      set({
+        orderId: actualOrderId,
+        formData: {
+          ...get().formData,
+          paymentId: { ...get().formData.paymentId, value: actualOrderId }
+        }
+      });
+
+      return { success: true, orderId: actualOrderId };
+    } catch (error) {
+      console.error("Order creation error:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to create order"
+      };
+    }
+  },
+
+  validateData: (_step: number) => {
+    const { formData } = get();
     const updated: FormDataType = { ...formData };
 
-    // validate simple fields
     (Object.keys(formData) as (keyof FormDataType)[]).forEach((k) => {
       if (k === "stops") return;
       const item = formData[k] as FieldType<any>;
@@ -174,7 +243,6 @@ import { create } from "zustand";
       (updated[k] as FieldType<any>) = { ...item, error: hasErr ? `${k} is required` : hasErr2 ? `${k} coordinates required` : "" };
     });
 
-    // validate stops
     const stopsUpdated = formData.stops.map((s) => {
       const hasErr = s.step === _step && s.required && !s.value;
       const hasErr2 = s.step === _step && s.coardinatesRequired && !s.coardinates;
@@ -182,14 +250,11 @@ import { create } from "zustand";
     });
 
     updated.stops = stopsUpdated;
-    console.log("updated ",updated)
+    set({ formData: updated });
 
-    set({ formData: updated  });
-
-   
     const anyErrorField = Object.values(updated as FormDataType).some((v) => {
       if (Array.isArray(v)) {
-        return v.some((s) => s.error!=='');
+        return v.some((s) => s.error !== '');
       }
       return v.error !== '';
     });
@@ -197,8 +262,9 @@ import { create } from "zustand";
     return anyErrorField;
   },
 
-  changeStep: async (isNext: boolean, _step:number) => {
-    const { formData, category, validateData, getTotalPrice } = get();
+  changeStep: async (isNext: boolean, _step: number) => {
+    const { formData, category, validateData } = get();
+
     if (!isNext) {
       set((state) => ({
         ...state,
@@ -210,21 +276,22 @@ import { create } from "zustand";
     set((state) => ({ ...state, formError: "", formLoading: true }));
 
     if (validateData(_step)) {
-      console.log("not validate")
+      console.log("not validate");
       set((state) => ({ ...state, formError: "", formLoading: false }));
       return false;
     }
-    
-    console.log("validate")
+
+    console.log("validate");
+
     if (_step === 1 && category === "trip") {
       try {
         const stopsCoords = formData.stops.map((s) => s.coardinates);
         const distanceResponse = await calculateDistance({
           from: formData.fromLocation.coardinates,
           to: formData.toLocation.coardinates,
-          stops: stopsCoords, 
+          stops: stopsCoords,
         } as any);
-        console.log("distanceResponse ",distanceResponse)
+        console.log("distanceResponse ", distanceResponse);
         if (distanceResponse.status !== 200) {
           set((state) => ({ ...state, formError: distanceResponse.error ?? "route not found", formLoading: false }));
           return false;
@@ -243,102 +310,50 @@ import { create } from "zustand";
       }
     }
 
-    if (_step === 4) {
-      const totalPrice = getTotalPrice();
-      const carImage = fleets.find((item)=>item.displayName===formData.car.value)?.imageUrl
-     const orderData: OrderDataType = {
-  fromLocation: formData.fromLocation.value,
-  toLocation: formData.toLocation.value,
-  stops: formData.stops.map((s) => s.value),
-  duration: formData.duration.value,
-  distance: formData.distance.value,
-  car: formData.car.value,
-  price: totalPrice.toString(),
-  name: formData.name.value,
-  phone: formData.phone.value,
-  email: formData.email.value,
-  date: formData.date.value,
-  time: formData.time.value,
-  returnDate: formData.returnDate.value,
-  returnTime: formData.returnTime.value,
-  passengers: formData.passengers.value,
-  bags: formData.bags.value,
-  flightName: formData.flightName.value,
-  flightNumber: formData.flightNumber.value,
-  paymentId: formData.paymentId.value,
-  isAirportPickup: formData.isAirportPickup.value,
-  isFlightTrack: formData.isFlightTrack.value,
-  isMeetGreet: formData.isMeetGreet.value,
-  isReturn: formData.isReturn.value,
-  carImage,
-  category: get().category, 
-  extras: {
-    childSeat: formData.childSeat.value.toString(),
-    infantSeat: formData.infantSeat.value.toString(),
-    boosterSeat: formData.boosterSeat.value.toString(),
-    flightTrack: formData.isFlightTrack.value ? "yes" : "no",
-    meetGreet: formData.isMeetGreet.value ? "yes" : "no",
-    description: formData.description.value,
-    extrasTotal: (totalPrice - (parseFloat(formData.price.value) || 0)).toString(),
-  },
-};
+    // ✅ REMOVED: Order creation from changeStep - now handled separately in createOrderForPayment
 
-      try {
-        const response = await createOrder(orderData);
-        if (response.status !== 201) {
-          set({ formError: response.error, formLoading: false });
-          return false;
-        }
-        set({ formError: "", formLoading: false, orderId:response?.order?.id ?? ''  });
-      } catch (error) {
-        set({ formError: error instanceof Error ? error.message : "Failed to place order", formLoading: false });
-        return false;
-      }
-    }
-    if(_step===4 && isNext){
-      set((state) => ({ ...state, formError: "", formLoading: false, step: 1, isOrderDone:true }));
-      return true;
-    }
-    console.log("working fine : ",_step)
+    console.log("working fine : ", _step);
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("working fine 2 : ",_step)
+    console.log("working fine 2 : ", _step);
     set((state) => ({ ...state, formError: "", formLoading: false, step: isNext ? _step + 1 : Math.max(1, _step - 1) }));
-    return true; 
+    return true;
   },
 
   changeCategory: (newCategory) => {
     const { category } = get();
     if (category === newCategory) return;
-    
+
     const baseFormData = newCategory === "trip" ? tripInitialFormData : hourlyInitialFormData;
-    
+
     if (newCategory === "trip") {
-      set({ 
+      set({
         formData: {
           ...baseFormData,
           childSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
           infantSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
           boosterSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
           description: { value: "", error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
-        }, 
-        step: 1, 
-        category: "trip", 
-        formError: "", 
-        formLoading: false 
+        },
+        step: 1,
+        category: "trip",
+        formError: "",
+        formLoading: false,
+        orderId: '', // Reset orderId
       });
     } else {
-      set({ 
+      set({
         formData: {
           ...baseFormData,
           childSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
           infantSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
           boosterSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
           description: { value: "", error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
-        }, 
-        step: 1, 
-        category: "hourly", 
-        formError: "", 
-        formLoading: false 
+        },
+        step: 1,
+        category: "hourly",
+        formError: "",
+        formLoading: false,
+        orderId: '', // Reset orderId
       });
     }
   },
@@ -346,7 +361,17 @@ import { create } from "zustand";
   manageStops: (action, index) => {
     const { formData } = get();
     if (action === "add") {
-      set((state) => ({ ...state, formData: { ...state.formData, stops: [...state.formData.stops.slice(0,index), makeStop(true), ...state.formData.stops.slice(index,state.formData.stops.length ),] } }));
+      set((state) => ({
+        ...state,
+        formData: {
+          ...state.formData,
+          stops: [
+            ...state.formData.stops.slice(0, index),
+            makeStop(true),
+            ...state.formData.stops.slice(index, state.formData.stops.length)
+          ]
+        }
+      }));
       return;
     }
     if (action === "remove" && typeof index === "number") {
@@ -356,26 +381,26 @@ import { create } from "zustand";
     }
   },
 
-  toggleMobileDropdown:()=>{
-    set((state)=>({...state, isMobileDropdownOpen:!state.isMobileDropdownOpen}))
+  toggleMobileDropdown: () => {
+    set((state) => ({ ...state, isMobileDropdownOpen: !state.isMobileDropdownOpen }));
   },
-  
-  resetForm: () => set({ 
+
+  resetForm: () => set({
     formData: {
       ...tripInitialFormData,
       childSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
       infantSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
       boosterSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
       description: { value: "", error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
-    }, 
-    step: 1, 
-    category: "trip", 
-    formError: "", 
-    formLoading: false, 
-    isMobileDropdownOpen:false, 
-    isOrderDone:false, 
-    orderId:'' 
+    },
+    step: 1,
+    category: "trip",
+    formError: "",
+    formLoading: false,
+    isMobileDropdownOpen: false,
+    isOrderDone: false,
+    orderId: ''
   }),
-  }));
+}));
 
 export default useFormStore;

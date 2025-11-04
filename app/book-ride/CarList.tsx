@@ -187,11 +187,11 @@ function CarList() {
   return (
     <div className="w-full flex flex-col gap-4 overflow-x-hidden">
       {/* Show selected passengers and bags info */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-2">
+      {/* <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-2">
         <div className="text-sm text-blue-800 text-center">
           Showing vehicles for <span className="font-semibold">{passengers} passengers</span> and <span className="font-semibold">{bags} bags</span>
         </div>
-      </div>
+      </div> */}
 
       {filteredFleets.map((categoryData) => {
         const priceData = calculatePrice(categoryData);

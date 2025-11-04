@@ -568,7 +568,7 @@ home: {
           { id: 2, title: "Estación del Norte", image: "/Estación-del-Norte.jpg" },
           { id: 3, title: "Plaza de ayuntamiento", image: "/Plaza-de-ayuntamiento.jpg" },
           { id: 4, title: "Ciudad de las artes-y ciencias", image: "/Ciudad-de-las-artes-y-ciencias.jpg" },
-          { id: 5, title: "Mercado Central", image: "/Mercado-colon.jpg" },
+          { id: 5, title: " Mercado Colon", image: "/Mercado-colon.jpg" },
           { id: 6, title: "Plaza De La Reina", image: "/premium_photo-1694475224827-bbfced873eb8.avif" },
         ],
       },

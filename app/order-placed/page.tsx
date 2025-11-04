@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { MdDone } from 'react-icons/md';
 import Image from 'next/image';
+import Link from 'next/link';
 import useFormStore, { FormDataType } from '@/stores/FormStore';
 import { fleets } from '../book-ride/CarList';
 
@@ -12,6 +13,7 @@ export default function OrderPlacedPage() {
   const headerRef = useRef<HTMLDivElement | null>(null);
   const { formData, setFormData, isOrderDone, orderId } = useFormStore();
   const [loaded, setLoaded] = useState(false);
+  const [localOrderId, setLocalOrderId] = useState('');
 
   useEffect(() => {
     // Load from localStorage if store is empty
@@ -20,13 +22,18 @@ export default function OrderPlacedPage() {
       if (storedOrder) {
         const parsed: any = JSON.parse(storedOrder);
 
+        // Get orderId from localStorage
+        if (parsed.orderId) {
+          setLocalOrderId(parsed.orderId);
+        }
+
         Object.entries(parsed).forEach(([key, val]) => {
           if (key === 'stops' && Array.isArray(val)) {
             val.forEach((stop: any, index: number) => {
               if (stop && typeof stop === 'object' && 'value' in stop) {
                 setFormData('stops', (stop as any).value, (stop as any).coardinates, index);
               }
-              });
+            });
           } else if (val && typeof val === 'object' && 'value' in val &&
             (typeof val.value === 'string' || typeof val.value === 'number' || typeof val.value === 'boolean')) {
             setFormData(key as keyof FormDataType, (val as any).value, (val as any).coardinates);
@@ -41,6 +48,9 @@ export default function OrderPlacedPage() {
       headerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [isOrderDone, setFormData]);
+
+  // Use either the store orderId or the one from localStorage
+  const displayOrderId = orderId || localOrderId;
 
   if (!loaded) return <div className="flex items-center justify-center h-screen">Loading order...</div>;
 
@@ -78,7 +88,7 @@ export default function OrderPlacedPage() {
           <div className="lg:col-span-2 w-full bg-white border border-gray-300 rounded-2xl p-6 lg:p-8 shadow-md">
             <h2 className="text-2xl font-semibold mb-4 border-b border-gray-200 pb-2">Order Details</h2>
             <div className="grid grid-cols-2 gap-3 text-sm sm:text-base text-left">
-              <div><span className="text-gray-500">Order ID:</span> {orderId}</div>
+              <div><span className="text-gray-500">Order ID:</span> {displayOrderId || 'Loading...'}</div>
               <div><span className="text-gray-500">Car Type:</span> {formData.car?.value}</div>
               <div><span className="text-gray-500">Passengers:</span> {formData.passengers?.value}</div>
               <div><span className="text-gray-500">Bags:</span> {formData.bags?.value}</div>
@@ -92,19 +102,39 @@ export default function OrderPlacedPage() {
               <div><span className="text-gray-500">Meet & Greet:</span> {formData.isMeetGreet?.value ? 'Yes' : 'No'}</div>
               <div><span className="text-gray-500">Return Trip:</span> {formData.isReturn?.value ? 'Yes' : 'No'}</div>
             </div>
+
+            {/* View Order Details Button */}
+            <div className="flex items-center justify-end w-full mt-8">
+              <div className="flex items-center gap-5">
+                <Link
+                  className='bg-brand px-4 py-2 text-black font-semibold w-fit rounded-md hover:bg-opacity-90 transition-colors'
+                  href={`/order/${displayOrderId}`}
+                >
+                  View Order Details
+                </Link>
+              </div>
+            </div>
           </div>
 
           {/* Right: Fleet Image and Itinerary */}
           {selectedFleet && (
             <div className="rounded-2xl border border-gray-300 bg-white p-5 flex flex-col items-center shadow-md">
-              <Image src={selectedFleet.imageUrl} alt={selectedFleet.displayName} width={400} height={250} className="rounded-lg object-contain" />
+              <Image
+                src={selectedFleet.imageUrl}
+                alt={selectedFleet.displayName}
+                width={400}
+                height={250}
+                className="rounded-lg object-contain"
+              />
               <div className="mt-3 font-semibold text-lg">{selectedFleet.displayName}</div>
 
               <div className="w-full mt-8 text-left">
                 <h2 className="text-2xl font-semibold mb-4 border-b border-gray-200 pb-2">Your Itinerary</h2>
                 <div className="flex flex-col gap-3">
                   {locations.map((item, idx) => (
-                    <div key={idx} className="text-sm sm:text-base text-gray-800">{item?.value || String(item)}</div>
+                    <div key={idx} className="text-sm sm:text-base text-gray-800">
+                      {item?.value || String(item)}
+                    </div>
                   ))}
                 </div>
 
