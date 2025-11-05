@@ -28,7 +28,7 @@ export default function Footer() {
     { name: footer?.services?.hourlyChauffeurs || "Hourly Chauffeurs", href: "/hourly-chauffurs" },
     { name: footer?.services?.eventTransportation || "Event Transportation", href: "/event-transport" },
     { name: footer?.services?.cityTours || "City Tours and Excursions", href: "/tours-excursions" },
-    { name: footer?.services?.businessChauffeur || "Business Chauffeur Services", href: "/business-chauffur" },
+    { name: footer?.services?.businessChauffeur || "Business Chauffeurs Services", href: "/business-chauffur" },
     { name: footer?.services?.longDistance || "Long-Distance City to City", href: "/city-to-city" },
   ];
 

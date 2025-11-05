@@ -418,7 +418,7 @@ testimonials: {
         },
         {
           id: 2,
-          name: "Emma Johnson",
+          name: "Emma",
           verified: true,
           date: "2 weeks ago",
           rating: 5,
@@ -569,7 +569,7 @@ home: {
           { id: 3, title: "Plaza de ayuntamiento", image: "/Plaza-de-ayuntamiento.jpg" },
           { id: 4, title: "Ciudad de las artes-y ciencias", image: "/Ciudad-de-las-artes-y-ciencias.jpg" },
           { id: 5, title: " Mercado Colon", image: "/Mercado-colon.jpg" },
-          { id: 6, title: "Plaza De La Reina", image: "/premium_photo-1694475224827-bbfced873eb8.avif" },
+          { id: 6, title: "Plaza De La Reina", image: "/plaza-de-la-reina.jpg" },
         ],
       },
     },
@@ -1028,7 +1028,7 @@ testimonials: {
         },
         {
           id: 2,
-          name: "Emma Johnson",
+          name: "Emma",
           verified: true,
           date: "il y a 2 semaines",
           rating: 5,
@@ -1637,7 +1637,7 @@ faqPage: {
         },
         {
           id: 2,
-          name: "Emma Johnson",
+          name: "Emma",
           verified: true,
           date: "hace 2 semanas",
           rating: 5,

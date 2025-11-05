@@ -98,7 +98,7 @@ export default function NewDateTimePicker({
       <div className="grid grid-cols-2 gap-3">
         {/* DATE PICKER */}
         <div className="relative bg-gray-100 rounded-lg px-4 py-3">
-          <label className="block text-[13px] font-medium text-gray-600 mb-1">
+          <label className="block text-[11px] sm:text-[13px] font-medium text-gray-600 mb-1">
             Pickup date
           </label>
 
@@ -113,16 +113,16 @@ export default function NewDateTimePicker({
               setTimeOpen(false)
             }}
           >
-            <Calendar size={18} className="text-gray-500" />
-            <div className="text-[15px] text-gray-800 font-medium">
+            <Calendar size={16} className="text-gray-500 sm:w-[18px] sm:h-[18px]" />
+            <div className="text-[13px] sm:text-[15px] text-gray-800 font-medium truncate">
               {selectedDate
-                ? format(new Date(selectedDate), "EEE, dd MMM yyyy")
+                ? format(new Date(selectedDate), "dd MMM yyyy")
                 : "Select date"}
             </div>
           </div>
 
           {dateOpen && (
-            <div className="absolute top-full left-0 mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-4 w-full min-w-[400px] max-h-96 overflow-hidden">
+            <div className="absolute top-full left-0 mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-3 sm:p-4 w-[280px] sm:w-[400px] max-h-96 overflow-hidden">
               <div className="flex items-center justify-between mb-3">
                 <button
                   type="button"
@@ -131,7 +131,7 @@ export default function NewDateTimePicker({
                 >
                   <ChevronRight className="h-5 w-5 rotate-180 text-gray-600" />
                 </button>
-                <span className="font-semibold text-lg">
+                <span className="font-semibold text-base sm:text-lg">
                   {format(currentMonth, "MMMM yyyy")}
                 </span>
                 <button
@@ -143,7 +143,7 @@ export default function NewDateTimePicker({
                 </button>
               </div>
 
-              <div className="grid grid-cols-7 text-center text-sm font-medium mb-2 text-gray-600">
+              <div className="grid grid-cols-7 text-center text-xs sm:text-sm font-medium mb-2 text-gray-600">
                 {daysOfWeek.map((day) => (
                   <div key={day} className="py-2">
                     {day}
@@ -165,7 +165,7 @@ export default function NewDateTimePicker({
                       key={idx}
                       onClick={() => !disabled && handleDateSelect(date)}
                       className={cn(
-                        "py-2 rounded-lg cursor-pointer transition-all border-2 border-transparent text-sm",
+                        "py-1.5 sm:py-2 rounded-lg cursor-pointer transition-all border-2 border-transparent text-xs sm:text-sm",
                         disabled
                           ? "text-gray-300 cursor-not-allowed"
                           : inactive
@@ -187,7 +187,7 @@ export default function NewDateTimePicker({
 
         {/* TIME PICKER */}
         <div className="relative bg-gray-100 rounded-lg px-4 py-3">
-          <label className="block text-[13px] font-medium text-gray-600 mb-1">
+          <label className="block text-[11px] sm:text-[13px] font-medium text-gray-600 mb-1">
             Pickup time
           </label>
 
@@ -202,68 +202,106 @@ export default function NewDateTimePicker({
               setDateOpen(false)
             }}
           >
-            <Clock size={18} className="text-gray-500" />
-            <div className="text-[15px] text-gray-800 font-medium">
+            <Clock size={16} className="text-gray-500 sm:w-[18px] sm:h-[18px]" />
+            <div className="text-[13px] sm:text-[15px] text-gray-800 font-medium truncate">
               {selectedTime ? formatTimeDisplay(selectedTime) : "Select time"}
             </div>
           </div>
 
-          {/* Custom Time Picker Popup */}
+          {/* Custom Time Picker Popup - RESPONSIVE */}
           {timeOpen && (
-            <div className="absolute top-full left-0 mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-5 w-full min-w-[300px]">
-              <div className="flex items-center justify-between gap-3 mb-4">
-                {/* Hour */}
-                <select
-                  className="p-2 border border-gray-300 rounded-lg text-gray-800 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
-                  value={hour ?? ""}
-                  onChange={(e) => setHour(Number(e.target.value))}
-                >
-                  <option value="">Hour</option>
-                  {[...Array(12)].map((_, i) => (
-                    <option key={i} value={i + 1}>
-                      {i + 1}
-                    </option>
-                  ))}
-                </select>
+            <div className="absolute top-full left-0 right-0 sm:left-0 sm:right-auto mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-4 sm:p-5 w-full sm:min-w-[320px]">
+              <h3 className="text-xs sm:text-sm font-semibold text-gray-700 mb-3 sm:mb-4 text-center">
+                Select Time
+              </h3>
 
-                {/* Minute */}
-                <select
-                  className="p-2 border border-gray-300 rounded-lg text-gray-800 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
-                  value={minute ?? ""}
-                  onChange={(e) => setMinute(Number(e.target.value))}
-                >
-                  <option value="">Min</option>
-                  {[...Array(60)].map((_, i) => (
-                    <option key={i} value={i}>
-                      {i.toString().padStart(2, "0")}
-                    </option>
-                  ))}
-                </select>
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4 sm:mb-5">
+                {/* Hour Column */}
+                <div className="flex flex-col">
+                  <label className="text-[10px] sm:text-xs font-medium text-gray-600 mb-1.5 sm:mb-2 text-center">
+                    Hour
+                  </label>
+                  <div className="border border-gray-300 rounded-lg overflow-hidden max-h-40 sm:max-h-48 overflow-y-auto">
+                    {[...Array(12)].map((_, i) => {
+                      const hourValue = i + 1;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          className={cn(
+                            "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
+                            hour === hourValue
+                              ? "bg-primary text-white"
+                              : "bg-white text-gray-700 hover:bg-gray-50"
+                          )}
+                          onClick={() => setHour(hourValue)}
+                        >
+                          {hourValue}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
-                {/* AM/PM */}
-                <div className="flex border border-gray-300 rounded-lg overflow-hidden">
-                  {["AM", "PM"].map((val) => (
-                    <button
-                      key={val}
-                      className={cn(
-                        "px-3 py-2 text-sm font-medium transition-colors",
-                        ampm === val
-                          ? "bg-primary text-white"
-                          : "bg-white text-gray-700 hover:bg-gray-100"
-                      )}
-                      onClick={() => setAmPm(val as "AM" | "PM")}
-                    >
-                      {val}
-                    </button>
-                  ))}
+                {/* Minute Column */}
+                <div className="flex flex-col">
+                  <label className="text-[10px] sm:text-xs font-medium text-gray-600 mb-1.5 sm:mb-2 text-center">
+                    Minute
+                  </label>
+                  <div className="border border-gray-300 rounded-lg overflow-hidden max-h-40 sm:max-h-48 overflow-y-auto">
+                    {[...Array(60)].map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        className={cn(
+                          "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
+                          minute === i
+                            ? "bg-primary text-white"
+                            : "bg-white text-gray-700 hover:bg-gray-50"
+                        )}
+                        onClick={() => setMinute(i)}
+                      >
+                        {i.toString().padStart(2, "0")}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* AM/PM Column */}
+                <div className="flex flex-col">
+                  <label className="text-[10px] sm:text-xs font-medium text-gray-600 mb-1.5 sm:mb-2 text-center">
+                    Period
+                  </label>
+                  <div className="border border-gray-300 rounded-lg overflow-hidden">
+                    {["AM", "PM"].map((val) => (
+                      <button
+                        key={val}
+                        type="button"
+                        className={cn(
+                          "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
+                          ampm === val
+                            ? "bg-primary text-white"
+                            : "bg-white text-gray-700 hover:bg-gray-50"
+                        )}
+                        onClick={() => setAmPm(val as "AM" | "PM")}
+                      >
+                        {val}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
-
               {/* Save Button */}
               <div className="flex justify-end">
                 <button
                   onClick={handleSaveTime}
-                  className="bg-primary text-white text-sm font-medium py-2 px-5 rounded-lg hover:bg-primary/90 transition-all focus:ring-2 focus:ring-primary/30"
+                  disabled={hour === null || minute === null}
+                  className={cn(
+                    "text-white text-xs sm:text-sm font-medium py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg transition-all focus:ring-2 focus:ring-primary/30",
+                    hour === null || minute === null
+                      ? "bg-gray-300 cursor-not-allowed"
+                      : "bg-primary hover:bg-primary/90"
+                  )}
                 >
                   Save Time
                 </button>

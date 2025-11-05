@@ -40,12 +40,19 @@ export default function NewDropdownInput({
 
   const error =
     !Array.isArray(formData[fieldName]) && formData[fieldName]?.error
+  // Filtered options (no fractional hours)
+  const filtered = options
+    .filter(
+      (opt) =>
+        opt.label.toLowerCase().includes(search.toLowerCase()) ||
+        opt.value.toLowerCase().includes(search.toLowerCase())
+    )
+    .filter((opt) => {
+      // Remove fractional hours like 1.5, 2.5, etc.
+      const num = parseFloat(opt.value)
+      return Number.isInteger(num)
+    })
 
-  const filtered = options.filter(
-    (opt) =>
-      opt.label.toLowerCase().includes(search.toLowerCase()) ||
-      opt.value.toLowerCase().includes(search.toLowerCase())
-  )
 
   // Default: select "1 Hour" if exists
   useEffect(() => {
