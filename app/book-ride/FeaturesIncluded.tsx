@@ -5,7 +5,6 @@ import { Check } from "lucide-react";
 
 export default function FeaturesIncluded() {
     const features = [
-        "Free waiting time",
         "Door-to-door service",
         "Meet & Greet",
         "Private transfer",
@@ -29,7 +28,7 @@ export default function FeaturesIncluded() {
                 {features.map((feature, index) => (
                     <div key={index} className="flex items-start gap-3">
                         {/* Check Icon */}
-                        <div className="flex-shrink-0 mt-0.5">
+                        <div className="shrink-0 mt-0.5">
                             <div
                                 className="w-5 h-5 rounded-full flex items-center justify-center"
                                 style={{ backgroundColor: brandColor }}

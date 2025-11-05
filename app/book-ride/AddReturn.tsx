@@ -19,7 +19,7 @@ export default function AddReturn() {
 
   return (
     <div
-      className={`p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full relative rounded-lg transition-all duration-300 ${isReturn ? "bg-green-50 border border-green-200" : "bg-primary/10 border border-primary/20"
+      className={`p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full relative rounded-lg transition-all duration-300 ${isReturn ? "bg-green-50 border border-green-200" : "bg-primary/2 border border-primary/20"
         }`}
     >
       {/* Discount badge - Right Side */}
@@ -33,10 +33,10 @@ export default function AddReturn() {
       <div className="flex gap-4 items-start w-full sm:w-auto">
         {/* Icon */}
         <div
-          className={`shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${isReturn ? "bg-green-500" : "bg-primary"
+          className={`shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${isReturn ? "bg-green-500" : "bg-primary/5"
             }`}
         >
-          <ArrowRightLeft size={18} className="text-white sm:w-5 sm:h-5" />
+          <ArrowRightLeft size={18} className="text-primary sm:w-5 sm:h-5" />
         </div>
 
         {/* Content */}
@@ -52,29 +52,12 @@ export default function AddReturn() {
               </>
             ) : (
               <>
-                Add return trip from <span className="font-medium">{to}</span> to <span className="font-medium">{from}</span>
-              </>
-            )}
-          </div>
-
-          {/* Price Display */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <div className="flex items-center gap-2">
-              {!isReturn && (
-                <span className="text-xs sm:text-sm text-gray-500 line-through">
-                  €{originalPrice}
-                </span>
-              )}
-              <span className={`font-bold text-base sm:text-lg ${isReturn ? "text-green-600" : "text-primary"
-                }`}>
-                €{formattedPrice}
-              </span>
-            </div>
-
-            {!isReturn && (
-              <span className="text-sm bg-primary/10 text-red-500 font-bold px-2 py-1 rounded">
-                Save €{savings}
-              </span>
+                  Add return trip from <span className="font-medium">{to}</span> to <span className="font-medium">{from}</span>  {!isReturn && (
+                    <span className="text-sm text-red-500 font-bold px-2 rounded">
+                      Save €{savings}
+                    </span>
+                  )}
+                </>
             )}
           </div>
         </div>

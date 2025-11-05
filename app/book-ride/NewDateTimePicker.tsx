@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useState } from "react"
 import {
   format,
   addMonths,
@@ -45,16 +45,16 @@ export default function NewDateTimePicker({
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [dateOpen, setDateOpen] = useState(false)
   const [timeOpen, setTimeOpen] = useState(false)
+  const [hour, setHour] = useState<number | null>(null)
+  const [minute, setMinute] = useState<number | null>(null)
+  const [ampm, setAmPm] = useState<"AM" | "PM">("AM")
   const { formData } = useFormStore()
-  const timeInputRef = useRef<HTMLInputElement | null>(null)
 
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
-  // Calendar days generator
   const getCalendarDays = () => {
     const startOfCurrentMonth = startOfMonth(currentMonth)
     const startDayOfWeek = (getDay(startOfCurrentMonth) + 6) % 7
-
     const startDate = new Date(startOfCurrentMonth)
     startDate.setDate(startOfCurrentMonth.getDate() - startDayOfWeek)
 
@@ -72,30 +72,40 @@ export default function NewDateTimePicker({
     setDateOpen(false)
   }
 
-  const handleTimeSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(timeFieldName, e.target.value)
-    setTimeOpen(false)
+  const handleSaveTime = () => {
+    if (hour !== null && minute !== null) {
+      let hours24 = ampm === "PM" && hour < 12 ? hour + 12 : hour
+      if (ampm === "AM" && hour === 12) hours24 = 0
+      const timeStr = `${hours24.toString().padStart(2, "0")}:${minute
+        .toString()
+        .padStart(2, "0")}`
+      setFormData(timeFieldName, timeStr)
+      setTimeOpen(false)
+    }
   }
 
   const formatTimeDisplay = (time: string) => {
     if (!time) return ""
-    const [hours, minutes] = time.split(':')
+    const [hours, minutes] = time.split(":")
     const hour = parseInt(hours)
-    const ampm = hour >= 12 ? 'PM' : 'AM'
+    const ampm = hour >= 12 ? "PM" : "AM"
     const displayHour = hour % 12 || 12
     return `${displayHour}:${minutes} ${ampm}`
   }
 
   return (
     <div className="w-full">
-      {/* Date and Time Inputs - Separate */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {/* Date Picker */}
-        <div className="relative">
+      <div className="grid grid-cols-2 gap-3">
+        {/* DATE PICKER */}
+        <div className="relative bg-gray-100 rounded-lg px-4 py-3">
+          <label className="block text-[13px] font-medium text-gray-600 mb-1">
+            Pickup date
+          </label>
+
           <div
             className={cn(
-              "p-3 rounded-lg w-full border text-sm flex items-center gap-3 bg-white hover:border-gray-400 transition-colors border-gray-300",
-              isDisable ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+              "flex items-center gap-2 cursor-pointer bg-transparent",
+              isDisable ? "opacity-50 cursor-not-allowed" : ""
             )}
             onClick={() => {
               if (isDisable) return
@@ -103,18 +113,16 @@ export default function NewDateTimePicker({
               setTimeOpen(false)
             }}
           >
-            <Calendar size={20} className="text-gray-500" />
-            <div className="flex-1">
-              <div className="font-medium text-gray-900">
-                {selectedDate ? format(new Date(selectedDate), "EEE, dd MMM. yyyy") : "Select date"}
-              </div>
+            <Calendar size={18} className="text-gray-500" />
+            <div className="text-[15px] text-gray-800 font-medium">
+              {selectedDate
+                ? format(new Date(selectedDate), "EEE, dd MMM yyyy")
+                : "Select date"}
             </div>
           </div>
 
-          {/* Date Calendar Popup - Compact Height */}
           {dateOpen && (
             <div className="absolute top-full left-0 mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-4 w-full min-w-[400px] max-h-96 overflow-hidden">
-              {/* Header */}
               <div className="flex items-center justify-between mb-3">
                 <button
                   type="button"
@@ -123,7 +131,9 @@ export default function NewDateTimePicker({
                 >
                   <ChevronRight className="h-5 w-5 rotate-180 text-gray-600" />
                 </button>
-                <span className="font-semibold text-lg">{format(currentMonth, "MMMM yyyy")}</span>
+                <span className="font-semibold text-lg">
+                  {format(currentMonth, "MMMM yyyy")}
+                </span>
                 <button
                   type="button"
                   onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
@@ -133,7 +143,6 @@ export default function NewDateTimePicker({
                 </button>
               </div>
 
-              {/* Days of week */}
               <div className="grid grid-cols-7 text-center text-sm font-medium mb-2 text-gray-600">
                 {daysOfWeek.map((day) => (
                   <div key={day} className="py-2">
@@ -142,7 +151,6 @@ export default function NewDateTimePicker({
                 ))}
               </div>
 
-              {/* Calendar Days - Compact */}
               <div className="grid grid-cols-7 text-center text-sm gap-1">
                 {getCalendarDays().map((date, idx) => {
                   const inactive = date.getMonth() !== currentMonth.getMonth()
@@ -162,9 +170,9 @@ export default function NewDateTimePicker({
                           ? "text-gray-300 cursor-not-allowed"
                           : inactive
                             ? "text-gray-400"
-                            : "hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200",
+                            : "hover:bg-primary/10 hover:text-primary",
                         isSelected
-                          ? "bg-blue-600 text-white border-blue-600 font-semibold hover:bg-blue-700"
+                          ? "bg-primary text-white border-primary font-semibold hover:bg-primary/90"
                           : ""
                       )}
                     >
@@ -177,70 +185,91 @@ export default function NewDateTimePicker({
           )}
         </div>
 
-        {/* Time Picker */}
-        <div className="relative">
+        {/* TIME PICKER */}
+        <div className="relative bg-gray-100 rounded-lg px-4 py-3">
+          <label className="block text-[13px] font-medium text-gray-600 mb-1">
+            Pickup time
+          </label>
+
           <div
             className={cn(
-              "p-3 rounded-lg w-full border text-sm flex items-center gap-3 bg-white hover:border-gray-400 transition-colors border-gray-300",
-              isDisable ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+              "flex items-center gap-2 cursor-pointer bg-transparent",
+              isDisable ? "opacity-50 cursor-not-allowed" : ""
             )}
             onClick={() => {
               if (isDisable) return
               setTimeOpen((prev) => !prev)
               setDateOpen(false)
-              setTimeout(() => {
-                timeInputRef.current?.showPicker?.()
-              }, 100)
             }}
           >
-            <Clock size={20} className="text-gray-500" />
-            <div className="flex-1">
-              <div className="font-medium text-gray-900">
-                {selectedTime ? formatTimeDisplay(selectedTime) : "Select time"}
-              </div>
+            <Clock size={18} className="text-gray-500" />
+            <div className="text-[15px] text-gray-800 font-medium">
+              {selectedTime ? formatTimeDisplay(selectedTime) : "Select time"}
             </div>
           </div>
 
-          {/* Time Input (Hidden but functional) */}
-          <input
-            type="time"
-            ref={timeInputRef}
-            className="absolute opacity-0 pointer-events-none d-none"
-            value={selectedTime || ""}
-            onChange={handleTimeSelect}
-          />
+          {/* Custom Time Picker Popup */}
+          {timeOpen && (
+            <div className="absolute top-full left-0 mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-5 w-full min-w-[300px]">
+              <div className="flex items-center justify-between gap-3 mb-4">
+                {/* Hour */}
+                <select
+                  className="p-2 border border-gray-300 rounded-lg text-gray-800 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
+                  value={hour ?? ""}
+                  onChange={(e) => setHour(Number(e.target.value))}
+                >
+                  <option value="">Hour</option>
+                  {[...Array(12)].map((_, i) => (
+                    <option key={i} value={i + 1}>
+                      {i + 1}
+                    </option>
+                  ))}
+                </select>
 
-          {/* Custom Time Picker Popup - Compact */}
-          {/* {timeOpen && (
-            <div className="absolute top-full left-0 mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-4 w-full max-w-80 max-h-64 overflow-y-auto">
-              <div className="space-y-2">
-                {Array.from({ length: 24 * 4 }, (_, i) => {
-                  const hour = Math.floor(i / 4)
-                  const minute = (i % 4) * 15
-                  const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
-                  const displayTime = formatTimeDisplay(timeString)
+                {/* Minute */}
+                <select
+                  className="p-2 border border-gray-300 rounded-lg text-gray-800 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
+                  value={minute ?? ""}
+                  onChange={(e) => setMinute(Number(e.target.value))}
+                >
+                  <option value="">Min</option>
+                  {[...Array(60)].map((_, i) => (
+                    <option key={i} value={i}>
+                      {i.toString().padStart(2, "0")}
+                    </option>
+                  ))}
+                </select>
 
-                  return (
-                    <div
-                      key={timeString}
-                      onClick={() => {
-                        setFormData(timeFieldName, timeString)
-                        setTimeOpen(false)
-                      }}
+                {/* AM/PM */}
+                <div className="flex border border-gray-300 rounded-lg overflow-hidden">
+                  {["AM", "PM"].map((val) => (
+                    <button
+                      key={val}
                       className={cn(
-                        "p-2 rounded-lg cursor-pointer transition-all text-center text-sm",
-                        selectedTime === timeString
-                          ? "bg-blue-600 text-white font-semibold"
-                          : "hover:bg-gray-100"
+                        "px-3 py-2 text-sm font-medium transition-colors",
+                        ampm === val
+                          ? "bg-primary text-white"
+                          : "bg-white text-gray-700 hover:bg-gray-100"
                       )}
+                      onClick={() => setAmPm(val as "AM" | "PM")}
                     >
-                      {displayTime}
-                    </div>
-                  )
-                })}
+                      {val}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Save Button */}
+              <div className="flex justify-end">
+                <button
+                  onClick={handleSaveTime}
+                  className="bg-primary text-white text-sm font-medium py-2 px-5 rounded-lg hover:bg-primary/90 transition-all focus:ring-2 focus:ring-primary/30"
+                >
+                  Save Time
+                </button>
               </div>
             </div>
-          )} */}
+          )}
         </div>
       </div>
     </div>

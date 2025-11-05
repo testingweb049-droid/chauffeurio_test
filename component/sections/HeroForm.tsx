@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import useFormStore from '@/stores/FormStore'
-import { Loader, TimerIcon, Plus, X, Users, LuggageIcon } from 'lucide-react'
+import { Loader, TimerIcon, Users, LuggageIcon, Search } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import LocationInput from './LocationPicker'
 import NewDropdownInput from './DropDownInput'
@@ -20,34 +20,29 @@ function Counter({
   const decrement = () => value > 0 && onChange(value - 1)
 
   return (
-    <div className="flex flex-col w-full mt-3">
-      {/* Label */}
-      <label className="text-sm font-medium text-gray-700 flex items-center gap-2 mb-1.5">
-        {label === 'Passengers' ? (
-          <Users size={18} className="text-gray-600" />
-        ) : (
-          <LuggageIcon size={18} className="text-gray-600" />
-        )}
+    <div className="flex flex-col w-full bg-gray-100 rounded-xl px-4 py-3">
+      {/* Label inside field */}
+      <label className="text-[13px] font-medium text-gray-600 mb-1">
         {label}
       </label>
 
-      {/* Field */}
-      <div className="flex items-center justify-between border border-gray-300 rounded-lg px-3 py-2 bg-white">
+      {/* Counter field */}
+      <div className="flex items-center justify-between">
         {/* Value */}
-        <span className="text-base font-semibold text-gray-800">{value}</span>
+        <span className="text-[15px] font-semibold text-gray-800">{value}</span>
 
         {/* Buttons */}
         <div className="flex items-center gap-2">
           <button
             onClick={decrement}
             disabled={value === 0}
-            className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary/80 text-white hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             -
           </button>
           <button
             onClick={increment}
-            className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary/80 text-white hover:bg-gray-200 transition-colors"
           >
             +
           </button>
@@ -59,19 +54,33 @@ function Counter({
 
 
 function HeroForm() {
-  const { category, changeCategory, formError, formLoading, changeStep, formData, manageStops, isOrderDone, step, resetForm, setFormData } = useFormStore()
+  const {
+    category,
+    changeCategory,
+    formError,
+    formLoading,
+    changeStep,
+    formData,
+    isOrderDone,
+    step,
+    resetForm,
+    setFormData,
+  } = useFormStore()
+
   const router = useRouter()
 
   const durationArray = Array.from({ length: 48 }, (_, i) => {
     const hours = (i + 1) / 2
-    const label = hours === 0.5 ? '0.5 Hour' : `${hours} ${hours === 1 ? 'Hour' : 'Hours'}`
+    const label =
+      hours === 0.5 ? '0.5 Hour' : `${hours} ${hours === 1 ? 'Hour' : 'Hours'}`
     return { label, value: hours.toString() }
   })
 
-  // Free counters for Passengers & Bags
-  const [passengers, setPassengers] = useState(Number(formData.passengers.value) || 1)
+  const [passengers, setPassengers] = useState(
+    Number(formData.passengers.value) || 1
+  )
   const [bags, setBags] = useState(Number(formData.bags.value) || 0)
-  const [dateTimeError, setDateTimeError] = useState('') // State for date/time validation
+  const [dateTimeError, setDateTimeError] = useState('')
 
   useEffect(() => {
     if (isOrderDone) resetForm()
@@ -83,13 +92,11 @@ function HeroForm() {
   }, [passengers, bags, setFormData])
 
   const handleQuoteNow = async () => {
-    // Validate date and time
     if (!formData.date.value || !formData.time.value) {
       setDateTimeError('Please select both date and time')
       return
     }
 
-    // Clear error if validation passes
     setDateTimeError('')
 
     const isOk = await changeStep(true, 1)
@@ -99,109 +106,96 @@ function HeroForm() {
   }
 
   return (
-    <div className='flex flex-col gap-3 sm:gap-5 w-full max-w-screen-sm'>
+    <div className="flex flex-col gap-2 w-full max-w-screen-sm">
       {/* Category Selector */}
-      <div className='grid grid-cols-3 lg:grid-cols-2 gap-5 max-lg:px-3'>
-        <div onClick={() => changeCategory('trip')} className={`p-2 w-full text-center font-semibold rounded-3xl cursor-pointer ${category === 'trip' ? 'bg-primary text-white' : 'bg-white text-primary'}`}>Trip</div>
-        <div onClick={() => changeCategory('hourly')} className={`p-2 w-full text-center font-semibold rounded-3xl cursor-pointer ${category === 'hourly' ? 'bg-primary text-white' : 'bg-white text-primary'}`}>Hourly</div>
+      <div className="grid grid-cols-3 lg:grid-cols-2 gap-5 max-lg:px-3">
+        <div
+          onClick={() => changeCategory('trip')}
+          className={`p-2 w-full text-center font-semibold rounded-lg cursor-pointer ${category === 'trip'
+            ? 'bg-primary text-white'
+            : 'bg-white text-primary'
+            }`}
+        >
+          Trip
+        </div>
+        <div
+          onClick={() => changeCategory('hourly')}
+          className={`p-2 w-full text-center font-semibold rounded-lg cursor-pointer ${category === 'hourly'
+            ? 'bg-primary text-white'
+            : 'bg-white text-primary'
+            }`}
+        >
+          Hourly
+        </div>
       </div>
 
-      <div className='max-lg:px-3 max-lg:py-5 sm:p-5 rounded-2xl bg-white flex flex-col gap-5 border border-gray-300'>
-        <div className='flex gap-3 items-start'>
-          {/* Left: Inputs */}
-          <div className='flex flex-col gap-4 lg:gap-5 w-full'>
-            <LocationInput field="fromLocation" placeholder="Pickup Location" label='Start' />
+      <div className="max-lg:px-3 max-lg:py-5 sm:p-5 rounded-lg bg-white flex flex-col gap-5 border border-gray-300 mx-3 lg:mx-0">
+        {/* Main Fields */}
+        <div className="flex flex-col gap-4 lg:gap-5 w-full">
+          <LocationInput
+            field="fromLocation"
+            placeholder="Pickup Location"
+            label="Start"
+          />
 
-            {category !== 'hourly' && formData.stops.map((_, i) => (
-              <LocationInput
-                key={i}
-                field={`stops`}
-                label={`Stop ${i + 1}`}
-                index={i}
-                isStop
-                placeholder={`Stop ${i + 1}`}
-                onRemoveStop={() => manageStops('remove', i)}
-                onAddStop={() => manageStops('add', i)}
-                showAddButton
-              />
-            ))}
-
-            {category !== 'hourly' && <LocationInput field="toLocation" placeholder="Drop Off Location" label='End' />}
-            {category === 'hourly' && <NewDropdownInput Icon={TimerIcon} fieldName='duration' placeholder='Duration in Hours' options={durationArray} showLabel={false} />}
-
-            {/* DateTime Picker */}
-            <NewDateTimePicker
-              selectedDate={formData.date.value}
-              selectedTime={formData.time.value}
-              setFormData={setFormData}
-              dateFieldName="date"
-              timeFieldName="time"
-              placeholder='Select Date & Time'
-              isDisable={false}
+          {category !== 'hourly' && (
+            <LocationInput
+              field="toLocation"
+              placeholder="Drop Off Location"
+              label="End"
             />
+          )}
 
-            {/* Date Time Error Message */}
-            {dateTimeError && (
-              <div className='text-sm text-red-500 -mt-2'>{dateTimeError}</div>
-            )}
+          {category === 'hourly' && (
+            <NewDropdownInput
+              Icon={TimerIcon}
+              fieldName="duration"
+              placeholder="Duration in Hours"
+              options={durationArray}
+            />
+          )}
 
-            {/* Passengers & Bags counters - Single Column Layout */}
-            <div className="mt-2">
-              <Counter label="Passengers" value={passengers} onChange={setPassengers} />
-              <Counter label="Bags" value={bags} onChange={setBags} />
-            </div>
+          <NewDateTimePicker
+            selectedDate={formData.date.value}
+            selectedTime={formData.time.value}
+            setFormData={setFormData}
+            dateFieldName="date"
+            timeFieldName="time"
+            placeholder="Select Date & Time"
+            isDisable={false}
+          />
+
+          {dateTimeError && (
+            <div className="text-sm text-red-500 -mt-2">{dateTimeError}</div>
+          )}
+          {/* Passengers & Bags — Side by Side */}
+          <div className="grid grid-cols-2 gap-3 mt-2">
+            <Counter label="Passengers" value={passengers} onChange={setPassengers} />
+            <Counter label="Bags" value={bags} onChange={setBags} />
           </div>
 
-          {/* Right: Stops Visual */}
-          <div className={`w-1 flex flex-col items-center pt-[38px] ${category === 'trip' ? 'flex' : 'hidden'}`}>
-            {(() => {
-              const locationsCount = 2 + (formData.stops?.length ?? 0)
-              const nodes: React.ReactNode[] = []
-
-              for (let i = 0; i < locationsCount; i++) {
-                const isStart = i === 0
-                const isEnd = i === locationsCount - 1
-                const stopIndex = i - 1
-
-                nodes.push(
-                  <div key={`marker-${i}`} className="relative flex items-center justify-center">
-                    <div className={`relative rounded-full bg-white z-10 flex items-center justify-center ${isStart || isEnd ? 'border-gray-700 w-4 h-4' : 'border-2 border-gray-600 w-4 h-4'}`}>
-                      {!isStart && !isEnd && (
-                        <button onClick={() => manageStops('remove', stopIndex)} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gray-600 hover:text-red-500 cursor-pointer" title="Remove stop" aria-label={`Remove stop ${stopIndex + 1}`}>
-                          <X size={12} />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                )
-
-                if (!isEnd) {
-                  nodes.push(
-                    <div key={`between-${i}`} className="flex flex-col items-center">
-                      <div className="w-px h-[18.5px] sm:h-[25px] border-l-[3px] border-dotted border-gray-300" />
-                      <button onClick={() => manageStops('add', i)} className="relative mt-1 mb-1 rounded-full border border-gray-400 w-6 h-6 flex items-center justify-center hover:bg-gray-100 cursor-pointer" title="Add stop" aria-label={`Add stop between ${i} and ${i + 1}`}>
-                        <Plus size={14} />
-                      </button>
-                      <div className="w-px h-[18.5px] sm:h-[25px] border-l-[3px] border-dotted border-gray-300" />
-                    </div>
-                  )
-                }
-              }
-
-              return nodes
-            })()}
-          </div>
         </div>
 
-        {formError && <div className='text-sm text-red-500'>{formError}</div>}
+        {formError && <div className="text-sm text-red-500">{formError}</div>}
 
         <div
           onClick={handleQuoteNow}
-          className={`flex items-center justify-center gap-2 w-full p-2 rounded-lg cursor-pointer font-semibold ${formLoading ? 'bg-blue-500 text-white' : 'bg-primary text-white'}`}
+          className={`flex items-center justify-center gap-2 w-full p-3 rounded-lg cursor-pointer font-semibold transition-colors ${formLoading ? 'bg-primary/70 text-white' : 'bg-primary text-white hover:bg-primary/90'
+            }`}
         >
-          <Loader className={`animate-spin ${formLoading ? '' : 'hidden'}`} size={20} />
-          {formLoading ? 'Loading' : 'Quote Now'}
+          {formLoading ? (
+            <>
+              <Loader className="animate-spin" size={20} />
+              Loading...
+            </>
+          ) : (
+            <>
+              <Search size={20} className="text-white" />
+              See Prices
+            </>
+          )}
         </div>
+
       </div>
     </div>
   )
