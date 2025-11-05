@@ -21,7 +21,6 @@ interface CustomDropdownProps {
   fieldName: keyof FormDataType
   placeholder: string
   options: DropdownOption[]
-  showLabel?: boolean // new optional prop to control label visibility
 }
 
 export default function NewDropdownInput({
@@ -29,7 +28,6 @@ export default function NewDropdownInput({
   fieldName,
   placeholder,
   options,
-  showLabel = true, // default true
 }: CustomDropdownProps) {
   const { formData, setFormData } = useFormStore()
   const [open, setOpen] = useState(false)
@@ -49,6 +47,19 @@ export default function NewDropdownInput({
       opt.value.toLowerCase().includes(search.toLowerCase())
   )
 
+  // Default: select "1 Hour" if exists
+  useEffect(() => {
+    if (!value && options.length > 0) {
+      const defaultOpt =
+        options.find(
+          (opt) =>
+            opt.label.toLowerCase().includes("1 hour") ||
+            opt.value === "1"
+        ) || options[0]
+      setFormData(fieldName, defaultOpt.value)
+    }
+  }, [value, options, fieldName, setFormData])
+
   const handleSelect = (val: string) => {
     setFormData(fieldName, val)
     setOpen(false)
@@ -59,44 +70,46 @@ export default function NewDropdownInput({
   }, [open])
 
   return (
-    <div className="flex flex-col gap-1">
-      {showLabel && (
-        <label htmlFor={fieldName as string} className="text-sm font-bold">
-          {placeholder}
-        </label>
-      )}
+    <div className="w-full rounded-lg bg-gray-100 px-4 py-2">
+      {/* Label inside box like LocationInput */}
+      <label className="block text-[13px] font-medium text-gray-600 mb-1">
+        {placeholder}
+      </label>
 
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <button
             type="button"
             className={cn(
-              "w-full justify-between text-left p-2 rounded-md border text-sm flex items-center gap-2 bg-white text-black",
-              error ? "border-red-500" : "border-gray-300"
+              "w-full flex items-center gap-2 text-[15px] font-medium bg-transparent text-gray-800 rounded-lg py-1.5 focus:outline-none",
+              error ? "text-red-600" : ""
             )}
           >
-            <Icon color="gray" className="shrink-0" />
-            <span className="flex-1 truncate">
+            <Icon className="text-gray-500" size={18} />
+            <span className="flex-1 truncate text-left">
               {value
                 ? options.find((opt) => opt.value === value)?.label
                 : placeholder}
             </span>
-            <ChevronDown className="h-4 w-4 opacity-50" />
+            <ChevronDown className="h-4 w-4 text-gray-500" />
           </button>
         </PopoverTrigger>
 
+        {/* Dropdown list */}
         <PopoverContent
-          className="w-[var(--radix-popover-trigger-width)] p-0 bg-white border border-gray-200 shadow-lg rounded-md z-[9999] !opacity-100 !bg-opacity-100 backdrop-blur-none text-primary"
-          sideOffset={4}
+          className="w-(--radix-popover-trigger-width) p-0 bg-white border border-gray-200 shadow-xl rounded-xl z-9999"
+          sideOffset={6}
         >
           <Command shouldFilter={false}>
             <CommandInput
               placeholder="Search..."
               value={search}
               onValueChange={setSearch}
-              className="text-primary placeholder:text-gray-400"
+              className="border-b border-gray-100 px-3 py-2 text-[14px] text-gray-800 placeholder:text-gray-400 focus:ring-0"
             />
-            <CommandEmpty className="text-gray-400">No results found.</CommandEmpty>
+            <CommandEmpty className="text-gray-400 px-3 py-2">
+              No results found.
+            </CommandEmpty>
             <CommandGroup>
               <ScrollArea className="max-h-56 overflow-y-auto">
                 <div className="py-1">
@@ -105,11 +118,16 @@ export default function NewDropdownInput({
                       key={opt.value}
                       value={opt.value}
                       onSelect={() => handleSelect(opt.value)}
-                      className="flex items-center justify-between px-2 py-2 cursor-pointer text-primary hover:bg-[#FFF4E5]"
+                      className={cn(
+                        "flex items-center justify-between px-3 py-2 text-[14px] rounded-md transition-colors",
+                        value === opt.value
+                          ? "bg-primary text-white font-medium"
+                          : "text-gray-700 hover:bg-primary/10 hover:text-primary"
+                      )}
                     >
                       <span>{opt.label}</span>
                       {value === opt.value && (
-                        <Check className="h-4 w-4 text-primary" />
+                        <Check className="h-4 w-4 text-white" />
                       )}
                     </CommandItem>
                   ))}
@@ -119,6 +137,11 @@ export default function NewDropdownInput({
           </Command>
         </PopoverContent>
       </Popover>
+
+      {/* Optional error message */}
+      {error && (
+        <p className="text-xs text-red-500 mt-1">{formData[fieldName]?.error}</p>
+      )}
     </div>
   )
 }

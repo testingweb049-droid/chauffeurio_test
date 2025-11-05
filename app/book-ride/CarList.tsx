@@ -186,13 +186,6 @@ function CarList() {
 
   return (
     <div className="w-full flex flex-col gap-4 overflow-x-hidden">
-      {/* Show selected passengers and bags info */}
-      {/* <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-2">
-        <div className="text-sm text-blue-800 text-center">
-          Showing vehicles for <span className="font-semibold">{passengers} passengers</span> and <span className="font-semibold">{bags} bags</span>
-        </div>
-      </div> */}
-
       {filteredFleets.map((categoryData) => {
         const priceData = calculatePrice(categoryData);
         const originalPrice = priceData.original.toFixed(2);
@@ -219,7 +212,7 @@ function CarList() {
                   badge.textColor
                 )}
               >
-                {BadgeIcon && <BadgeIcon size={12} className="md:w-[14px] md:h-[14px]" />}
+                {BadgeIcon && <BadgeIcon size={12} className="md:w-3.5 md:h-3.5" />}
                 <span className="text-[10px] md:text-xs">{badge.text}</span>
               </div>
             )}
@@ -227,7 +220,7 @@ function CarList() {
             {/* --- Mobile Layout --- */}
             <div className="md:hidden flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-24 h-20 relative flex-shrink-0 overflow-hidden rounded-md">
+                <div className="w-24 h-20 relative shrink-0 overflow-hidden rounded-md">
                   <Image
                     src={categoryData.imageUrl}
                     alt={categoryData.displayName}

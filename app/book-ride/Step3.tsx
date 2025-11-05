@@ -65,32 +65,30 @@ function ExtraCounter({
 function Step3() {
     const { formData, setFormData } = useFormStore();
 
-    // Local state
     const [childSeat, setChildSeat] = useState(Number(formData.childSeat.value) || 0);
     const [infantSeat, setInfantSeat] = useState(Number(formData.infantSeat.value) || 0);
     const [boosterSeat, setBoosterSeat] = useState(Number(formData.boosterSeat.value) || 0);
+    const [extraStops, setExtraStops] = useState(Number(formData.extraStops?.value || 0))
     const [showPayment, setShowPayment] = useState(false);
-
-    const [isAirportPickupOpen, setIsAirportPickupOpen] = useState(Boolean(formData.isAirportPickup.value));
     const [isInstructionsOpen, setIsInstructionsOpen] = useState(Boolean(formData.description.value));
     const [errors, setErrors] = useState<Record<string, string>>({});
 
-    const hasExtras = childSeat > 0 || infantSeat > 0 || boosterSeat > 0;
-    const hasInstructions = Boolean(formData.description.value);
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
-
         if (!formData.name.value) newErrors.name = "Full name is required.";
         if (!formData.email.value) newErrors.email = "Email is required.";
         if (!formData.phone.value) newErrors.phone = "Phone number is required.";
-
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     const calculateTotalPrice = () => {
         const basePrice = parseFloat(formData.price?.value || "0");
-        const extrasPrice = (childSeat * 5) + (infantSeat * 5) + (boosterSeat * 5);
+        const extrasPrice =
+            (childSeat * 5) +
+            (infantSeat * 5) +
+            (boosterSeat * 5) +
+            (extraStops * 5);
         const isReturn = Boolean(formData.isReturn.value);
         const returnPrice = isReturn ? basePrice - (basePrice / 10) : 0;
         const meetGreetPrice = formData.isMeetGreet.value ? 15 : 0;
@@ -104,11 +102,8 @@ function Step3() {
         setFormData('childSeat', childSeat.toString());
         setFormData('infantSeat', infantSeat.toString());
         setFormData('boosterSeat', boosterSeat.toString());
-    }, [childSeat, infantSeat, boosterSeat, setFormData]);
-
-    React.useEffect(() => {
-        setFormData('isAirportPickup', isAirportPickupOpen.toString());
-    }, [isAirportPickupOpen, setFormData]);
+        setFormData('extraStops', extraStops.toString());
+    }, [childSeat, infantSeat, boosterSeat, extraStops, setFormData]);
 
     const handleInstructionsChange = (value: string) => {
         setFormData('description', value);
@@ -149,43 +144,50 @@ function Step3() {
                 </div>
 
                 {/* Phone */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div data-error={!!errors.phone}>
-                        <PhoneInput />
-                        {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
-                    </div>
+                <div className="w-full" data-error={!!errors.phone}>
+                    <PhoneInput />
+                    {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                 </div>
 
                 <AddReturn />
-
-                {formData.isReturn.value && (
-                    <div className="p-4 border border-primary/60 rounded-lg">
-                        <h4 className="font-semibold text-gray-900 mb-3">Return Trip Details</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Return Date</label>
-                                <input
-                                    type="date"
-                                    value={formData.returnDate.value}
-                                    onChange={(e) => setFormData('returnDate', e.target.value)}
-                                    min={formData.date.value}
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Return Time</label>
-                                <input
-                                    type="time"
-                                    value={formData.returnTime.value}
-                                    onChange={(e) => setFormData('returnTime', e.target.value)}
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                />
+                {
+                    formData.isReturn.value && (
+                        <div className="p-4 border border-primary/60 rounded-lg">
+                            <h4 className="font-semibold text-gray-900 mb-3">Return Trip Details</h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Return Date</label>
+                                    <input
+                                        type="date"
+                                        value={formData.returnDate.value}
+                                        onChange={(e) => setFormData('returnDate', e.target.value)}
+                                        min={formData.date.value}
+                                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Return Time</label>
+                                    <input
+                                        type="time"
+                                        value={formData.returnTime.value}
+                                        onChange={(e) => setFormData('returnTime', e.target.value)}
+                                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    />
+                                </div>
                             </div>
                         </div>
+                    )
+                }
+
+                <div className="">
+                    <h4 className="font-semibold text-gray-900 mb-3">Airport Pickup</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
+                        <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
                     </div>
-                )}
-                {/* Equipment & Extras - Always Show (No Toggle) */}
-                <div className="p-4 border border-primary/60 rounded-lg w-full">
+                </div>
+                {/* Equipment & Extras */}
+                <div className="w-full">
                     <div className="font-semibold text-gray-900 mb-4">Equipment & Extras</div>
                     <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
                         <div className="px-4">
@@ -197,35 +199,14 @@ function Step3() {
                         <div className="px-4">
                             <ExtraCounter label="Booster Seat" price={5.00} value={boosterSeat} onChange={setBoosterSeat} />
                         </div>
-                    </div>
-                </div>
-                {/* Airport Pickup Checkbox */}
-                <div className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg bg-white">
-                    <input
-                        type="checkbox"
-                        checked={isAirportPickupOpen}
-                        onChange={(e) => setIsAirportPickupOpen(e.target.checked)}
-                        className="w-5 h-5 rounded border-gray-300 cursor-pointer accent-brand"
-                    />
-                    <div className="flex-1">
-                        <div className="font-semibold text-gray-900">Airport Pickup</div>
-                    </div>
-                </div>
-
-                {/* Airport Pickup Details - Show when checkbox is checked */}
-                {isAirportPickupOpen && (
-                    <div className="p-4 border border-primary/60 rounded-lg w-full">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
-                            <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
+                        <div className="px-4">
+                            <ExtraCounter label="Extra Stops" price={5.00} value={extraStops} onChange={setExtraStops} />
                         </div>
                     </div>
-                )}
+                </div>
 
-
-
-                {/* Add Instructions Toggle */}
-                <div className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg bg-white">
+                {/* Add Instructions */}
+                <div className="flex items-center gap-3">
                     <input
                         type="checkbox"
                         checked={isInstructionsOpen}
@@ -237,18 +218,14 @@ function Step3() {
                     </div>
                 </div>
 
-                {/* Instructions - Show when checkbox is checked */}
                 {isInstructionsOpen && (
-                    <div className="p-4 border border-primary/60 rounded-lg w-full">
-                        <textarea
-                            value={formData.description.value}
-                            onChange={(e) => handleInstructionsChange(e.target.value)}
-                            placeholder="Enter any special instructions, pickup details, or requirements..."
-                            className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-primary"
-                        />
-                    </div>
+                    <textarea
+                        value={formData.description.value}
+                        onChange={(e) => handleInstructionsChange(e.target.value)}
+                        placeholder="Enter any special instructions, pickup details, or requirements..."
+                        className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-primary"
+                    />
                 )}
-
 
                 {!showPayment && (
                     <div className="w-full border-t-2 border-gray-300 pt-5 mt-5">

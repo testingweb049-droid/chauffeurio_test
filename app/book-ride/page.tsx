@@ -78,8 +78,8 @@ function Page() {
           <div className='hidden lg:flex flex-col gap-5 w-full'>
             {step == 2 && <GoogleMapsRoute />}
             {step >= 2 && <PickupTripDetails />}
-            {step >= 2 && <FeaturesIncluded />}
             {step >= 3 && <SelectedCar />}
+            {step >= 2 && <FeaturesIncluded />}
             {step >= 4 && <PersonalDetails />}
             {step == 3 && <FeatureList />}
           </div>
