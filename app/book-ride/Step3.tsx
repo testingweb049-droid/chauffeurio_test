@@ -66,13 +66,16 @@ function ExtraCounter({
 function Step3() {
     const { formData, setFormData } = useFormStore();
 
-    const [childSeat, setChildSeat] = useState(Number(formData.childSeat.value) || 0);
-    const [infantSeat, setInfantSeat] = useState(Number(formData.infantSeat.value) || 0);
-    const [boosterSeat, setBoosterSeat] = useState(Number(formData.boosterSeat.value) || 0);
-    const [extraStops, setExtraStops] = useState(Number(formData.extraStops?.value || 0))
+    // Read directly from the store
+    const childSeat = Number(formData.childSeat.value) || 0;
+    const infantSeat = Number(formData.infantSeat.value) || 0;
+    const boosterSeat = Number(formData.boosterSeat.value) || 0;
+    const extraStops = Number(formData.extraStops?.value || 0);
+
     const [showPayment, setShowPayment] = useState(false);
     const [isInstructionsOpen, setIsInstructionsOpen] = useState(Boolean(formData.description.value));
     const [errors, setErrors] = useState<Record<string, string>>({});
+
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
         if (!formData.name.value) newErrors.name = "Full name is required.";
@@ -86,7 +89,6 @@ function Step3() {
 
     React.useEffect(() => {
         const newErrors = { ...errors };
-
         if (formData.name.value) delete newErrors.name;
         if (formData.email.value) delete newErrors.email;
         if (formData.phone.value) delete newErrors.phone;
@@ -109,22 +111,13 @@ function Step3() {
             (childSeat * 5) +
             (infantSeat * 5) +
             (boosterSeat * 5) +
-            (extraStops * 15);
-        const isReturn = Boolean(formData.isReturn.value);
-        const returnPrice = isReturn ? basePrice - (basePrice / 10) : 0;
-        const meetGreetPrice = formData.isMeetGreet.value ? 15 : 0;
-        const flightTrackPrice = formData.isFlightTrack.value ? 7 : 0;
+            (extraStops * 15) +
+            (formData.isMeetGreet.value ? 15 : 0) +
+            (formData.isFlightTrack.value ? 7 : 0) +
+            (formData.isReturn.value ? basePrice * 0.1 : 0); // optional return surcharge
 
-        const total = basePrice + extrasPrice + returnPrice + meetGreetPrice + flightTrackPrice;
-        return total.toFixed(2);
+        return (basePrice + extrasPrice).toFixed(2);
     };
-
-    React.useEffect(() => {
-        setFormData('childSeat', childSeat.toString());
-        setFormData('infantSeat', infantSeat.toString());
-        setFormData('boosterSeat', boosterSeat.toString());
-        setFormData('extraStops', extraStops.toString());
-    }, [childSeat, infantSeat, boosterSeat, extraStops, setFormData]);
 
     const handleInstructionsChange = (value: string) => {
         setFormData('description', value);
@@ -170,6 +163,31 @@ function Step3() {
                     {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                 </div>
 
+                {/* Airport Details */}
+                <div>
+                    <div className="font-semibold text-gray-900 mb-2">Airport Details</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div data-error={!!errors.flightName}>
+                            <DetailsInput
+                                field="flightName"
+                                placeholder="Airline Name"
+                                Icon={Plane}
+                                type="text"
+                            />
+                            {errors.flightName && <p className="text-red-500 text-sm mt-1">{errors.flightName}</p>}
+                        </div>
+                        <div data-error={!!errors.flightNumber}>
+                            <DetailsInput
+                                field="flightNumber"
+                                placeholder="Flight Number"
+                                Icon={Plane}
+                                type="text"
+                            />
+                            {errors.flightNumber && <p className="text-red-500 text-sm mt-1">{errors.flightNumber}</p>}
+                        </div>
+                    </div>
+                </div>
+
                 <AddReturn />
                 {formData.isReturn.value && (
                     <div className="p-4 border border-primary/60 rounded-lg">
@@ -186,52 +204,21 @@ function Step3() {
                     </div>
                 )}
 
-                <div>
-                    <div className="font-semibold text-gray-900 mb-2">Airport Details</div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div data-error={!!errors.flightName}>
-                            <DetailsInput
-                                field="flightName"
-                                placeholder="Airline Name"
-                                Icon={Plane}
-                                type="text"
-                            />
-                            {errors.flightName && (
-                                <p className="text-red-500 text-sm mt-1">{errors.flightName}</p>
-                            )}
-                        </div>
-
-                        <div data-error={!!errors.flightNumber}>
-                            <DetailsInput
-                                field="flightNumber"
-                                placeholder="Flight Number"
-                                Icon={Plane}
-                                type="text"
-                            />
-                            {errors.flightNumber && (
-                                <p className="text-red-500 text-sm mt-1">{errors.flightNumber}</p>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
-
                 {/* Equipment & Extras */}
                 <div className="w-full">
                     <div className="font-semibold text-gray-900 mb-4">Equipment & Extras</div>
                     <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
                         <div className="px-4">
-                            <ExtraCounter label="Child Seat" price={5.00} value={childSeat} onChange={setChildSeat} />
+                            <ExtraCounter label="Child Seat" price={5.00} value={childSeat} onChange={(v) => setFormData("childSeat", v)} />
                         </div>
                         <div className="px-4">
-                            <ExtraCounter label="Infant Seat" price={5.00} value={infantSeat} onChange={setInfantSeat} />
+                            <ExtraCounter label="Infant Seat" price={5.00} value={infantSeat} onChange={(v) => setFormData("infantSeat", v)} />
                         </div>
                         <div className="px-4">
-                            <ExtraCounter label="Booster Seat" price={5.00} value={boosterSeat} onChange={setBoosterSeat} />
+                            <ExtraCounter label="Booster Seat" price={5.00} value={boosterSeat} onChange={(v) => setFormData("boosterSeat", v)} />
                         </div>
                         <div className="px-4">
-                            <ExtraCounter label="Extra Stops" price={15.00} value={extraStops} onChange={setExtraStops} />
+                            <ExtraCounter label="Extra Stops" price={15.00} value={extraStops} onChange={(v) => setFormData("extraStops", v)} />
                         </div>
                     </div>
                 </div>
@@ -258,6 +245,7 @@ function Step3() {
                     />
                 )}
 
+                {/* Payment Button */}
                 {!showPayment && (
                     <div className="w-full border-t-2 border-gray-300 pt-5 mt-5">
                         <button

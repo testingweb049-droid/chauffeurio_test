@@ -40,21 +40,26 @@ export const orders = pgTable("chauffeurio_orders", {
   phone: varchar("phone").notNull(),
 
   // 🔹 Flight & payment
-  flight: varchar("flight"),
+  flight_name: varchar("flight_name"),         
+  flight_number: varchar("flight_number"),    
+  is_airport_pickup: boolean("is_airport_pickup"),
+  car_image: varchar("car_image"),           
+
   payment_id: varchar("payment_id"),
   payment_method: varchar("payment_method"),
   duration: integer("duration"),
   flight_track: boolean("flight_track"),
   meet_greet: boolean("meet_greet"),
 
-  // 🔹 New Extras Fields
-  child_seat: varchar("child_seat"),        // e.g. "2" seats
-  infant_seat: varchar("infant_seat"),      // e.g. "1" seat
-  booster_seat: varchar("booster_seat"),    // e.g. "0"
-  extras_description: text("extras_description"), // optional text
-  extras_total: varchar("extras_total"),    // total extra price as string
-  extras_flight_track: varchar("extras_flight_track"), // "yes"/"no" from frontend
-  extras_meet_greet: varchar("extras_meet_greet"),     // "yes"/"no"
+  // 🔹 Extras Fields
+  child_seat: varchar("child_seat"),
+  infant_seat: varchar("infant_seat"),
+  booster_seat: varchar("booster_seat"),
+  extras_description: text("extras_description"),
+  extras_total: varchar("extras_total"),
+  extras_flight_track: varchar("extras_flight_track"),
+  extras_meet_greet: varchar("extras_meet_greet"),
+  extra_stops: varchar("extra_stops"),
 
   // 🔹 Audit
   updated_at: timestamp("updated_at").defaultNow().notNull(),

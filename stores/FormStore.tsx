@@ -44,6 +44,7 @@ export interface FormDataType {
   infantSeat: FieldType<number>;
   boosterSeat: FieldType<number>;
   description: FieldType<string>;
+  extraStops: FieldType<number>;
 }
 
 interface FormStoreType {
@@ -98,6 +99,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
     infantSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
     boosterSeat: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
     description: { value: "", error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
+    extraStops: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
   },
   isOrderDone: false,
   orderId: '',
@@ -198,6 +200,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
         flightTrack: formData.isFlightTrack.value ? "yes" : "no",
         meetGreet: formData.isMeetGreet.value ? "yes" : "no",
         description: formData.description.value,
+        extraStops: formData.extraStops.value.toString(),
         extrasTotal: (totalPrice - (parseFloat(formData.price.value) || 0)).toString(),
       },
     };
@@ -309,8 +312,6 @@ const useFormStore = create<FormStoreType>((set, get) => ({
         return false;
       }
     }
-
-    // ✅ REMOVED: Order creation from changeStep - now handled separately in createOrderForPayment
 
     console.log("working fine : ", _step);
     await new Promise((resolve) => setTimeout(resolve, 1500));
