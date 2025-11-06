@@ -64,6 +64,7 @@ export const tripInitialFormData: FormDataType = {
   duration: { ...commonFormDataFields.duration, required: false },
   distance: { ...commonFormDataFields.distance, required: true },
   toLocation: { ...commonFormDataFields.toLocation, required: true, coardinatesRequired: true },
+  extraStops: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
 }
 
 export const hourlyInitialFormData: FormDataType = {
@@ -71,4 +72,5 @@ export const hourlyInitialFormData: FormDataType = {
   toLocation: { ...commonFormDataFields.toLocation, required: false, coardinatesRequired: false },
   duration: { ...commonFormDataFields.duration, required: true },
   distance: { ...commonFormDataFields.distance, required: false },
+  extraStops: { value: 0, error: "", coardinates: "", coardinatesRequired: false, required: false, step: 3 },
 }
