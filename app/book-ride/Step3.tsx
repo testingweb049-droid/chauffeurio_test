@@ -6,6 +6,7 @@ import { DetailsInput, PhoneInput } from './UserDetailInput'
 import useFormStore from '@/stores/FormStore'
 import AddReturn from './AddReturn'
 import MyPaymentForm from './PaymentForm'
+import NewDateTimePicker from './NewDateTimePicker'
 
 // Counter component for extras
 function ExtraCounter({
@@ -170,45 +171,51 @@ function Step3() {
                 </div>
 
                 <AddReturn />
-                {
-                    formData.isReturn.value && (
-                        <div className="p-4 border border-primary/60 rounded-lg">
-                            <h4 className="font-semibold text-gray-900 mb-3">Return Trip Details</h4>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Return Date</label>
-                                    <input
-                                        type="date"
-                                        value={formData.returnDate.value}
-                                        onChange={(e) => setFormData('returnDate', e.target.value)}
-                                        min={formData.date.value}
-                                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Return Time</label>
-                                    <input
-                                        type="time"
-                                        value={formData.returnTime.value}
-                                        onChange={(e) => setFormData('returnTime', e.target.value)}
-                                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    )
-                }
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div data-error={!!errors.flightName}>
-                        <DetailsInput field='flightName' placeholder='Airline Name' Icon={Plane} type='text' />
-                        {errors.flightName && <p className="text-red-500 text-sm mt-1">{errors.flightName}</p>}
+                {formData.isReturn.value && (
+                    <div className="p-4 border border-primary/60 rounded-lg">
+                        <h4 className="font-semibold text-gray-900 mb-3">Return Trip Details</h4>
+                        <NewDateTimePicker
+                            selectedDate={formData.returnDate.value}
+                            selectedTime={formData.returnTime.value}
+                            setFormData={setFormData}
+                            dateFieldName="returnDate"
+                            timeFieldName="returnTime"
+                            placeholder="Select return date & time"
+                            minSelectableDate={formData.date.value ? new Date(formData.date.value) : null}
+                        />
                     </div>
-                    <div data-error={!!errors.flightNumber}>
-                        <DetailsInput field='flightNumber' placeholder='Flight Number' Icon={Plane} type='text' />
-                        {errors.flightNumber && <p className="text-red-500 text-sm mt-1">{errors.flightNumber}</p>}
+                )}
+
+                <div>
+                    <div className="font-semibold text-gray-900 mb-2">Airport Details</div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div data-error={!!errors.flightName}>
+                            <DetailsInput
+                                field="flightName"
+                                placeholder="Airline Name"
+                                Icon={Plane}
+                                type="text"
+                            />
+                            {errors.flightName && (
+                                <p className="text-red-500 text-sm mt-1">{errors.flightName}</p>
+                            )}
+                        </div>
+
+                        <div data-error={!!errors.flightNumber}>
+                            <DetailsInput
+                                field="flightNumber"
+                                placeholder="Flight Number"
+                                Icon={Plane}
+                                type="text"
+                            />
+                            {errors.flightNumber && (
+                                <p className="text-red-500 text-sm mt-1">{errors.flightNumber}</p>
+                            )}
+                        </div>
                     </div>
                 </div>
+
 
                 {/* Equipment & Extras */}
                 <div className="w-full">

@@ -77,6 +77,13 @@ export async function createOrder(data: OrderDataType) {
 
       flight_track: Boolean(data.isFlightTrack),
       meet_greet: Boolean(data.isMeetGreet),
+      child_seat: data.extras?.childSeat || '0',
+      infant_seat: data.extras?.infantSeat || '0',
+      booster_seat: data.extras?.boosterSeat || '0',
+      extras_description: data.extras?.description || '',
+      extras_total: data.extras?.extrasTotal || '0',
+      extras_flight_track: data.extras?.flightTrack || 'no',
+      extras_meet_greet: data.extras?.meetGreet || 'no',
     };
 
     

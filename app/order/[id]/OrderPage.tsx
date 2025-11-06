@@ -1,354 +1,320 @@
-'use client';
+'use client'
 
-import React, { useEffect, useState } from 'react';
-import { getOrderById } from '@/actions/get-order';
-import { TbCopy } from 'react-icons/tb';
+import React, { useEffect, useState } from 'react'
 import {
-  MdOutlineFlight,
-  MdOutlineEmail,
-  MdOutlinePhone,
-  MdOutlinePayment,
-} from 'react-icons/md';
-import { IoCarSportSharp } from 'react-icons/io5';
-import { BiUserCircle } from 'react-icons/bi';
-import useFormStore from '@/stores/FormStore';
+  User,
+  Mail,
+  Phone,
+  Plane,
+  CreditCard,
+  MapPin,
+  ClipboardCopy,
+  CheckCircle2,
+  Navigation,
+  Calendar,
+  Users,
+  Luggage,
+  Baby,
+  Briefcase,
+  FileText,
+  Star,
+} from 'lucide-react'
+import { getOrderById } from '@/actions/get-order'
 
-export interface OrderProps {
-  id: string;
-  category: string;
-  price: string;
-  car: string;
-  distance?: string | null;
-  stops?: string[] | null;
-  pickup_date?: string | null;
-  pickup_time?: string | null;
-  return_date?: string | null;
-  return_time?: string | null;
-  is_return?: boolean | null;
-  pickup_location: string;
-  dropoff_location?: string | null;
-  passengers: number;
-  kids: number;
-  bags: number;
-  name: string;
-  email: string;
-  phone: string;
-  flight?: string | null;
-  payment_id?: string | null;
-  payment_method?: string | null;
-  duration?: number | null;
-  flight_track?: boolean | null;
-  meet_greet?: boolean | null;
-  updated_at: string;
-  created_at: string;
-}
-
-
-function OrderPage({ id }: { id: string }) {
-  const [order, setOrder] = useState<OrderProps | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const { resetForm, isOrderDone } = useFormStore();
-
-  useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        const result = await getOrderById(id);
-        if (result.status === 200 && result.order) {
-          const orderData = result.order;
-
-          // Convert Date fields to string
-          const formattedOrder = {
-            ...orderData,
-            pickup_date: orderData.pickup_date ? orderData.pickup_date.toISOString() : null,
-            return_date: orderData.return_date ? orderData.return_date.toISOString() : null,
-            updated_at: orderData.updated_at ? orderData.updated_at.toISOString() : "",
-            created_at: orderData.created_at ? orderData.created_at.toISOString() : "",
-          };
-
-          setOrder(formattedOrder);
-        } else {
-          setError(result.error);
-        }
-      } catch (err) {
-        console.log("error : ", err);
-        setError("Failed to fetch the order.");
-      }
-    };
-
-    if (id) fetchOrder();
-  }, [id]);
-
-
-  useEffect(() => {
-    if (isOrderDone) resetForm();
-  }, []);
-
-  const toMiles = (km?: string | null) => {
-    const num = parseFloat(km || '0');
-    return isNaN(num) ? '0' : (num * 0.621371).toFixed(2);
-  };
-
-  if (error)
-    return (
-      <div className="text-center py-40 text-2xl text-red-500">{error}</div>
-    );
-
-  if (!order)
-    return (
-      <div className="text-center py-40 text-2xl animate-pulse">
-        Loading...
-      </div>
-    );
-
-  const stops = order.stops || [];
-
-  return (
-    <div className="min-h-screen bg-gray-50  text-wrap break-all ">
-      <div className='h-20 w-full bg-black mb-10' ></div>
-      {/* Header */}
-      <div className='px-3'>
-
-
-        <header className="bg-[#181818] text-white flex justify-between items-center px-6 sm:px-10 py-5 max-w-screen-lg mx-auto rounded-2xl">
-
-          <div className="text-right">
-            <p className="text-sm text-gray-300">Order ID</p>
-            <div className="flex items-center gap-1 justify-end">
-              <p className="text-white font-medium text-[10px] sm:text-sm">{order.id}</p>
-              <TbCopy
-                onClick={() => navigator.clipboard.writeText(order.id)}
-                className="cursor-pointer text-gray-400 hover:text-gray-200"
-              />
-            </div>
-          </div>
-        </header>
-
-        {/* Main Content */}
-        <main className="max-w-5xl mx-auto py-10">
-          {/* Summary Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-            <SummaryCard
-              label="Total Amount"
-              value={`€${Number(order.price).toFixed(2)}`}
-              color="text-red-600"
-            />
-            {order.category === 'hourly' ? <SummaryCard
-              label="Duration"
-              value={`${order.duration} hours`}
-            /> :
-              <SummaryCard
-                label="Distance"
-                value={`${toMiles(order.distance)} miles`}
-              />}
-            <SummaryCard label="Vehicle Type" value={order.car || 'Premium'} />
-          </div>
-
-          {/* Route Information */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <IoCarSportSharp className="text-brandColor text-xl" /> Route
-              Information
-            </h2>
-
-            <div className="relative pl-6">
-              {/* Pickup */}
-              <TimelineItem
-                color="green"
-                label="Pick-Up"
-                value={order.pickup_location}
-                date={order.pickup_date}
-                time={order.pickup_time}
-              />
-
-              {/* Stops */}
-              {stops.map((stop, i) => (
-                <TimelineItem
-                  key={i}
-                  color="blue"
-                  label={`Stop ${i + 1}`}
-                  value={stop}
-                />
-              ))}
-
-              {/* Drop-off */}
-              {order.category === 'hourly' ?
-                <TimelineItem
-                  color="red"
-                  label="Duration"
-                  value={order.duration?.toString() || 'N/A'}
-                />
-                :
-                <TimelineItem
-                  color="red"
-                  label="Drop-Off"
-                  value={order.dropoff_location || 'N/A'}
-                />}
-            </div>
-          </div>
-
-          {/* Trip + Customer Info */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-            {/* Trip Details */}
-            <InfoCard title="Trip Details">
-              <InfoField
-                label="Return Date"
-                value={formatDate(order.return_date)}
-              />
-              <InfoField label="Return Time" value={order.return_time || 'N/A'} />
-              <InfoField
-                label="Flight Track"
-                value={order.flight_track ? 'Yes' : 'No'}
-              />
-              <InfoField
-                label="Meet & Greet"
-                value={order.meet_greet ? 'Yes' : 'No'}
-              />
-            </InfoCard>
-
-            {/* Customer Info */}
-            <InfoCard title="Customer Information">
-              <InfoField
-                label="Name"
-                value={order.name}
-                icon={<BiUserCircle />}
-              />
-              <InfoField
-                label="Email"
-                value={order.email}
-                icon={<MdOutlineEmail />}
-              />
-              <InfoField
-                label="Phone"
-                value={order.phone}
-                icon={<MdOutlinePhone />}
-              />
-              <InfoField
-                label="Flight Number"
-                value={order.flight || 'N/A'}
-                icon={<MdOutlineFlight />}
-              />
-            </InfoCard>
-          </div>
-
-          {/* Payment Info */}
-          <InfoCard title="Payment Information">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              <InfoField
-                label="Payment Method"
-                value={order.payment_method || 'N/A'}
-                icon={<MdOutlinePayment />}
-              />
-              <InfoField label="Payment ID" value={order.payment_id || 'N/A'} />
-              <InfoField
-                label="Ordered At"
-                value={formatDate(order.created_at)}
-              />
-            </div>
-          </InfoCard>
-        </main>
-      </div>
-    </div>
-  );
-}
-
-/* ---------- Helper Components ---------- */
-
-const SummaryCard = ({
-  label,
-  value,
-  color,
-}: {
-  label: string;
-  value: string;
-  color?: string;
-}) => (
-  <div className="bg-[#fff9ef] border border-yellow-200 rounded-xl p-4 flex flex-col justify-center text-center">
-    <p className="text-sm font-medium text-gray-700">{label}</p>
-    <p className={`text-xl font-bold ${color || 'text-gray-800'} mt-1`}>
-      {value}
-    </p>
-  </div>
-);
-
-const TimelineItem = ({
-  color,
-  label,
-  value,
-  date,
-  time,
-}: {
-  color: string;
-  label: string;
-  value?: string;
-  date?: string | null;
-  time?: string | null;
-}) => (
-  <div className="relative pb-6">
-    {/* Vertical Line */}
-    {/* <div className="absolute left-[7px] top-3 bottom-0 w-[2px] bg-gray-200"></div> */}
-
-    {/* Icon Circle */}
-    <div
-      className={`absolute -left-[2px] w-4 h-4 rounded-full`}
-      style={{ backgroundColor: color }}
-    ></div>
-
-    <div className="ml-6">
-      <p className="text-sm font-semibold text-gray-800">{label}</p>
-      {date && (
-        <p className="text-xs text-gray-500">
-          {formatDate(date)} • {time || 'N/A'}
-        </p>
-      )}
-      <p className="text-sm text-gray-700 mt-1">{value}</p>
-    </div>
-  </div>
-);
-
-const InfoCard = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) => (
-  <div className="bg-white border border-gray-200 rounded-xl p-6">
-    <h3 className="text-md font-semibold text-gray-800 mb-4">{title}</h3>
-    <div className="space-y-2 text-sm">{children}</div>
-  </div>
-);
-
-const InfoField = ({
-  label,
-  value,
-  icon,
-}: {
-  label: string;
-  value: string;
-  icon?: React.ReactNode;
-}) => (
-  <div className="flex items-start gap-2">
-    {icon && <span className="text-gray-500 text-lg mt-0.5">{icon}</span>}
-    <div>
-      <p className="text-gray-500 text-xs">{label}</p>
-      <p className="text-gray-800 font-medium text-sm">{value}</p>
-    </div>
-  </div>
-);
-
-/* ---------- Utils ---------- */
-
-function formatDate(date?: string | null) {
-  if (!date) return 'N/A';
+// 🕒 Helpers
+const formatDate = (date?: string | Date | null) => {
+  if (!date) return ''
   try {
-    return new Date(date).toLocaleDateString('en-GB', {
+    const d = typeof date === 'string' ? new Date(date) : date
+    return d.toLocaleDateString('en-GB', {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
-    });
+    })
   } catch {
-    return 'N/A';
+    return ''
   }
 }
 
-export default OrderPage;
+const formatTime = (time?: string | null) => {
+  if (!time) return ''
+  try {
+    const parsed = new Date(`1970-01-01T${time}`)
+    return parsed.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    })
+  } catch {
+    return time
+  }
+}
+
+interface OrderPageProps {
+  id: string
+}
+
+export default function OrderPage({ id }: OrderPageProps) {
+  const [order, setOrder] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    if (!id) return
+
+    const fetchOrder = async () => {
+      try {
+        const result = await getOrderById(id)
+        if (result.status === 200 && result.order) {
+          setOrder(result.order)
+        } else {
+          setError(result.error || 'Order not found.')
+        }
+      } catch (err) {
+        console.error(err)
+        setError('Failed to load order.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchOrder()
+  }, [id])
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-600 font-medium">
+        Loading your booking...
+      </div>
+    )
+
+  if (error)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-500 font-semibold">
+        {error}
+      </div>
+    )
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 pt-52">
+      <header className="bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">
+              Booking Confirmed
+            </h1>
+            <p className="text-gray-600">Your ride is ready to go</p>
+          </div>
+
+          <div className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200">
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-medium text-gray-600 mb-1">Booking ID</p>
+              <p className="font-mono font-bold text-gray-900 truncate">
+                {order.id}
+              </p>
+            </div>
+            <button
+              onClick={() => copyToClipboard(order.id)}
+              className="p-2 hover:bg-white rounded-lg transition-all duration-200"
+              title="Copy ID"
+            >
+              {copied ? (
+                <CheckCircle2 className="w-5 h-5 text-green-600" />
+              ) : (
+                <ClipboardCopy className="w-5 h-5 text-gray-600" />
+              )}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <StatCard label="Total Price" value={`€${order.price}`} />
+          <StatCard label="Vehicle" value={order.car} />
+          <StatCard label="Passengers" value={order.passengers} />
+          <StatCard label="Bags" value={order.bags} />
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Journey Details */}
+          <div className="lg:col-span-2 space-y-6">
+            <Section title="Journey Details" icon={<Navigation />}>
+              <div className="space-y-4">
+                <RouteStop
+                  type="pickup"
+                  location={order.pickup_location}
+                  date={order.pickup_date}
+                  time={order.pickup_time}
+                />
+                {order.stops?.map((stop: string, i: number) => (
+                  <RouteStop key={i} type="stop" location={stop} number={i + 1} />
+                ))}
+                {order.dropoff_location && (
+                  <RouteStop type="dropoff" location={order.dropoff_location} />
+                )}
+              </div>
+            </Section>
+
+            <Section title="Contact Information" icon={<User />}>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <DetailItem icon={<User />} label="Name" value={order.name} />
+                <DetailItem icon={<Mail />} label="Email" value={order.email} />
+                <DetailItem icon={<Phone />} label="Phone" value={order.phone} />
+                {order.flight && (
+                  <DetailItem icon={<Plane />} label="Flight" value={order.flight} />
+                )}
+              </div>
+            </Section>
+
+            <Section title="Passengers & Luggage" icon={<Luggage />}>
+              <div className="grid sm:grid-cols-3 gap-4">
+                <PassengerCard icon={<Users />} label="Adults" count={order.passengers} />
+                <PassengerCard icon={<Baby />} label="Children" count={order.kids} />
+                <PassengerCard icon={<Briefcase />} label="Bags" count={order.bags} />
+              </div>
+            </Section>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {order.extras_description && (
+              <Section title="Extras" icon={<Star />}>
+                <p className="text-sm text-gray-800 whitespace-pre-wrap">
+                  {order.extras_description}
+                </p>
+                {order.extras_total && (
+                  <div className="mt-3 flex justify-between text-sm">
+                    <span className="text-gray-600 font-medium">Extras Total:</span>
+                    <span className="text-lg font-bold text-gray-900">
+                      €{order.extras_total}
+                    </span>
+                  </div>
+                )}
+              </Section>
+            )}
+
+            <Section title="Payment" icon={<CreditCard />}>
+              <PaymentItem label="Method" value={order.payment_method || '—'} />
+              <PaymentItem
+                label="Booking Date"
+                value={formatDate(order.created_at)}
+              />
+              <PaymentItem
+                label="Pickup Time"
+                value={`${formatDate(order.pickup_date)} ${formatTime(
+                  order.pickup_time
+                )}`}
+              />
+              <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
+                <span className="text-sm font-medium text-gray-700">
+                  Total Paid
+                </span>
+                <span className="text-2xl font-bold text-emerald-600">
+                  €{order.price}
+                </span>
+              </div>
+            </Section>
+          </div>
+        </div>
+      </main>
+    </div>
+  )
+}
+
+// 🧩 Subcomponents
+const StatCard = ({ label, value }: any) => (
+  <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+    <p className="text-sm text-gray-600">{label}</p>
+    <p className="text-lg font-bold text-gray-900">{value}</p>
+  </div>
+)
+
+const Section = ({ title, icon, children }: any) => (
+  <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-200">
+      <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg text-white">
+        {icon}
+      </div>
+      <h2 className="text-lg font-bold text-gray-900">{title}</h2>
+    </div>
+    {children}
+  </div>
+)
+
+type RouteStopType = 'pickup' | 'stop' | 'dropoff';
+
+interface RouteStopProps {
+  type: RouteStopType;
+  location: string;
+  date?: string;
+  time?: string;
+  number?: number;
+}
+
+const RouteStop = ({ type, location, date, time, number }: RouteStopProps) => {
+  const config = {
+    pickup: { color: 'bg-emerald-500', label: 'Pick-Up' },
+    stop: { color: 'bg-blue-500', label: `Stop ${number}` },
+    dropoff: { color: 'bg-red-500', label: 'Drop-Off' },
+  }[type]
+  return (
+    <div className="flex gap-4">
+      <div className="flex flex-col items-center">
+        <div
+          className={`w-10 h-10 rounded-full ${config.color} flex items-center justify-center text-white`}
+        >
+          <MapPin />
+        </div>
+        {type !== 'dropoff' && <div className="w-0.5 flex-1 bg-gray-300 mt-2"></div>}
+      </div>
+      <div className="flex-1 pb-6">
+        <p className="font-semibold text-gray-900 mb-1">{config.label}</p>
+        {date && (
+          <p className="text-sm text-gray-500 mb-1 flex items-center gap-1">
+            <Calendar className="w-3 h-3" /> {formatDate(date)} {formatTime(time)}
+          </p>
+        )}
+        <p className="text-sm text-gray-700 break-words">{location}</p>
+      </div>
+    </div>
+  )
+}
+
+const DetailItem = ({ icon, label, value }: any) => (
+  <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50">
+    <div className="text-gray-400 w-5 h-5 flex-shrink-0 mt-0.5">{icon}</div>
+    <div>
+      <p className="text-xs text-gray-500">{label}</p>
+      <p className="font-medium text-gray-900 break-all">{value}</p>
+    </div>
+  </div>
+)
+
+const PassengerCard = ({ icon, label, count }: any) => (
+  <div className="bg-gray-50 rounded-xl p-4 border border-gray-200 flex flex-col items-center justify-center text-center">
+    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 text-white flex items-center justify-center mb-2">
+      {icon}
+    </div>
+    <p className="font-semibold text-gray-900">{count}</p>
+    <p className="text-xs text-gray-600">{label}</p>
+  </div>
+)
+
+const PaymentItem = ({ label, value }: any) => (
+  <div className="flex justify-between text-sm">
+    <span className="text-gray-600">{label}</span>
+    <span className="font-medium text-gray-900">{value}</span>
+  </div>
+)
