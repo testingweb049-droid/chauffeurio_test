@@ -1,159 +1,195 @@
-'use client';
+'use client'
 
-import React, { useEffect, useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import { MdDone } from 'react-icons/md';
-import Image from 'next/image';
-import Link from 'next/link';
-import useFormStore, { FormDataType } from '@/stores/FormStore';
-import { fleets } from '../book-ride/CarList';
+import React, { useEffect, useState } from 'react'
+import { MdDone } from 'react-icons/md'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
+import { getOrderById } from '@/actions/get-order'
+import { fleets } from '../book-ride/CarList'
 
-export default function OrderPlacedPage() {
-  const router = useRouter();
-  const headerRef = useRef<HTMLDivElement | null>(null);
-  const { formData, setFormData, isOrderDone, orderId } = useFormStore();
-  const [loaded, setLoaded] = useState(false);
-  const [localOrderId, setLocalOrderId] = useState('');
+// 📅 Helper to format date nicely
+function formatDate(date?: string | Date | null) {
+  if (!date) return 'N/A'
+  try {
+    const d = typeof date === 'string' ? new Date(date) : date
+    return d.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    })
+  } catch {
+    return 'N/A'
+  }
+}
+
+// ⏰ Helper to format time in AM/PM
+function formatTime(time?: string | null) {
+  if (!time) return ''
+  try {
+    const parsed = new Date(`1970-01-01T${time}`)
+    return parsed.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    })
+  } catch {
+    return time
+  }
+}
+
+function OrderPlacedPage() {
+  const searchParams = useSearchParams()
+  const orderId = searchParams.get('order_id')
+  const paymentStatus = searchParams.get('payment')
+
+  const [order, setOrder] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Load from localStorage if store is empty
-    if (!isOrderDone) {
-      const storedOrder = localStorage.getItem('lastOrder');
-      if (storedOrder) {
-        const parsed: any = JSON.parse(storedOrder);
+    if (!orderId) return
 
-        // Get orderId from localStorage
-        if (parsed.orderId) {
-          setLocalOrderId(parsed.orderId);
+    const fetchOrder = async () => {
+      try {
+        const result = await getOrderById(orderId)
+        if (result.status === 200 && result.order) {
+          setOrder(result.order)
+        } else {
+          setError(result.error || 'Order not found.')
         }
-
-        Object.entries(parsed).forEach(([key, val]) => {
-          if (key === 'stops' && Array.isArray(val)) {
-            val.forEach((stop: any, index: number) => {
-              if (stop && typeof stop === 'object' && 'value' in stop) {
-                setFormData('stops', (stop as any).value, (stop as any).coardinates, index);
-              }
-            });
-          } else if (val && typeof val === 'object' && 'value' in val &&
-            (typeof val.value === 'string' || typeof val.value === 'number' || typeof val.value === 'boolean')) {
-            setFormData(key as keyof FormDataType, (val as any).value, (val as any).coardinates);
-          }
-        });
+      } catch (err) {
+        console.error(err)
+        setError('Failed to fetch order details.')
+      } finally {
+        setLoading(false)
       }
     }
 
-    setLoaded(true);
+    fetchOrder()
+  }, [orderId])
 
-    if (headerRef.current) {
-      headerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, [isOrderDone, setFormData]);
+  if (loading)
+    return (
+      <div className="flex justify-center items-center min-h-[60vh] text-lg font-medium text-gray-600 animate-pulse px-4 text-center">
+        Loading your order...
+      </div>
+    )
 
-  // Use either the store orderId or the one from localStorage
-  const displayOrderId = orderId || localOrderId;
+  if (error)
+    return (
+      <div className="flex justify-center items-center min-h-[60vh] text-lg font-medium text-red-500 px-4 text-center">
+        {error}
+      </div>
+    )
 
-  if (!loaded) return <div className="flex items-center justify-center h-screen">Loading order...</div>;
-
-  const stopsArray = Array.isArray(formData.stops) ? formData.stops : [];
-  const locations = [formData.fromLocation, ...stopsArray].filter(Boolean);
-
-  if (formData.category?.value === 'hourly' && formData.duration?.value) {
-    locations.push({ ...formData.duration, value: formData.duration.value + ' Hours' });
-  } else if (formData.toLocation?.value) {
-    locations.push(formData.toLocation);
-  }
-
-  const selectedFleet = fleets.find(f => f.displayName === formData.car?.value);
+  const selectedFleet = fleets.find((item) => item.category === order.car)
 
   return (
-    <div className="w-full flex flex-col min-h-screen bg-white text-gray-900">
-      <div ref={headerRef} className="h-24 w-full bg-[#01303f]" />
+    <div className="w-full bg-slate-100 flex flex-col min-h-screen">
+      {/* Header strip */}
+      <div className="h-20 sm:h-24 w-full bg-black" />
 
-      <div className="max-w-7xl mx-auto py-16 px-4 lg:px-8 flex flex-col items-center gap-12 text-center">
-        <div className="flex flex-col items-center gap-4">
-          <MdDone className="p-3 text-white bg-green-500 rounded-full shadow-md" size={55} />
-          <p className="text-lg text-gray-700">
-            Great choice, <span className="font-semibold">{formData.name?.value || 'Customer'}</span>
-          </p>
-          <h1 className="text-3xl lg:text-5xl font-bold text-gray-900 tracking-tight">
-            YOUR RESERVATION IS CONFIRMED
-          </h1>
-          <p className="text-gray-600">
-            We've sent a confirmation email to {formData.email?.value || 'your email'}
-          </p>
+      <div className="max-w-5xl mx-auto py-10 sm:py-16 lg:py-20 w-full flex flex-col items-center gap-6 sm:gap-8 px-4">
+        {/* Success icon */}
+        <MdDone
+          className="p-2 text-white bg-green-500 rounded-full shadow-lg"
+          size={50}
+        />
+
+        {/* Confirmation Text */}
+        <div className="text-gray-800 text-center text-base sm:text-lg">
+          Great choice, <span className="font-semibold">{order.name}</span>
         </div>
 
-        <div className="w-full grid lg:grid-cols-3 gap-8">
-          {/* Left: Order Details */}
-          <div className="lg:col-span-2 w-full bg-white border border-gray-300 rounded-2xl p-6 lg:p-8 shadow-md">
-            <h2 className="text-2xl font-semibold mb-4 border-b border-gray-200 pb-2">Order Details</h2>
-            <div className="grid grid-cols-2 gap-3 text-sm sm:text-base text-left">
-              <div><span className="text-gray-500">Order ID:</span> {displayOrderId || 'Loading...'}</div>
-              <div><span className="text-gray-500">Car Type:</span> {formData.car?.value}</div>
-              <div><span className="text-gray-500">Passengers:</span> {formData.passengers?.value}</div>
-              <div><span className="text-gray-500">Bags:</span> {formData.bags?.value}</div>
-              <div><span className="text-gray-500">Price:</span> €{formData.price?.value}</div>
-              <div><span className="text-gray-500">Distance:</span> {formData.distance?.value} km</div>
-              <div><span className="text-gray-500">Phone:</span> {formData.phone?.value}</div>
-              <div><span className="text-gray-500">Email:</span> {formData.email?.value}</div>
-              <div><span className="text-gray-500">Child Seats:</span> {formData.childSeat?.value}</div>
-              <div><span className="text-gray-500">Infant Seats:</span> {formData.infantSeat?.value}</div>
-              <div><span className="text-gray-500">Booster Seats:</span> {formData.boosterSeat?.value}</div>
-              <div><span className="text-gray-500">Meet & Greet:</span> {formData.isMeetGreet?.value ? 'Yes' : 'No'}</div>
-              <div><span className="text-gray-500">Return Trip:</span> {formData.isReturn?.value ? 'Yes' : 'No'}</div>
+        <div className="text-black text-2xl sm:text-3xl lg:text-4xl font-extrabold text-center leading-tight">
+          YOUR RESERVATION IS CONFIRMED
+        </div>
+
+        {paymentStatus === 'failed' && (
+          <div className="text-red-600 font-semibold text-sm sm:text-base text-center">
+            Payment failed — please contact support.
+          </div>
+        )}
+
+        <div className="text-gray-800 text-center text-sm sm:text-base">
+          We've sent a confirmation email to <strong>{order.email}</strong>
+        </div>
+
+        {/* Main Content */}
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-5 mt-8">
+          {/* Itinerary */}
+          <div className="md:col-span-2 bg-white border border-gray-300 py-6 px-5 sm:px-6 rounded-2xl flex flex-col gap-6 text-start shadow-sm">
+            <div className="text-lg sm:text-xl lg:text-2xl font-bold">
+              Your itinerary
             </div>
 
-            {/* View Order Details Button */}
-            <div className="flex items-center justify-end w-full mt-8">
-              <div className="flex items-center gap-5">
-                <Link
-                  className='bg-brand px-4 py-2 text-black font-semibold w-fit rounded-md hover:bg-opacity-90 transition-colors'
-                  href={`/order/${displayOrderId}`}
-                >
-                  View Order Details
-                </Link>
+            <div className="flex gap-3 w-full">
+              <div className="w-1 bg-gray-500 rounded-full" />
+              <div className="flex flex-col gap-3 w-full text-sm sm:text-base text-gray-700">
+                <div>{order.pickup_location}</div>
+                {order.stops?.map((stop: string, i: number) => (
+                  <div key={i}>{stop}</div>
+                ))}
+                {order.dropoff_location && <div>{order.dropoff_location}</div>}
               </div>
+            </div>
+
+            <div className="flex flex-col gap-1 text-sm sm:text-base">
+              <div className="text-gray-500 font-medium">Pickup Date & Time</div>
+              <div className="font-semibold text-gray-800">
+                {formatDate(order.pickup_date)} {formatTime(order.pickup_time)}
+              </div>
+            </div>
+
+            {order.return_date && (
+              <div className="flex flex-col gap-1 text-sm sm:text-base">
+                <div className="text-gray-500 font-medium">Return Date & Time</div>
+                <div className="font-semibold text-gray-800">
+                  {formatDate(order.return_date)} {formatTime(order.return_time)}
+                </div>
+              </div>
+            )}
+
+            <div className="flex justify-end mt-4">
+              <Link
+                href={`/order/${orderId}`}
+                className="bg-primary/90 hover:bg-primary/60 transition-colors duration-200 px-4 sm:px-5 py-2 text-white font-semibold rounded-md text-sm sm:text-base"
+              >
+                View Order Details
+              </Link>
             </div>
           </div>
 
-          {/* Right: Fleet Image and Itinerary */}
+          {/* Vehicle Card */}
           {selectedFleet && (
-            <div className="rounded-2xl border border-gray-300 bg-white p-5 flex flex-col items-center shadow-md">
+            <div className="border border-gray-300 p-4 sm:p-6 flex flex-col items-center justify-center bg-gray-200 rounded-2xl shadow-sm">
               <Image
                 src={selectedFleet.imageUrl}
                 alt={selectedFleet.displayName}
-                width={400}
-                height={250}
-                className="rounded-lg object-contain"
+                width={280}
+                height={160}
+                className="object-contain w-full max-w-[300px]"
               />
-              <div className="mt-3 font-semibold text-lg">{selectedFleet.displayName}</div>
-
-              <div className="w-full mt-8 text-left">
-                <h2 className="text-2xl font-semibold mb-4 border-b border-gray-200 pb-2">Your Itinerary</h2>
-                <div className="flex flex-col gap-3">
-                  {locations.map((item, idx) => (
-                    <div key={idx} className="text-sm sm:text-base text-gray-800">
-                      {item?.value || String(item)}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-4 text-sm sm:text-base">
-                  <div className="text-gray-500">Pickup Date & Time</div>
-                  <div className="font-medium">{formData.date?.value} {formData.time?.value}</div>
-                </div>
-
-                {formData.isReturn?.value && (
-                  <div className="mt-2 text-sm sm:text-base">
-                    <div className="text-gray-500">Return Date & Time</div>
-                    <div className="font-medium">{formData.returnDate?.value} {formData.returnTime?.value}</div>
-                  </div>
-                )}
+              <div className="font-bold mt-3 text-center text-sm sm:text-base">
+                {selectedFleet.displayName}
               </div>
             </div>
           )}
         </div>
+
+        {/* CTA for Mobile */}
+        <div className="flex justify-center mt-10 md:hidden">
+          <Link
+            href="/"
+            className="bg-black text-white px-5 py-2.5 rounded-md text-sm sm:text-base font-semibold hover:bg-gray-800 transition-colors"
+          >
+            Book Another Ride
+          </Link>
+        </div>
       </div>
     </div>
-  );
+  )
 }
+
+export default OrderPlacedPage

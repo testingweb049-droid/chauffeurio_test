@@ -185,9 +185,9 @@ function CarList() {
     const increasedPrice =
       priceIncrease > 0 ? Number((computedPrice * (1 + priceIncrease)).toFixed(2)) : originalPrice;
 
-    // Apply 10x surge if within 24 hours
-    const finalPrice = has24HourSurge ? originalPrice * 10 : originalPrice;
-    const finalIncreasedPrice = has24HourSurge ? increasedPrice * 10 : increasedPrice;
+    // Apply 10% increase if within 24 hours
+    const finalPrice = has24HourSurge ? originalPrice * 1.1 : originalPrice;
+    const finalIncreasedPrice = has24HourSurge ? increasedPrice * 1.1 : increasedPrice;
 
     return {
       original: Number(finalPrice.toFixed(2)),
@@ -195,6 +195,7 @@ function CarList() {
       basePrice: originalPrice,
       surgeApplied: has24HourSurge
     };
+
   };
 
   const hasPriceIncrease = (category: string) => {
