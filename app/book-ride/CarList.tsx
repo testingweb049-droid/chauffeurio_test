@@ -7,7 +7,7 @@ import { PiSuitcase } from "react-icons/pi";
 import { cn } from "@/lib/utils";
 import useFormStore from "@/stores/FormStore";
 import { brandColor } from "@/lib/colors";
-import { ArrowRight, TrendingDown, Award, Flame } from "lucide-react";
+import { ArrowRight, TrendingDown, Award, Flame, Clock } from "lucide-react";
 import LoadingButton from "./LoadingButton";
 
 // --- Pricing configuration ---
@@ -26,11 +26,11 @@ const pricingRanges = [
 ];
 
 const categoryPricing = {
-  ECONOMY: [8.0, 5.25, 4.5, 3.2, 2.8, 2.5, 2.0, 1.8, 1.8, 1.75, 1.7],
-  BUSINESS_SEDAN: [14.0, 7.8, 5.5, 4.5, 3.8, 3.0, 2.35, 2.2, 2.12, 1.9, 1.9],
-  ECONOMY_VAN: [14.12, 8.0, 4.95, 4.95, 3.9, 3.2, 2.5, 2.4, 2.3, 2.14, 2.0],
-  BUSINESS_VAN: [26.8, 15.2, 9.3, 9.3, 7.5, 6.0, 4.75, 4.65, 4.36, 4.0, 3.8],
-  MINIBUS_12: [35.32, 20.0, 13.25, 11.5, 9.95, 8.0, 7.23, 6.3, 5.8, 5.34, 5.3],
+  ECONOMY: [6.5, 4.5, 4.0, 2.9, 2.7, 2.5, 2.0, 1.8, 1.8, 1.75, 1.7],
+  BUSINESS_SEDAN: [11.0, 6.8, 5.0, 4.3, 3.8, 3.0, 2.35, 2.2, 2.12, 1.9, 1.9],
+  ECONOMY_VAN: [12.0, 7.0, 4.95, 4.95, 3.9, 3.2, 2.5, 2.4, 2.3, 2.14, 2.0],
+  BUSINESS_VAN: [23.8, 13.2, 9.3, 9.3, 7.5, 6.0, 4.75, 4.65, 4.36, 4.0, 3.8],
+  MINIBUS_12: [30.0, 18.0, 13.25, 11.5, 9.95, 8.0, 7.23, 6.3, 5.8, 5.34, 5.3],
   MINIBUS_16: [39.6, 22.4, 14.8, 12.9, 11.15, 8.98, 8.1, 7.12, 6.48, 6.0, 5.95],
 };
 
@@ -75,7 +75,7 @@ export const fleets = [
     imageUrl: "/Mercedes-S-Class-cutout.webp",
     pricing: { perKm: 1.7, hourly: 40, airport: 50 },
     hasChargingPort: true,
-    priceIncrease: 0.08, // 8% increase
+    priceIncrease: 0.08,
   },
   {
     category: "ECONOMY_VAN",
@@ -96,7 +96,7 @@ export const fleets = [
     imageUrl: "/First Class Van.png",
     pricing: { perKm: 2.5, hourly: 60, airport: 60 },
     hasChargingPort: true,
-    priceIncrease: 0.10, // 10% increase
+    priceIncrease: 0.10,
   },
   {
     category: "MINIBUS_12",
@@ -122,19 +122,41 @@ export const fleets = [
 
 function CarList() {
   const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
+  console.log("formData", formData);
 
-  // Get passengers and bags from form store
   const passengers = Number(formData.passengers?.value) || 1;
   const bags = Number(formData.bags?.value) || 0;
 
-  // Filter fleets based on passengers and bags capacity
+  // Check if booking is within 24 hours
+  const isWithin24Hours = () => {
+    const selectedDate = formData.date?.value;
+    const selectedTime = formData.time?.value;
+
+    if (!selectedDate) return false;
+
+    const now = new Date();
+    const bookingDateTime = new Date(selectedDate);
+
+    // Add time if available
+    if (selectedTime) {
+      const [hours, minutes] = selectedTime.split(':');
+      bookingDateTime.setHours(parseInt(hours), parseInt(minutes));
+    }
+
+    const diffInHours = (bookingDateTime.getTime() - now.getTime()) / (1000 * 60 * 60);
+
+    return diffInHours >= 0 && diffInHours <= 24;
+  };
+
+  const has24HourSurge = isWithin24Hours();
+
   const filteredFleets = fleets.filter(car =>
     car.passengers >= passengers && car.luggage >= bags
   );
 
-  const handleSelect = (categoryData: typeof fleets[0], price: number) => {
+  const handleSelect = (categoryData: typeof fleets[0], finalPrice: number) => {
     setFormData("car", categoryData.category, "");
-    setFormData("price", price.toString(), "");
+    setFormData("price", finalPrice.toString(), "");
     changeStep(true, 2);
   };
 
@@ -163,14 +185,22 @@ function CarList() {
     const increasedPrice =
       priceIncrease > 0 ? Number((computedPrice * (1 + priceIncrease)).toFixed(2)) : originalPrice;
 
-    return { original: originalPrice, increased: increasedPrice };
+    // Apply 10x surge if within 24 hours
+    const finalPrice = has24HourSurge ? originalPrice * 10 : originalPrice;
+    const finalIncreasedPrice = has24HourSurge ? increasedPrice * 10 : increasedPrice;
+
+    return {
+      original: Number(finalPrice.toFixed(2)),
+      increased: Number(finalIncreasedPrice.toFixed(2)),
+      basePrice: originalPrice,
+      surgeApplied: has24HourSurge
+    };
   };
 
   const hasPriceIncrease = (category: string) => {
     return category === "BUSINESS_SEDAN" || category === "BUSINESS_VAN";
   };
 
-  // Show message if no cars available
   if (filteredFleets.length === 0) {
     return (
       <div className="w-full text-center py-8">
@@ -203,7 +233,6 @@ function CarList() {
               categoryData.category === formData.car.value ? "border-brand" : "border-gray-200"
             )}
           >
-            {/* Desktop badge in top right */}
             {badge && (
               <div
                 className={cn(
@@ -217,7 +246,7 @@ function CarList() {
               </div>
             )}
 
-            {/* --- Mobile Layout --- */}
+            {/* Mobile Layout */}
             <div className="md:hidden flex flex-col gap-3">
               <div className="flex items-center gap-3">
                 <div className="w-24 h-20 relative shrink-0 overflow-hidden rounded-md">
@@ -286,7 +315,7 @@ function CarList() {
                   <LoadingButton />
                 ) : (
                   <button
-                      onClick={() => handleSelect(categoryData, Number(originalPrice))}
+                      onClick={() => handleSelect(categoryData, priceData.original)}
                       className="bg-primary hover:bg-[#ffb300] text-white rounded-lg px-4 py-2 transition-all w-full flex items-center justify-center gap-2 font-semibold text-base"
                     aria-label={`Select ${categoryData.displayName}`}
                   >
@@ -297,7 +326,7 @@ function CarList() {
               </div>
             </div>
 
-            {/* --- Desktop Layout --- */}
+            {/* Desktop Layout */}
             <div className="hidden md:grid grid-cols-8 gap-3">
               <div className="col-span-2 flex items-center justify-center">
                 <div className="w-full max-w-[140px] h-[100px] relative overflow-hidden rounded-md">
@@ -352,7 +381,7 @@ function CarList() {
                   <LoadingButton />
                 ) : (
                   <button
-                      onClick={() => handleSelect(categoryData, Number(originalPrice))}
+                      onClick={() => handleSelect(categoryData, priceData.original)}
                       className="bg-primary hover:bg-[#ffb300] text-white rounded-md py-2 transition-all w-full flex items-center justify-center gap-2 font-medium text-base"
                     aria-label={`Select ${categoryData.displayName}`}
                   >

@@ -36,13 +36,13 @@ function Counter({
           <button
             onClick={decrement}
             disabled={value === 0}
-            className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary/80 text-white hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary/80 text-white hover:bg-primary/70 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             -
           </button>
           <button
             onClick={increment}
-            className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary/80 text-white hover:bg-gray-200 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary/80 text-white hover:bg-primary/70 transition-colors"
           >
             +
           </button>

@@ -129,7 +129,7 @@ function OrderPage({ id }: { id: string }) {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             <SummaryCard
               label="Total Amount"
-              value={`£${Number(order.price).toFixed(2)}`}
+              value={`€${Number(order.price).toFixed(2)}`}
               color="text-red-600"
             />
             {order.category === 'hourly' ? <SummaryCard
