@@ -194,14 +194,14 @@ export default function OrderPage({ id }: OrderPageProps) {
                 <p className="text-sm text-gray-800 whitespace-pre-wrap">
                   {order.extras_description}
                 </p>
-                {order.extras_total && (
+                {/* {order.extras_total && (
                   <div className="mt-3 flex justify-between text-sm">
                     <span className="text-gray-600 font-medium">Extras Total:</span>
                     <span className="text-lg font-bold text-gray-900">
                       €{order.extras_total}
                     </span>
                   </div>
-                )}
+                )} */}
               </Section>
             )}
 
