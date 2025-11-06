@@ -8,7 +8,6 @@ import { useSearchParams } from 'next/navigation'
 import { getOrderById } from '@/actions/get-order'
 import { fleets } from '../book-ride/CarList'
 
-// 📅 Helper to format date nicely
 function formatDate(date?: string | Date | null) {
     if (!date) return 'N/A'
     try {
@@ -23,7 +22,6 @@ function formatDate(date?: string | Date | null) {
     }
 }
 
-// ⏰ Helper to format time in AM/PM
 function formatTime(time?: string | null) {
     if (!time) return ''
     try {
@@ -68,6 +66,24 @@ export default function OrderPlacedPage() {
 
         fetchOrder()
     }, [orderId])
+    useEffect(() => {
+        if (!order || paymentStatus !== 'success') return
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+            (window as any).gtag('event', 'purchase', {
+                transaction_id: orderId,
+                value: order.total_amount || 0,
+                currency: order.currency || 'USD',
+                items: [
+                    {
+                        id: order.car,
+                        name: order.car,
+                        quantity: 1,
+                        price: order.total_amount || 0,
+                    },
+                ],
+            })
+        }
+    }, [order, paymentStatus, orderId])
 
     if (loading)
         return (
