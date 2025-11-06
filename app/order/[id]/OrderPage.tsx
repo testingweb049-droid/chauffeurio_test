@@ -16,7 +16,6 @@ import {
   Luggage,
   Baby,
   Briefcase,
-  FileText,
   Star,
 } from 'lucide-react'
 import { getOrderById } from '@/actions/get-order'
@@ -66,6 +65,7 @@ export default function OrderPage({ id }: OrderPageProps) {
     const fetchOrder = async () => {
       try {
         const result = await getOrderById(id)
+        console.log("result", result)
         if (result.status === 200 && result.order) {
           setOrder(result.order)
         } else {
@@ -108,6 +108,7 @@ export default function OrderPage({ id }: OrderPageProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 pt-52">
+      {/* Header */}
       <header className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -139,110 +140,134 @@ export default function OrderPage({ id }: OrderPageProps) {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <StatCard label="Total Price" value={`€${order.price}`} />
-          <StatCard label="Vehicle" value={order.car} />
-          <StatCard label="Passengers" value={order.passengers} />
-          <StatCard label="Bags" value={order.bags} />
-        </div>
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-6 py-8 lg:flex lg:gap-8">
+        <div className="flex-1">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <StatCard label="Total Price" value={`€${order.price}`} icon={<CreditCard className="w-5 h-5" />} />
+            <StatCard label="Vehicle" value={order.car} icon={<Plane className="w-5 h-5" />} />
+            <StatCard label="Passengers" value={order.passengers} icon={<Users className="w-5 h-5" />} />
+            <StatCard label="Bags" value={order.bags} icon={<Luggage className="w-5 h-5" />} />
+          </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+
           {/* Journey Details */}
-          <div className="lg:col-span-2 space-y-6">
-            <Section title="Journey Details" icon={<Navigation />}>
-              <div className="space-y-4">
-                <RouteStop
-                  type="pickup"
-                  location={order.pickup_location}
-                  date={order.pickup_date}
-                  time={order.pickup_time}
-                />
-                {order.stops?.map((stop: string, i: number) => (
-                  <RouteStop key={i} type="stop" location={stop} number={i + 1} />
-                ))}
-                {order.dropoff_location && (
-                  <RouteStop type="dropoff" location={order.dropoff_location} />
-                )}
-              </div>
-            </Section>
+          <Section title="Journey Details" icon={<Navigation />}>
+            <div className="space-y-4">
+              {/* Pickup & Stops */}
+              <RouteStop
+                type="pickup"
+                location={order.pickup_location}
+                date={order.pickup_date}
+                time={order.pickup_time}
+              />
+              {order.stops?.map((stop: string, i: number) => (
+                <RouteStop key={i} type="stop" location={stop} number={i + 1} />
+              ))}
+              {order.dropoff_location && (
+                <RouteStop type="dropoff" location={order.dropoff_location} />
+              )}
 
+              {/* Return Trip */}
+              {order.is_return && (
+                <div className="mt-6 border-t border-gray-200 pt-4">
+                  <h3 className="font-semibold text-gray-800 mb-2">Return Trip</h3>
+                  <RouteStop
+                    type="pickup"
+                    location={order.dropoff_location}
+                    date={order.return_date}
+                    time={order.return_time}
+                  />
+                  <RouteStop
+                    type="dropoff"
+                    location={order.pickup_location}
+                  />
+                </div>
+              )}
+            </div>
+          </Section>
+
+          {/* Contact & Passengers */}
+          <div className="grid gap-6 mt-6">
             <Section title="Contact Information" icon={<User />}>
               <div className="grid sm:grid-cols-2 gap-4">
                 <DetailItem icon={<User />} label="Name" value={order.name} />
                 <DetailItem icon={<Mail />} label="Email" value={order.email} />
                 <DetailItem icon={<Phone />} label="Phone" value={order.phone} />
-                {order.flight && (
-                  <DetailItem icon={<Plane />} label="Flight" value={order.flight} />
+
+                {order.flight_name && (
+                  <DetailItem icon={<Plane />} label="Flight Name" value={order.flight_name} />
+                )}
+
+                {order.flight_number && (
+                  <DetailItem icon={<Plane />} label="Flight Number" value={order.flight_number} />
                 )}
               </div>
             </Section>
 
-            <Section title="Passengers & Luggage" icon={<Luggage />}>
-              <div className="grid sm:grid-cols-3 gap-4">
-                <PassengerCard icon={<Users />} label="Adults" count={order.passengers} />
-                <PassengerCard icon={<Baby />} label="Children" count={order.kids} />
-                <PassengerCard icon={<Briefcase />} label="Bags" count={order.bags} />
-              </div>
-            </Section>
           </div>
+        </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {order.extras_description && (
-              <Section title="Extras" icon={<Star />}>
-                <p className="text-sm text-gray-800 whitespace-pre-wrap">
-                  {order.extras_description}
-                </p>
-                {/* {order.extras_total && (
-                  <div className="mt-3 flex justify-between text-sm">
-                    <span className="text-gray-600 font-medium">Extras Total:</span>
-                    <span className="text-lg font-bold text-gray-900">
-                      €{order.extras_total}
-                    </span>
-                  </div>
-                )} */}
-              </Section>
+        {/* Sidebar */}
+        <div className="w-full lg:w-80 space-y-6 mt-8 lg:mt-0">
+          {order.car_image && (
+            <img
+              src={order.car_image}
+              alt={order.car}
+              className="w-full rounded-xl object-cover"
+            />
+          )}
+
+          {/* Payment */}
+          <Section title="Payment" icon={<CreditCard />}>
+            <PaymentItem label="Method" value={order.payment_method || '—'} />
+            <PaymentItem label="Booking Date" value={formatDate(order.pickup_date)} />
+            <PaymentItem label="Pickup Time" value={formatTime(order.pickup_time)} />
+            {order.is_return && (
+              <>
+                <PaymentItem label="Return Date" value={formatDate(order.return_date)} />
+                <PaymentItem label="Return Time" value={formatTime(order.return_time)} />
+              </>
             )}
-
-            <Section title="Payment" icon={<CreditCard />}>
-              <PaymentItem label="Method" value={order.payment_method || '—'} />
-              <PaymentItem
-                label="Booking Date"
-                value={formatDate(order.created_at)}
-              />
-              <PaymentItem
-                label="Pickup Time"
-                value={`${formatDate(order.pickup_date)} ${formatTime(
-                  order.pickup_time
-                )}`}
-              />
-              <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-700">
-                  Total Paid
-                </span>
-                <span className="text-2xl font-bold text-emerald-600">
-                  €{order.price}
-                </span>
+            <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
+              <span className="text-sm font-medium text-gray-700">Total Paid</span>
+              <span className="text-2xl font-bold text-emerald-600">€{order.price}</span>
+            </div>
+          </Section>
+          {(order.child_seat || order.infant_seat || order.booster_seat || order.extras_description || order.extra_stops) && (
+            <Section title="Extras" icon={<Star />}>
+              <div className="space-y-2 text-sm">
+                {order.child_seat && <p className="break-words">Child Seats: {order.child_seat}</p>}
+                {order.infant_seat && <p className="break-words">Infant Seats: {order.infant_seat}</p>}
+                {order.booster_seat && <p className="break-words">Booster Seats: {order.booster_seat}</p>}
+                {order.extra_stops && <p className="break-words">Extra Stops: {order.extra_stops}</p>}
+                {order.extras_description && <p className="break-words">Instructions: {order.extras_description}</p>}
               </div>
             </Section>
-          </div>
+          )}
         </div>
       </main>
     </div>
   )
 }
 
-// 🧩 Subcomponents
-const StatCard = ({ label, value }: any) => (
-  <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-    <p className="text-sm text-gray-600">{label}</p>
-    <p className="text-lg font-bold text-gray-900">{value}</p>
+const StatCard = ({ label, value, icon }: any) => (
+  <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200 flex items-center gap-4">
+    {icon && (
+      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 text-white flex items-center justify-center">
+        {icon}
+      </div>
+    )}
+    <div>
+      <p className="text-sm text-gray-600">{label}</p>
+      <p className="text-lg font-bold text-gray-900">{value}</p>
+    </div>
   </div>
 )
 
+
 const Section = ({ title, icon, children }: any) => (
-  <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+  <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 w-full lg:w-auto">
     <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-200">
       <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg text-white">
         {icon}
