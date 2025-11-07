@@ -455,9 +455,9 @@ testimonials: {
     },
 home: {
   hero: {
-          eyebrow: "Private Transfers & Airport Chauffeur Service in Valencia",
+    eyebrow: "Chauffeur Service in Valencia.",
           titleLines: [
-            "Experience seamless, first-class transfers across Valencia and beyond — where comfort, style, and discretion define every journey. ",
+            "Reliable airport transfers and executive travel with comfort and style.",
           ],
         },
       serviceSection: {
