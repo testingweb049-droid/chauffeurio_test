@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { sanitizeHtml } from "./utils"; // Create this utility function
+import { sanitizeHtml } from "./utils"; 
 
 interface EmailParams {
   to: string;
@@ -8,70 +8,52 @@ interface EmailParams {
 }
 
 const sendEmail = async ({ to, subject, html }: EmailParams) => {
-  try {
-    // Validate email address format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(to)) {
-      throw new Error(`Invalid email format: ${to}`);
-    }
+  const emailUser = process.env.EMAIL_USER;
+  const emailPass = process.env.EMAIL_PASSWORD;
+  const emailHost = process.env.EMAIL_HOST;
+  const emailPort = parseInt(process.env.EMAIL_PORT || "465");
 
-    // Sanitize HTML to prevent XSS attacks (implement sanitizeHtml utility)
+  if (!emailUser || !emailPass || !emailHost) {
+    throw new Error("EMAIL_USER, EMAIL_PASSWORD, or EMAIL_HOST environment variable is not set");
+  }
+
+  try {
+    // Validate email address
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(to)) throw new Error(`Invalid email format: ${to}`);
+
+    // Sanitize HTML
     const sanitizedHtml = sanitizeHtml(html);
 
-    // Create transport with TLS
+    // Create transporter
     const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST || "smtp.hostinger.com",
-      port: parseInt(process.env.EMAIL_PORT || "587"),
-      secure: false, // True for 465, false for other ports
-      auth: {
-        user: process.env.EMAIL_USER || "info@oktaxis.co.uk",
-        pass: process.env.EMAIL_PASSWORD || ";U3nJxy=hs",
-      },
-      tls: {
-        // Do not fail on invalid certs
-        rejectUnauthorized: process.env.NODE_ENV === "production",
-      },
+      host: emailHost,
+      port: 587,
+      secure: false,      // STARTTLS
+      auth: { user: emailUser, pass: emailPass },
     });
+    
 
+    // Mail options
     const mailOptions = {
-      from: {
-        name: "OkTaxis",
-        address: process.env.EMAIL_USER || "info@oktaxis.co.uk",
-      },
+      from: `"Chauffeurio" <${emailUser}>`,
       to,
       subject,
       html: sanitizedHtml,
       headers: {
-        "X-Priority": "1", // Highest priority
+        "X-Priority": "1",
         "X-MSMail-Priority": "High",
         Importance: "High",
       },
     };
 
-    // Debug logging if in development
-    if (process.env.NODE_ENV !== "production") {
-      console.log("Mail Options:", {
-        ...mailOptions,
-        html: mailOptions.html.substring(0, 100) + "...", // Truncate for logging
-      });
-    }
-
-    // Send the email
+    // Send email
     const info = await transporter.sendMail(mailOptions);
-
-    if (process.env.NODE_ENV !== "production") {
-      console.log(`Email sent to ${to}, Message ID: ${info.messageId}`);
-    }
-
+    console.log(`Email sent to ${to}, Message ID: ${info.messageId}`);
     return info;
+
   } catch (error) {
     console.error("Error sending email:", error);
-
-    // Log more details in non-production
-    if (process.env.NODE_ENV !== "production") {
-      console.error("Error details:", error);
-    }
-
     throw new Error(`Email sending failed: ${(error as Error).message}`);
   }
 };
