@@ -25,7 +25,6 @@ export default function MyPaymentForm({ price }: { price: string }) {
     setError("")
 
     try {
-      // ✅ STEP 1: First create the order
       let orderIdToUse = actualOrderId;
 
       if (!orderIdToUse) {
@@ -36,18 +35,16 @@ export default function MyPaymentForm({ price }: { price: string }) {
           return;
         }
         orderIdToUse = orderResult.orderId!;
-        console.log("✅ Using newly created order ID:", orderIdToUse);
+        console.log("Using newly created order ID:", orderIdToUse);
       } else {
-        console.log("✅ Using existing order ID:", orderIdToUse);
+        console.log("Using existing order ID:", orderIdToUse);
       }
-
-      // ✅ STEP 2: Now create Stripe session with the order ID
       const res = await fetch("/api/create-stripe-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount,
-          orderId: orderIdToUse, // Pass the actual order ID
+          orderId: orderIdToUse,
           customerDetails: {
             name: formData.name.value,
             email: formData.email.value,
@@ -62,16 +59,6 @@ export default function MyPaymentForm({ price }: { price: string }) {
         setLoading(false)
         return
       }
-
-      // Save order in localStorage
-      const orderForStorage = {
-        ...formData,
-        price: { ...formData.price, value: price },
-        orderId: orderIdToUse,
-        paymentStatus: "pending",
-      }
-      localStorage.setItem("lastOrder", JSON.stringify(orderForStorage))
-
       // Redirect to Stripe checkout
       window.location.href = data.url
     } catch (err: any) {
