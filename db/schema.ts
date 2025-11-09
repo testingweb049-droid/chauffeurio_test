@@ -8,7 +8,7 @@ import {
   text,
 } from "drizzle-orm/pg-core";
 
-export const orders = pgTable("chauffeurio_orders", {
+export const orders = pgTable("chauffeurio_order", {
   id: uuid("id").defaultRandom().notNull().primaryKey(),
 
   // 🔹 Basic booking details
@@ -60,6 +60,10 @@ export const orders = pgTable("chauffeurio_orders", {
   extras_flight_track: varchar("extras_flight_track"),
   extras_meet_greet: varchar("extras_meet_greet"),
   extra_stops: varchar("extra_stops"),
+  
+  payment_status: varchar("payment_status").default('pending').notNull(),
+  payment_secret: varchar("payment_secret").notNull(),
+  session_id: varchar("session_id"),
 
   // 🔹 Audit
   updated_at: timestamp("updated_at").defaultNow().notNull(),

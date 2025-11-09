@@ -16,9 +16,16 @@ import FeaturesIncluded from './FeaturesIncluded'
 
 function Page() {
 
-  const { step, isMobileDropdownOpen, toggleMobileDropdown, changeStep } = useFormStore()
+  const { step, isMobileDropdownOpen, toggleMobileDropdown, changeStep, orderId, paymentURL, isOrderDone , } = useFormStore()
   const router = useRouter()
   const headerRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(()=>{
+    if(orderId && paymentURL && isOrderDone){
+      router.replace(paymentURL);
+      router.refresh();
+    }
+  },[orderId, paymentURL, isOrderDone])
 
   useEffect(() => {
     if (step === 1) {

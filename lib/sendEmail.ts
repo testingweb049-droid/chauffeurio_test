@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import { sanitizeHtml } from "./utils"; 
+import { emailConfig } from "./emailConfig";
 
 interface EmailParams {
   to: string;
@@ -8,14 +9,6 @@ interface EmailParams {
 }
 
 const sendEmail = async ({ to, subject, html }: EmailParams) => {
-  const emailUser = process.env.EMAIL_USER;
-  const emailPass = process.env.EMAIL_PASSWORD;
-  const emailHost = process.env.EMAIL_HOST;
-  const emailPort = parseInt(process.env.EMAIL_PORT || "465");
-
-  if (!emailUser || !emailPass || !emailHost) {
-    throw new Error("EMAIL_USER, EMAIL_PASSWORD, or EMAIL_HOST environment variable is not set");
-  }
 
   try {
     // Validate email address
@@ -25,26 +18,18 @@ const sendEmail = async ({ to, subject, html }: EmailParams) => {
     // Sanitize HTML
     const sanitizedHtml = sanitizeHtml(html);
 
-    // Create transporter
-    const transporter = nodemailer.createTransport({
-      host: emailHost,
-      port: 587,
-      secure: false,      // STARTTLS
-      auth: { user: emailUser, pass: emailPass },
-    });
-    
+    console.log("emailConfig " ,emailConfig)
 
+    // Create transporter
+    const transporter = nodemailer.createTransport(emailConfig);
+    
+    
     // Mail options
     const mailOptions = {
-      from: `"Chauffeurio" <${emailUser}>`,
+      from: `"Chauffeurio" <info@chauffeurio.com>`,
       to,
       subject,
       html: sanitizedHtml,
-      headers: {
-        "X-Priority": "1",
-        "X-MSMail-Priority": "High",
-        Importance: "High",
-      },
     };
 
     // Send email

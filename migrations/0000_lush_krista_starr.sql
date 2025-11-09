@@ -1,4 +1,4 @@
-CREATE TABLE "chauffeurio_orders" (
+CREATE TABLE "chauffeurio_order" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"category" varchar NOT NULL,
 	"price" varchar NOT NULL,
@@ -18,14 +18,26 @@ CREATE TABLE "chauffeurio_orders" (
 	"name" varchar NOT NULL,
 	"email" varchar NOT NULL,
 	"phone" varchar NOT NULL,
-	"flight" varchar,
+	"flight_name" varchar,
+	"flight_number" varchar,
+	"is_airport_pickup" boolean,
+	"car_image" varchar,
 	"payment_id" varchar,
 	"payment_method" varchar,
 	"duration" integer,
 	"flight_track" boolean,
 	"meet_greet" boolean,
+	"child_seat" varchar,
+	"infant_seat" varchar,
+	"booster_seat" varchar,
+	"extras_description" text,
+	"extras_total" varchar,
+	"extras_flight_track" varchar,
+	"extras_meet_greet" varchar,
+	"extra_stops" varchar,
+	"payment_status" varchar DEFAULT 'pending' NOT NULL,
+	"payment_secret" varchar NOT NULL,
+	"session_id" varchar NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
---> statement-breakpoint
-DROP TABLE "okataxis_orders" CASCADE;

@@ -1,11 +1,11 @@
 {
-  "id": "8bac2577-a9ad-4ea8-9a14-31dc5dd1a0ef",
-  "prevId": "4507dda6-d721-4170-a681-592d60facee2",
+  "id": "2f045f3d-8e87-441c-9a72-5df9cb37d693",
+  "prevId": "c67a0606-6ec8-4d8f-9bc3-d6e70d77155f",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.okataxis_orders": {
-      "name": "okataxis_orders",
+    "public.chauffeurio_order": {
+      "name": "chauffeurio_order",
       "schema": "",
       "columns": {
         "id": {
@@ -39,21 +39,9 @@
           "primaryKey": false,
           "notNull": false
         },
-        "stop_1": {
-          "name": "stop_1",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "stop_2": {
-          "name": "stop_2",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "stop_3": {
-          "name": "stop_3",
-          "type": "varchar",
+        "stops": {
+          "name": "stops",
+          "type": "text[]",
           "primaryKey": false,
           "notNull": false
         },
@@ -61,13 +49,31 @@
           "name": "pickup_date",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "pickup_time": {
           "name": "pickup_time",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "return_date": {
+          "name": "return_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "return_time": {
+          "name": "return_time",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_return": {
+          "name": "is_return",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
         },
         "pickup_location": {
           "name": "pickup_location",
@@ -117,8 +123,26 @@
           "primaryKey": false,
           "notNull": true
         },
-        "flight": {
-          "name": "flight",
+        "flight_name": {
+          "name": "flight_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "flight_number": {
+          "name": "flight_number",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_airport_pickup": {
+          "name": "is_airport_pickup",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "car_image": {
+          "name": "car_image",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
@@ -150,6 +174,73 @@
         "meet_greet": {
           "name": "meet_greet",
           "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "child_seat": {
+          "name": "child_seat",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "infant_seat": {
+          "name": "infant_seat",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "booster_seat": {
+          "name": "booster_seat",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extras_description": {
+          "name": "extras_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extras_total": {
+          "name": "extras_total",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extras_flight_track": {
+          "name": "extras_flight_track",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extras_meet_greet": {
+          "name": "extras_meet_greet",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extra_stops": {
+          "name": "extra_stops",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payment_status": {
+          "name": "payment_status",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
+        },
+        "payment_secret": {
+          "name": "payment_secret",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "session_id": {
+          "name": "session_id",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },

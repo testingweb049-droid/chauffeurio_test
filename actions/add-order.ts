@@ -3,9 +3,7 @@
 import { db } from '@/db/drizzle';
 import { orders } from '@/db/schema';
 import { InferInsertModel } from 'drizzle-orm';
-import { render } from '@react-email/components';
-import { TripOrderEmailTemplate } from '@/component/emails/BookingEmailTemplate';
-import sendEmail from '@/lib/sendEmail'; // <-- Use your new email utility
+
 
 export interface OrderDataType {
   fromLocation: string;
@@ -47,9 +45,9 @@ export interface OrderDataType {
 
 type NewOrder = InferInsertModel<typeof orders>;
 
-export async function createOrder(data: OrderDataType) {
+export async function createOrder(data: OrderDataType, payment_secret:string) {
   try {
-    const orderData: NewOrder = {
+    const orderData = {
       category: String(data.category || 'trip'),
       price: String(data.price || '0'),
       car: String(data.car || ''),
@@ -85,6 +83,7 @@ export async function createOrder(data: OrderDataType) {
       extras_flight_track: data.extras?.flightTrack || 'no',
       extras_meet_greet: data.extras?.meetGreet || 'no',
       extra_stops: data.extras?.extraStops || '0',
+      payment_secret,
       created_at: new Date(),
       updated_at: new Date(),
     };
@@ -97,51 +96,7 @@ export async function createOrder(data: OrderDataType) {
       return { error: 'Order not placed due to backend issue.', status: 500 };
     }
 
-    console.log('Order created successfully with ID:', order.id);
-    console.log('Customer email:', order.email);
-
-    // Prepare email
-    const orderLink = `https://chauffeurio.com/order/${order.id}`;
-    const carImage = data.carImage
-      ? `https://chauffeurio.com/${data.carImage}`
-      : `https://chauffeurio.com/default-car.png`;
-
-    const stops = data.stops.map((item, index) => ({
-      label:
-        index === 0
-          ? 'Pickup Location'
-          : data.stops.length - 1 === index
-          ? data.category === 'hourly'
-            ? 'Duration'
-            : 'Dropoff Location'
-          : `Stop ${index}`,
-      value:
-        data.stops.length - 1 === index && data.category === 'hourly'
-          ? item + ' hours'
-          : item,
-    }));
-
-    const htmlEmail = await render(
-      TripOrderEmailTemplate({
-        carImage,
-        stops,
-        viewOrderLink: orderLink,
-      })
-    );
-
-    try {
-      await sendEmail({
-        to: order.email,
-        subject: 'Your Chauffeurio Booking Confirmation 🚕',
-        html: htmlEmail,
-      });
-      console.log('Confirmation email sent successfully');
-    } catch (emailError: any) {
-      console.warn('Email sending failed, but order was created successfully');
-      console.warn('Email error details:', emailError.message);
-    }
-
-    return { order, status: 201, error: '' };
+    return { order, status: 200, error: '' };
   } catch (error) {
     console.error(' Error creating order:', error);
     return {
