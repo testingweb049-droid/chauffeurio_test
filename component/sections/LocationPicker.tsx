@@ -3,7 +3,7 @@
 import { useRef } from 'react'
 import { Autocomplete, useJsApiLoader } from '@react-google-maps/api'
 import { SlLocationPin } from 'react-icons/sl'
-import useFormStore, { FormDataType } from '@/stores/FormStore'
+import useFormStore, { FieldType, FormDataType } from '@/stores/FormStore'
 
 interface LocationInputProps {
   field: keyof FormDataType
@@ -34,10 +34,10 @@ export default function LocationInput({ field, label, placeholder }: LocationInp
     setFormData(field, value, '')
   }
 
-  const fieldData = formData[field as keyof FormDataType] as any
+  const fieldData = formData[field as keyof FormDataType] as FieldType<string>
 
   return (
-    <div className="w-full rounded-lg bg-gray-100 px-4 py-3">
+    <div className={`w-full rounded-lg bg-gray-100 px-4 py-3 border ${fieldData.error ? 'border-red-500' : 'border-gray-100'} `}>
       {/* Label inside box */}
       <label className="block text-[13px] font-medium text-gray-600 mb-1">
         {label}

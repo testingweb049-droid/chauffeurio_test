@@ -1,12 +1,15 @@
 "use client"
 
-import { User, Mail, Plane } from 'lucide-react'
-import React, { useState } from 'react'
+import { User, Mail, Plane, Loader2 } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 import { DetailsInput, PhoneInput } from './UserDetailInput'
 import useFormStore from '@/stores/FormStore'
 import AddReturn from './AddReturn'
 import MyPaymentForm from './PaymentForm'
 import NewDateTimePicker from './NewDateTimePicker'
+import { uuid } from 'zod'
+import { CreateStripePaymentURLAction } from '@/actions/create-stripe-payment-url'
+import { randomUUID } from 'crypto'
 
 // Counter component for extras
 function ExtraCounter({
@@ -64,7 +67,7 @@ function ExtraCounter({
 }
 
 function Step3() {
-    const { formData, setFormData } = useFormStore();
+    const { formData, setFormData, changeStep, getTotalPrice,  formLoading, formError } = useFormStore();
 
     // Read directly from the store
     const childSeat = Number(formData.childSeat.value) || 0;
@@ -72,71 +75,18 @@ function Step3() {
     const boosterSeat = Number(formData.boosterSeat.value) || 0;
     const extraStops = Number(formData.extraStops?.value || 0);
 
-    const [showPayment, setShowPayment] = useState(false);
     const [isInstructionsOpen, setIsInstructionsOpen] = useState(Boolean(formData.description.value));
-    const [errors, setErrors] = useState<Record<string, string>>({});
-
-    const validateForm = () => {
-        const newErrors: Record<string, string> = {};
-        if (!formData.name.value) newErrors.name = "Full name is required.";
-        if (!formData.email.value) newErrors.email = "Email is required.";
-        if (!formData.phone.value) newErrors.phone = "Phone number is required.";
-        if (!formData.flightName.value) newErrors.flightName = "Airline name is required.";
-        if (!formData.flightNumber.value) newErrors.flightNumber = "Flight number is required.";
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    React.useEffect(() => {
-        const newErrors = { ...errors };
-        if (formData.name.value) delete newErrors.name;
-        if (formData.email.value) delete newErrors.email;
-        if (formData.phone.value) delete newErrors.phone;
-        if (formData.flightName.value) delete newErrors.flightName;
-        if (formData.flightNumber.value) delete newErrors.flightNumber;
-        if (Object.keys(newErrors).length !== Object.keys(errors).length) {
-            setErrors(newErrors);
-        }
-    }, [
-        formData.name.value,
-        formData.email.value,
-        formData.phone.value,
-        formData.flightName.value,
-        formData.flightNumber.value,
-    ]);
-
-    const calculateTotalPrice = () => {
-        const basePrice = parseFloat(formData.price?.value || "0");
-        const extrasPrice =
-            (childSeat * 5) +
-            (infantSeat * 5) +
-            (boosterSeat * 5) +
-            (extraStops * 15) +
-            (formData.isMeetGreet.value ? 15 : 0) +
-            (formData.isFlightTrack.value ? 7 : 0) +
-            (formData.isReturn.value ? basePrice * 0.1 : 0); // optional return surcharge
-
-        return (basePrice + extrasPrice).toFixed(2);
-    };
+    
+   console.log(" formData : ",formData)
 
     const handleInstructionsChange = (value: string) => {
         setFormData('description', value);
     };
 
-    const handleContinueToPayment = () => {
-        if (validateForm()) {
-            setShowPayment(true);
-            setTimeout(() => {
-                const paymentForm = document.querySelector('form') as HTMLFormElement;
-                if (paymentForm) {
-                    const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
-                    paymentForm.dispatchEvent(submitEvent);
-                }
-            }, 100);
-        } else {
-            const firstError = document.querySelector('[data-error="true"]');
-            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+    const payment_secret = 'dfdfdfdfd'
+    async function handleContinueToPayment ()  {
+        if(formLoading) return;
+        await changeStep(true, 3, payment_secret)
     };
 
     return (
@@ -147,43 +97,42 @@ function Step3() {
 
                 {/* Passenger Name + Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div data-error={!!errors.name}>
+                    <div >
                         <DetailsInput field='name' placeholder='Passenger full name' Icon={User} type='text' />
-                        {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                        {formData.name.error && <p className="text-red-500 text-sm mt-1">{formData.name.error}</p>}
                     </div>
-                    <div data-error={!!errors.email}>
+                    <div >
                         <DetailsInput field='email' placeholder='Your email' Icon={Mail} type='email' />
-                        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                        {formData.email.error && <p className="text-red-500 text-sm mt-1">{formData.email.error }</p>}
                     </div>
                 </div>
 
                 {/* Phone */}
-                <div className="w-full" data-error={!!errors.phone}>
+                <div className="w-full">
                     <PhoneInput />
-                    {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                 </div>
 
                 {/* Airport Details */}
                 <div>
                     <div className="font-semibold text-gray-900 mb-2">Airport Details</div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div data-error={!!errors.flightName}>
+                        <div >
                             <DetailsInput
                                 field="flightName"
                                 placeholder="Airline Name"
                                 Icon={Plane}
                                 type="text"
                             />
-                            {errors.flightName && <p className="text-red-500 text-sm mt-1">{errors.flightName}</p>}
+                            {formData.flightName.error && <p className="text-red-500 text-sm mt-1">{formData.flightName.error }</p>}
                         </div>
-                        <div data-error={!!errors.flightNumber}>
+                        <div >
                             <DetailsInput
                                 field="flightNumber"
                                 placeholder="Flight Number"
                                 Icon={Plane}
                                 type="text"
                             />
-                            {errors.flightNumber && <p className="text-red-500 text-sm mt-1">{errors.flightNumber}</p>}
+                            {formData.flightNumber.error && <p className="text-red-500 text-sm mt-1">{formData.flightNumber.error }</p>}
                         </div>
                     </div>
                 </div>
@@ -245,25 +194,23 @@ function Step3() {
                     />
                 )}
 
-                {/* Payment Button */}
-                {!showPayment && (
-                    <div className="w-full border-t-2 border-gray-300 pt-5 mt-5">
-                        <button
-                            type="button"
-                            onClick={handleContinueToPayment}
-                            className="w-full py-3 px-6 rounded-lg font-semibold text-lg bg-primary text-white hover:bg-primary/80 shadow-md transition-all"
-                        >
-                            Pay - € {calculateTotalPrice()}
-                        </button>
-                    </div>
-                )}
-
-                {showPayment && (
-                    <div className="w-full border-t-2 border-gray-300">
-                        <MyPaymentForm price={calculateTotalPrice()} />
-                    </div>
-                )}
             </div>
+
+            {formError && <p className='text-center text-red-500 text-sm' >{formError}</p>}
+
+            <div onClick={handleContinueToPayment}   className={`w-full flex items-center justify-center gap-2 py-3 px-6 rounded-lg font-semibold text-lg transition-all ${formLoading
+            ? "bg-primary text-white opacity-80 cursor-not-allowed"
+            : "bg-primary text-white hover:bg-primary/80 shadow-md"
+            }`}>
+                 {formLoading ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              {"Redirecting to Payment..."}
+            </>
+          ) : (
+            <>Pay Securely - € {getTotalPrice()}</>
+          )}
+                </div>
         </div>
     )
 }

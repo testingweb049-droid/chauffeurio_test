@@ -9,15 +9,14 @@ import NewDateTimePicker from '@/app/book-ride/NewDateTimePicker'
 
 function Counter({
   label,
-  value,
-  onChange,
+  field
 }: {
   label: string
-  value: number
-  onChange: (val: number) => void
+  field: 'bags' | 'passengers'
 }) {
-  const increment = () => onChange(value + 1)
-  const decrement = () => value > 0 && onChange(value - 1)
+  const {setFormData , formData } = useFormStore()
+  const increment = () => setFormData(field, Number(formData[field].value) + 1)
+  const decrement = () => setFormData(field, Number(formData[field].value) - 1)
 
   return (
     <div className="flex flex-col w-full bg-gray-100 rounded-xl px-4 py-3">
@@ -29,13 +28,13 @@ function Counter({
       {/* Counter field */}
       <div className="flex items-center justify-between">
         {/* Value */}
-        <span className="text-[15px] font-semibold text-gray-800">{value}</span>
+        <span className="text-[15px] font-semibold text-gray-800">{formData[field].value}</span>
 
         {/* Buttons */}
         <div className="flex items-center gap-2">
           <button
             onClick={decrement}
-            disabled={value === 0}
+            disabled={Number(formData[field].value) === 0}
             className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary/80 text-white hover:bg-primary/70 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             -
@@ -76,34 +75,20 @@ function HeroForm() {
     return { label, value: hours.toString() }
   })
 
-  const [passengers, setPassengers] = useState(
-    Number(formData.passengers.value) || 1
-  )
-  const [bags, setBags] = useState(Number(formData.bags.value) || 0)
-  const [dateTimeError, setDateTimeError] = useState('')
 
   useEffect(() => {
     if (isOrderDone) resetForm()
   }, [step, isOrderDone])
 
-  useEffect(() => {
-    setFormData('passengers', passengers.toString())
-    setFormData('bags', bags.toString())
-  }, [passengers, bags, setFormData])
-
-  const handleQuoteNow = async () => {
-    if (!formData.date.value || !formData.time.value) {
-      setDateTimeError('Please select both date and time')
-      return
-    }
-
-    setDateTimeError('')
-
-    const isOk = await changeStep(true, 1)
-    if (isOk) {
-      router.replace('/book-ride')
+  async function ChangeStep(){
+    console.log("working ")
+    const res = await changeStep(true,1)
+    if(res){
+      router.push('/book-ride')
     }
   }
+
+
 
   return (
     <div className="flex flex-col gap-2 w-full max-w-screen-sm">
@@ -165,13 +150,10 @@ function HeroForm() {
             isDisable={false}
           />
 
-          {dateTimeError && (
-            <div className="text-sm text-red-500 -mt-2">{dateTimeError}</div>
-          )}
           {/* Passengers & Bags — Side by Side */}
           <div className="grid grid-cols-2 gap-3 mt-2">
-            <Counter label="Passengers" value={passengers} onChange={setPassengers} />
-            <Counter label="Bags" value={bags} onChange={setBags} />
+            <Counter label="Passengers" field='passengers' />
+            <Counter label="Bags" field='bags' />
           </div>
 
         </div>
@@ -179,7 +161,7 @@ function HeroForm() {
         {formError && <div className="text-sm text-red-500">{formError}</div>}
 
         <div
-          onClick={handleQuoteNow}
+           onClick={ChangeStep}
           className={`flex items-center justify-center gap-2 w-full p-3 rounded-lg cursor-pointer font-semibold transition-colors ${formLoading ? 'bg-primary/70 text-white' : 'bg-primary text-white hover:bg-primary/90'
             }`}
         >

@@ -16,12 +16,19 @@ import FeaturesIncluded from './FeaturesIncluded'
 
 function Page() {
 
-  const { step, isMobileDropdownOpen, toggleMobileDropdown, changeStep } = useFormStore()
+  const { step, isMobileDropdownOpen, toggleMobileDropdown, changeStep, orderId, paymentURL, isOrderDone , } = useFormStore()
   const router = useRouter()
   const headerRef = useRef<HTMLDivElement | null>(null)
 
+  useEffect(()=>{
+    if(orderId && paymentURL && isOrderDone){
+      router.replace(paymentURL);
+      router.refresh();
+    }
+  },[orderId, paymentURL, isOrderDone])
+
   useEffect(() => {
-    if (step === 1) {
+    if (step === 1 ) {
       router.replace('/');
       router.refresh();
     }
@@ -57,7 +64,7 @@ function Page() {
             {step >= 2 && <PickupTripDetails />}
             {step >= 2 && <FeaturesIncluded />}
             {step >= 3 && <SelectedCar />}
-            {step >= 4 && <PersonalDetails />}
+            {/* {step >= 4 && <PersonalDetails />} */}
             {step == 3 && <FeatureList />}
           </div>
           <div onClick={() => toggleMobileDropdown()} className='bg-primary text-white p-2 rounded-sm font-bold flex items-center justify-between' >
@@ -73,14 +80,14 @@ function Page() {
           <div className='lg:col-span-2 w-full flex flex-col gap-5'>
             {step === 2 && <CarList />}
             {step === 3 && <Step3 />}
-            {step === 4 && <Step4 />}
+            {/* {step === 4 && <Step4 />} */}
           </div>
           <div className='hidden lg:flex flex-col gap-5 w-full'>
             {step == 2 && <GoogleMapsRoute />}
             {step >= 2 && <PickupTripDetails />}
             {step >= 3 && <SelectedCar />}
             {step >= 2 && <FeaturesIncluded />}
-            {step >= 4 && <PersonalDetails />}
+            {/* {step >= 4 && <PersonalDetails />} */}
             {step == 3 && <FeatureList />}
           </div>
         </div>

@@ -14,7 +14,7 @@ import {
 } from "date-fns"
 import { ChevronRight, Calendar, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
-import useFormStore, { FormDataType } from "@/stores/FormStore"
+import useFormStore, { FieldType, FormDataType } from "@/stores/FormStore"
 
 interface DateTimePickerProps {
   selectedDate: string
@@ -93,11 +93,14 @@ export default function NewDateTimePicker({
     return `${displayHour}:${minutes} ${ampm}`
   }
 
+  const dateFieldData = formData[dateFieldName] as FieldType<string>
+  const timeFieldData = formData[timeFieldName] as FieldType<string>
+
   return (
     <div className="w-full">
       <div className="grid grid-cols-2 gap-3">
         {/* DATE PICKER */}
-        <div className="relative bg-gray-100 rounded-lg px-4 py-3">
+        <div className={`relative bg-gray-100 rounded-lg px-4 py-3 border  ${dateFieldData.error ? 'border-red-500' : 'border-gray-100'}`}>
           <label className="block text-[11px] sm:text-[13px] font-medium text-gray-600 mb-1">
             Pickup date
           </label>
@@ -186,7 +189,7 @@ export default function NewDateTimePicker({
         </div>
 
         {/* TIME PICKER */}
-        <div className="relative bg-gray-100 rounded-lg px-4 py-3">
+        <div className={`relative bg-gray-100 rounded-lg px-4 py-3 border  ${timeFieldData.error ? 'border-red-500' : 'border-gray-100'}`}>
           <label className="block text-[11px] sm:text-[13px] font-medium text-gray-600 mb-1">
             Pickup time
           </label>

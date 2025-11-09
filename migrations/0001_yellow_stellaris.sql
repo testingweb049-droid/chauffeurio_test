@@ -1,0 +1,1 @@
+ALTER TABLE "chauffeurio_order" ALTER COLUMN "session_id" DROP NOT NULL;

@@ -14,7 +14,7 @@ interface DetailInputType {
 export function DetailsInput({ field, placeholder, Icon, type }: DetailInputType) {
   const { formData, setFormData } = useFormStore()
   return (
-    <div className={`p-3 rounded-lg w-full border text-sm flex items-center gap-3 bg-white text-primary ${!Array.isArray(formData[field]) && formData[field].error ? 'border-red-500' : 'border-gray-300'}`}>
+    <div className={`p-3 rounded-lg w-full border text-sm flex items-center gap-3 bg-white text-primary ${!Array.isArray(formData[field]) && formData[field].error ? 'border-red-500' : 'border-gray-300'} `}>
       <Icon color='gray' size={20} />
       <input
         type={type}
