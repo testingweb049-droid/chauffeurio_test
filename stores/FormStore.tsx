@@ -377,12 +377,12 @@ const useFormStore = create<FormStoreType>((set, get) => ({
        return false;
       }
 
-
+     console.log("is Order Done ",true)
       set((state)=>({
         ...state,
         orderId: actualOrderId,
         paymentURL: paymentSession.url?.toString(),
-        isOrderDone:true
+        isOrderDone: true
       }));
 
     } catch (error) {

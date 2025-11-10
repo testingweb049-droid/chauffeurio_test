@@ -16,14 +16,21 @@ import FeaturesIncluded from './FeaturesIncluded'
 
 function Page() {
 
-  const { step, isMobileDropdownOpen, toggleMobileDropdown, changeStep, orderId, paymentURL, isOrderDone , } = useFormStore()
+  const { step, isMobileDropdownOpen, toggleMobileDropdown, changeStep, orderId, paymentURL, isOrderDone  } = useFormStore()
   const router = useRouter()
   const headerRef = useRef<HTMLDivElement | null>(null)
+  
+  
 
   useEffect(()=>{
+    console.log(step , 'step 1')
+    console.log(orderId , 'orderId 1')
+    console.log(paymentURL , 'paymentURL 1')
+    console.log(isOrderDone , 'isOrderDone 1')
     if(orderId && paymentURL && isOrderDone){
-      router.replace(paymentURL);
+      router.replace(`/payment-process/${orderId}`);
       router.refresh();
+      
     }
   },[orderId, paymentURL, isOrderDone])
 
@@ -63,7 +70,7 @@ function Page() {
             {step == 2 && <GoogleMapsRoute />}
             {step >= 2 && <PickupTripDetails />}
             {step >= 2 && <FeaturesIncluded />}
-            {step >= 3 && <SelectedCar />}
+            {step == 3 && <SelectedCar />}
             {/* {step >= 4 && <PersonalDetails />} */}
             {step == 3 && <FeatureList />}
           </div>
@@ -85,7 +92,7 @@ function Page() {
           <div className='hidden lg:flex flex-col gap-5 w-full'>
             {step == 2 && <GoogleMapsRoute />}
             {step >= 2 && <PickupTripDetails />}
-            {step >= 3 && <SelectedCar />}
+            {step == 3 && <SelectedCar />}
             {step >= 2 && <FeaturesIncluded />}
             {/* {step >= 4 && <PersonalDetails />} */}
             {step == 3 && <FeatureList />}

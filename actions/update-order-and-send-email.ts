@@ -12,6 +12,8 @@ export async function updateOrderId(id: string, secret:string, session_id:string
     
     const inserted = await db.update(orders).set({payment_status:'paid', session_id}).where(and(eq(orders.id, id), eq(orders.payment_secret, secret))).returning()
     const order = inserted[0];
+    
+    console.log("update order : ",order)
 
     if (!order?.id) {
       return { error: 'Order not placed due to backend issue.', status: 500 };
