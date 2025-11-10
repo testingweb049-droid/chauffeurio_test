@@ -169,7 +169,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
     const { formData, getTotalPrice, category } = get();
 
     const totalPrice = getTotalPrice();
-    const carImage = fleets.find((item) => item.displayName === formData.car.value)?.imageUrl;
+    const carImage = fleets.find((item) => item.category === formData.car.value)?.imageUrl;
 
     const orderData: OrderDataType = {
       fromLocation: formData.fromLocation.value,
@@ -377,12 +377,12 @@ const useFormStore = create<FormStoreType>((set, get) => ({
        return false;
       }
 
-
+     console.log("is Order Done ",true)
       set((state)=>({
         ...state,
         orderId: actualOrderId,
         paymentURL: paymentSession.url?.toString(),
-        isOrderDone:true
+        isOrderDone: true
       }));
 
     } catch (error) {

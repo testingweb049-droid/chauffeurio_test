@@ -10,6 +10,7 @@ import NewDateTimePicker from './NewDateTimePicker'
 import { uuid } from 'zod'
 import { CreateStripePaymentURLAction } from '@/actions/create-stripe-payment-url'
 import { randomUUID } from 'crypto'
+import { generateSecret } from '@/lib/generateSecret'
 
 // Counter component for extras
 function ExtraCounter({
@@ -83,10 +84,11 @@ function Step3() {
         setFormData('description', value);
     };
 
-    const payment_secret = 'dfdfdfdfd'
-    async function handleContinueToPayment ()  {
+    const payment_secret = generateSecret()
+    function handleContinueToPayment ()  {
+        console.log("working")
         if(formLoading) return;
-        await changeStep(true, 3, payment_secret)
+         changeStep(true, 3, payment_secret)
     };
 
     return (
@@ -198,7 +200,7 @@ function Step3() {
 
             {formError && <p className='text-center text-red-500 text-sm' >{formError}</p>}
 
-            <div onClick={handleContinueToPayment}   className={`w-full flex items-center justify-center gap-2 py-3 px-6 rounded-lg font-semibold text-lg transition-all ${formLoading
+            <div onClick={handleContinueToPayment}   className={`w-full cursor-pointer flex items-center justify-center gap-2 py-3 px-6 rounded-lg font-semibold text-lg transition-all ${formLoading
             ? "bg-primary text-white opacity-80 cursor-not-allowed"
             : "bg-primary text-white hover:bg-primary/80 shadow-md"
             }`}>
