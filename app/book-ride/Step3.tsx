@@ -10,6 +10,7 @@ import NewDateTimePicker from './NewDateTimePicker'
 import { uuid } from 'zod'
 import { CreateStripePaymentURLAction } from '@/actions/create-stripe-payment-url'
 import { randomUUID } from 'crypto'
+import { generateSecret } from '@/lib/generateSecret'
 
 // Counter component for extras
 function ExtraCounter({
@@ -83,7 +84,7 @@ function Step3() {
         setFormData('description', value);
     };
 
-    const payment_secret = 'one'
+    const payment_secret = generateSecret()
     function handleContinueToPayment ()  {
         console.log("working")
         if(formLoading) return;
