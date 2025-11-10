@@ -22,7 +22,7 @@ export async function updateOrderId(id: string, secret:string, session_id:string
      
     // Prepare email
     const orderLink = `https://chauffeurio.com/order/${order.id}`;
-    const carImage = order.car_image ?? '';
+    const carImage = `https://chauffeurio.com${order.car_image}`;
     let dbStops = [{label: 'Pickup Location', value: order.pickup_location}];
     if(order.stops)
         {
