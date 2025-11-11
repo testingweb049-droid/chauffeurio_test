@@ -10,13 +10,13 @@ function PaymentProcess({ id }:{id:string}) {
 
  async function BackFromStrip(){
     const response = await getOrderByIdAndSecret(id)
-    if (response?.error || response?.status !== 200 || !response?.order) {
+     if (response?.status !== 200 || !response?.order) {
           console.log("not found")
           router.push('/');
           return;
         }
         loadOrderIntoForm(response.order,3)
-        router.push('/book-ride');
+        setTimeout(()=>{router.push('/book-ride')},1)
  }
 
 
