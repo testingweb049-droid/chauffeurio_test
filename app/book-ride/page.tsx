@@ -23,10 +23,6 @@ function Page() {
   
 
   useEffect(()=>{
-    console.log(step , 'step 1')
-    console.log(orderId , 'orderId 1')
-    console.log(paymentURL , 'paymentURL 1')
-    console.log(isOrderDone , 'isOrderDone 1')
     if(orderId && paymentURL && isOrderDone){
       router.push(`/payment-process/${orderId}`);
     }
