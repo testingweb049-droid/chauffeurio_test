@@ -154,6 +154,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
     (formData.childSeat.value * 5) +
     (formData.infantSeat.value * 5) +
     (formData.boosterSeat.value * 5) +
+    (formData.extraStops.value * 15) +
       (formData.isFlightTrack.value ? 7 : 0) +
       (formData.isMeetGreet.value ? 15 : 0);
 

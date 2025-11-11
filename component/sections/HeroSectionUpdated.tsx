@@ -12,16 +12,15 @@ const HeroSectionUpdated: React.FC = () => {
   return (
     <div className="relative">
       {/* Desktop Background */}
-      <div className="hidden md:block">
+      <div className="hidden md:block w-full h-full">
         <Image
           src={heroBackground}
           alt="Car rental service background"
           fill
           className="object-cover"
-          priority
-          quality={85}
+          priority 
+          quality={100}
           placeholder="blur"
-          sizes="100vw"
         />
       </div>
 
@@ -31,7 +30,7 @@ const HeroSectionUpdated: React.FC = () => {
           src="/HeroImage.png"
           alt="Car rental service background mobile"
           fill
-          className="object-center"
+          className="object-cover"
           priority
           quality={85}
           sizes="100vw"
@@ -52,11 +51,11 @@ const HeroSectionUpdated: React.FC = () => {
               className="w-16 lg:w-40 object-contain hidden md:block"
             />
 
-            <h2 className=" font-semibold md:font-bold text-[#FFFBF6] md:text-xl text-lg pt-6 hidden md:block ">
+            <h2 className="font-semibold md:font-bold text-[#FFFBF6] md:text-xl text-lg pt-6 ">
               {hero.eyebrow}
             </h2>
 
-            <h1 className="font-semibold text-2xl md:text-3xl lg:text-4xl ">
+            <h1 className="font-semibold text-2xl md:text-3xl lg:text-4xl  ">
               {hero.titleLines.map((line, i) => (
                 <span key={i}>
                   {line}
