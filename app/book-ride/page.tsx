@@ -28,16 +28,13 @@ function Page() {
     console.log(paymentURL , 'paymentURL 1')
     console.log(isOrderDone , 'isOrderDone 1')
     if(orderId && paymentURL && isOrderDone){
-      router.replace(`/payment-process/${orderId}`);
-      router.refresh();
-      
+      router.push(`/payment-process/${orderId}`);
     }
   },[orderId, paymentURL, isOrderDone])
 
   useEffect(() => {
     if (step === 1 ) {
-      router.replace('/');
-      router.refresh();
+      router.push('/');
     }
 
     if (headerRef.current) {

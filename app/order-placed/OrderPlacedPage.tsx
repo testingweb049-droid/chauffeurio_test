@@ -33,7 +33,6 @@ const router = useRouter()
 useEffect(()=>{
     if(!isOrderDone){
         router.replace('/')
-        router.refresh()
     }
     if (headerRef.current) {
       headerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
