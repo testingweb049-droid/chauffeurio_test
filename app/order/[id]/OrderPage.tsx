@@ -17,6 +17,7 @@ import {
   Baby,
   Briefcase,
   Star,
+  Car,
 } from 'lucide-react'
 import { getOrderById } from '@/actions/get-order'
 
@@ -145,7 +146,7 @@ export default function OrderPage({ id }: OrderPageProps) {
         <div className="flex-1">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <StatCard label="Total Price" value={`€${order.price}`} icon={<CreditCard className="w-5 h-5" />} />
-            <StatCard label="Vehicle" value={order.car} icon={<Plane className="w-5 h-5" />} />
+            <StatCard label="Vehicle" value={order.car} icon={<Car className="w-5 h-5" />} />
             <StatCard label="Passengers" value={order.passengers} icon={<Users className="w-5 h-5" />} />
             <StatCard label="Bags" value={order.bags} icon={<Luggage className="w-5 h-5" />} />
           </div>

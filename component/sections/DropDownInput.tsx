@@ -40,17 +40,21 @@ export default function NewDropdownInput({
 
   const error =
     !Array.isArray(formData[fieldName]) && formData[fieldName]?.error
-  // Filtered options (no fractional hours)
+  // Filtered options: remove "1 Hour" and add description
   const filtered = options
-    .filter(
-      (opt) =>
-        opt.label.toLowerCase().includes(search.toLowerCase()) ||
-        opt.value.toLowerCase().includes(search.toLowerCase())
-    )
     .filter((opt) => {
-      // Remove fractional hours like 1.5, 2.5, etc.
       const num = parseFloat(opt.value)
-      return Number.isInteger(num)
+      // Only integer values starting from 2
+      return Number.isInteger(num) && num >= 2
+    })
+    .map((opt) => {
+      const num = parseInt(opt.value)
+      const km = num * 20
+      const miles = Math.round(km * 0.621371) // km to miles
+      return {
+        ...opt,
+        label: `${num} hours (includes up to ${km} km / ${miles} miles)`,
+      }
     })
 
 

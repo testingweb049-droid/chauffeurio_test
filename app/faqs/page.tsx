@@ -7,19 +7,18 @@ import { ClientSideStrings } from "@/component/translations/ClientSideTranslatio
 import SEO from "@/component/SEO";
 
 export default function FaqsPage() {
-  const { faqPage } = ClientSideStrings(); // { title, categories }
+  const { faqPage } = ClientSideStrings(); // { title, questions }
 
-  // Clone to satisfy FaqsCard's mutable prop typing
-  const faqsForCard =
-    (faqPage?.categories ?? []).map(cat => ({
-      category: cat.category,
-      questions: cat.questions.map(q => ({ ...q }))
-    })) || [];
+  // Flat list of questions for FaqsCard
+  const faqsForCard = faqPage?.questions ? [...faqPage.questions] : [];
 
   return (
     <div>
       <SEO />
-      <HeroSection2 bgImage="/e8413d5a6c22ee75ffa12886e488ceddcb609400.jpg" text={faqPage?.title ?? "FAQS"} />
+      <HeroSection2
+        bgImage="/e8413d5a6c22ee75ffa12886e488ceddcb609400.jpg"
+        text={faqPage?.title ?? "FAQS"}
+      />
       <div className="max-w-7xl m-auto md:py-16 py-8">
         <FaqsCard faqs={faqsForCard} />
       </div>

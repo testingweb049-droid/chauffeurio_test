@@ -262,63 +262,87 @@ export const translations = {
     },
   ],
 },
-faqPage: {
-      title: "FAQS",
-      categories: [
+    faqPage: {
+      "title": "FAQS",
+      "questions": [
         {
-          category: "Before You Book",
-          questions: [
-            {
-              id: 1,
-              question: "What time details do I need to provide when booking?",
-              answer:
-                "Please provide the arrival time of your flight or train. Don’t forget to include your departure location, airline or train company, and the flight/train number."
-            },
-            {
-              id: 2,
-              question: "Can I change my booking after it's confirmed?",
-              answer:
-                "Yes, you can modify your booking up to 24 hours before your scheduled pick-up time."
-            }
-          ]
+          "id": 1,
+          "question": "What services does CHAUFFEURIO offer?",
+          "answer": "CHAUFFEURIO provides reliable and comfortable private transfer services in Valencia and surrounding areas. Our services include airport transfers, city-to-city transfers, hourly chauffeur service, and customized tours. Whether you’re traveling for business or leisure, our professional chauffeurs ensure a smooth and stress-free experience."
         },
         {
-          category: "My Reservations",
-          questions: [
-            {
-              id: 3,
-              question:
-                "I’ve booked already but haven’t received a confirmation email, what should I do?",
-              answer:
-                "Sometimes our emails may land in your spam or junk folder. Please check there first. If you still don’t see it, reach out to us directly."
-            },
-            {
-              id: 4,
-              question: "Am I able to cancel my booking?",
-              answer:
-                "Yes, cancellations are free of charge as long as they are made at least 48 hours before your scheduled trip."
-            }
-          ]
+          "id": 2,
+          "question": "How can I book a transfer?",
+          "answer": "You can easily book your transfer through our official website. Simply enter your pick-up and drop-off details, select the vehicle type, and confirm your booking in a few clicks. After booking, you’ll receive an instant confirmation by email with all trip details."
         },
         {
-          category: "Transfers",
-          questions: [
-            {
-              id: 5,
-              question: "How will I find my driver at the airport or station?",
-              answer:
-                "Your driver will be waiting at the location you provided in your booking, holding a sign with your name, at the terminal or station exit."
-            },
-            {
-              id: 6,
-              question: "What should I do if I can’t find my driver?",
-              answer:
-                "If you don’t see your driver, simply call the contact number we provide, and we’ll guide you."
-            }
-          ]
+        "id": 3,
+        "question": "What is included in the price?",
+        "answer": "Our prices are final and all-inclusive — covering taxes, tolls, and driver waiting time (within the free limit). There are no hidden charges."
+        },
+        {
+          "id": 4,
+          "question": "Where will I meet my driver?",
+          "answer": "Your chauffeur will be waiting for you at the designated meeting point: • Airport: In the arrivals hall, after luggage claim, holding a sign with your name. • Train station: At the passenger exit area, holding a sign with your name. • Hotel or private address: In front of the main entrance or at the reception area. You’ll receive full meeting instructions in your booking confirmation email."
+        },
+        {
+          "id": 5,
+          "question": "What are the free waiting times?",
+          "answer": "We offer complimentary waiting time depending on your pick-up location: • Airports: 60 minutes after actual landing time • Train stations: 30 minutes after scheduled arrival • Hotels, apartments, or other addresses: 15 minutes after scheduled pick-up time. If your driver waits beyond these limits, additional charges may apply."
+        },
+        {
+        "id": 6,
+        "question": "What if my flight or train is delayed?",
+        "answer": "No need to worry — we monitor flight and train schedules in real time. Your driver will adjust the pick-up time accordingly, at no extra cost within the included waiting time."
+        },
+        {
+          "id": 7,
+          "question": "Can I cancel my booking?",
+          "answer": "Yes, you can cancel your booking free of charge up to 24 hours before the scheduled pick-up time. Cancellations made within 24 hours of the pick-up time are non-refundable."
+        },
+        {
+          "id": 8,
+          "question": "What if I need to make changes to my reservation?",
+          "answer": "You can modify your booking (time, date, or destination) up to 24 hours before your transfer by contacting our customer support team. Last-minute changes are subject to availability."
+        },
+        {
+          "id": 9,
+          "question": "What types of vehicles do you offer?",
+          "answer": "We provide a range of modern, comfortable, and fully licensed vehicles including sedans, executive cars, luxury vans, and minibuses — ideal for individuals, families, or groups."
+        },
+        {
+          "id": 10,
+          "question": "Are your drivers professional and licensed?",
+          "answer": "Yes, all CHAUFFEURIO drivers are professionally trained, English-speaking, licensed, and insured. They prioritize punctuality, safety, and comfort for every passenger."
+        },
+        {
+          "id": 11,
+          "question": "Do you provide child seats?",
+          "answer": "Yes, child and booster seats are available upon request. Please mention this during the booking process so we can prepare the appropriate seat for your child’s age and size."
+        },
+        {
+          "id": 12,
+          "question": "Do you operate outside Valencia?",
+          "answer": "Absolutely. In addition to Valencia city and airport transfers, we offer intercity transfers to destinations such as Alicante, Barcelona, Madrid, and other Spanish cities."
+        },
+        {
+          "id": 13,
+          "question": "What payment methods do you accept?",
+          "answer": "Payments can be made securely online using major credit and debit cards. For business clients or special arrangements, we can provide invoice-based billing upon request."
+        },
+        {
+          "id": 14,
+          "question": "What should I do if I can’t find my driver?",
+          "answer": "If you cannot locate your driver at the meeting point, please contact the phone number provided in your confirmation email. Our support team and chauffeur will assist you immediately."
+        },
+        {
+          "id": 15,
+          "question": "Do you operate 24/7?",
+          "answer": "Yes, CHAUFFEURIO operates 24 hours a day, 7 days a week, including weekends and public holidays. Whether your flight arrives early in the morning or late at night, our chauffeurs are always available to provide reliable and comfortable transfers."
         }
       ]
-    },
+    }
+    ,
     contact: {
       heroTitle: "Contact",
       eyebrow: "Contact Us",
@@ -870,65 +894,87 @@ businessChhuff: {
     },
   ],
 },
-faqPage: {
-      title: "FAQ",
-      categories: [
+    faqPage: {
+      "title": "FAQ",
+      "questions": [
         {
-          category: "Avant votre réservation",
-          questions: [
-            {
-              id: 1,
-              question:
-                "Quelles informations d’horaires dois-je fournir lors de la réservation ?",
-              answer:
-                "Indiquez l’heure d’arrivée de votre vol ou train. Pensez à inclure votre lieu de départ, la compagnie aérienne ou ferroviaire, ainsi que le numéro de vol/train."
-            },
-            {
-              id: 2,
-              question: "Puis-je modifier ma réservation après confirmation ?",
-              answer:
-                "Oui, vous pouvez la modifier jusqu’à 24 heures avant l’heure de prise en charge prévue."
-            }
-          ]
+        "id": 1,
+        "question": "Quels services propose CHAUFFEURIO ?",
+        "answer": "CHAUFFEURIO propose des services de transfert privé fiables et confortables à Valence et dans les environs. Nos prestations incluent les transferts aéroport, les transferts entre villes, le service chauffeur à l’heure et les visites personnalisées. Que vous voyagiez pour affaires ou pour le plaisir, nos chauffeurs professionnels assurent une expérience fluide et sans stress."
+      },
+      {
+        "id": 2,
+        "question": "Comment puis-je réserver un transfert ?",
+        "answer": "Vous pouvez facilement réserver votre transfert via notre site officiel. Saisissez simplement vos lieux de prise en charge et de destination, sélectionnez le type de véhicule, puis confirmez votre réservation en quelques clics. Vous recevrez ensuite une confirmation instantanée par e-mail avec tous les détails du trajet."
+      },
+      {
+        "id": 3,
+        "question": "Qu’est-ce qui est inclus dans le prix ?",
+        "answer": "Nos tarifs sont définitifs et tout compris — incluant les taxes, les péages et le temps d’attente du chauffeur (dans la limite gratuite). Aucun frais caché ne s’applique."
+      },
+      {
+        "id": 4,
+        "question": "Où vais-je retrouver mon chauffeur ?",
+        "answer": "Votre chauffeur vous attendra au point de rencontre convenu : • Aéroport : dans le hall des arrivées, après la récupération des bagages, avec une pancarte à votre nom. • Gare : à la sortie des passagers, avec une pancarte à votre nom. • Hôtel ou adresse privée : devant l’entrée principale ou à la réception. Les instructions complètes de rencontre figurent dans votre e-mail de confirmation."
+      },
+      {
+        "id": 5,
+        "question": "Quels sont les temps d’attente gratuits ?",
+        "answer": "Nous offrons un temps d’attente gratuit selon votre lieu de prise en charge : • Aéroports : 60 minutes après l’heure réelle d’atterrissage • Gares : 30 minutes après l’heure d’arrivée prévue • Hôtels, appartements ou autres adresses : 15 minutes après l’heure prévue de prise en charge. Des frais supplémentaires peuvent s’appliquer au-delà de ces limites."
+      },
+      {
+        "id": 6,
+        "question": "Que se passe-t-il si mon vol ou train est retardé ?",
+        "answer": "Aucun souci — nous suivons en temps réel les horaires de vols et de trains. Votre chauffeur ajustera l’heure de prise en charge en conséquence, sans frais supplémentaires dans la limite du temps d’attente inclus."
+      },
+      {
+        "id": 7,
+        "question": "Puis-je annuler ma réservation ?",
+        "answer": "Oui, vous pouvez annuler votre réservation gratuitement jusqu’à 24 heures avant l’heure prévue de prise en charge. Les annulations effectuées dans les 24 heures précédant le trajet ne sont pas remboursables."
+      },
+      {
+        "id": 8,
+        "question": "Puis-je modifier ma réservation après confirmation ?",
+        "answer": "Oui, vous pouvez modifier votre réservation (heure, date ou destination) jusqu’à 24 heures avant le transfert, en contactant notre service client. Les changements de dernière minute sont soumis à disponibilité."
+      },
+      {
+        "id": 9,
+        "question": "Quels types de véhicules proposez-vous ?",
+        "answer": "Nous proposons une gamme de véhicules modernes, confortables et entièrement agréés : berlines, voitures exécutives, vans de luxe et minibus — adaptés aux particuliers, familles ou groupes."
         },
         {
-          category: "Mes réservations",
-          questions: [
-            {
-              id: 3,
-              question:
-                "J’ai réservé mais je n’ai pas reçu d’email de confirmation, que faire ?",
-              answer:
-                "Nos emails peuvent arriver dans les courriers indésirables. Merci de vérifier ce dossier. Si vous ne le trouvez pas, contactez-nous."
-            },
-            {
-              id: 4,
-              question: "Puis-je annuler ma réservation ?",
-              answer:
-                "Oui, l’annulation est gratuite si elle est effectuée au moins 48 heures avant votre trajet."
-            }
-          ]
+        "id": 10,
+        "question": "Vos chauffeurs sont-ils professionnels et agréés ?",
+        "answer": "Oui, tous les chauffeurs CHAUFFEURIO sont formés, anglophones, agréés et assurés. Ils veillent à la ponctualité, la sécurité et le confort de chaque passager."
+      },
+      {
+        "id": 11,
+        "question": "Fournissez-vous des sièges pour enfants ?",
+        "answer": "Oui, des sièges enfants et rehausseurs sont disponibles sur demande. Merci de le préciser lors de la réservation afin que nous puissions préparer le siège adapté à l’âge et à la taille de votre enfant."
+      },
+      {
+          "id": 12,
+          "question": "Opérez-vous en dehors de Valence ?",
+          "answer": "Absolument. En plus des transferts dans Valence et depuis/vers l’aéroport, nous proposons des trajets interurbains vers Alicante, Barcelone, Madrid et d’autres villes espagnoles."
         },
         {
-          category: "Transferts",
-          questions: [
-            {
-              id: 5,
-              question:
-                "Comment retrouver mon chauffeur à l’aéroport ou à la gare ?",
-              answer:
-                "Votre chauffeur vous attendra à l’endroit indiqué lors de la réservation, avec une pancarte à votre nom, à la sortie du terminal ou de la gare."
-            },
-            {
-              id: 6,
-              question: "Que faire si je ne trouve pas mon chauffeur ?",
-              answer:
-                "Appelez simplement le numéro de contact fourni et nous vous guiderons."
-            }
-          ]
+        "id": 13,
+        "question": "Quels modes de paiement acceptez-vous ?",
+        "answer": "Les paiements peuvent être effectués en ligne de manière sécurisée par carte de crédit ou de débit. Pour les clients professionnels ou les demandes spécifiques, nous proposons une facturation sur demande."
+      },
+      {
+        "id": 14,
+        "question": "Que faire si je ne trouve pas mon chauffeur ?",
+        "answer": "Si vous ne trouvez pas votre chauffeur au point de rencontre, veuillez contacter le numéro indiqué dans votre e-mail de confirmation. Notre équipe d’assistance et le chauffeur vous aideront immédiatement."
+      },
+      {
+          "id": 15,
+          "question": "Êtes-vous disponibles 24h/24 et 7j/7 ?",
+          "answer": "Oui, CHAUFFEURIO est disponible 24 heures sur 24, 7 jours sur 7, y compris les week-ends et jours fériés. Que votre vol arrive tôt le matin ou tard le soir, nos chauffeurs sont toujours prêts à assurer un transfert fiable et confortable."
         }
       ]
-    },
+    }
+    ,
     contact: {
       heroTitle: "Contact",
       eyebrow: "Contactez-nous",
@@ -1482,65 +1528,87 @@ businessChhuff: {
     },
   ],
 },
-faqPage: {
-      title: "FAQS",
-      categories: [
+    faqPage: {
+    "title": "FAQS",
+    "questions": [
+      {
+        "id": 1,
+        "question": "¿Qué servicios ofrece CHAUFFEURIO?",
+        "answer": "CHAUFFEURIO ofrece servicios de traslado privado fiables y cómodos en Valencia y sus alrededores. Nuestros servicios incluyen traslados al aeropuerto, traslados de ciudad a ciudad, servicio de chófer por horas y tours personalizados. Ya sea por negocios o placer, nuestros chóferes profesionales garantizan una experiencia fluida y sin estrés."
+      },
+      {
+        "id": 2,
+        "question": "¿Cómo puedo reservar un traslado?",
+        "answer": "Puede reservar fácilmente su traslado a través de nuestro sitio web oficial. Simplemente introduzca los detalles de recogida y destino, seleccione el tipo de vehículo y confirme su reserva en pocos clics. Después de reservar, recibirá una confirmación instantánea por correo electrónico con todos los detalles del viaje."
+      },
+      {
+        "id": 3,
+        "question": "¿Qué está incluido en el precio?",
+        "answer": "Nuestros precios son finales y todo incluido: impuestos, peajes y tiempo de espera del conductor (dentro del límite gratuito). No hay cargos ocultos."
+      },
+      {
+        "id": 4,
+        "question": "¿Dónde me encontraré con mi conductor?",
+        "answer": "Su chófer le estará esperando en el punto de encuentro designado: • Aeropuerto: en la sala de llegadas, después de la recogida de equipaje, con un cartel con su nombre. • Estación de tren: en la salida de pasajeros, con un cartel con su nombre. • Hotel o dirección privada: frente a la entrada principal o en la recepción. Recibirá instrucciones completas de encuentro en el correo electrónico de confirmación."
+      },
+      {
+        "id": 5,
+        "question": "¿Cuáles son los tiempos de espera gratuitos?",
+        "answer": "Ofrecemos tiempo de espera gratuito según el lugar de recogida: • Aeropuertos: 60 minutos después del aterrizaje real • Estaciones de tren: 30 minutos después de la llegada programada • Hoteles, apartamentos u otras direcciones: 15 minutos después de la hora programada de recogida. Si el conductor espera más allá de estos límites, se pueden aplicar cargos adicionales."
+      },
+      {
+        "id": 6,
+        "question": "¿Qué pasa si mi vuelo o tren se retrasa?",
+        "answer": "No se preocupe — monitorizamos los horarios de vuelos y trenes en tiempo real. Su conductor ajustará la hora de recogida en consecuencia, sin coste adicional dentro del tiempo de espera incluido."
+      },
         {
-          category: "Antes de reservar",
-          questions: [
-            {
-              id: 1,
-              question:
-                "¿Qué datos de horario debo proporcionar al reservar?",
-              answer:
-                "Indique la hora de llegada de su vuelo o tren. No olvide incluir su lugar de salida, la aerolínea o compañía ferroviaria y el número de vuelo/tren."
-            },
-            {
-              id: 2,
-              question: "¿Puedo cambiar mi reserva después de confirmarla?",
-              answer:
-                "Sí, puede modificarla hasta 24 horas antes de la hora de recogida programada."
-            }
-          ]
+          "id": 7,
+          "question": "¿Puedo cancelar mi reserva?",
+          "answer": "Sí, puede cancelar su reserva de forma gratuita hasta 24 horas antes de la hora programada de recogida. Las cancelaciones realizadas dentro de las 24 horas previas al traslado no son reembolsables."
         },
         {
-          category: "Mis reservas",
-          questions: [
-            {
-              id: 3,
-              question:
-                "Ya reservé pero no he recibido el correo de confirmación, ¿qué hago?",
-              answer:
-                "A veces nuestros correos llegan a la carpeta de spam. Revísela primero. Si no aparece, contáctenos directamente."
-            },
-            {
-              id: 4,
-              question: "¿Puedo cancelar mi reserva?",
-              answer:
-                "Sí, la cancelación es gratuita si se realiza al menos 48 horas antes del viaje."
-            }
-          ]
+          "id": 8,
+          "question": "¿Qué pasa si necesito hacer cambios en mi reserva?",
+          "answer": "Puede modificar su reserva (hora, fecha o destino) hasta 24 horas antes del traslado, contactando con nuestro equipo de atención al cliente. Los cambios de última hora están sujetos a disponibilidad."
         },
         {
-          category: "Traslados",
-          questions: [
-            {
-              id: 5,
-              question:
-                "¿Cómo encontraré a mi conductor en el aeropuerto o la estación?",
-              answer:
-                "Su conductor le esperará en el lugar indicado en su reserva, con un cartel con su nombre, en la salida del terminal o estación."
-            },
-            {
-              id: 6,
-              question: "¿Qué hago si no encuentro a mi conductor?",
-              answer:
-                "Llame al número de contacto que le facilitamos y le guiaremos."
-            }
-          ]
+          "id": 9,
+          "question": "¿Qué tipos de vehículos ofrecen?",
+          "answer": "Disponemos de una amplia gama de vehículos modernos, cómodos y totalmente autorizados: berlinas, coches ejecutivos, furgonetas de lujo y minibuses, ideales para particulares, familias o grupos."
+        },
+        {
+          "id": 10,
+          "question": "¿Sus conductores son profesionales y están autorizados?",
+          "answer": "Sí, todos los conductores de CHAUFFEURIO están formados profesionalmente, hablan inglés, y están autorizados y asegurados. Priorizan la puntualidad, la seguridad y la comodidad de cada pasajero."
+        },
+        {
+          "id": 11,
+          "question": "¿Proporcionan asientos para niños?",
+          "answer": "Sí, disponemos de sillas y elevadores para niños bajo solicitud. Por favor, indíquelo durante el proceso de reserva para preparar el asiento adecuado según la edad y tamaño del niño."
+        },
+        {
+          "id": 12,
+          "question": "¿Operan fuera de Valencia?",
+          "answer": "Por supuesto. Además de los traslados dentro de la ciudad de Valencia y el aeropuerto, ofrecemos traslados interurbanos a destinos como Alicante, Barcelona, Madrid y otras ciudades españolas."
+        },
+        {
+          "id": 13,
+          "question": "¿Qué métodos de pago aceptan?",
+          "answer": "Los pagos se pueden realizar de forma segura en línea mediante tarjetas de crédito o débito. Para clientes empresariales o acuerdos especiales, podemos ofrecer facturación bajo solicitud."
+        },
+        {
+          "id": 14,
+          "question": "¿Qué hago si no encuentro a mi conductor?",
+          "answer": "Si no encuentra a su conductor en el punto de encuentro, póngase en contacto con el número de teléfono indicado en su correo de confirmación. Nuestro equipo de soporte y el conductor le ayudarán de inmediato."
+        },
+        {
+          "id": 15,
+          "question": "¿Operan las 24 horas del día?",
+          "answer": "Sí, CHAUFFEURIO opera las 24 horas del día, los 7 días de la semana, incluidos fines de semana y festivos. Ya sea que su vuelo llegue temprano por la mañana o tarde en la noche, nuestros chóferes siempre están disponibles para ofrecer traslados cómodos y fiables."
         }
       ]
-    }, 
+    },
+
     contact: {
       heroTitle: "Contacto",
       eyebrow: "Contáctanos",
