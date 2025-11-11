@@ -16,7 +16,7 @@ function PaymentProcess({ id }:{id:string}) {
           return;
         }
         loadOrderIntoForm(response.order,3)
-        setTimeout(()=>{router.push('/book-ride')},1)
+        setTimeout(()=>{router.push('/book-ride')},1000)
  }
 
 
