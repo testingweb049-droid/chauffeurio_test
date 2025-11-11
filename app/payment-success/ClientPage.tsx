@@ -17,6 +17,10 @@ export default function PaymentSuccessPage() {
     const id = searchParams.get("id")
     const secret = searchParams.get("sss")
 
+    console.log("session_id ",session_id)
+    console.log("order_id ",id)
+    console.log("secret ",secret)
+
     async function handlePaymentUpdate() {
       try {
         if (!session_id || !id || !secret) {
@@ -46,6 +50,7 @@ export default function PaymentSuccessPage() {
     handlePaymentUpdate()
   }, [searchParams, router])
 
+
   if (loading) {
     return (
       <div className="w-full min-h-[50vh] flex items-center justify-center">
@@ -59,7 +64,7 @@ export default function PaymentSuccessPage() {
 
   if (error) {
     return (
-      <div className="w-full min-h-[50vh] flex flex-col items-center justify-center text-center">
+      <div className="w-full min-h-[80vh] flex flex-col items-center justify-center text-center">
         <p className="text-red-600 font-semibold text-lg mb-2">Order Failed ❌</p>
         <p className="text-gray-600">{error}</p>
       </div>

@@ -46,7 +46,8 @@ export interface OrderDataType {
 type NewOrder = InferInsertModel<typeof orders>;
 
 export async function createOrder(data: OrderDataType, payment_secret:string) {
-  console.log("data")
+  console.log("data ",data)
+  console.log("payment_secret ",payment_secret)
   try {
     const orderData = {
       category: String(data.category || 'trip'),

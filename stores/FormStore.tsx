@@ -157,7 +157,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
       (formData.isFlightTrack.value ? 7 : 0) +
       (formData.isMeetGreet.value ? 15 : 0);
 
-    return basePrice + extrasTotal + returnBasePrice;
+    return Number((basePrice + extrasTotal + returnBasePrice).toFixed());
   },
 
   getActualOrderId: () => {
@@ -319,7 +319,8 @@ const useFormStore = create<FormStoreType>((set, get) => ({
 
     if(_step===3 && isNext){
       const totalPrice = getTotalPrice();
-      const carImage = fleets.find((item) => item.displayName === formData.car.value)?.imageUrl;
+      const carImage = fleets.find((item) => item.category === formData.car.value)?.imageUrl;
+
       const orderData: OrderDataType = {
       fromLocation: formData.fromLocation.value,
       toLocation: formData.toLocation.value,
@@ -327,7 +328,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
       duration: formData.duration.value,
       distance: formData.distance.value,
       car: formData.car.value,
-      price: totalPrice.toString(),
+      price: totalPrice.toFixed(2),
       name: formData.name.value,
       phone: formData.phone.value,
       email: formData.email.value,

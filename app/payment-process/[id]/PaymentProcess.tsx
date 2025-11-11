@@ -16,7 +16,7 @@ function PaymentProcess({ id }:{id:string}) {
           return;
         }
         loadOrderIntoForm(response.order,3)
-        setTimeout(()=>{router.push('/book-ride')},1000)
+        router.push('/book-ride')
  }
 
 
@@ -24,7 +24,7 @@ useEffect(() => {
 
  if(orderId && isOrderDone && paymentURL ){
         console.log("redirect to stripe")
-        window.location.replace(paymentURL); 
+        window.location.href =paymentURL ; 
           return;
         } else{
             void BackFromStrip()

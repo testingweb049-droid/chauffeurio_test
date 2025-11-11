@@ -123,7 +123,7 @@ const stopSection: React.CSSProperties = {
 const stopLabel: React.CSSProperties = {
   fontSize: "14px",
   color: "#666",
-  marginBottom: "2px",
+  marginBottom: "0px",
 };
 
 const stopValue: React.CSSProperties = {
