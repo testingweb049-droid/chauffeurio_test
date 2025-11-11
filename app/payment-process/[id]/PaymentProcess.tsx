@@ -1,20 +1,17 @@
 'use client'
 import useFormStore from '@/stores/FormStore'
 import { useEffect } from 'react'
-import { useReferrer } from '../URLHook';
 import { getOrderByIdAndSecret } from '@/actions/get-order-by-id-secret';
 import { useRouter } from 'next/navigation';
 
 function PaymentProcess({ id }:{id:string}) {
  const { orderId, isOrderDone, paymentURL, loadOrderIntoForm } = useFormStore()
- const { referrer, isExternal, referrerPage } = useReferrer();
  const router = useRouter()
 
  async function BackFromStrip(){
     const response = await getOrderByIdAndSecret(id)
     if (response?.error || response?.status !== 200 || !response?.order) {
           console.log("not found")
-          router.replace('/');
           router.push('/');
           return;
         }
@@ -22,25 +19,18 @@ function PaymentProcess({ id }:{id:string}) {
         router.push('/book-ride');
  }
 
- console.log('referrer, isExternal, referrerPage ',referrer, isExternal, referrerPage)
 
 useEffect(() => {
- if (isExternal) {
-      void BackFromStrip()
-      return;
-    
-  } else {
-     if(orderId && isOrderDone && paymentURL && referrerPage  && referrer){
+
+ if(orderId && isOrderDone && paymentURL ){
         console.log("redirect to stripe")
-        // router.push(paymentURL)
-          window.location.href = paymentURL;
+        window.location.replace(paymentURL); 
           return;
         } else{
             void BackFromStrip()
             return;
         }
-  }
-}, [referrer, isExternal, referrerPage , orderId, ]);
+}, [orderId,isOrderDone,paymentURL ]);
 
 
   return (
