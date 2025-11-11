@@ -7,9 +7,6 @@ import useFormStore from '@/stores/FormStore'
 import AddReturn from './AddReturn'
 import MyPaymentForm from './PaymentForm'
 import NewDateTimePicker from './NewDateTimePicker'
-import { uuid } from 'zod'
-import { CreateStripePaymentURLAction } from '@/actions/create-stripe-payment-url'
-import { randomUUID } from 'crypto'
 import { generateSecret } from '@/lib/generateSecret'
 
 // Counter component for extras
@@ -68,27 +65,27 @@ function ExtraCounter({
 }
 
 function Step3() {
-    const { formData, setFormData, changeStep, getTotalPrice,  formLoading, formError } = useFormStore();
+    const { formData, setFormData, changeStep, getTotalPrice, formLoading, formError } = useFormStore();
 
-    // Read directly from the store
+    // Extras
     const childSeat = Number(formData.childSeat.value) || 0;
     const infantSeat = Number(formData.infantSeat.value) || 0;
     const boosterSeat = Number(formData.boosterSeat.value) || 0;
     const extraStops = Number(formData.extraStops?.value || 0);
 
+    // State for collapsibles
     const [isInstructionsOpen, setIsInstructionsOpen] = useState(Boolean(formData.description.value));
-    
-   console.log(" formData : ",formData)
+    const [isAirportDetailsOpen, setIsAirportDetailsOpen] = useState(
+        Boolean(formData.flightName.value || formData.flightNumber.value)
+    );
 
-    const handleInstructionsChange = (value: string) => {
-        setFormData('description', value);
-    };
+    const handleInstructionsChange = (value: string) => setFormData('description', value);
 
-    const payment_secret = generateSecret()
-    function handleContinueToPayment ()  {
-        console.log("working")
-        if(formLoading) return;
-         changeStep(true, 3, payment_secret)
+    const payment_secret = generateSecret();
+
+    const handleContinueToPayment = () => {
+        if (formLoading) return;
+        changeStep(true, 3, payment_secret);
     };
 
     return (
@@ -96,16 +93,15 @@ function Step3() {
             <div className='text-2xl font-semibold text-primary'>Passenger Details</div>
 
             <div className='flex flex-col gap-4 w-full'>
-
                 {/* Passenger Name + Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div >
+                    <div>
                         <DetailsInput field='name' placeholder='Passenger full name' Icon={User} type='text' />
                         {formData.name.error && <p className="text-red-500 text-sm mt-1">{formData.name.error}</p>}
                     </div>
-                    <div >
+                    <div>
                         <DetailsInput field='email' placeholder='Your email' Icon={Mail} type='email' />
-                        {formData.email.error && <p className="text-red-500 text-sm mt-1">{formData.email.error }</p>}
+                        {formData.email.error && <p className="text-red-500 text-sm mt-1">{formData.email.error}</p>}
                     </div>
                 </div>
 
@@ -115,28 +111,43 @@ function Step3() {
                 </div>
 
                 {/* Airport Details */}
-                <div>
-                    <div className="font-semibold text-gray-900 mb-2">Airport Details</div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div >
-                            <DetailsInput
-                                field="flightName"
-                                placeholder="Airline Name"
-                                Icon={Plane}
-                                type="text"
-                            />
-                            {formData.flightName.error && <p className="text-red-500 text-sm mt-1">{formData.flightName.error }</p>}
-                        </div>
-                        <div >
-                            <DetailsInput
-                                field="flightNumber"
-                                placeholder="Flight Number"
-                                Icon={Plane}
-                                type="text"
-                            />
-                            {formData.flightNumber.error && <p className="text-red-500 text-sm mt-1">{formData.flightNumber.error }</p>}
-                        </div>
+                <div className="w-full">
+                    <div className="flex items-center gap-3 mb-2">
+                        <input
+                            type="checkbox"
+                            checked={isAirportDetailsOpen}
+                            onChange={(e) => setIsAirportDetailsOpen(e.target.checked)}
+                            className="w-5 h-5 rounded border-gray-300 cursor-pointer accent-brand"
+                        />
+                        <div className="font-semibold text-gray-900">Add Airport Details</div>
                     </div>
+
+                    {isAirportDetailsOpen && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <DetailsInput
+                                    field="flightName"
+                                    placeholder="Airline Name"
+                                    Icon={Plane}
+                                    type="text"
+                                />
+                                {formData.flightName.error && (
+                                    <p className="text-red-500 text-sm mt-1">{formData.flightName.error}</p>
+                                )}
+                            </div>
+                            <div>
+                                <DetailsInput
+                                    field="flightNumber"
+                                    placeholder="Flight Number"
+                                    Icon={Plane}
+                                    type="text"
+                                />
+                                {formData.flightNumber.error && (
+                                    <p className="text-red-500 text-sm mt-1">{formData.flightNumber.error}</p>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <AddReturn />
@@ -195,26 +206,28 @@ function Step3() {
                         className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-primary"
                     />
                 )}
-
             </div>
 
-            {formError && <p className='text-center text-red-500 text-sm' >{formError}</p>}
+            {formError && <p className='text-center text-red-500 text-sm'>{formError}</p>}
 
-            <div onClick={handleContinueToPayment}   className={`w-full cursor-pointer flex items-center justify-center gap-2 py-3 px-6 rounded-lg font-semibold text-lg transition-all ${formLoading
-            ? "bg-primary text-white opacity-80 cursor-not-allowed"
-            : "bg-primary text-white hover:bg-primary/80 shadow-md"
-            }`}>
-                 {formLoading ? (
-            <>
-              <Loader2 className="w-5 h-5 animate-spin" />
-              {"Redirecting to Payment..."}
-            </>
-          ) : (
-            <>Pay Securely - € {getTotalPrice()}</>
-          )}
-                </div>
+            <div
+                onClick={handleContinueToPayment}
+                className={`w-full cursor-pointer flex items-center justify-center gap-2 py-3 px-6 rounded-lg font-semibold text-lg transition-all ${formLoading
+                    ? "bg-primary text-white opacity-80 cursor-not-allowed"
+                    : "bg-primary text-white hover:bg-primary/80 shadow-md"
+                    }`}
+            >
+                {formLoading ? (
+                    <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        {"Redirecting to Payment..."}
+                    </>
+                ) : (
+                    <>Pay Securely - € {getTotalPrice()}</>
+                )}
+            </div>
         </div>
-    )
+    );
 }
 
 export default Step3

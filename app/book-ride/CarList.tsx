@@ -104,7 +104,7 @@ export const fleets = [
     vehicles: ["Mercedes Sprinter or similar"],
     passengers: 12,
     luggage: 12,
-    imageUrl: "/Minibus 12.png",
+    imageUrl: "/Minibus 16.png",
     pricing: { perKm: 3.5, hourly: 80, airport: 85 },
     hasChargingPort: true,
   },
