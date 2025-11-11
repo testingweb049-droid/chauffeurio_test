@@ -319,7 +319,8 @@ const useFormStore = create<FormStoreType>((set, get) => ({
 
     if(_step===3 && isNext){
       const totalPrice = getTotalPrice();
-      const carImage = fleets.find((item) => item.displayName === formData.car.value)?.imageUrl;
+      const carImage = fleets.find((item) => item.category === formData.car.value)?.imageUrl;
+
       const orderData: OrderDataType = {
       fromLocation: formData.fromLocation.value,
       toLocation: formData.toLocation.value,

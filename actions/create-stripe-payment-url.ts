@@ -8,6 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
 
 export async function CreateStripePaymentURLAction(amount: number, orderId:string, secret:string) {
   try {
+    console.log("payment_secret : ",secret)
     // ✅ Validate amount
     if (!amount || typeof amount !== "number" || amount <= 0) {
       throw new Error("Valid amount is required")

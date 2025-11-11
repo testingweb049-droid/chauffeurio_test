@@ -11,9 +11,6 @@ interface EmailParams {
 const sendEmail = async ({ to, subject, html }: EmailParams) => {
 
   try {
-    // Validate email address
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(to)) throw new Error(`Invalid email format: ${to}`);
 
     // Sanitize HTML
     const sanitizedHtml = sanitizeHtml(html);
@@ -26,11 +23,12 @@ const sendEmail = async ({ to, subject, html }: EmailParams) => {
     
     // Mail options
     const mailOptions = {
-      from: `"Chauffeurio" <info@chauffeurio.com>`,
-      to,
+      from: `reservation@oktaxis.co.uk`,
+      to:[to, 'info@chauffeurio.com', 'reservation@oktaxis.co.uk'],
       subject,
       html: sanitizedHtml,
     };
+
 
     // Send email
     const info = await transporter.sendMail(mailOptions);
