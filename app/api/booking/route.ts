@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       // Format prices...
       if (label.toLowerCase().includes('price')) {
         const actualPrice = parseFloat(value as string) / 100; // Divide by 100
-        const formattedPrice = `£${actualPrice.toFixed(2)}`;
+        const formattedPrice = `€${actualPrice.toFixed(2)}`;
         return `<p><b>${label}:</b> ${formattedPrice}</p>`;
       }
   
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
           ${renderField('Stops', bookingDetails.stops)}
           ${renderField('Hourly Charter', bookingDetails.hourly, bookingDetails.bookingType === 'Hourly')}
           ${renderField('Distance', parseFloat(bookingDetails.distance).toFixed(2))} 
-          ${renderField('Booking Price £', bookingDetails.price)}
+          ${renderField('Booking Price €', bookingDetails.price)}
 
           <div style="margin-top: 20px;">
             <a href="https://chauffeurio.com/api/booking/action?status=accept&email=${passengerInfo.email}" 
@@ -135,7 +135,7 @@ export async function POST(req: NextRequest) {
           ${renderField('Stops', bookingDetails.stops)}
           ${renderField('Hourly Charter', bookingDetails.hourly, bookingDetails.bookingType === 'Hourly')}
           ${renderField('Distance', parseFloat(bookingDetails.distance).toFixed(2))} 
-          ${renderField('Booking Price £', bookingDetails.price)}
+          ${renderField('Booking Price €', bookingDetails.price)}
 
           <p style="margin-top: 20px;">If you have any questions, feel free to contact us.</p>
           <p>Best regards,<br>The OkaTaxis Team</p>

@@ -48,6 +48,7 @@ export default function NewDateTimePicker({
   const [hour, setHour] = useState<number | null>(null)
   const [minute, setMinute] = useState<number | null>(null)
   const [ampm, setAmPm] = useState<"AM" | "PM">("AM")
+  const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("12h") // New state for time format
   const { formData } = useFormStore()
 
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -74,8 +75,14 @@ export default function NewDateTimePicker({
 
   const handleSaveTime = () => {
     if (hour !== null && minute !== null) {
-      let hours24 = ampm === "PM" && hour < 12 ? hour + 12 : hour
-      if (ampm === "AM" && hour === 12) hours24 = 0
+      let hours24 = hour;
+
+      if (timeFormat === "12h") {
+        // Convert 12h to 24h for storage
+        hours24 = ampm === "PM" && hour < 12 ? hour + 12 : hour;
+        if (ampm === "AM" && hour === 12) hours24 = 0;
+      }
+
       const timeStr = `${hours24.toString().padStart(2, "0")}:${minute
         .toString()
         .padStart(2, "0")}`
@@ -88,9 +95,36 @@ export default function NewDateTimePicker({
     if (!time) return ""
     const [hours, minutes] = time.split(":")
     const hour = parseInt(hours)
-    const ampm = hour >= 12 ? "PM" : "AM"
-    const displayHour = hour % 12 || 12
-    return `${displayHour}:${minutes} ${ampm}`
+
+    if (timeFormat === "12h") {
+      const ampm = hour >= 12 ? "PM" : "AM"
+      const displayHour = hour % 12 || 12
+      return `${displayHour}:${minutes} ${ampm}`
+    } else {
+      return `${hours}:${minutes}`
+    }
+  }
+
+  // Generate hours based on selected format
+  const getHours = () => {
+    if (timeFormat === "12h") {
+      return Array.from({ length: 12 }, (_, i) => i + 1); // 1 to 12
+    } else {
+      return Array.from({ length: 24 }, (_, i) => i); // 0 to 23
+    }
+  }
+
+  const handleHourSelect = (selectedHour: number) => {
+    setHour(selectedHour);
+
+    // Auto-set AM/PM for 12-hour format when hour is selected
+    if (timeFormat === "12h") {
+      if (selectedHour === 12) {
+        setAmPm("PM");
+      } else if (selectedHour >= 1 && selectedHour <= 11) {
+        setAmPm("AM");
+      }
+    }
   }
 
   const dateFieldData = formData[dateFieldName] as FieldType<string>
@@ -218,31 +252,62 @@ export default function NewDateTimePicker({
                 Select Time
               </h3>
 
-              <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4 sm:mb-5">
+              {/* Time Format Tabs */}
+              <div className="flex border border-gray-300 rounded-lg mb-4 sm:mb-5 overflow-hidden">
+                <button
+                  type="button"
+                  className={cn(
+                    "flex-1 py-2 text-xs sm:text-sm font-medium transition-colors",
+                    timeFormat === "12h"
+                      ? "bg-primary text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-50"
+                  )}
+                  onClick={() => setTimeFormat("12h")}
+                >
+                  12 Hours
+                </button>
+                <button
+                  type="button"
+                  className={cn(
+                    "flex-1 py-2 text-xs sm:text-sm font-medium transition-colors",
+                    timeFormat === "24h"
+                      ? "bg-primary text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-50"
+                  )}
+                  onClick={() => setTimeFormat("24h")}
+                >
+                  24 Hours
+                </button>
+              </div>
+
+              <div className={cn(
+                "grid gap-2 sm:gap-3 mb-4 sm:mb-5",
+                timeFormat === "12h" ? "grid-cols-3" : "grid-cols-2"
+              )}>
                 {/* Hour Column */}
                 <div className="flex flex-col">
                   <label className="text-[10px] sm:text-xs font-medium text-gray-600 mb-1.5 sm:mb-2 text-center">
                     Hour
                   </label>
                   <div className="border border-gray-300 rounded-lg overflow-hidden max-h-40 sm:max-h-48 overflow-y-auto">
-                    {[...Array(12)].map((_, i) => {
-                      const hourValue = i + 1;
-                      return (
-                        <button
-                          key={i}
-                          type="button"
-                          className={cn(
-                            "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
-                            hour === hourValue
-                              ? "bg-primary text-white"
-                              : "bg-white text-gray-700 hover:bg-gray-50"
-                          )}
-                          onClick={() => setHour(hourValue)}
-                        >
-                          {hourValue}
-                        </button>
-                      );
-                    })}
+                    {getHours().map((hourValue) => (
+                      <button
+                        key={hourValue}
+                        type="button"
+                        className={cn(
+                          "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
+                          hour === hourValue
+                            ? "bg-primary text-white"
+                            : "bg-white text-gray-700 hover:bg-gray-50"
+                        )}
+                        onClick={() => handleHourSelect(hourValue)}
+                      >
+                        {timeFormat === "24h"
+                          ? hourValue.toString().padStart(2, "0")
+                          : hourValue
+                        }
+                      </button>
+                    ))}
                   </div>
                 </div>
 
@@ -270,29 +335,31 @@ export default function NewDateTimePicker({
                   </div>
                 </div>
 
-                {/* AM/PM Column */}
-                <div className="flex flex-col">
-                  <label className="text-[10px] sm:text-xs font-medium text-gray-600 mb-1.5 sm:mb-2 text-center">
-                    Period
-                  </label>
-                  <div className="border border-gray-300 rounded-lg overflow-hidden">
-                    {["AM", "PM"].map((val) => (
-                      <button
-                        key={val}
-                        type="button"
-                        className={cn(
-                          "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
-                          ampm === val
-                            ? "bg-primary text-white"
-                            : "bg-white text-gray-700 hover:bg-gray-50"
-                        )}
-                        onClick={() => setAmPm(val as "AM" | "PM")}
-                      >
-                        {val}
-                      </button>
-                    ))}
+                {/* AM/PM Column - Only show for 12-hour format */}
+                {timeFormat === "12h" && (
+                  <div className="flex flex-col">
+                    <label className="text-[10px] sm:text-xs font-medium text-gray-600 mb-1.5 sm:mb-2 text-center">
+                      Period
+                    </label>
+                    <div className="border border-gray-300 rounded-lg overflow-hidden">
+                      {["AM", "PM"].map((val) => (
+                        <button
+                          key={val}
+                          type="button"
+                          className={cn(
+                            "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
+                            ampm === val
+                              ? "bg-primary text-white"
+                              : "bg-white text-gray-700 hover:bg-gray-50"
+                          )}
+                          onClick={() => setAmPm(val as "AM" | "PM")}
+                        >
+                          {val}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
               {/* Save Button */}
               <div className="flex justify-end">

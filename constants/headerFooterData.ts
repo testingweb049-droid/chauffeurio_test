@@ -1793,7 +1793,7 @@ export const blogData = [
             "Enjoy the Ride: The chauffeur arrives at the start time with a clean car. They’ll have water and newspapers ready if you like."
           ]
         },
-        "Typical rates might start from around £XX per hour (depending on vehicle type). For very long hires (full 8+ hours) or weekly arrangements, we offer package discounts. Payment is due at the end of your hire – we accept credit cards and invoicing for corporate accounts."
+        "Typical rates might start from around €XX per hour (depending on vehicle type). For very long hires (full 8+ hours) or weekly arrangements, we offer package discounts. Payment is due at the end of your hire – we accept credit cards and invoicing for corporate accounts."
       ]
     },
     {
