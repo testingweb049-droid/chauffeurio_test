@@ -277,23 +277,23 @@ const okTaxisContent = {
 const faqData = [
   {
     question: "What is the cost of a taxi from Manchester Airport to Heathrow Airport?",
-    answer: "The fare for a taxi from Manchester Airport to Heathrow Airport starts at £300. This price includes all charges, such as airport pick-up and drop-off fees. There are no hidden costs."
+    answer: "The fare for a taxi from Manchester Airport to Heathrow Airport starts at €300. This price includes all charges, such as airport pick-up and drop-off fees. There are no hidden costs."
   },
   {
     question: "What is the cost of a taxi from Manchester Airport to Stansted Airport?",
-    answer: "The taxi fare from Manchester Airport to Stansted Airport begins at £313, with all airport-related fees included in the price. No additional charges apply."
+    answer: "The taxi fare from Manchester Airport to Stansted Airport begins at €313, with all airport-related fees included in the price. No additional charges apply."
   },
   {
     question: "What is the cost of a taxi from Manchester Airport to Gatwick Airport?",
-    answer: "A taxi ride from Manchester Airport to Gatwick Airport starts at £353. This rate covers all expenses, including pick-up and drop-off fees at the airport."
+    answer: "A taxi ride from Manchester Airport to Gatwick Airport starts at €353. This rate covers all expenses, including pick-up and drop-off fees at the airport."
   },
   {
     question: "What is the cost of a taxi from Manchester Airport to Central London?",
-    answer: "The fare for a taxi from Manchester Airport to Central London starts at £357. There are no additional charges; the fare includes airport-related fees."
+    answer: "The fare for a taxi from Manchester Airport to Central London starts at €357. There are no additional charges; the fare includes airport-related fees."
   },
   {
     question: "Are there additional charges for late arrivals?",
-    answer: "For airport collections, passengers are given a maximum of 45 minutes from the flight's actual landing time to meet their driver. After this period, a waiting time fee of £20 per hour (calculated on a pro-rata basis) is applied. To avoid issues, passengers should account for possible delays, such as immigration processing, and request a later pick-up time if necessary.\n\nImportant Notes:\n- Passengers will not be compensated if they are ready earlier than scheduled and need to wait for the driver.\n- No refunds will be issued to passengers who leave without waiting for their driver and arrange alternate transportation."
+    answer: "For airport collections, passengers are given a maximum of 45 minutes from the flight's actual landing time to meet their driver. After this period, a waiting time fee of €20 per hour (calculated on a pro-rata basis) is applied. To avoid issues, passengers should account for possible delays, such as immigration processing, and request a later pick-up time if necessary.\n\nImportant Notes:\n- Passengers will not be compensated if they are ready earlier than scheduled and need to wait for the driver.\n- No refunds will be issued to passengers who leave without waiting for their driver and arrange alternate transportation."
   },
   {
     question: "What is the cancellation policy?",
@@ -313,7 +313,7 @@ const faqData = [
   },
   {
     question: "Is there a waiting time fee at the airport?",
-    answer: "A complimentary 20-minute waiting period is offered in case of flight delays. After this time, a waiting fee of £20 per hour is applied, calculated on a pro-rata basis."
+    answer: "A complimentary 20-minute waiting period is offered in case of flight delays. After this time, a waiting fee of €20 per hour is applied, calculated on a pro-rata basis."
   }
 ];
 

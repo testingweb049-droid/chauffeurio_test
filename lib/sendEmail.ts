@@ -23,8 +23,8 @@ const sendEmail = async ({ to, subject, html }: EmailParams) => {
     
     // Mail options
     const mailOptions = {
-      from: `reservation@oktaxis.co.uk`,
-      to:[to, 'info@chauffeurio.com', 'reservation@oktaxis.co.uk'],
+      from: `info@chauffeurio.com`,
+      to:[to, 'info@chauffeurio.com'],
       subject,
       html: sanitizedHtml,
     };
