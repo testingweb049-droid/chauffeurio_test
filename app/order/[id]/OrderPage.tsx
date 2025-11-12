@@ -43,7 +43,7 @@ const formatTime = (time?: string | null) => {
     return parsed.toLocaleTimeString('en-US', {
       hour: '2-digit',
       minute: '2-digit',
-      hour12: true,
+      hour12: false,
     })
   } catch {
     return time

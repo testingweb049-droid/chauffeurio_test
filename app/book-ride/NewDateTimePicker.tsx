@@ -48,7 +48,7 @@ export default function NewDateTimePicker({
   const [hour, setHour] = useState<number | null>(null)
   const [minute, setMinute] = useState<number | null>(null)
   const [ampm, setAmPm] = useState<"AM" | "PM">("AM")
-  const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("12h") // New state for time format
+  const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("24h") // New state for time format
   const { formData } = useFormStore()
 
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
