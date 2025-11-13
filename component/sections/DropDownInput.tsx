@@ -58,14 +58,14 @@ export default function NewDropdownInput({
     })
 
 
-  // Default: select "1 Hour" if exists
+  // Default: select "2 Hours" if exists
   useEffect(() => {
     if (!value && options.length > 0) {
       const defaultOpt =
         options.find(
           (opt) =>
-            opt.label.toLowerCase().includes("1 hour") ||
-            opt.value === "1"
+            opt.label.toLowerCase().includes("2 hour") ||
+            opt.value === "2"
         ) || options[0]
       setFormData(fieldName, defaultOpt.value)
     }
