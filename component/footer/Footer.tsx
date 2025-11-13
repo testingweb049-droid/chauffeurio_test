@@ -130,16 +130,16 @@ export default function Footer() {
 
             {/* Social */}
             <div className="flex gap-3">
-              <SocialSquare aria="Facebook" href="https://facebook.com">
+              <SocialSquare aria="Facebook" href="https://www.facebook.com/share/17HTbgUCfy/">
                 <Facebook size={18} />
               </SocialSquare>
-              <SocialSquare aria="X" href="https://twitter.com">
+              {/* <SocialSquare aria="X" href="https://twitter.com">
                 <XIcon size={18} />
               </SocialSquare>
               <SocialSquare aria="Dribbble" href="https://dribbble.com">
                 <Dribbble size={18} />
-              </SocialSquare>
-              <SocialSquare aria="Instagram" href="https://instagram.com">
+              </SocialSquare> */}
+              <SocialSquare aria="Instagram" href="https://www.instagram.com/chauffeurio?igsh=bjl5ZDlwNm4wcnk1">
                 <Instagram size={18} />
               </SocialSquare>
             </div>

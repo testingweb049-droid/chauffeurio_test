@@ -202,9 +202,9 @@ export default function NewDateTimePicker({
                   const inactive = date.getMonth() !== currentMonth.getMonth()
                   const today = startOfDay(new Date())
                   const disabled =
-                    (minSelectableDate &&
-                      isBefore(date, startOfDay(minSelectableDate))) ||
-                    !isBefore(today, date)
+                    (minSelectableDate && isBefore(date, startOfDay(minSelectableDate))) ||
+                    isBefore(date, startOfDay(new Date()))
+
                   const isSelected =
                     selectedDate && isSameDay(date, new Date(selectedDate))
 
