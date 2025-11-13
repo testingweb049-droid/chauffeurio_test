@@ -197,8 +197,8 @@ export default function NewDateTimePicker({
                   const nowInSpain = toZonedTime (new Date(), "Europe/Madrid");
                   const today = startOfDay(new Date())
                   const disabled =
-                    (minSelectableDate && isBefore(date, startOfDay(minSelectableDate))) ||
-                    !isBefore(today, date)
+  (minSelectableDate && isBefore(date, startOfDay(minSelectableDate))) ||
+  isBefore(date, today);
                   const isSelected = selectedDate && isSameDay(date, new Date(selectedDate))
 
                   return (
