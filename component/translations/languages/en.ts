@@ -12,7 +12,7 @@ export const en = {
       eventTransport: "Event Transport",
       toursExcursions: "Tours and Excursions",
       cityToCity: "City To City",
-      businessChauffur: "Business Chauffur",
+      businessChauffur: "business chauffeur",
     },
   },
   socialMedia: {

@@ -141,7 +141,7 @@ export default function Header() {
         { label: header?.fleetItems?.eventTransport || "Event Transport", href: "/event-transport" },
         { label: header?.fleetItems?.toursExcursions || "Tours and Excursions", href: "/tours-excursions" },
         { label: header?.fleetItems?.cityToCity || "City To City", href: "/city-to-city" },
-        { label: header?.fleetItems?.businessChauffur || "Business Chauffur", href: "/business-chauffur" },
+        { label: header?.fleetItems?.businessChauffur || "business chauffeur", href: "/business-chauffur" },
       ],
     },
     { id: "fleet", label: header?.fleet || "Our Fleet", href: "/fleet" },

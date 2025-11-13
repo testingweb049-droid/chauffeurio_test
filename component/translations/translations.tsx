@@ -13,7 +13,7 @@ export const translations = {
         eventTransport: "Event Transport",
         toursExcursions: "Tours and Excursions",
         cityToCity: "City To City",
-        businessChauffur: "Business Chauffur",
+        businessChauffur: "business chauffeur",
       },
     },
     airportTransfer: {
