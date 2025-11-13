@@ -13,9 +13,9 @@ export default function AddReturn() {
   const isReturn = formData.isReturn?.value || false
 
   const discountedPrice = basePrice - basePrice / 10
-  const formattedPrice = discountedPrice.toFixed(2)
-  const originalPrice = basePrice.toFixed(2)
-  const savings = (basePrice / 10).toFixed(2)
+  const formattedPrice = discountedPrice.toFixed(0)
+  const originalPrice = basePrice.toFixed(0)
+  const savings = (basePrice / 10).toFixed(0)
 
   return (
     <div

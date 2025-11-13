@@ -42,7 +42,7 @@ function Step4() {
   const totalPriceNum = getTotalPrice();
 
   // Formatted strings for display
-  const format = (n: number) => n.toFixed(2);
+  const format = (n: number) => n.toFixed(0);
 
   return (
     <div className="flex flex-col gap-5 w-full">
