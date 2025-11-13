@@ -21,7 +21,7 @@ export async function CreateStripePaymentURLAction(amount: number, orderId:strin
       line_items: [
         {
           price_data: {
-            currency: "gbp",
+            currency: "eur",
             product_data: {
               name: "Custom Payment",
             },

@@ -12,9 +12,12 @@ import {
   isBefore,
   startOfDay,
 } from "date-fns"
+import { toZonedTime  } from "date-fns-tz";
 import { ChevronRight, Calendar, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import useFormStore, { FieldType, FormDataType } from "@/stores/FormStore"
+
+
 
 interface DateTimePickerProps {
   selectedDate: string
@@ -191,6 +194,7 @@ export default function NewDateTimePicker({
               <div className="grid grid-cols-7 text-center text-sm gap-1">
                 {getCalendarDays().map((date, idx) => {
                   const inactive = date.getMonth() !== currentMonth.getMonth()
+                  const nowInSpain = toZonedTime (new Date(), "Europe/Madrid");
                   const today = startOfDay(new Date())
                   const disabled =
                     (minSelectableDate && isBefore(date, startOfDay(minSelectableDate))) ||
