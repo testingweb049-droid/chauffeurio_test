@@ -17,11 +17,10 @@ const sendEmail = async ({ to, subject, html }: EmailParams) => {
 
     console.log("emailConfig " ,emailConfig)
 
-    // Create transporter
+
     const transporter = nodemailer.createTransport(emailConfig);
     
     
-    // Mail options
     const mailOptions = {
       from: `info@chauffeurio.com`,
       to:[to, 'info@chauffeurio.com'],

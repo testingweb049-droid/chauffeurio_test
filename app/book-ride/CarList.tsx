@@ -335,7 +335,7 @@ function CarList() {
                     <LoadingButton />
                   ) : (
                     <button
-                      onClick={() => handleSelect(categoryData, priceData.original)}
+                      onClick={() => handleSelect(categoryData, Number(priceData.original.toFixed(2)))}
                       className="bg-primary hover:bg-[#ffb300] text-white rounded-lg px-4 py-2 transition-all w-full flex items-center justify-center gap-2 font-semibold text-base"
                         aria-label={`Select ${categoryData.displayName}`}
                       >
@@ -401,7 +401,7 @@ function CarList() {
                     <LoadingButton />
                   ) : (
                     <button
-                      onClick={() => handleSelect(categoryData, priceData.original)}
+                      onClick={() => handleSelect(categoryData, Number(priceData.original.toFixed(2)))}
                       className="bg-primary hover:bg-[#ffb300] text-white rounded-md py-2 transition-all w-full flex items-center justify-center gap-2 font-medium text-base"
                         aria-label={`Select ${categoryData.displayName}`}
                       >
