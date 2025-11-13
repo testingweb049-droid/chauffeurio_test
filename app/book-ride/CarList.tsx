@@ -187,18 +187,18 @@ function CarList() {
       computedPrice = categoryData.pricing.airport;
     }
 
-    const originalPrice = Number(computedPrice.toFixed(2));
+    const originalPrice = Number(computedPrice.toFixed(0));
     const priceIncrease = (categoryData as any).priceIncrease || 0;
     const increasedPrice =
-      priceIncrease > 0 ? Number((computedPrice * (1 + priceIncrease)).toFixed(2)) : originalPrice;
+      priceIncrease > 0 ? Number((computedPrice * (1 + priceIncrease)).toFixed(0)) : originalPrice;
 
     // Apply 10% increase if within 24 hours
     const finalPrice = has24HourSurge ? originalPrice * 1.1 : originalPrice;
     const finalIncreasedPrice = has24HourSurge ? increasedPrice * 1.1 : increasedPrice;
 
     return {
-      original: Number(finalPrice.toFixed(2)),
-      increased: Number(finalIncreasedPrice.toFixed(2)),
+      original: Number(finalPrice.toFixed(0)),
+      increased: Number(finalIncreasedPrice.toFixed(0)),
       basePrice: originalPrice,
       surgeApplied: has24HourSurge
     };
@@ -238,8 +238,8 @@ function CarList() {
       <div className="w-full flex flex-col gap-4 overflow-x-hidden">
         {filteredFleets.map((categoryData) => {
           const priceData = calculatePrice(categoryData);
-          const originalPrice = priceData.original.toFixed(2);
-          const increasedPrice = priceData.increased.toFixed(2);
+          const originalPrice = priceData.original.toFixed(0);
+          const increasedPrice = priceData.increased.toFixed(0);
           const badge = categoryBadges[categoryData.category as keyof typeof categoryBadges];
           const BadgeIcon = badge?.icon;
           const shouldShowIncreasedPrice = hasPriceIncrease(categoryData.category);
@@ -335,7 +335,7 @@ function CarList() {
                     <LoadingButton />
                   ) : (
                     <button
-                      onClick={() => handleSelect(categoryData, Number(priceData.original.toFixed(2)))}
+                      onClick={() => handleSelect(categoryData, Number(priceData.original.toFixed(0)))}
                       className="bg-primary hover:bg-[#ffb300] text-white rounded-lg px-4 py-2 transition-all w-full flex items-center justify-center gap-2 font-semibold text-base"
                         aria-label={`Select ${categoryData.displayName}`}
                       >
@@ -401,7 +401,7 @@ function CarList() {
                     <LoadingButton />
                   ) : (
                     <button
-                      onClick={() => handleSelect(categoryData, Number(priceData.original.toFixed(2)))}
+                      onClick={() => handleSelect(categoryData, Number(priceData.original.toFixed(0)))}
                       className="bg-primary hover:bg-[#ffb300] text-white rounded-md py-2 transition-all w-full flex items-center justify-center gap-2 font-medium text-base"
                         aria-label={`Select ${categoryData.displayName}`}
                       >

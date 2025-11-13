@@ -36,7 +36,7 @@ function ExtraCounter({
                 />
                 <div>
                     <div className="font-medium text-gray-900">{label}</div>
-                    <div className="text-sm text-gray-600">EUR {price.toFixed(2)}</div>
+                    <div className="text-sm text-gray-600">EUR {price.toFixed(0)}</div>
                 </div>
             </div>
 

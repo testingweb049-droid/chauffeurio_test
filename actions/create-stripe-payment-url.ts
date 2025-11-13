@@ -18,7 +18,7 @@ export async function CreateStripePaymentURLAction(amount: number, orderId:strin
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"  ],
-      line_items: [
+      line_items: [ 
         {
           price_data: {
             currency: "eur",

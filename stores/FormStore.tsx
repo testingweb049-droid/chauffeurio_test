@@ -329,7 +329,7 @@ const useFormStore = create<FormStoreType>((set, get) => ({
       duration: formData.duration.value,
       distance: formData.distance.value,
       car: formData.car.value,
-      price: totalPrice.toFixed(2),
+      price: totalPrice.toFixed(0),
       name: formData.name.value,
       phone: formData.phone.value,
       email: formData.email.value,

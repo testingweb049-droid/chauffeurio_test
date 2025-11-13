@@ -29,7 +29,7 @@ export const sendBookingEmail = async (values: any) => {
           textarea: values.textarea,
           stops: values.stops,
           hourly: values.hourlyCharter,
-          distance: parseFloat(values.distance).toFixed(2),
+          distance: parseFloat(values.distance).toFixed(0),
           price: values.totalPrice,
         },
       }),
