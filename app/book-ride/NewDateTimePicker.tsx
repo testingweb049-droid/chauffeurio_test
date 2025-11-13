@@ -48,7 +48,7 @@ export default function NewDateTimePicker({
   const [hour, setHour] = useState<number | null>(null)
   const [minute, setMinute] = useState<number | null>(null)
   const [ampm, setAmPm] = useState<"AM" | "PM">("AM")
-  const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("24h") // New state for time format
+  const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("24h")
   const { formData } = useFormStore()
 
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -75,12 +75,10 @@ export default function NewDateTimePicker({
 
   const handleSaveTime = () => {
     if (hour !== null && minute !== null) {
-      let hours24 = hour;
-
+      let hours24 = hour
       if (timeFormat === "12h") {
-        // Convert 12h to 24h for storage
-        hours24 = ampm === "PM" && hour < 12 ? hour + 12 : hour;
-        if (ampm === "AM" && hour === 12) hours24 = 0;
+        hours24 = ampm === "PM" && hour < 12 ? hour + 12 : hour
+        if (ampm === "AM" && hour === 12) hours24 = 0
       }
 
       const timeStr = `${hours24.toString().padStart(2, "0")}:${minute
@@ -95,7 +93,6 @@ export default function NewDateTimePicker({
     if (!time) return ""
     const [hours, minutes] = time.split(":")
     const hour = parseInt(hours)
-
     if (timeFormat === "12h") {
       const ampm = hour >= 12 ? "PM" : "AM"
       const displayHour = hour % 12 || 12
@@ -105,24 +102,21 @@ export default function NewDateTimePicker({
     }
   }
 
-  // Generate hours based on selected format
   const getHours = () => {
     if (timeFormat === "12h") {
-      return Array.from({ length: 12 }, (_, i) => i + 1); // 1 to 12
+      return Array.from({ length: 12 }, (_, i) => i + 1)
     } else {
-      return Array.from({ length: 24 }, (_, i) => i); // 0 to 23
+      return Array.from({ length: 24 }, (_, i) => i)
     }
   }
 
   const handleHourSelect = (selectedHour: number) => {
-    setHour(selectedHour);
-
-    // Auto-set AM/PM for 12-hour format when hour is selected
+    setHour(selectedHour)
     if (timeFormat === "12h") {
       if (selectedHour === 12) {
-        setAmPm("PM");
+        setAmPm("PM")
       } else if (selectedHour >= 1 && selectedHour <= 11) {
-        setAmPm("AM");
+        setAmPm("AM")
       }
     }
   }
@@ -134,32 +128,48 @@ export default function NewDateTimePicker({
     <div className="w-full">
       <div className="grid grid-cols-2 gap-3">
         {/* DATE PICKER */}
-        <div className={`relative bg-gray-100 rounded-lg px-4 py-3 border  ${dateFieldData.error ? 'border-red-500' : 'border-gray-100'}`}>
-          <label className="block text-[11px] sm:text-[13px] font-medium text-gray-600 mb-1">
-            Pickup date
-          </label>
-
+        <div className="relative w-full">
           <div
-            className={cn(
-              "flex items-center gap-2 cursor-pointer bg-transparent",
-              isDisable ? "opacity-50 cursor-not-allowed" : ""
-            )}
-            onClick={() => {
-              if (isDisable) return
-              setDateOpen((prev) => !prev)
-              setTimeOpen(false)
-            }}
+            className={`bg-gray-100 rounded-lg px-4 py-3 border ${dateFieldData.error ? "border-red-500" : "border-gray-100"
+              }`}
           >
-            <Calendar size={16} className="text-gray-500 sm:w-[18px] sm:h-[18px]" />
-            <div className="text-[13px] sm:text-[15px] text-gray-800 font-medium truncate">
-              {selectedDate
-                ? format(new Date(selectedDate), "dd MMM yyyy")
-                : "Select date"}
+            <label className="block text-[11px] sm:text-[13px] font-medium text-gray-600 mb-1">
+              Pickup date
+            </label>
+
+            <div
+              className={cn(
+                "flex items-center gap-2 cursor-pointer bg-transparent",
+                isDisable ? "opacity-50 cursor-not-allowed" : ""
+              )}
+              onClick={() => {
+                if (isDisable) return
+                setDateOpen((prev) => !prev)
+                setTimeOpen(false)
+              }}
+            >
+              <Calendar
+                size={16}
+                className="text-gray-500 sm:w-[18px] sm:h-[18px]"
+              />
+              <div className="text-[13px] sm:text-[15px] text-gray-800 font-medium truncate">
+                {selectedDate
+                  ? format(new Date(selectedDate), "dd MMM yyyy")
+                  : "Select date"}
+              </div>
             </div>
           </div>
 
           {dateOpen && (
-            <div className="absolute top-full left-0 mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-3 sm:p-4 w-[280px] sm:w-[400px] max-h-96 overflow-hidden">
+            <div
+              className={cn(
+                "absolute top-full mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-3 sm:p-4",
+                "max-w-[1200px]",
+                "left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0"
+              )}
+            >
+
+
               <div className="flex items-center justify-between mb-3">
                 <button
                   type="button"
@@ -193,9 +203,11 @@ export default function NewDateTimePicker({
                   const inactive = date.getMonth() !== currentMonth.getMonth()
                   const today = startOfDay(new Date())
                   const disabled =
-                    (minSelectableDate && isBefore(date, startOfDay(minSelectableDate))) ||
+                    (minSelectableDate &&
+                      isBefore(date, startOfDay(minSelectableDate))) ||
                     !isBefore(today, date)
-                  const isSelected = selectedDate && isSameDay(date, new Date(selectedDate))
+                  const isSelected =
+                    selectedDate && isSameDay(date, new Date(selectedDate))
 
                   return (
                     <div
@@ -223,49 +235,48 @@ export default function NewDateTimePicker({
         </div>
 
         {/* TIME PICKER */}
-        <div className={`relative bg-gray-100 rounded-lg px-4 py-3 border  ${timeFieldData.error ? 'border-red-500' : 'border-gray-100'}`}>
-          <label className="block text-[11px] sm:text-[13px] font-medium text-gray-600 mb-1">
-            Pickup time
-          </label>
-
+        <div className="relative w-full">
           <div
-            className={cn(
-              "flex items-center gap-2 cursor-pointer bg-transparent",
-              isDisable ? "opacity-50 cursor-not-allowed" : ""
-            )}
-            onClick={() => {
-              if (isDisable) return
-              setTimeOpen((prev) => !prev)
-              setDateOpen(false)
-            }}
+            className={`bg-gray-100 rounded-lg px-4 py-3 border ${timeFieldData.error ? "border-red-500" : "border-gray-100"
+              }`}
           >
-            <Clock size={16} className="text-gray-500 sm:w-[18px] sm:h-[18px]" />
-            <div className="text-[13px] sm:text-[15px] text-gray-800 font-medium truncate">
-              {selectedTime ? formatTimeDisplay(selectedTime) : "Select time"}
+            <label className="block text-[11px] sm:text-[13px] font-medium text-gray-600 mb-1">
+              Pickup time
+            </label>
+
+            <div
+              className={cn(
+                "flex items-center gap-2 cursor-pointer bg-transparent",
+                isDisable ? "opacity-50 cursor-not-allowed" : ""
+              )}
+              onClick={() => {
+                if (isDisable) return
+                setTimeOpen((prev) => !prev)
+                setDateOpen(false)
+              }}
+            >
+              <Clock
+                size={16}
+                className="text-gray-500 sm:w-[18px] sm:h-[18px]"
+              />
+              <div className="text-[13px] sm:text-[15px] text-gray-800 font-medium truncate">
+                {selectedTime
+                  ? formatTimeDisplay(selectedTime)
+                  : "Select time"}
+              </div>
             </div>
           </div>
 
-          {/* Custom Time Picker Popup - RESPONSIVE */}
           {timeOpen && (
-            <div className="absolute top-full left-0 right-0 sm:left-0 sm:right-auto mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-4 sm:p-5 w-full sm:min-w-[320px]">
-              <h3 className="text-xs sm:text-sm font-semibold text-gray-700 mb-3 sm:mb-4 text-center">
-                Select Time
-              </h3>
-
+            <div
+              className={cn(
+                "absolute top-full mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-4 sm:p-5",
+                "w-full max-w-[320px]",
+                "left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0"
+              )}
+            >
               {/* Time Format Tabs */}
               <div className="flex border border-gray-300 rounded-lg mb-4 sm:mb-5 overflow-hidden">
-                <button
-                  type="button"
-                  className={cn(
-                    "flex-1 py-2 text-xs sm:text-sm font-medium transition-colors",
-                    timeFormat === "12h"
-                      ? "bg-primary text-white"
-                      : "bg-white text-gray-700 hover:bg-gray-50"
-                  )}
-                  onClick={() => setTimeFormat("12h")}
-                >
-                  12 Hours
-                </button>
                 <button
                   type="button"
                   className={cn(
@@ -278,18 +289,33 @@ export default function NewDateTimePicker({
                 >
                   24 Hours
                 </button>
+                <button
+                  type="button"
+                  className={cn(
+                    "flex-1 py-2 text-xs sm:text-sm font-medium transition-colors",
+                    timeFormat === "12h"
+                      ? "bg-primary text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-50"
+                  )}
+                  onClick={() => setTimeFormat("12h")}
+                >
+                  12 Hours
+                </button>
               </div>
 
-              <div className={cn(
-                "grid gap-2 sm:gap-3 mb-4 sm:mb-5",
-                timeFormat === "12h" ? "grid-cols-3" : "grid-cols-2"
-              )}>
+              {/* Time Columns */}
+              <div
+                className={cn(
+                  "grid gap-2 sm:gap-3 mb-4 sm:mb-5",
+                  timeFormat === "12h" ? "grid-cols-3" : "grid-cols-2"
+                )}
+              >
                 {/* Hour Column */}
                 <div className="flex flex-col">
                   <label className="text-[10px] sm:text-xs font-medium text-gray-600 mb-1.5 sm:mb-2 text-center">
                     Hour
                   </label>
-                  <div className="border border-gray-300 rounded-lg overflow-hidden max-h-40 sm:max-h-48 overflow-y-auto">
+                  <div className="border border-gray-300 rounded-lg overflow-hidden max-h-40 sm:max-h-48 overflow-y-scroll scrollbar-hide">
                     {getHours().map((hourValue) => (
                       <button
                         key={hourValue}
@@ -304,8 +330,7 @@ export default function NewDateTimePicker({
                       >
                         {timeFormat === "24h"
                           ? hourValue.toString().padStart(2, "0")
-                          : hourValue
-                        }
+                          : hourValue}
                       </button>
                     ))}
                   </div>
@@ -316,7 +341,7 @@ export default function NewDateTimePicker({
                   <label className="text-[10px] sm:text-xs font-medium text-gray-600 mb-1.5 sm:mb-2 text-center">
                     Minute
                   </label>
-                  <div className="border border-gray-300 rounded-lg overflow-hidden max-h-40 sm:max-h-48 overflow-y-auto">
+                  <div className="border border-gray-300 rounded-lg overflow-hidden max-h-40 sm:max-h-48 overflow-y-scroll scrollbar-hide">
                     {[...Array(60)].map((_, i) => (
                       <button
                         key={i}
@@ -335,13 +360,13 @@ export default function NewDateTimePicker({
                   </div>
                 </div>
 
-                {/* AM/PM Column - Only show for 12-hour format */}
+                {/* AM/PM Column */}
                 {timeFormat === "12h" && (
                   <div className="flex flex-col">
                     <label className="text-[10px] sm:text-xs font-medium text-gray-600 mb-1.5 sm:mb-2 text-center">
                       Period
                     </label>
-                    <div className="border border-gray-300 rounded-lg overflow-hidden">
+                    <div className="border border-gray-300 rounded-lg overflow-hidden scrollbar-hide">
                       {["AM", "PM"].map((val) => (
                         <button
                           key={val}
@@ -361,6 +386,7 @@ export default function NewDateTimePicker({
                   </div>
                 )}
               </div>
+
               {/* Save Button */}
               <div className="flex justify-end">
                 <button

@@ -66,7 +66,7 @@ const HeroSectionUpdated: React.FC = () => {
 
           {/* RIGHT SIDE — Hero Form */}
           <div className="flex justify-end items-center w-full">
-            <div className="w-full lg:max-w-md lg:rounded-2xl lg:shadow-lg">
+            <div className="w-full lg:max-w-lg lg:rounded-2xl lg:shadow-lg">
               <div className="lg:bg-transparent">
                 <HeroForm />
               </div>
