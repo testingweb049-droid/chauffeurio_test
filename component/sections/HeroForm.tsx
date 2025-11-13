@@ -91,7 +91,7 @@ function HeroForm() {
 
 
   return (
-    <div className="flex flex-col gap-2 w-full max-w-screen-sm">
+    <div className="flex flex-col gap-2">
       {/* Category Selector */}
       <div className="grid grid-cols-3 lg:grid-cols-2 gap-5 max-lg:px-3">
         <div

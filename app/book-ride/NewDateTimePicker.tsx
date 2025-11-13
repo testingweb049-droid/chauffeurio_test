@@ -159,13 +159,12 @@ export default function NewDateTimePicker({
               </div>
             </div>
           </div>
-
           {dateOpen && (
             <div
               className={cn(
                 "absolute top-full mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-3 sm:p-4",
-                "max-w-[1200px]",
-                "left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0"
+                "w-[280px] sm:w-[320px]",
+                "left-0 right-0 mx-auto sm:left-auto sm:right-0 sm:mx-0"
               )}
             >
 

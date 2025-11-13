@@ -12,34 +12,38 @@ const HeroSectionUpdated: React.FC = () => {
   return (
     <div className="relative">
       {/* Desktop Background */}
-      <div className="hidden md:block w-full h-full">
+      <div className="hidden md:block absolute inset-0 w-full h-full z-50">
         <Image
           src={heroBackground}
           alt="Car rental service background"
           fill
           className="object-cover"
-          priority 
+          priority
           quality={100}
           placeholder="blur"
         />
+        {/* Dark Overlay for Mobile */}
+        <div className="absolute inset-0 bg-black/40 z-10"></div>
       </div>
 
-      {/* Mobile Background */}
-      <div className="block md:hidden">
+      {/* Mobile Background - Only top portion */}
+      <div className="block md:hidden absolute top-0 left-0 w-full h-[60vh] z-50">
         <Image
           src="/HeroImage.png"
           alt="Car rental service background mobile"
           fill
-          className="object-cover"
+          className="object-cover object-top"
           priority
           quality={85}
           sizes="100vw"
         />
+        {/* Dark Overlay for Mobile */}
+        <div className="absolute inset-0 bg-black/40 z-10"></div>
       </div>
 
       {/* Overlay */}
-      <div className="relative bg-black/40 w-full max-lg:rounded-b-3xl">
-        <div className="grid lg:grid-cols-2 gap-10 items-center pt-52 pb-10 w-full max-w-screen-2xl mx-auto px-0 lg:px-4">
+      <div className="relative bg-primary w-full pb-4">
+        <div className="grid lg:grid-cols-2 gap-10 items-center pt-32 md:pt-52 pb-0 md:pb-10 w-full max-w-screen-2xl mx-auto px-0 lg:px-4">
 
           {/* LEFT SIDE — Text content */}
           <div className="flex flex-col gap-4 md:gap-6 justify-center text-left text-white px-4 lg:px-0">
@@ -51,11 +55,11 @@ const HeroSectionUpdated: React.FC = () => {
               className="w-16 lg:w-40 object-contain hidden md:block"
             />
 
-            <h2 className="font-semibold md:font-bold text-[#FFFBF6] md:text-xl text-lg pt-6 ">
+            <h2 className="font-semibold md:font-bold text-[#FFFBF6] md:text-5xl! text-lg z-50">
               {hero.eyebrow}
             </h2>
 
-            <h1 className="font-semibold text-2xl md:text-3xl lg:text-4xl  ">
+            <h1 className="md:font-semibold! text-base! md:text-3xl! z-50 font-light!">
               {hero.titleLines.map((line, i) => (
                 <span key={i}>
                   {line}
@@ -65,7 +69,7 @@ const HeroSectionUpdated: React.FC = () => {
           </div>
 
           {/* RIGHT SIDE — Hero Form */}
-          <div className="flex justify-end items-center w-full">
+          <div className="flex justify-end items-center z-50">
             <div className="w-full lg:max-w-lg lg:rounded-2xl lg:shadow-lg">
               <div className="lg:bg-transparent">
                 <HeroForm />
