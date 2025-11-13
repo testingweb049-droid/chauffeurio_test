@@ -51,8 +51,8 @@ export async function calculateDistance({
     const distanceInMiles = totalDistanceMeters / 1609.34;
 
     return {
-      kmDistance: Number(distanceInKm.toFixed(2)),
-      mileDistance: Number(distanceInMiles.toFixed(2)),
+      kmDistance: Number(distanceInKm.toFixed(0)),
+      mileDistance: Number(distanceInMiles.toFixed(0)),
       status: 200,
       error: "",
     };

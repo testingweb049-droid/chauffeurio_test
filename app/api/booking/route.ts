@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       // Format prices...
       if (label.toLowerCase().includes('price')) {
         const actualPrice = parseFloat(value as string) / 100; // Divide by 100
-        const formattedPrice = `€${actualPrice.toFixed(2)}`;
+        const formattedPrice = `€${actualPrice.toFixed(0)}`;
         return `<p><b>${label}:</b> ${formattedPrice}</p>`;
       }
   
@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
           ${renderField('Additional Notes', bookingDetails.textarea)}
           ${renderField('Stops', bookingDetails.stops)}
           ${renderField('Hourly Charter', bookingDetails.hourly, bookingDetails.bookingType === 'Hourly')}
-          ${renderField('Distance', parseFloat(bookingDetails.distance).toFixed(2))} 
+          ${renderField('Distance', parseFloat(bookingDetails.distance).toFixed(0))} 
           ${renderField('Booking Price €', bookingDetails.price)}
 
           <div style="margin-top: 20px;">
@@ -134,7 +134,7 @@ export async function POST(req: NextRequest) {
           ${renderField('Additional Notes', bookingDetails.textarea)}
           ${renderField('Stops', bookingDetails.stops)}
           ${renderField('Hourly Charter', bookingDetails.hourly, bookingDetails.bookingType === 'Hourly')}
-          ${renderField('Distance', parseFloat(bookingDetails.distance).toFixed(2))} 
+          ${renderField('Distance', parseFloat(bookingDetails.distance).toFixed(0))} 
           ${renderField('Booking Price €', bookingDetails.price)}
 
           <p style="margin-top: 20px;">If you have any questions, feel free to contact us.</p>

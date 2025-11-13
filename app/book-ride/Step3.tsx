@@ -36,7 +36,7 @@ function ExtraCounter({
                 />
                 <div>
                     <div className="font-medium text-gray-900">{label}</div>
-                    <div className="text-sm text-gray-600">EUR {price.toFixed(2)}</div>
+                    <div className="text-sm text-gray-600">EUR {price.toFixed(0)}</div>
                 </div>
             </div>
 
@@ -65,7 +65,7 @@ function ExtraCounter({
 }
 
 function Step3() {
-    const { formData, setFormData, changeStep, getTotalPrice, formLoading, formError } = useFormStore();
+    const { formData, setFormData, changeStep, getTotalPrice, formLoading, formError, setFieldOptions } = useFormStore();
 
     // Extras
     const childSeat = Number(formData.childSeat.value) || 0;
@@ -116,7 +116,7 @@ function Step3() {
                         <input
                             type="checkbox"
                             checked={isAirportDetailsOpen}
-                            onChange={(e) => setIsAirportDetailsOpen(e.target.checked)}
+                            onChange={(e) => {setIsAirportDetailsOpen(e.target.checked); setFieldOptions('flightName',e.target.checked ); setFieldOptions('flightNumber',e.target.checked );  }}
                             className="w-5 h-5 rounded border-gray-300 cursor-pointer accent-brand"
                         />
                         <div className="font-semibold text-gray-900">Add Airport Details</div>
