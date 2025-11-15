@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
 
     // Send email to admin
     await sendEmail({
-      to: process.env.EMAIL_USER || "info@oktaxis.co.uk",
+      to: process.env.EMAIL_USER || "info@chauffeurio.com",
       subject: "Customer Contact Information",
       html: adminEmailContent,
     });
@@ -83,13 +83,13 @@ export async function POST(req: NextRequest) {
     const userEmailContent = `
       <div style="${commonStyles}">
         <div style="${headerStyle}">
-          <h2>Welcome to OkTaxis</h2>
+          <h2>Welcome to Chauffeurio</h2>
         </div>
         <div style="${contentStyle}">
           <p>Dear ${sanitizedName},</p>
-          <p>Thank you for contacting OkTaxis. Your message has been successfully received.</p>
+          <p>Thank you for contacting Chauffeurio. Your message has been successfully received.</p>
           <p>We will get back to you shortly.</p>
-          <p>Best regards,<br>The OkTaxis Team</p>
+          <p>Best regards,<br>The Chauffeurio Team</p>
         </div>
       </div>
     `;
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
     // Send email to user
     await sendEmail({
       to: email,
-      subject: "Thank You for Contacting OkTaxis",
+      subject: "Thank You for Contacting Chauffeurio",
       html: userEmailContent,
     });
 
