@@ -8,5 +8,5 @@ const stripeSecretKey = isProduction
   : process.env.STRIPE_SECRET_KEY!.replace("live", "test") // converts live -> test for dev
 
 export const stripe = new Stripe(stripeSecretKey, {
-  apiVersion: "2025-10-29.clover",
+  apiVersion:"2025-09-30.clover",
 })
