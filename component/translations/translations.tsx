@@ -423,14 +423,14 @@ export const translations = {
       },
     },
 testimonials: {
-  eyebrow: "Google Reviews",
+  eyebrow: "Our Reviews",
       title: "Explore Valencia with Our Executive Chauffeur Travel",
       badges: [
         { source: "Google", score: "4.9", reviews: "2,394 reviews" },
         { source: "Facebook", score: "5.0", reviews: "1,428 reviews" },
         { source: "TripAdvisor", score: "4.9", reviews: "3,891 reviews" }
       ],
-      items: [
+     items : [
         {
           id: 1,
           name: "Olivia",
@@ -438,16 +438,16 @@ testimonials: {
           date: "1 week ago",
           rating: 5,
           comment:
-            "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
+            "The driver was very polite and professional. My flight was delayed by 45 minutes, but he waited patiently without any extra charge. The ride was smooth and the car was clean. Prices were very reasonable too."
         },
         {
           id: 2,
           name: "John",
           verified: true,
           date: "2 weeks ago",
-          rating: 5,
+          rating: 4,
           comment:
-            "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
+            "Driver arrived on time and helped with my luggage. The car was comfortable. Prices are cheaper than other services I checked. Only downside: the GPS route taken was a bit longer than expected."
         },
         {
           id: 3,
@@ -456,7 +456,7 @@ testimonials: {
           date: "3 weeks ago",
           rating: 5,
           comment:
-            "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
+            "Really impressed with the service. Driver stayed in touch while my flight got delayed, and even offered to wait extra time. Very courteous and the ride was smooth. Definitely worth the price."
         },
         {
           id: 4,
@@ -465,10 +465,10 @@ testimonials: {
           date: "1 month ago",
           rating: 5,
           comment:
-            "Absolutely brilliant service! The driver arrived right on time, and the car was immaculate. The whole pricing was very transparent, and the journey was smooth and comfortable."
+            "Excellent service! The driver was friendly and helped me with my bags. Flight got delayed but he waited without complaint. The car was spotless and the price was very affordable."
         },
-     
       ]
+      
     },
     heroBottom: {
       items: [
@@ -1065,21 +1065,21 @@ testimonials: {
       items: [
         {
           id: 1,
-          name: "Nick Evans",
+          name: "Olivia",
           verified: true,
           date: "il y a 1 semaine",
           rating: 5,
           comment:
-            "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
+            "Le chauffeur était très poli et professionnel. Mon vol a eu 45 minutes de retard, mais il a attendu patiemment sans frais supplémentaires. Le trajet était agréable et la voiture propre. Les prix étaient très raisonnables."
         },
         {
           id: 2,
           name: "John",
           verified: true,
           date: "il y a 2 semaines",
-          rating: 5,
+          rating: 4,
           comment:
-            "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
+            "Le chauffeur est arrivé à l'heure et a aidé avec mes bagages. La voiture était confortable. Les prix sont moins chers que d'autres services que j'ai consultés. Seul inconvénient : l'itinéraire GPS était un peu plus long que prévu."
         },
         {
           id: 3,
@@ -1088,7 +1088,7 @@ testimonials: {
           date: "il y a 3 semaines",
           rating: 5,
           comment:
-            "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
+            "J'ai été vraiment impressionné par le service. Le chauffeur est resté en contact pendant que mon vol était retardé et a même proposé d'attendre plus longtemps. Très courtois et trajet très agréable. Cela vaut vraiment le prix."
         },
         {
           id: 4,
@@ -1097,7 +1097,7 @@ testimonials: {
           date: "il y a 1 mois",
           rating: 5,
           comment:
-            "Service absolument excellent ! Chauffeur ponctuel, véhicule impeccable, tarification claire et trajet très confortable."
+            "Excellent service ! Le chauffeur était amical et a aidé avec mes bagages. Mon vol a été retardé mais il a attendu sans se plaindre. La voiture était impeccable et le tarif très abordable."
         },
        
       ]
@@ -1699,21 +1699,21 @@ businessChhuff: {
       items: [
         {
           id: 1,
-          name: "Nick Evans",
+          name: "Olivia",
           verified: true,
           date: "hace 1 semana",
           rating: 5,
           comment:
-            "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
+            "El conductor fue muy educado y profesional. Mi vuelo se retrasó 45 minutos, pero esperó pacientemente sin ningún cargo adicional. El viaje fue cómodo y el coche estaba limpio. Los precios eran muy razonables."
         },
         {
           id: 2,
           name: "John",
           verified: true,
           date: "hace 2 semanas",
-          rating: 5,
+          rating: 4,
           comment:
-            "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
+            "El conductor llegó a tiempo y me ayudó con el equipaje. El coche era cómodo. Los precios son más económicos que otros servicios que revisé. Único inconveniente: la ruta del GPS fue un poco más larga de lo esperado."
         },
         {
           id: 3,
@@ -1722,7 +1722,7 @@ businessChhuff: {
           date: "hace 3 semanas",
           rating: 5,
           comment:
-            "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
+            "Estoy muy impresionado con el servicio. El conductor se mantuvo en contacto mientras mi vuelo se retrasaba e incluso ofreció esperar más tiempo. Muy cortés y el viaje fue muy agradable. Vale totalmente el precio."
         },
         {
           id: 4,
@@ -1731,7 +1731,7 @@ businessChhuff: {
           date: "hace 1 mes",
           rating: 5,
           comment:
-            "¡Servicio excelente! El conductor llegó puntual, el coche impecable, precio transparente y viaje muy cómodo."
+            "¡Servicio excelente! El conductor fue amable y me ayudó con el equipaje. Mi vuelo se retrasó, pero esperó sin quejarse. El coche estaba impecable y el precio muy asequible."
         },
         
       ]
