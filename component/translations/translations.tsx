@@ -52,7 +52,7 @@ export const translations = {
           title: "Elevating Corporate Journeys in Valencia",
           description:
             "With Chauffeurio, business transportation becomes more than just a ride—it’s an experience. Impress clients, maximize your productivity on the go, and enjoy the peace of mind that comes with a chauffeur service trusted by professionals across Valencia. Our tailored services are designed to meet the demands of modern executives. Travel smarter and elevate every journey with Chauffeurio’s premium business solutions.",
-          image: "/hero.jpg",
+          image: "/Spain.png",
           imagePosition: "left",
         },
       ],
@@ -423,7 +423,7 @@ export const translations = {
       },
     },
 testimonials: {
-      eyebrow: "Our Reviews",
+  eyebrow: "Google Reviews",
       title: "Explore Valencia with Our Executive Chauffeur Travel",
       badges: [
         { source: "Google", score: "4.9", reviews: "2,394 reviews" },
@@ -543,19 +543,19 @@ home: {
         ctaHref: "/fleet",
         items: [
           {
-            href: "/fleet/economy",
+            href: "/",
             title: "Economy",
             subtitle: "Toyoya Corolla hybrid , Ford Mondeo ",
             image: "/Econamy.webp",
           },
           {
-            href: "/fleet/first-class",
+            href: "/",
             title: "Business Sedan",
             subtitle: "Mercedes E Class or superior",
             image: "/Mercedes-S-Class-cutout.webp",
           },
           {
-            href: "/fleet/business-class",
+            href: "/",
             title: "Economy Van",
             subtitle: "Mercedes Vito, Volkswagen Caravelle",
             image: "/WhatsApp Image 2025-10-29 at 22.41.28.jpeg",
@@ -684,7 +684,7 @@ footer: {
           title: "Des trajets d’entreprise valorisés à Valence",
           description:
             "Avec Chauffeurio, le transport d’affaires devient une expérience. Impressionnez vos clients, gagnez en productivité en route et profitez de la sérénité d’un service de chauffeur plébiscité à Valence. Des solutions sur mesure pour les dirigeants modernes.",
-          image: "/hero.jpg",
+          image: "/Spain.png",
           imagePosition: "left",
         },
       ],
@@ -1174,19 +1174,19 @@ testimonials: {
         ctaHref: "/fleet",
         items: [
           {
-            href: "/fleet/economy",
+            href: "/fleet",
             title: "Économique",
             subtitle: "Skoda Octavia, Toyota Prius ou équivalent",
             image: "/Econamy.webp",
           },
           {
-            href: "/fleet/first-class",
+            href: "/fleet",
             title: "Première Classe",
             subtitle: "Mercedes S Class, BMW 7, Audi A8, Cadillac Escalade",
             image: "/Mercedes-S-Class-cutout.webp",
           },
           {
-            href: "/fleet/business-class",
+            href: "/fleet",
             title: "Classe Affaires",
             subtitle: "Mercedes E Class, BMW 5 Series, Cadillac XTS",
             image: "/WhatsApp Image 2025-10-29 at 22.41.28.jpeg",
@@ -1318,7 +1318,7 @@ testimonials: {
           title: "Elevando los viajes corporativos en Valencia",
           description:
             "Con Chauffeurio, el transporte empresarial es una experiencia. Impresione a los clientes, aumente su productividad en ruta y disfrute de la tranquilidad de un servicio de chófer de confianza en Valencia. Soluciones adaptadas a las necesidades de los ejecutivos modernos.",
-          image: "/hero.jpg",
+          image: "/Spain.png",
           imagePosition: "left",
         },
       ],

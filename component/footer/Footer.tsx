@@ -34,10 +34,10 @@ export default function Footer() {
 
   const footerLinks = [
     { name: footer?.footerLinks?.termsConditions || "Terms and Conditions", href: "/terms-condition?section=terms" },
-    { name: footer?.footerLinks?.legalWarning || "Legal Warning", href: "/terms-condition?section=legal-warning" },
-    { name: footer?.footerLinks?.privacyPolicy || "Privacy Policy", href: "/terms-condition?section=privacy" },
     { name: footer?.footerLinks?.cookiesPolicy || "Cookies Policy", href: "/terms-condition?section=cookies" },
-    { name: footer?.footerLinks?.develope || "Cookies Policy", href: "https://www.thedevsquare.com/" },
+    { name: footer?.footerLinks?.privacyPolicy || "Privacy Policy", href: "/terms-condition?section=privacy" },
+    { name: footer?.footerLinks?.legalWarning || "Legal Warning", href: "/terms-condition?section=legal-warning" },
+    // { name: footer?.footerLinks?.develope || "Cookies Policy", href: "https://www.thedevsquare.com/" },
   ];
 
   return (
