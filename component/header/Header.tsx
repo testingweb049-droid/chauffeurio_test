@@ -171,7 +171,15 @@ export default function Header() {
               />
             </a>
 
-            <div className="flex items-center gap-1 py-2">
+            <div className="flex items-center gap-3 py-2">
+              {/* Instagram Icon */}
+              <a
+                href="https://www.instagram.com/chauffeurio?igsh=dW55MWFhY2EybTJz"
+                className="text-white text-lg hover:text-yellow-500 transition-colors"
+                aria-label="Instagram"
+              >
+                <FaInstagram />
+              </a>
               <button onClick={toggleMobileMenu} className="text-white p-2">
                 <AnimatePresence mode="wait">
                   <motion.span
