@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import {
   format,
   addMonths,
@@ -12,7 +12,7 @@ import {
   isBefore,
   startOfDay,
 } from "date-fns"
-import { ChevronRight, Calendar, Clock } from "lucide-react"
+import { ChevronRight, Calendar, Clock, ChevronUp, ChevronDown, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import useFormStore, { FieldType, FormDataType } from "@/stores/FormStore"
 
@@ -48,10 +48,37 @@ export default function NewDateTimePicker({
   const [hour, setHour] = useState<number | null>(null)
   const [minute, setMinute] = useState<number | null>(null)
   const [ampm, setAmPm] = useState<"AM" | "PM">("AM")
-  const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("24h")
+  const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("12h")
   const { formData } = useFormStore()
+  
+  const hourScrollRef = useRef<HTMLDivElement>(null)
+  const minuteScrollRef = useRef<HTMLDivElement>(null)
+  const ampmScrollRef = useRef<HTMLDivElement>(null)
 
-  const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+  // Initialize hour/minute/ampm from selectedTime when time picker opens
+  useEffect(() => {
+    if (timeOpen && selectedTime) {
+      const [hours, minutes] = selectedTime.split(":")
+      const hour24 = parseInt(hours)
+      const minuteVal = parseInt(minutes)
+      
+      if (timeFormat === "12h") {
+        const hour12 = hour24 % 12 || 12
+        setHour(hour12)
+        setAmPm(hour24 >= 12 ? "PM" : "AM")
+      } else {
+        setHour(hour24)
+      }
+      setMinute(minuteVal)
+    } else if (timeOpen && !selectedTime) {
+      // Reset when opening without a selected time
+      setHour(null)
+      setMinute(null)
+      setAmPm("AM")
+    }
+  }, [timeOpen, selectedTime, timeFormat])
+
+  const daysOfWeek = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
 
   const getCalendarDays = () => {
     const startOfCurrentMonth = startOfMonth(currentMonth)
@@ -121,6 +148,41 @@ export default function NewDateTimePicker({
     }
   }
 
+  const scrollColumn = (ref: React.RefObject<HTMLDivElement | null>, direction: "up" | "down") => {
+    if (ref.current) {
+      const scrollAmount = 40 // Adjust based on item height
+      const currentScroll = ref.current.scrollTop
+      const newScroll = direction === "up" 
+        ? Math.max(0, currentScroll - scrollAmount)
+        : currentScroll + scrollAmount
+      ref.current.scrollTo({ top: newScroll, behavior: "smooth" })
+    }
+  }
+
+  const scrollToSelected = (ref: React.RefObject<HTMLDivElement | null>, index: number) => {
+    if (ref.current) {
+      const itemHeight = 40 // Approximate height of each item
+      const scrollPosition = index * itemHeight
+      ref.current.scrollTo({ top: scrollPosition, behavior: "smooth" })
+    }
+  }
+
+  // Scroll to selected values when they change
+  useEffect(() => {
+    if (timeOpen && hour !== null) {
+      const hourIndex = getHours().indexOf(hour)
+      if (hourIndex !== -1) {
+        setTimeout(() => scrollToSelected(hourScrollRef, hourIndex), 100)
+      }
+    }
+  }, [timeOpen, hour, timeFormat])
+
+  useEffect(() => {
+    if (timeOpen && minute !== null) {
+      setTimeout(() => scrollToSelected(minuteScrollRef, minute), 100)
+    }
+  }, [timeOpen, minute])
+
   const dateFieldData = formData[dateFieldName] as FieldType<string>
   const timeFieldData = formData[timeFieldName] as FieldType<string>
 
@@ -160,76 +222,106 @@ export default function NewDateTimePicker({
             </div>
           </div>
           {dateOpen && (
-            <div
-              className={cn(
-                "absolute top-full mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-3 sm:p-4",
-                "w-[280px] sm:w-[320px]",
-                "left-0 right-0 mx-auto sm:left-auto sm:right-0 sm:mx-0"
-              )}
-            >
+            <>
+              {/* Mobile Backdrop */}
+              <div
+                className="fixed inset-0 bg-black/50 z-40 sm:hidden"
+                onClick={() => setDateOpen(false)}
+              />
+              
+              {/* Calendar Popup */}
+              <div
+                className={cn(
+                  // Mobile: Fixed bottom sheet modal
+                  "fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-xl shadow-2xl",
+                  "max-h-[85vh] overflow-y-auto",
+                  // Desktop: Absolute positioning
+                  "sm:absolute sm:top-full sm:mt-2 sm:bottom-auto sm:rounded-xl sm:shadow-2xl sm:border sm:border-gray-200",
+                  "sm:w-[320px] sm:left-auto sm:right-0 sm:max-h-none",
+                  "p-3 sm:p-4 flex flex-col"
+                )}
+              >
+                {/* Cancel Header - Mobile Only */}
+                <div className="bg-gray-800 text-white py-3 px-4 -mx-3 -mt-3 mb-4 sm:hidden relative z-10 rounded-t-xl">
+                  <button
+                    type="button"
+                    onClick={() => setDateOpen(false)}
+                    className="w-full text-center text-base font-medium"
+                  >
+                    Cancel
+                  </button>
+                </div>
 
+                {/* Month and Year Display */}
+                <div className="flex items-center justify-center mb-4 sm:mb-3 sm:justify-between">
+                  {/* Left Arrow - Desktop Only */}
+                  <button
+                    type="button"
+                    onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
+                    className="hidden sm:flex p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <ChevronRight className="h-5 w-5 rotate-180 text-gray-600" />
+                  </button>
+                  
+                  {/* Month/Year - Centered on Mobile */}
+                  <span className="font-bold text-lg sm:text-base sm:font-semibold text-center sm:text-left">
+                    {format(currentMonth, "MMMM yyyy")}
+                  </span>
+                  
+                  {/* Right Arrow */}
+                  <button
+                    type="button"
+                    onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors ml-auto sm:ml-0"
+                  >
+                    <ChevronRight className="h-5 w-5 text-gray-600" />
+                  </button>
+                </div>
 
-              <div className="flex items-center justify-between mb-3">
-                <button
-                  type="button"
-                  onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <ChevronRight className="h-5 w-5 rotate-180 text-gray-600" />
-                </button>
-                <span className="font-semibold text-base sm:text-lg">
-                  {format(currentMonth, "MMMM yyyy")}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <ChevronRight className="h-5 w-5 text-gray-600" />
-                </button>
-              </div>
-
-              <div className="grid grid-cols-7 text-center text-xs sm:text-sm font-medium mb-2 text-gray-600">
-                {daysOfWeek.map((day) => (
-                  <div key={day} className="py-2">
-                    {day}
-                  </div>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-7 text-center text-sm gap-1">
-                {getCalendarDays().map((date, idx) => {
-                  const inactive = date.getMonth() !== currentMonth.getMonth()
-                  const today = startOfDay(new Date())
-                  const disabled =
-                    (minSelectableDate && isBefore(date, startOfDay(minSelectableDate))) ||
-                    isBefore(date, startOfDay(new Date()))
-
-                  const isSelected =
-                    selectedDate && isSameDay(date, new Date(selectedDate))
-
-                  return (
-                    <div
-                      key={idx}
-                      onClick={() => !disabled && handleDateSelect(date)}
-                      className={cn(
-                        "py-1.5 sm:py-2 rounded-lg cursor-pointer transition-all border-2 border-transparent text-xs sm:text-sm",
-                        disabled
-                          ? "text-gray-300 cursor-not-allowed"
-                          : inactive
-                            ? "text-gray-400"
-                            : "hover:bg-primary/10 hover:text-primary",
-                        isSelected
-                          ? "bg-primary text-white border-primary font-semibold hover:bg-primary/90"
-                          : ""
-                      )}
-                    >
-                      {date.getDate()}
+                {/* Days of Week */}
+                <div className="grid grid-cols-7 text-center text-xs sm:text-sm font-medium mb-2 text-gray-600">
+                  {daysOfWeek.map((day) => (
+                    <div key={day} className="py-2">
+                      {day}
                     </div>
-                  )
-                })}
+                  ))}
+                </div>
+
+                {/* Calendar Grid */}
+                <div className="grid grid-cols-7 text-center text-sm gap-1">
+                  {getCalendarDays().map((date, idx) => {
+                    const inactive = date.getMonth() !== currentMonth.getMonth()
+                    const today = startOfDay(new Date())
+                    const disabled =
+                      (minSelectableDate && isBefore(date, startOfDay(minSelectableDate))) ||
+                      isBefore(date, startOfDay(new Date()))
+
+                    const isSelected =
+                      selectedDate && isSameDay(date, new Date(selectedDate))
+
+                    return (
+                      <div
+                        key={idx}
+                        onClick={() => !disabled && handleDateSelect(date)}
+                        className={cn(
+                          "py-1.5 sm:py-2 cursor-pointer transition-all text-xs sm:text-sm flex items-center justify-center",
+                          disabled
+                            ? "text-gray-300 cursor-not-allowed"
+                            : inactive
+                              ? "text-gray-400"
+                              : "hover:bg-gray-100 text-gray-700",
+                          isSelected
+                            ? "bg-primary text-white font-semibold"
+                            : ""
+                        )}
+                      >
+                        {date.getDate()}
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
+            </>
           )}
         </div>
 
@@ -267,13 +359,38 @@ export default function NewDateTimePicker({
           </div>
 
           {timeOpen && (
-            <div
-              className={cn(
-                "absolute top-full mt-2 z-50 bg-white text-gray-900 rounded-xl shadow-2xl border border-gray-200 p-4 sm:p-5",
-                "w-full max-w-[320px]",
-                "left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0"
-              )}
-            >
+            <>
+              {/* Backdrop */}
+              <div
+                className="fixed inset-0 bg-black/50 z-40 sm:bg-black/20"
+                onClick={() => setTimeOpen(false)}
+              />
+              
+              {/* Time Picker Popup */}
+              <div
+                className={cn(
+                  // Mobile: Fixed bottom sheet modal
+                  "fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-xl shadow-2xl",
+                  "max-h-[85vh] overflow-y-auto",
+                  // Desktop: Absolute positioning
+                  "sm:absolute sm:top-full sm:mt-2 sm:bottom-auto sm:rounded-xl sm:shadow-2xl sm:border sm:border-gray-200",
+                  "sm:w-full sm:max-w-[320px] sm:left-auto sm:right-0 sm:max-h-none",
+                  "p-4 sm:p-5 flex flex-col"
+                )}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Cancel Header - Mobile Only */}
+                <div className="bg-gray-800 text-white py-3 px-4 -mx-4 -mt-4 mb-4 sm:hidden relative z-10 rounded-t-xl flex items-center justify-between">
+                  <span className="text-base font-medium">Select Time</span>
+                  <button
+                    type="button"
+                    onClick={() => setTimeOpen(false)}
+                    className="p-1 hover:bg-gray-700 rounded-full transition-colors"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+              
               {/* Time Format Tabs */}
               <div className="flex border border-gray-300 rounded-lg mb-4 sm:mb-5 overflow-hidden">
                 <button
@@ -281,24 +398,24 @@ export default function NewDateTimePicker({
                   className={cn(
                     "flex-1 py-2 text-xs sm:text-sm font-medium transition-colors",
                     timeFormat === "24h"
-                      ? "bg-primary text-white"
-                      : "bg-white text-gray-700 hover:bg-gray-50"
+                      ? "bg-gray-100 text-gray-700"
+                      : "bg-gray-200 text-gray-500"
                   )}
                   onClick={() => setTimeFormat("24h")}
                 >
-                  24 Hours
+                  24h
                 </button>
                 <button
                   type="button"
                   className={cn(
                     "flex-1 py-2 text-xs sm:text-sm font-medium transition-colors",
                     timeFormat === "12h"
-                      ? "bg-primary text-white"
-                      : "bg-white text-gray-700 hover:bg-gray-50"
+                      ? "bg-gray-100 text-gray-700"
+                      : "bg-gray-200 text-gray-500"
                   )}
                   onClick={() => setTimeFormat("12h")}
                 >
-                  12 Hours
+                  12h
                 </button>
               </div>
 
@@ -314,24 +431,43 @@ export default function NewDateTimePicker({
                   <label className="text-[10px] sm:text-xs font-medium text-gray-600 mb-1.5 sm:mb-2 text-center">
                     Hour
                   </label>
-                  <div className="border border-gray-300 rounded-lg overflow-hidden max-h-40 sm:max-h-48 overflow-y-scroll scrollbar-hide">
-                    {getHours().map((hourValue) => (
-                      <button
-                        key={hourValue}
-                        type="button"
-                        className={cn(
-                          "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
-                          hour === hourValue
-                            ? "bg-primary text-white"
-                            : "bg-white text-gray-700 hover:bg-gray-50"
-                        )}
-                        onClick={() => handleHourSelect(hourValue)}
-                      >
-                        {timeFormat === "24h"
-                          ? hourValue.toString().padStart(2, "0")
-                          : hourValue}
-                      </button>
-                    ))}
+                  <div className="relative border border-gray-300 rounded-lg overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => scrollColumn(hourScrollRef, "up")}
+                      className="absolute top-0 left-0 right-0 z-10 flex items-center justify-center bg-white hover:bg-gray-50 py-1 border-b border-gray-200"
+                    >
+                      <ChevronUp className="h-4 w-4 text-gray-600" />
+                    </button>
+                    <div 
+                      ref={hourScrollRef}
+                      className="overflow-hidden max-h-40 sm:max-h-48 overflow-y-scroll scrollbar-hide pt-6 pb-6"
+                    >
+                      {getHours().map((hourValue) => (
+                        <button
+                          key={hourValue}
+                          type="button"
+                          className={cn(
+                            "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
+                            hour === hourValue
+                              ? "bg-primary text-white"
+                              : "bg-white text-gray-700 hover:bg-gray-50"
+                          )}
+                          onClick={() => handleHourSelect(hourValue)}
+                        >
+                          {timeFormat === "24h"
+                            ? hourValue.toString().padStart(2, "0")
+                            : hourValue.toString().padStart(2, "0")}
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => scrollColumn(hourScrollRef, "down")}
+                      className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center bg-white hover:bg-gray-50 py-1 border-t border-gray-200"
+                    >
+                      <ChevronDown className="h-4 w-4 text-gray-600" />
+                    </button>
                   </div>
                 </div>
 
@@ -340,22 +476,41 @@ export default function NewDateTimePicker({
                   <label className="text-[10px] sm:text-xs font-medium text-gray-600 mb-1.5 sm:mb-2 text-center">
                     Minute
                   </label>
-                  <div className="border border-gray-300 rounded-lg overflow-hidden max-h-40 sm:max-h-48 overflow-y-scroll scrollbar-hide">
-                    {[...Array(60)].map((_, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        className={cn(
-                          "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
-                          minute === i
-                            ? "bg-primary text-white"
-                            : "bg-white text-gray-700 hover:bg-gray-50"
-                        )}
-                        onClick={() => setMinute(i)}
-                      >
-                        {i.toString().padStart(2, "0")}
-                      </button>
-                    ))}
+                  <div className="relative border border-gray-300 rounded-lg overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => scrollColumn(minuteScrollRef, "up")}
+                      className="absolute top-0 left-0 right-0 z-10 flex items-center justify-center bg-white hover:bg-gray-50 py-1 border-b border-gray-200"
+                    >
+                      <ChevronUp className="h-4 w-4 text-gray-600" />
+                    </button>
+                    <div 
+                      ref={minuteScrollRef}
+                      className="overflow-hidden max-h-40 sm:max-h-48 overflow-y-scroll scrollbar-hide pt-6 pb-6"
+                    >
+                      {[...Array(60)].map((_, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          className={cn(
+                            "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
+                            minute === i
+                              ? "bg-primary text-white"
+                              : "bg-white text-gray-700 hover:bg-gray-50"
+                          )}
+                          onClick={() => setMinute(i)}
+                        >
+                          {i.toString().padStart(2, "0")}
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => scrollColumn(minuteScrollRef, "down")}
+                      className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center bg-white hover:bg-gray-50 py-1 border-t border-gray-200"
+                    >
+                      <ChevronDown className="h-4 w-4 text-gray-600" />
+                    </button>
                   </div>
                 </div>
 
@@ -365,22 +520,41 @@ export default function NewDateTimePicker({
                     <label className="text-[10px] sm:text-xs font-medium text-gray-600 mb-1.5 sm:mb-2 text-center">
                       Period
                     </label>
-                    <div className="border border-gray-300 rounded-lg overflow-hidden scrollbar-hide">
-                      {["AM", "PM"].map((val) => (
-                        <button
-                          key={val}
-                          type="button"
-                          className={cn(
-                            "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
-                            ampm === val
-                              ? "bg-primary text-white"
-                              : "bg-white text-gray-700 hover:bg-gray-50"
-                          )}
-                          onClick={() => setAmPm(val as "AM" | "PM")}
-                        >
-                          {val}
-                        </button>
-                      ))}
+                    <div className="relative border border-gray-300 rounded-lg overflow-hidden">
+                      <button
+                        type="button"
+                        onClick={() => scrollColumn(ampmScrollRef, "up")}
+                        className="absolute top-0 left-0 right-0 z-10 flex items-center justify-center bg-white hover:bg-gray-50 py-1 border-b border-gray-200"
+                      >
+                        <ChevronUp className="h-4 w-4 text-gray-600" />
+                      </button>
+                      <div 
+                        ref={ampmScrollRef}
+                        className="overflow-hidden scrollbar-hide pt-6 pb-6"
+                      >
+                        {["AM", "PM"].map((val) => (
+                          <button
+                            key={val}
+                            type="button"
+                            className={cn(
+                              "w-full py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors border-b border-gray-100 last:border-b-0",
+                              ampm === val
+                                ? "bg-primary text-white"
+                                : "bg-white text-gray-700 hover:bg-gray-50"
+                            )}
+                            onClick={() => setAmPm(val as "AM" | "PM")}
+                          >
+                            {val}
+                          </button>
+                        ))}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => scrollColumn(ampmScrollRef, "down")}
+                        className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center bg-white hover:bg-gray-50 py-1 border-t border-gray-200"
+                      >
+                        <ChevronDown className="h-4 w-4 text-gray-600" />
+                      </button>
                     </div>
                   </div>
                 )}
@@ -392,16 +566,17 @@ export default function NewDateTimePicker({
                   onClick={handleSaveTime}
                   disabled={hour === null || minute === null}
                   className={cn(
-                    "text-white text-xs sm:text-sm font-medium py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg transition-all focus:ring-2 focus:ring-primary/30",
+                    "text-white text-xs sm:text-sm font-medium py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg transition-all",
                     hour === null || minute === null
                       ? "bg-gray-300 cursor-not-allowed"
-                      : "bg-primary hover:bg-primary/90"
+                      : "bg-black hover:bg-gray-800"
                   )}
                 >
-                  Save Time
+                  Save
                 </button>
               </div>
             </div>
+            </>
           )}
         </div>
       </div>
