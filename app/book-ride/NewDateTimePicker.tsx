@@ -253,18 +253,18 @@ export default function NewDateTimePicker({
                 </div>
 
                 {/* Month and Year Display */}
-                <div className="flex items-center justify-center mb-4 sm:mb-3 sm:justify-between">
-                  {/* Left Arrow - Desktop Only */}
+                <div className="flex items-center justify-between mb-4 sm:mb-3">
+                  {/* Left Arrow */}
                   <button
                     type="button"
                     onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-                    className="hidden sm:flex p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                   >
                     <ChevronRight className="h-5 w-5 rotate-180 text-gray-600" />
                   </button>
                   
-                  {/* Month/Year - Centered on Mobile */}
-                  <span className="font-bold text-lg sm:text-base sm:font-semibold text-center sm:text-left">
+                  {/* Month/Year - Centered */}
+                  <span className="font-bold text-lg sm:text-base sm:font-semibold text-center">
                     {format(currentMonth, "MMMM yyyy")}
                   </span>
                   
@@ -272,7 +272,7 @@ export default function NewDateTimePicker({
                   <button
                     type="button"
                     onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors ml-auto sm:ml-0"
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                   >
                     <ChevronRight className="h-5 w-5 text-gray-600" />
                   </button>
@@ -369,25 +369,24 @@ export default function NewDateTimePicker({
               {/* Time Picker Popup */}
               <div
                 className={cn(
-                  // Mobile: Fixed bottom sheet modal
-                  "fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-xl shadow-2xl",
-                  "max-h-[85vh] overflow-y-auto",
-                  // Desktop: Absolute positioning
-                  "sm:absolute sm:top-full sm:mt-2 sm:bottom-auto sm:rounded-xl sm:shadow-2xl sm:border sm:border-gray-200",
-                  "sm:w-full sm:max-w-[320px] sm:left-auto sm:right-0 sm:max-h-none",
+                  // Mobile: Absolute positioning below field, similar to desktop
+                  "absolute top-full left-0 mt-2 z-50 bg-white rounded-xl shadow-2xl border border-gray-200",
+                  "w-full max-w-[320px] max-h-[85vh] overflow-y-auto",
+                  // Desktop: Same positioning
+                  "sm:right-0 sm:left-auto",
                   "p-4 sm:p-5 flex flex-col"
                 )}
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Cancel Header - Mobile Only */}
-                <div className="bg-gray-800 text-white py-3 px-4 -mx-4 -mt-4 mb-4 sm:hidden relative z-10 rounded-t-xl flex items-center justify-between">
-                  <span className="text-base font-medium">Select Time</span>
+                <div className="flex items-center justify-between mb-4 sm:hidden">
+                  <span className="text-base font-medium text-gray-800">Select Time</span>
                   <button
                     type="button"
                     onClick={() => setTimeOpen(false)}
-                    className="p-1 hover:bg-gray-700 rounded-full transition-colors"
+                    className="p-1 hover:bg-gray-100 rounded-full transition-colors"
                   >
-                    <X className="h-5 w-5" />
+                    <X className="h-5 w-5 text-gray-600" />
                   </button>
                 </div>
               
