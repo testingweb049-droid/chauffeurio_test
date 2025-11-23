@@ -238,17 +238,18 @@ export default function NewDateTimePicker({
                   // Desktop: Absolute positioning
                   "sm:absolute sm:top-full sm:mt-2 sm:bottom-auto sm:rounded-xl sm:shadow-2xl sm:border sm:border-gray-200",
                   "sm:w-[320px] sm:left-auto sm:right-0 sm:max-h-none",
-                  "p-3 sm:p-4 flex flex-col"
+                  "px-6 py-4 sm:p-4 flex flex-col"
                 )}
               >
                 {/* Cancel Header - Mobile Only */}
-                <div className="bg-gray-800 text-white py-3 px-4 -mx-3 -mt-3 mb-4 sm:hidden relative z-10 rounded-t-xl">
+                <div className="bg-gray-800 text-white py-3 px-4 -mx-6 -mt-4 mb-4 sm:hidden relative z-10 rounded-t-xl flex items-center justify-between">
+                  <span className="text-base font-medium">Select Date</span>
                   <button
                     type="button"
                     onClick={() => setDateOpen(false)}
-                    className="w-full text-center text-base font-medium"
+                    className="p-1 hover:bg-gray-700 rounded-full transition-colors"
                   >
-                    Cancel
+                    <X className="h-5 w-5" />
                   </button>
                 </div>
 
@@ -369,24 +370,25 @@ export default function NewDateTimePicker({
               {/* Time Picker Popup */}
               <div
                 className={cn(
-                  // Mobile: Absolute positioning below field, similar to desktop
-                  "absolute top-full left-0 mt-2 z-50 bg-white rounded-xl shadow-2xl border border-gray-200",
-                  "w-full max-w-[320px] max-h-[85vh] overflow-y-auto",
-                  // Desktop: Same positioning
-                  "sm:right-0 sm:left-auto",
-                  "p-4 sm:p-5 flex flex-col"
+                  // Mobile: Fixed bottom sheet modal
+                  "fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-xl shadow-2xl",
+                  "max-h-[85vh] overflow-y-auto",
+                  // Desktop: Absolute positioning
+                  "sm:absolute sm:top-full sm:mt-2 sm:bottom-auto sm:rounded-xl sm:shadow-2xl sm:border sm:border-gray-200",
+                  "sm:w-full sm:max-w-[320px] sm:left-auto sm:right-0 sm:max-h-none",
+                  "px-6 py-4 sm:p-5 flex flex-col"
                 )}
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Cancel Header - Mobile Only */}
-                <div className="flex items-center justify-between mb-4 sm:hidden">
-                  <span className="text-base font-medium text-gray-800">Select Time</span>
+                <div className="bg-gray-800 text-white py-3 px-4 -mx-6 -mt-4 mb-4 sm:hidden relative z-10 rounded-t-xl flex items-center justify-between">
+                  <span className="text-base font-medium">Select Time</span>
                   <button
                     type="button"
                     onClick={() => setTimeOpen(false)}
-                    className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                    className="p-1 hover:bg-gray-700 rounded-full transition-colors"
                   >
-                    <X className="h-5 w-5 text-gray-600" />
+                    <X className="h-5 w-5" />
                   </button>
                 </div>
               
