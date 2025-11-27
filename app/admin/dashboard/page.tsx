@@ -90,10 +90,10 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-6 p-4 md:p-6">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Dashboard</h1>
+        <p className="text-gray-600 dark:text-gray-400">
           Overview of your business metrics
         </p>
       </div>
@@ -138,55 +138,57 @@ export default function DashboardPage() {
         />
       </div>
       {/* Recent Orders */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Orders</CardTitle>
+      <Card className="border-gray-200 dark:border-gray-800 shadow-sm">
+        <CardHeader className="bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800">
+          <CardTitle className="text-xl font-semibold text-gray-900 dark:text-white">Recent Orders</CardTitle>
         </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Customer</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Date</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.recentOrders.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={4} className="text-center text-muted-foreground">
-                    No recent orders
-                  </TableCell>
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-gray-50 dark:bg-gray-900/30 hover:bg-gray-50 dark:hover:bg-gray-900/30">
+                  <TableHead className="font-semibold text-gray-700 dark:text-gray-300">Customer</TableHead>
+                  <TableHead className="font-semibold text-gray-700 dark:text-gray-300">Amount</TableHead>
+                  <TableHead className="font-semibold text-gray-700 dark:text-gray-300">Status</TableHead>
+                  <TableHead className="font-semibold text-gray-700 dark:text-gray-300">Date</TableHead>
                 </TableRow>
-              ) : (
-                data.recentOrders.map((order) => (
-                  <TableRow key={order.id}>
-                    <TableCell className="font-medium">
-                      {order.name}
-                    </TableCell>
-                    <TableCell>€{order.price}</TableCell>
-                    <TableCell>
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs ${
-                          order.payment_status === "paid"
-                            ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
-                            : order.payment_status === "pending"
-                            ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200"
-                            : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
-                        }`}
-                      >
-                        {order.payment_status}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {format(new Date(order.created_at), "MMM d, yyyy")}
+              </TableHeader>
+              <TableBody>
+                {data.recentOrders.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={4} className="text-center text-gray-500 dark:text-gray-400 py-8">
+                      No recent orders
                     </TableCell>
                   </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
+                ) : (
+                  data.recentOrders.map((order) => (
+                    <TableRow key={order.id} className="hover:bg-gray-50 dark:hover:bg-gray-900/30 transition-colors">
+                      <TableCell className="font-medium text-gray-900 dark:text-white">
+                        {order.name}
+                      </TableCell>
+                      <TableCell className="font-semibold text-gray-900 dark:text-white">€{order.price}</TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            order.payment_status === "paid"
+                              ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800"
+                              : order.payment_status === "pending"
+                              ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-800"
+                              : "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800"
+                          }`}
+                        >
+                          {order.payment_status}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-gray-600 dark:text-gray-400">
+                        {format(new Date(order.created_at), "MMM d, yyyy")}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

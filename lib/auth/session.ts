@@ -1,6 +1,6 @@
 import { db } from "@/db/drizzle";
 import { adminSessions, admins } from "@/db/schema";
-import { eq, and, gt } from "drizzle-orm";
+import { eq, and, gt, lt } from "drizzle-orm";
 import { generateSessionToken } from "./token";
 
 const SESSION_DURATION_DAYS = 7;
@@ -75,7 +75,7 @@ export async function deleteAdminSession(token: string): Promise<void> {
 export async function cleanupExpiredSessions(): Promise<number> {
   const result = await db
     .delete(adminSessions)
-    .where(gt(new Date(), adminSessions.expires_at));
+    .where(lt(adminSessions.expires_at, new Date()));
 
   return result.rowCount || 0;
 }

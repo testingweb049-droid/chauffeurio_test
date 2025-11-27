@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
         {
           success: false,
           error: "Invalid filter parameters",
-          details: validationResult.error.errors,
+          details: validationResult.error.issues,
         },
         { status: 400 }
       );

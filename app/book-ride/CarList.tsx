@@ -256,7 +256,7 @@ function CarList() {
         <div className="w-full flex justify-end">
           <button
             onClick={() => setIsPopupOpen(true)}
-            className="flex items-center gap-2 p-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-lg transition-colors border border-gray-200"
+            className="flex items-center gap-2 p-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-lg transition-colors border border-gray-200 cursor-pointer"
             aria-label="Show important information"
           >
             <Info size={16} />
@@ -365,9 +365,9 @@ function CarList() {
                   ) : (
                     <button
                       onClick={() => handleSelect(categoryData, Number(priceData.original.toFixed(0)))}
-                      className="bg-primary hover:bg-[#ffb300] text-white rounded-lg px-4 py-2 transition-all w-full flex items-center justify-center gap-2 font-semibold text-base"
+                      className="bg-primary hover:bg-[#ffb300] active:bg-[#e6a000] text-white rounded-lg px-4 py-2 transition-all w-full flex items-center justify-center gap-2 font-semibold text-base cursor-pointer shadow-sm hover:shadow-md"
                         aria-label={`Select ${categoryData.displayName}`}
-                      >
+                    >
                         <span>Select Vehicle</span>
                       <ArrowRight size={18} />
                     </button>
@@ -431,9 +431,9 @@ function CarList() {
                   ) : (
                     <button
                       onClick={() => handleSelect(categoryData, Number(priceData.original.toFixed(0)))}
-                      className="bg-primary hover:bg-[#ffb300] text-white rounded-md py-2 transition-all w-full flex items-center justify-center gap-2 font-medium text-base"
+                      className="bg-primary hover:bg-[#ffb300] active:bg-[#e6a000] text-white rounded-md py-2 transition-all w-full flex items-center justify-center gap-2 font-medium text-base cursor-pointer shadow-sm hover:shadow-md"
                         aria-label={`Select ${categoryData.displayName}`}
-                      >
+                    >
                       <span>Select Vehicle</span>
                       <ArrowRight size={18} />
                     </button>

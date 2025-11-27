@@ -67,7 +67,7 @@ export function DataTable<T extends Record<string, any>>({
   className,
 }: DataTableProps<T>) {
   return (
-    <Card className={cn("", className)}>
+    <Card className={cn("border-gray-200 dark:border-gray-800 shadow-sm", className)}>
       {(title || searchable || filters || actions) && (
         <CardHeader>
           <div className="flex items-center justify-between flex-wrap gap-4">
@@ -80,7 +80,7 @@ export function DataTable<T extends Record<string, any>>({
                     placeholder={searchPlaceholder}
                     value={searchValue}
                     onChange={(e) => onSearchChange?.(e.target.value)}
-                    className="pl-8 w-64"
+                    className="pl-8 w-64 cursor-text"
                   />
                 </div>
               )}
@@ -113,7 +113,7 @@ export function DataTable<T extends Record<string, any>>({
                     <TableRow>
                       <TableCell
                         colSpan={columns.length}
-                        className="text-center text-muted-foreground h-24"
+                        className="text-center text-gray-500 dark:text-gray-400 h-24"
                       >
                         {emptyMessage}
                       </TableCell>
@@ -144,7 +144,7 @@ export function DataTable<T extends Record<string, any>>({
             {/* Pagination */}
             {pagination && pagination.totalPages > 1 && (
               <div className="flex items-center justify-between mt-4">
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-gray-600 dark:text-gray-400">
                   Showing {(pagination.page - 1) * pagination.limit + 1} to{" "}
                   {Math.min(pagination.page * pagination.limit, pagination.total)} of{" "}
                   {pagination.total} results
@@ -155,11 +155,12 @@ export function DataTable<T extends Record<string, any>>({
                     size="sm"
                     onClick={() => pagination.onPageChange(pagination.page - 1)}
                     disabled={pagination.page === 1}
+                    className="cursor-pointer"
                   >
                     <ChevronLeft className="h-4 w-4 mr-1" />
                     Previous
                   </Button>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-sm text-gray-600 dark:text-gray-400">
                     Page {pagination.page} of {pagination.totalPages}
                   </div>
                   <Button
@@ -167,6 +168,7 @@ export function DataTable<T extends Record<string, any>>({
                     size="sm"
                     onClick={() => pagination.onPageChange(pagination.page + 1)}
                     disabled={pagination.page === pagination.totalPages}
+                    className="cursor-pointer"
                   >
                     Next
                     <ChevronRight className="h-4 w-4 ml-1" />
