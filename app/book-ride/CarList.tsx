@@ -189,7 +189,10 @@ function CarList() {
           computedPrice = calculatePriceFromRates(totalDistance, rates);
           // Debug log for price calculation
           if (process.env.NODE_ENV === 'development') {
-            console.log(`💰 ${categoryData.category} - Distance: ${totalDistance}km, Price: €${computedPrice.toFixed(2)}`);
+            console.log(`💰 ${categoryData.category} - Distance: ${totalDistance}km, Base Price: €${computedPrice.toFixed(2)}`);
+            if (has24HourSurge) {
+              console.log(`⚡ 24-hour surge (15%) applied: €${computedPrice.toFixed(2)} → €${(computedPrice * 1.15).toFixed(2)}`);
+            }
           }
         } else {
           // Fallback to simple per-km pricing if no API rates
@@ -208,9 +211,9 @@ function CarList() {
     const increasedPrice =
       priceIncrease > 0 ? Number((computedPrice * (1 + priceIncrease)).toFixed(0)) : originalPrice;
 
-    // Apply 10% increase if within 24 hours
-    const finalPrice = has24HourSurge ? originalPrice * 1.1 : originalPrice;
-    const finalIncreasedPrice = has24HourSurge ? increasedPrice * 1.1 : increasedPrice;
+    // Apply 15% increase if within 24 hours
+    const finalPrice = has24HourSurge ? originalPrice * 1.15 : originalPrice;
+    const finalIncreasedPrice = has24HourSurge ? increasedPrice * 1.15 : increasedPrice;
 
     return {
       original: Number(finalPrice.toFixed(0)),

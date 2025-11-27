@@ -7,16 +7,14 @@ import { PricingRange } from "@/types/rates";
  * Pricing structure example:
  * - 0-3 km: fixed €10
  * - 3-5 km: fixed €12
- * - 5-10 km: €2/km
- * - 10-15 km: €4/km
- * - etc.
+ * - 15-20 km: €3/km
  * 
- * Example calculation for 12 km:
- * - 0-3 km: fixed €10 (not applicable, distance > 3)
- * - 3-5 km: fixed €12 (not applicable, distance > 5)
- * - 5-10 km: (10-5) * €2 = €10
- * - 10-15 km: (12-10) * €4 = €8
- * - Total: €18
+ * Example calculation for 18 km:
+ * - Distance falls in 15-20 km range with rate €3/km
+ * - Price = 18 * 3 = €54
+ * 
+ * For per_km ranges: The ENTIRE distance is multiplied by the rate of the matching range
+ * For fixed ranges: The fixed price is applied if distance falls within that range
  */
 export function calculatePriceFromRates(
   distance: number,
@@ -29,62 +27,45 @@ export function calculatePriceFromRates(
   // Sort ranges by min to ensure proper order
   const sortedRanges = [...pricingStructure].sort((a, b) => a.min - b.min);
 
-  // Find the infinity range (100+ km range)
-  const infinityRange = sortedRanges.find(
-    (r) => r.max === null || r.max === Infinity
-  );
-
-  // If distance is above the infinity range minimum (100 km), use infinity price for ENTIRE distance
-  if (infinityRange && distance > infinityRange.min && infinityRange.type === "per_km") {
-    return Math.round(distance * infinityRange.price * 100) / 100;
-  }
-
-  // For distances <= 100 km, calculate using normal range logic
-  let totalPrice = 0;
-  let distanceCovered = 0;
-
+  // Find the range that contains this distance
   for (const range of sortedRanges) {
-    if (distanceCovered >= distance) break;
-
     const rangeMin = range.min;
     const rangeMax = range.max === null || range.max === Infinity ? Infinity : range.max;
 
-    // Skip ranges that don't apply (distance hasn't reached this range yet)
-    if (distance <= rangeMin) {
-      continue;
-    }
-
-    if (range.type === "fixed") {
-      // Fixed price: if distance falls within this range (inclusive boundaries), apply fixed price and we're done
-      // For 0-3 km: distance must be > 0 and <= 3 (so 1, 2, 3 km all get €10)
-      // For 3-5 km: distance must be > 3 and <= 5 (so 4, 5 km get €12)
-      if (distance > rangeMin && distance <= rangeMax) {
-        totalPrice = range.price;
-        distanceCovered = distance;
-        break;
-      }
-      // Distance exceeds this fixed range, continue to next range
-      continue;
-    } else {
-      // Per kilometer pricing
-      // Calculate the effective range considering what we've already covered
-      const effectiveRangeMin = Math.max(rangeMin, distanceCovered);
-      const effectiveRangeMax = Math.min(rangeMax, distance);
-
-      if (effectiveRangeMax > effectiveRangeMin) {
-        const distanceInRange = effectiveRangeMax - effectiveRangeMin;
-        totalPrice += distanceInRange * range.price;
-        distanceCovered = effectiveRangeMax;
-      }
-
-      // If we've covered all the distance, we're done
-      if (distanceCovered >= distance) {
-        break;
+    // Check if distance falls within this range
+    // For inclusive boundaries: distance > min and distance <= max
+    if (distance > rangeMin && distance <= rangeMax) {
+      if (range.type === "fixed") {
+        // Fixed price: return the fixed price for this range
+        const price = Math.round(range.price * 100) / 100;
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`📊 Pricing: Distance ${distance}km falls in fixed range ${rangeMin}-${rangeMax === Infinity ? '∞' : rangeMax}km, price: €${price}`);
+        }
+        return price;
+      } else {
+        // Per kilometer pricing: multiply ENTIRE distance by the rate
+        // Example: 18 km in 15-20 km range with rate 3 = 18 * 3 = 54
+        const price = Math.round(distance * range.price * 100) / 100;
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`📊 Pricing: Distance ${distance}km falls in per_km range ${rangeMin}-${rangeMax === Infinity ? '∞' : rangeMax}km (rate: €${range.price}/km), price: ${distance} × ${range.price} = €${price}`);
+        }
+        return price;
       }
     }
   }
 
-  return Math.round(totalPrice * 100) / 100; // Round to 2 decimal places
+  // If no range matches, find the highest range and use it (for distances beyond all ranges)
+  const lastRange = sortedRanges[sortedRanges.length - 1];
+  if (lastRange) {
+    if (lastRange.type === "fixed") {
+      return Math.round(lastRange.price * 100) / 100;
+    } else {
+      // For per_km, multiply entire distance by the rate
+      return Math.round(distance * lastRange.price * 100) / 100;
+    }
+  }
+
+  return 0;
 }
 
 /**
