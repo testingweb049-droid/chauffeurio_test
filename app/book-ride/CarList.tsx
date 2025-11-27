@@ -10,30 +10,8 @@ import { brandColor } from "@/lib/colors";
 import { ArrowRight, TrendingDown, Award, Flame, Clock, Info } from "lucide-react";
 import LoadingButton from "./LoadingButton";
 import { ImportantInfoPopup } from "./importantNote";
-
-// --- Pricing configuration ---
-const pricingRanges = [
-  { min: 0, max: 5 },
-  { min: 5, max: 10 },
-  { min: 10, max: 15 },
-  { min: 15, max: 20 },
-  { min: 20, max: 30 },
-  { min: 30, max: 50 },
-  { min: 50, max: 75 },
-  { min: 75, max: 100 },
-  { min: 100, max: 150 },
-  { min: 150, max: 200 },
-  { min: 200, max: Infinity },
-];
-
-const categoryPricing = {
-  ECONOMY: [6.5, 4.5, 4.0, 2.9, 2.7, 2.5, 2.0, 1.8, 1.8, 1.75, 1.7],
-  BUSINESS_SEDAN: [11.0, 6.8, 5.0, 4.3, 3.8, 3.0, 2.35, 2.2, 2.12, 1.9, 1.9],
-  ECONOMY_VAN: [12.5, 7.5, 5.0, 4.95, 3.9, 3.2, 2.5, 2.4, 2.3, 2.14, 2.0],
-  BUSINESS_VAN: [23.8, 13.2, 9.3, 9.3, 7.5, 6.0, 4.75, 4.65, 4.36, 4.0, 3.8],
-  MINIBUS_12: [30.0, 18.0, 13.25, 11.5, 9.95, 8.0, 7.23, 6.3, 5.8, 5.34, 5.3],
-  MINIBUS_16: [39.6, 22.4, 14.8, 12.9, 11.15, 8.98, 8.1, 7.12, 6.48, 6.0, 5.95],
-};
+import { calculatePriceFromRates, getPricingRates } from "@/lib/pricing";
+import { PricingRange } from "@/types/rates";
 
 const categoryBadges = {
   ECONOMY: {
@@ -124,11 +102,41 @@ export const fleets = [
 function CarList() {
   const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-  console.log("formData", formData);
+  const [pricingRates, setPricingRates] = useState<Record<string, PricingRange[]>>({});
+  const [isLoadingRates, setIsLoadingRates] = useState(true);
   const hasDuration = Boolean(formData.duration?.value && formData.duration.value.trim() !== "");
   const passengers = Number(formData.passengers?.value) || 1;
   const bags = Number(formData.bags?.value) || 0;
+
+  // Fetch pricing rates for all categories from API
+  useEffect(() => {
+    const fetchAllRates = async () => {
+      setIsLoadingRates(true);
+      try {
+        const categories = ["ECONOMY", "BUSINESS_SEDAN", "ECONOMY_VAN", "BUSINESS_VAN", "MINIBUS_12", "MINIBUS_16"];
+        const ratesMap: Record<string, PricingRange[]> = {};
+
+        const ratePromises = categories.map(async (cat) => {
+          const rates = await getPricingRates(cat);
+          if (rates && rates.length > 0) {
+            ratesMap[cat] = rates;
+            console.log(`✅ Loaded pricing rates for ${cat}:`, rates.length, "ranges");
+          } else {
+            console.warn(`⚠️ No pricing rates found for ${cat}, will use fallback pricing`);
+          }
+        });
+
+        await Promise.all(ratePromises);
+        setPricingRates(ratesMap);
+      } catch (error) {
+        console.error("Error loading pricing rates:", error);
+      } finally {
+        setIsLoadingRates(false);
+      }
+    };
+
+    fetchAllRates();
+  }, []);
   useEffect(() => {
     if (hasDuration) {
       setIsPopupOpen(true);
@@ -175,13 +183,21 @@ function CarList() {
     } else if (category === "trip" || !category) {
       const totalDistance = Number(formData.distance?.value || 0);
       if (totalDistance > 0) {
-        const rangeIndex = pricingRanges.findIndex(
-          (range) => totalDistance > range.min && totalDistance <= range.max
-        );
-        const pricePerKm =
-          categoryPricing[categoryData.category as keyof typeof categoryPricing]?.[rangeIndex] ||
-          categoryData.pricing.perKm;
-        computedPrice = totalDistance * pricePerKm;
+        // Use rates from API if available for this category
+        const rates = pricingRates[categoryData.category];
+        if (rates && rates.length > 0) {
+          computedPrice = calculatePriceFromRates(totalDistance, rates);
+          // Debug log for price calculation
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`💰 ${categoryData.category} - Distance: ${totalDistance}km, Price: €${computedPrice.toFixed(2)}`);
+          }
+        } else {
+          // Fallback to simple per-km pricing if no API rates
+          computedPrice = totalDistance * categoryData.pricing.perKm;
+          if (process.env.NODE_ENV === 'development') {
+            console.warn(`⚠️ ${categoryData.category} - Using fallback pricing: ${totalDistance}km × €${categoryData.pricing.perKm} = €${computedPrice.toFixed(2)}`);
+          }
+        }
       }
     } else {
       computedPrice = categoryData.pricing.airport;
@@ -207,6 +223,19 @@ function CarList() {
   const hasPriceIncrease = (category: string) => {
     return category === "BUSINESS_SEDAN" || category === "BUSINESS_VAN";
   };
+
+  // Show loading while fetching pricing rates
+  if (isLoadingRates) {
+    return (
+      <div className="w-full text-center py-12">
+        <div className="flex flex-col items-center justify-center gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          <div className="text-gray-600 font-medium">Loading pricing rates...</div>
+          <div className="text-sm text-gray-400">Fetching the latest prices for all vehicles</div>
+        </div>
+      </div>
+    );
+  }
 
   if (filteredFleets.length === 0) {
     return (
