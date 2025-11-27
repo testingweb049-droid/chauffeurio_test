@@ -15,6 +15,20 @@
       "when": 1762699721941,
       "tag": "0001_yellow_stellaris",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1764186791651,
+      "tag": "0002_nasty_sugar_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1764222521237,
+      "tag": "0003_broad_otto_octavius",
+      "breakpoints": true
     }
   ]
 }

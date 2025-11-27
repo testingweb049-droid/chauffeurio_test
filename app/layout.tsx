@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import Header from "@/component/header/Header";
-import Footer from "@/component/footer/Footer";
 import LanguageProvider from "@/component/context/LanguageContext";
+import { AdminRouteWrapper } from "@/component/admin/AdminRouteWrapper";
+import { Toaster } from "react-hot-toast";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "700", "900"],
@@ -85,9 +85,10 @@ export default function RootLayout({
         </noscript>
 
         <LanguageProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <AdminRouteWrapper>
+            <main>{children}</main>
+          </AdminRouteWrapper>
+          <Toaster />
         </LanguageProvider>
       </body>
     </html>

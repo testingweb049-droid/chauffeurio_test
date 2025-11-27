@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { HiMenu, HiOutlineX } from "react-icons/hi";
@@ -96,6 +96,7 @@ export default function Header() {
     });
   };
 
+  // Track scroll position
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 10);
     onScroll();
@@ -119,15 +120,39 @@ export default function Header() {
     };
   }, []);
 
-  // Define routes that should always have primary background
-  const routesWithPrimaryBg = ["/book-ride", "/terms-condition"];
+  // Define routes that have background images in their hero sections
+  const routesWithBackgroundImages = [
+    "/",
+    "/about",
+    "/airport-transfer",
+    "/tours-excursions",
+    "/fleet",
+    "/city-to-city",
+    "/hourly-chauffurs",
+    "/event-transport",
+    "/business-chauffur",
+    "/contact",
+    "/faqs",
+    "/book-ride",
+  ];
 
-  // Set background class: primary for specific routes, otherwise based on scroll
-  const bgClass = routesWithPrimaryBg.includes(pathname || "")
-    ? "bg-primary"
-    : isScrolled
-    ? "bg-primary"
-    : "bg-transparent";
+  // Determine if current route has background image
+  const hasBackgroundImage = routesWithBackgroundImages.includes(pathname || "");
+
+  // Set background class:
+  // - If page has background image: transparent when not scrolled, primary when scrolled
+  // - If page doesn't have background image: always primary
+  const bgClass = hasBackgroundImage
+    ? isScrolled
+      ? "bg-primary"
+      : "bg-transparent"
+    : "bg-primary";
+
+  // Text should always be white for visibility against background images and primary color
+  const textColorClass = "text-white";
+  const hoverTextClass = "hover:text-white/90";
+  const iconColorClass = "text-white";
+  const borderColorClass = bgClass === "bg-transparent" ? "border-gray-300" : "border-gray-400";
 
   const navItems: NavItem[] = [
     { id: "home", label: header?.home || "Home", href: "/" },
@@ -151,8 +176,16 @@ export default function Header() {
 
   const isActive = (path: string) => pathname && pathname === path;
 
+  // Apply primary color only when background is not transparent
+  const headerStyle = bgClass === "bg-primary" 
+    ? { backgroundColor: "var(--primary)" } 
+    : {};
+
   return (
-    <header className={`fixed left-0 right-0 top-0 z-999 border-b border-gray-400 ${bgClass}`}>
+    <header 
+      className={`fixed left-0 right-0 top-0 z-999 border-b ${borderColorClass} ${bgClass}`}
+      style={headerStyle}
+    >
       <div className="hidden md:block">
         <Topbar />
       </div>
@@ -175,12 +208,12 @@ export default function Header() {
               {/* Instagram Icon */}
               <a
                 href="https://www.instagram.com/chauffeurio?igsh=dW55MWFhY2EybTJz"
-                className="text-white text-lg hover:text-yellow-500 transition-colors"
+                className={`${iconColorClass} text-lg hover:text-yellow-500 transition-colors`}
                 aria-label="Instagram"
               >
                 <FaInstagram />
               </a>
-              <button onClick={toggleMobileMenu} className="text-white p-2">
+              <button onClick={toggleMobileMenu} className={`${iconColorClass} p-2`}>
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={isMobileMenuOpen ? "close" : "open"}
@@ -203,7 +236,7 @@ export default function Header() {
                   <div key={item.id} className="relative" data-dropdown>
                     <button
                       onClick={() => handleDropdownToggle(item.id)}
-                      className={`text-md font-normal py-2 transition-colors flex items-center ${isActive((item as any).href) ? 'border-b-2 border-secondary text-secondary' : 'text-white hover:text-white/90'}`}
+                      className={`text-md font-normal py-2 transition-colors flex items-center ${isActive((item as any).href) ? 'border-b-2 border-secondary text-secondary' : `${textColorClass} ${hoverTextClass}`}`}
                     >
                       {item.label}
                       <svg
@@ -247,7 +280,7 @@ export default function Header() {
                   <a
                     key={item.id}
                     href={item.href}
-                    className={`text-white hover:text-white/90 transition-colors py-4 text-md font-normal ${isActive(item.href) ? 'border-b-2 border-secondary text-secondary' : ''}`}
+                    className={`${textColorClass} ${hoverTextClass} transition-colors py-4 text-md font-normal ${isActive(item.href) ? 'border-b-2 border-secondary text-secondary' : ''}`}
                   >
                     {item.label}
                   </a>
