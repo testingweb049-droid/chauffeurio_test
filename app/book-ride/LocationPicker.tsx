@@ -65,7 +65,8 @@ export default function LocationInput({
           <input
             placeholder="Loading..."
             className="w-full pl-8 md:pl-10 pr-2 md:pr-3 py-2 md:py-2.5 border border-gray-300 rounded-lg text-gray-500 bg-gray-50 cursor-not-allowed"
-            />
+            disabled
+          />
         </div>
             </div>
       ) : (
@@ -83,7 +84,7 @@ export default function LocationInput({
               value={fieldData?.value || ""}
               onChange={(e) => handleInputChange(e.target.value)}
               placeholder={placeholder}
-              className={`w-full pl-8 md:pl-10 pr-2 md:pr-3 py-2 md:py-2.5 border  rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F4910B] text-black text-sm md:text-base bg-white ${fieldData.error ? ' border-red-500' : 'border-gray-300'} `}
+              className={`w-full pl-8 md:pl-10 pr-2 md:pr-3 py-2 md:py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-gray-900 text-sm md:text-base bg-white cursor-text ${fieldData.error ? 'border-red-500 focus:ring-red-500/50' : 'border-gray-300 hover:border-gray-400'} `}
             />
           </div>
         </Autocomplete>

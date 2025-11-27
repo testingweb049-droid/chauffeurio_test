@@ -35,6 +35,7 @@ export default function OrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editStatus, setEditStatus] = useState("");
+  const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
 
   const fetchOrders = async () => {
@@ -82,6 +83,7 @@ export default function OrdersPage() {
   const handleUpdateStatus = async () => {
     if (!selectedOrder) return;
 
+    setIsUpdating(true);
     try {
       const response = await fetch(`/api/admin/orders/${selectedOrder.id}`, {
         method: "PUT",
@@ -106,6 +108,8 @@ export default function OrdersPage() {
     } catch (error) {
       console.error("Update error:", error);
       toast.error("An error occurred while updating order");
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -123,10 +127,10 @@ export default function OrdersPage() {
   );
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Orders Management</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-6 p-4 md:p-6">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Orders Management</h1>
+        <p className="text-gray-600 dark:text-gray-400">
           View and manage all orders
         </p>
       </div>
@@ -212,10 +216,13 @@ export default function OrdersPage() {
                 setIsEditDialogOpen(false);
                 setSelectedOrder(null);
               }}
+              disabled={isUpdating}
             >
               Cancel
             </Button>
-            <Button onClick={handleUpdateStatus}>Update</Button>
+            <Button onClick={handleUpdateStatus} isLoading={isUpdating}>
+              Update
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

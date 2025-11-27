@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
         {
           success: false,
           error: "Invalid pagination parameters",
-          details: validationResult.error.errors,
+          details: validationResult.error.issues,
         },
         { status: 400 }
       );
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
     const total = totalResult[0]?.count || 0;
 
     // Build query to get unique users from orders
-    let query = db
+    const baseQuery = db
       .select({
         email: orders.email,
         name: orders.name,
@@ -68,13 +68,14 @@ export async function GET(request: NextRequest) {
         total_orders: sql<number>`COUNT(*)::int`,
         last_order_date: sql<Date>`MAX(${orders.created_at})`,
       })
-      .from(orders)
-      .groupBy(orders.email, orders.name, orders.phone);
+      .from(orders);
 
-    // Apply search filter if provided
-    if (searchCondition) {
-      query = query.where(searchCondition);
-    }
+    // Apply search filter first (before groupBy), then groupBy
+    const queryWithWhere = searchCondition 
+      ? baseQuery.where(searchCondition)
+      : baseQuery;
+    
+    const query = queryWithWhere.groupBy(orders.email, orders.name, orders.phone);
 
     // Get paginated results
     const users = await query.limit(limit).offset(offset);

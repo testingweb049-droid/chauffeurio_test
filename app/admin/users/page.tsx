@@ -24,6 +24,7 @@ export default function UsersPage() {
   const [total, setTotal] = useState(0);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
 
   const fetchUsers = async () => {
@@ -61,6 +62,7 @@ export default function UsersPage() {
   }, [page, search]);
 
   const handleDelete = async (email: string) => {
+    setIsDeleting(true);
     try {
       const response = await fetch(`/api/admin/users/${encodeURIComponent(email)}`, {
         method: "DELETE",
@@ -79,6 +81,8 @@ export default function UsersPage() {
     } catch (error) {
       console.error("Delete error:", error);
       toast.error("An error occurred while deleting user orders");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -101,10 +105,10 @@ export default function UsersPage() {
   );
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Users Management</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-6 p-4 md:p-6">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Users Management</h1>
+        <p className="text-gray-600 dark:text-gray-400">
           Manage and view all users from orders
         </p>
       </div>
@@ -152,12 +156,14 @@ export default function UsersPage() {
                 setIsDeleteDialogOpen(false);
                 setSelectedUser(null);
               }}
+              disabled={isDeleting}
             >
               Cancel
             </Button>
             <Button
               variant="destructive"
               onClick={() => selectedUser && handleDelete(selectedUser)}
+              isLoading={isDeleting}
             >
               Delete
             </Button>

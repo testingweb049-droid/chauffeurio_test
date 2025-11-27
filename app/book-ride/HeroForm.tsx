@@ -29,8 +29,8 @@ useEffect(()=>{
   return (
     <div className='flex flex-col gap-3 sm:gap-5 w-full max-w-screen-sm'>
       <div className='grid grid-cols-3 lg:grid-cols-2 gap-5 max-lg:px-3 '>
-        <div onClick={() => changeCategory('trip')} className={`p-2 w-full text-center font-semibold rounded-3xl cursor-pointer ${category==='trip' ? 'bg-brand' : 'bg-white'}`}>Trip</div>
-        <div onClick={() => changeCategory('hourly')} className={`p-2 w-full text-center font-semibold rounded-3xl cursor-pointer ${category==='hourly' ? 'bg-brand' : 'bg-white'}`}>Hourly</div>
+        <button onClick={() => changeCategory('trip')} className={`p-2 w-full text-center font-semibold rounded-3xl cursor-pointer transition-all shadow-sm hover:shadow-md active:scale-[0.98] ${category==='trip' ? 'bg-brand text-black hover:bg-brand/90' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}>Trip</button>
+        <button onClick={() => changeCategory('hourly')} className={`p-2 w-full text-center font-semibold rounded-3xl cursor-pointer transition-all shadow-sm hover:shadow-md active:scale-[0.98] ${category==='hourly' ? 'bg-brand text-black hover:bg-brand/90' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}>Hourly</button>
       </div>
 
       <div className='max-lg:px-3 max-lg:py-5 sm:p-5 rounded-2xl bg-white flex flex-col gap-5 border border-gray-300'>
@@ -79,7 +79,7 @@ useEffect(()=>{
             {!isStart && !isEnd && (
               <button
                 onClick={() => manageStops('remove', stopIndex)}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs leading-none text-gray-600 hover:text-red-500"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs leading-none text-gray-600 hover:text-red-500 cursor-pointer transition-colors"
                 title="Remove stop"
                 aria-label={`Remove stop ${stopIndex + 1}`}
               >
@@ -100,7 +100,7 @@ useEffect(()=>{
            
             <button
               onClick={() => manageStops('add', i)}
-              className="relative mt-1 mb-1 rounded-full border border-gray-400 w-4 h-4 flex items-center justify-center text-[12px] hover:bg-gray-100"
+              className="relative mt-1 mb-1 rounded-full border border-gray-400 w-4 h-4 flex items-center justify-center text-[12px] hover:bg-gray-100 cursor-pointer transition-colors active:scale-90"
               title="Add stop"
               aria-label={`Add stop between ${i} and ${i + 1}`}
             >
@@ -122,10 +122,14 @@ useEffect(()=>{
 
         {formError && <div className='text-sm text-red-500'>{formError}</div>}
 
-        <div onClick={async() => {console.log("working ");  const isOk = await changeStep(true,1); console.log("ikOk",isOk); if(isOk){router.replace('/book-ride')}}} className={`flex items-center justify-center gap-2 w-full p-2 rounded-lg cursor-pointer font-semibold ${formLoading ? 'bg-blue-500 text-white' : 'bg-brand text-black '} `}>
+        <button 
+          onClick={async() => {console.log("working ");  const isOk = await changeStep(true,1); console.log("ikOk",isOk); if(isOk){router.replace('/book-ride')}}} 
+          disabled={formLoading}
+          className={`flex items-center justify-center gap-2 w-full p-3 rounded-lg cursor-pointer font-semibold transition-all shadow-sm hover:shadow-md active:scale-[0.98] ${formLoading ? 'bg-blue-500 text-white cursor-not-allowed' : 'bg-brand text-black hover:bg-brand/90 active:bg-brand/80'} `}
+        >
           <Loader className={`animate-spin ${formLoading ? '' : 'hidden'}`} size={20} />
-          {formLoading ? 'Loading' : 'Quote Now'}
-        </div>
+          {formLoading ? 'Loading...' : 'Quote Now'}
+        </button>
       </div>
     </div>
   )

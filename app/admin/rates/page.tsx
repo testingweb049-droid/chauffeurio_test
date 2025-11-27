@@ -69,6 +69,7 @@ export default function RatesPage() {
   >({});
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState<Record<string, boolean>>({});
   const [deleteConfirm, setDeleteConfirm] = useState<{ category: string; index: number } | null>(null);
+  const [savingCategory, setSavingCategory] = useState<string | null>(null);
 
   useEffect(() => {
     fetchRates();
@@ -193,6 +194,7 @@ export default function RatesPage() {
   };
 
   const handleSave = async (category: string) => {
+    setSavingCategory(category);
     try {
       const pricingStructure = editingRates[category];
       if (!pricingStructure || pricingStructure.length === 0) {
@@ -319,6 +321,8 @@ export default function RatesPage() {
     } catch (error) {
       console.error("Save error:", error);
       toast.error("An error occurred while saving rates");
+    } finally {
+      setSavingCategory(null);
     }
   };
 
@@ -331,10 +335,10 @@ export default function RatesPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Pricing Rates Management</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-6 p-4 md:p-6">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Pricing Rates Management</h1>
+        <p className="text-gray-600 dark:text-gray-400">
           Configure pricing rates per kilometer for each car category
         </p>
       </div>
@@ -357,6 +361,7 @@ export default function RatesPage() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <Button 
                       onClick={() => handleSave(category)}
+                      isLoading={savingCategory === category}
                       className={hasUnsavedChanges[category] ? "bg-orange-500 hover:bg-orange-600" : ""}
                     >
                       <Save className="h-4 w-4 mr-2" />
@@ -448,7 +453,7 @@ export default function RatesPage() {
                         variant="ghost"
                         size="icon"
                         onClick={() => handleRemoveRange(category, index)}
-                        className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950"
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950 cursor-pointer"
                         disabled={editingRates[category]?.length === 1}
                         title="Remove this range"
                       >
@@ -460,7 +465,7 @@ export default function RatesPage() {
                   <Button
                     variant="outline"
                     onClick={() => handleAddRange(category)}
-                    className="w-full"
+                    className="w-full cursor-pointer"
                   >
                     <Plus className="h-4 w-4 mr-2" />
                     Add Range
@@ -503,12 +508,14 @@ export default function RatesPage() {
             <Button
               variant="outline"
               onClick={() => setDeleteConfirm(null)}
+              className="cursor-pointer"
             >
               Cancel
             </Button>
             <Button
               variant="destructive"
               onClick={confirmDeleteRange}
+              className="cursor-pointer"
             >
               Delete
             </Button>
