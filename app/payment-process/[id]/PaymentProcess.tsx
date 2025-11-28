@@ -16,7 +16,7 @@ function PaymentProcess({ id }:{id:string}) {
           return;
         }
         loadOrderIntoForm(response.order,3)
-        router.push('/book-ride')
+        router.push('/book-ride/passenger-details')
  }
 
 

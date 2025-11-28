@@ -84,7 +84,7 @@ function HeroForm() {
     console.log("working ")
     const res = await changeStep(true,1)
     if(res){
-      router.push('/book-ride')
+      router.push('/book-ride/select-vehicle')
     }
   }
 
