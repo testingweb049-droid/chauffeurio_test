@@ -12,6 +12,7 @@ import LoadingButton from "./LoadingButton";
 import { ImportantInfoPopup } from "./importantNote";
 import { calculatePriceFromRates, getPricingRates } from "@/lib/pricing";
 import { PricingRange } from "@/types/rates";
+import { useRouter } from "next/navigation";
 
 const categoryBadges = {
   ECONOMY: {
@@ -101,6 +102,7 @@ export const fleets = [
 
 function CarList() {
   const { formData, category, setFormData, changeStep, formLoading } = useFormStore();
+  const router = useRouter();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [pricingRates, setPricingRates] = useState<Record<string, PricingRange[]>>({});
   const [isLoadingRates, setIsLoadingRates] = useState(true);
@@ -169,10 +171,14 @@ function CarList() {
     car.passengers >= passengers && car.luggage >= bags
   );
 
-  const handleSelect = (categoryData: typeof fleets[0], finalPrice: number) => {
+  const handleSelect = async (categoryData: typeof fleets[0], finalPrice: number) => {
     setFormData("car", categoryData.category, "");
     setFormData("price", finalPrice.toString(), "");
-    changeStep(true, 2);
+    // Update step in store for compatibility, then navigate to passenger-details page
+    const success = await changeStep(true, 2);
+    if (success) {
+      router.push('/book-ride/passenger-details');
+    }
   };
 
   const calculatePrice = (categoryData: typeof fleets[0]) => {
