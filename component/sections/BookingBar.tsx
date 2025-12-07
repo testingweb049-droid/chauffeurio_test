@@ -55,13 +55,68 @@ function BookingBarInner({
   const fromAutocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const toAutocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
+  // Helper function to clean and format address
+  const formatAddress = (place: google.maps.places.PlaceResult | undefined): string => {
+    if (!place) return "";
+    
+    // Build address in format: Place Name, Street Address, City, Country (no postal code, no neighborhood)
+    let address = "";
+    
+    if (place.address_components && place.name) {
+      // Get place name
+      const placeName = place.name;
+      
+      // Get street address components
+      const streetNumber = place.address_components.find(
+        (comp) => comp.types.includes("street_number")
+      )?.long_name;
+      const route = place.address_components.find(
+        (comp) => comp.types.includes("route")
+      )?.long_name;
+      
+      // Get city (locality)
+      const locality = place.address_components.find(
+        (comp) => comp.types.includes("locality")
+      )?.long_name;
+      
+      // Get country
+      const country = place.address_components.find(
+        (comp) => comp.types.includes("country")
+      )?.long_name;
+      
+      // Build street address (number + route)
+      const streetAddress = [streetNumber, route].filter(Boolean).join(" ");
+      
+      // Build final address: Place Name, Street Address, City, Country
+      const addressParts: string[] = [];
+      
+      if (placeName) addressParts.push(placeName);
+      if (streetAddress) addressParts.push(streetAddress);
+      if (locality) addressParts.push(locality);
+      if (country) addressParts.push(country);
+      
+      address = addressParts.join(", ");
+    } else {
+      // Fallback: clean formatted_address to remove postal codes and neighborhoods
+      address = place.formatted_address || place.name || "";
+      // Remove postal codes (5 digits)
+      address = address.replace(/,\s*\d{5}\s*/g, ", ");
+      address = address.replace(/\s+\d{5}\s*/g, " ");
+      // Remove neighborhood names like "Extramurs"
+      address = address.replace(/,\s*Extramurs,?/gi, ",");
+      address = address.replace(/,\s*$/, "").trim();
+    }
+    
+    return address;
+  };
+
   const onFromPlaceChanged = () => {
     const place = fromAutocompleteRef.current?.getPlace();
-    setFrom(place?.formatted_address || place?.name || "");
+    setFrom(formatAddress(place));
   };
   const onToPlaceChanged = () => {
     const place = toAutocompleteRef.current?.getPlace();
-    setTo(place?.formatted_address || place?.name || "");
+    setTo(formatAddress(place));
   };
 
   // Date + Time
