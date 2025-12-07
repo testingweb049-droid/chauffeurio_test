@@ -35,9 +35,58 @@ export default function LocationInput({
     const autocomplete = autocompleteRef.current;
     if (!autocomplete) return;
     const place = autocomplete.getPlace();
-    if (place.formatted_address && place.geometry?.location) {
+    if (place.geometry?.location) {
       const coords = `${place.geometry.location.lat()},${place.geometry.location.lng()}`;
-      setFormData(field, place.formatted_address, coords , index);
+      
+      // Build address in format: Place Name, Street Address, City, Country (no postal code, no neighborhood)
+      let address = "";
+      
+      if (place.address_components && place.name) {
+        // Get place name
+        const placeName = place.name;
+        
+        // Get street address components
+        const streetNumber = place.address_components.find(
+          (comp) => comp.types.includes("street_number")
+        )?.long_name;
+        const route = place.address_components.find(
+          (comp) => comp.types.includes("route")
+        )?.long_name;
+        
+        // Get city (locality)
+        const locality = place.address_components.find(
+          (comp) => comp.types.includes("locality")
+        )?.long_name;
+        
+        // Get country
+        const country = place.address_components.find(
+          (comp) => comp.types.includes("country")
+        )?.long_name;
+        
+        // Build street address (number + route)
+        const streetAddress = [streetNumber, route].filter(Boolean).join(" ");
+        
+        // Build final address: Place Name, Street Address, City, Country
+        const addressParts: string[] = [];
+        
+        if (placeName) addressParts.push(placeName);
+        if (streetAddress) addressParts.push(streetAddress);
+        if (locality) addressParts.push(locality);
+        if (country) addressParts.push(country);
+        
+        address = addressParts.join(", ");
+      } else {
+        // Fallback: clean formatted_address to remove postal codes and neighborhoods
+        address = place.formatted_address || place.name || "";
+        // Remove postal codes (5 digits)
+        address = address.replace(/,\s*\d{5}\s*/g, ", ");
+        address = address.replace(/\s+\d{5}\s*/g, " ");
+        // Remove neighborhood names like "Extramurs"
+        address = address.replace(/,\s*Extramurs,?/gi, ",");
+        address = address.replace(/,\s*$/, "").trim();
+      }
+      
+      setFormData(field, address, coords, index);
     }
   };
 
@@ -75,8 +124,11 @@ export default function LocationInput({
         <Autocomplete
           onLoad={(auto) => (autocompleteRef.current = auto)}
           onPlaceChanged={handlePlaceChanged}
-          options={{ componentRestrictions: { country: "es" } }}
-          className={`w-full `}
+          options={{ 
+            componentRestrictions: { country: "es" },
+            fields: ["name", "formatted_address", "geometry", "address_components"]
+          }}
+          className="w-full"
         >
           <div className="relative flex-1 w-full">
             <SlLocationPin className="absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />

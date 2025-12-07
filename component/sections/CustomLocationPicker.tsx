@@ -72,14 +72,65 @@ export default function CustomLocationInput({
     if (!placesRef.current) return;
 
     placesRef.current.getDetails(
-      { placeId: prediction.place_id },
+      { 
+        placeId: prediction.place_id,
+        fields: ["name", "formatted_address", "geometry", "address_components"]
+      },
       (place, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK && place) {
-          const formatted = place.formatted_address || prediction.description;
           const coords = place.geometry
             ? `${place.geometry.location?.lat()},${place.geometry.location?.lng()}`
             : "";
-          setFormData(field, formatted, coords, index);
+          
+          // Build address in format: Place Name, Street Address, City, Country (no postal code, no neighborhood)
+          let address = "";
+          
+          if (place.address_components && place.name) {
+            // Get place name
+            const placeName = place.name;
+            
+            // Get street address components
+            const streetNumber = place.address_components.find(
+              (comp) => comp.types.includes("street_number")
+            )?.long_name;
+            const route = place.address_components.find(
+              (comp) => comp.types.includes("route")
+            )?.long_name;
+            
+            // Get city (locality)
+            const locality = place.address_components.find(
+              (comp) => comp.types.includes("locality")
+            )?.long_name;
+            
+            // Get country
+            const country = place.address_components.find(
+              (comp) => comp.types.includes("country")
+            )?.long_name;
+            
+            // Build street address (number + route)
+            const streetAddress = [streetNumber, route].filter(Boolean).join(" ");
+            
+            // Build final address: Place Name, Street Address, City, Country
+            const addressParts: string[] = [];
+            
+            if (placeName) addressParts.push(placeName);
+            if (streetAddress) addressParts.push(streetAddress);
+            if (locality) addressParts.push(locality);
+            if (country) addressParts.push(country);
+            
+            address = addressParts.join(", ");
+          } else {
+            // Fallback: clean formatted_address to remove postal codes and neighborhoods
+            address = place.formatted_address || place.name || "";
+            // Remove postal codes (5 digits)
+            address = address.replace(/,\s*\d{5}\s*/g, ", ");
+            address = address.replace(/\s+\d{5}\s*/g, " ");
+            // Remove neighborhood names like "Extramurs"
+            address = address.replace(/,\s*Extramurs,?/gi, ",");
+            address = address.replace(/,\s*$/, "").trim();
+          }
+          
+          setFormData(field, address, coords, index);
           setSuggestions([]);
         }
       }
