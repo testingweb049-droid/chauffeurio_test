@@ -1,0 +1,282 @@
+{
+  "id": "2f045f3d-8e87-441c-9a72-5df9cb37d693",
+  "prevId": "c67a0606-6ec8-4d8f-9bc3-d6e70d77155f",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.chauffeurio_order": {
+      "name": "chauffeurio_order",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "category": {
+          "name": "category",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "price": {
+          "name": "price",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "car": {
+          "name": "car",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "distance": {
+          "name": "distance",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "stops": {
+          "name": "stops",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pickup_date": {
+          "name": "pickup_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pickup_time": {
+          "name": "pickup_time",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "return_date": {
+          "name": "return_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "return_time": {
+          "name": "return_time",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_return": {
+          "name": "is_return",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pickup_location": {
+          "name": "pickup_location",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dropoff_location": {
+          "name": "dropoff_location",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "passengers": {
+          "name": "passengers",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kids": {
+          "name": "kids",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bags": {
+          "name": "bags",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "phone": {
+          "name": "phone",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "flight_name": {
+          "name": "flight_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "flight_number": {
+          "name": "flight_number",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_airport_pickup": {
+          "name": "is_airport_pickup",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "car_image": {
+          "name": "car_image",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payment_id": {
+          "name": "payment_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payment_method": {
+          "name": "payment_method",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "duration": {
+          "name": "duration",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "flight_track": {
+          "name": "flight_track",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "meet_greet": {
+          "name": "meet_greet",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "child_seat": {
+          "name": "child_seat",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "infant_seat": {
+          "name": "infant_seat",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "booster_seat": {
+          "name": "booster_seat",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extras_description": {
+          "name": "extras_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extras_total": {
+          "name": "extras_total",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extras_flight_track": {
+          "name": "extras_flight_track",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extras_meet_greet": {
+          "name": "extras_meet_greet",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extra_stops": {
+          "name": "extra_stops",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payment_status": {
+          "name": "payment_status",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
+        },
+        "payment_secret": {
+          "name": "payment_secret",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "session_id": {
+          "name": "session_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
