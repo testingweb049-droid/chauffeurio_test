@@ -5,6 +5,7 @@ import "./globals.css";
 import LanguageProvider from "@/component/context/LanguageContext";
 import { AdminRouteWrapper } from "@/component/admin/AdminRouteWrapper";
 import { Toaster } from "react-hot-toast";
+import WhatsAppButton from "@/component/WhatsAppButton";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "700", "900"],
@@ -89,6 +90,7 @@ export default function RootLayout({
             <main>{children}</main>
           </AdminRouteWrapper>
           <Toaster />
+          <WhatsAppButton />
         </LanguageProvider>
       </body>
     </html>
