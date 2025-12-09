@@ -210,7 +210,7 @@ export default function Header() {
                 href="https://wa.me/+34614014277"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${iconColorClass} hover:text-yellow-500 transition-colors`}
+                className="text-[#25D366] hover:text-[#20BA5A] transition-colors"
                 aria-label="WhatsApp"
               >
                 <svg
@@ -225,7 +225,7 @@ export default function Header() {
               {/* Instagram Icon */}
               <a
                 href="https://www.instagram.com/chauffeurio?igsh=dW55MWFhY2EybTJz"
-                className={`${iconColorClass} hover:text-yellow-500 transition-colors`}
+                className="text-[#E4405F] hover:text-[#C13584] transition-colors ml-2"
                 aria-label="Instagram"
               >
                 <FaInstagram size={24} />

@@ -14,13 +14,12 @@ const HeroSectionUpdated: React.FC = () => {
       {/* Desktop Background */}
       <div className="hidden md:block absolute inset-0 w-full h-full z-50">
         <Image
-          src={heroBackground}
+          src="/hero-banner-updated.jpg"
           alt="Car rental service background"
           fill
           className="object-cover"
           priority
           quality={100}
-          placeholder="blur"
         />
         {/* Dark Overlay for Mobile */}
         <div className="absolute inset-0 bg-black/40 z-10"></div>
@@ -29,7 +28,7 @@ const HeroSectionUpdated: React.FC = () => {
       {/* Mobile Background - Only top portion */}
       <div className="block md:hidden absolute top-0 left-0 w-full h-[60vh] z-50">
         <Image
-          src="/hero-mobile-image.png"
+          src="/hero-banner-updated.jpg"
           alt="Car rental service background mobile"
           fill
           className="object-cover object-center"
