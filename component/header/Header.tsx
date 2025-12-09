@@ -228,9 +228,9 @@ export default function Header() {
                 className={`${iconColorClass} hover:text-yellow-500 transition-colors`}
                 aria-label="Instagram"
               >
-                <FaInstagram size={20} />
+                <FaInstagram size={24} />
               </a>
-              <button onClick={toggleMobileMenu} className={`${iconColorClass} p-2`}>
+              <button onClick={toggleMobileMenu} className={`${iconColorClass} p-2 mr-0.5 ml-4`}>
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={isMobileMenuOpen ? "close" : "open"}

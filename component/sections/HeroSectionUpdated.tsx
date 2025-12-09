@@ -38,7 +38,7 @@ const HeroSectionUpdated: React.FC = () => {
           sizes="100vw"
         />
         {/* Dark Overlay for Mobile */}
-        <div className="absolute inset-0 bg-black/40 z-10"></div>
+        <div className="absolute inset-0 bg-black/60 z-20"></div>
       </div>
 
       {/* Overlay */}
