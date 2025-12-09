@@ -29,10 +29,10 @@ const HeroSectionUpdated: React.FC = () => {
       {/* Mobile Background - Only top portion */}
       <div className="block md:hidden absolute top-0 left-0 w-full h-[60vh] z-50">
         <Image
-          src="/HeroImage.png"
+          src="/hero-mobile-image.png"
           alt="Car rental service background mobile"
           fill
-          className="object-cover object-top"
+          className="object-cover object-center"
           priority
           quality={85}
           sizes="100vw"
