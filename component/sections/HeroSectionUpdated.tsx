@@ -21,8 +21,8 @@ const HeroSectionUpdated: React.FC = () => {
           priority
           quality={100}
         />
-        {/* Dark Overlay for Mobile */}
-        <div className="absolute inset-0 bg-black/40 z-10"></div>
+        {/* Dark Overlay over desktop background image */}
+        <div className="absolute inset-0 bg-black/70 z-10"></div>
       </div>
 
       {/* Mobile Background - Only top portion */}
@@ -54,14 +54,17 @@ const HeroSectionUpdated: React.FC = () => {
               className="w-16 lg:w-40 object-contain hidden md:block"
             />
 
-            <h2 className="font-semibold md:font-bold text-[#FFFBF6] md:text-5xl! text-lg z-50">
+            <h2 className="font-semibold md:font-bold text-[#FFFBF6] md:text-5xl! text-2xl! z-50">
               {hero.eyebrow}
             </h2>
 
             <h1 className="md:font-semibold! text-base! md:text-3xl! z-50 font-light!">
               {hero.titleLines.map((line, i) => (
-                <span key={i}>
-                  {line}
+                <span
+                  key={i}
+                  className={i === 1 ? "text-secondary font-semibold md:ml-2" : ""}
+                >
+                  {" "}{line}
                 </span>
               ))}
             </h1>

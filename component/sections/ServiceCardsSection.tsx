@@ -57,15 +57,15 @@ export default function ServiceCardsSection({
               className="bg-[#F9F9F9] border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer"
             >
               <div className="flex flex-col items-left text-left">
-                <div className="flex-shrink-0 p-3 bg-[#FFF6E5] rounded-full mb-4 w-fit">
-                  <div className="text-[#D5B753]">
+                <div className="flex-shrink-0 p-3 bg-secondary rounded-full mb-4 w-fit">
+                  <div className="text-primary">
                     {card.icon}
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-bold text-[#171717] text-base mb-2">
+                  <h6 className="font-bold text-[#171717] text-base mb-2">
                     {card.title}
-                  </p>
+                  </h6>
                   <p className="text-[#5F5D5A] text-xs leading-relaxed">
                     {card.description}
                   </p>
