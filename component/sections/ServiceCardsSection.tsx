@@ -57,7 +57,7 @@ export default function ServiceCardsSection({
               className="bg-[#F9F9F9] border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer"
             >
               <div className="flex flex-col items-left text-left">
-                <div className="flex-shrink-0 p-3 bg-secondary rounded-full mb-4 w-fit">
+                <div className="flex-shrink-0  mb-4 w-fit">
                   <div className="text-primary">
                     {card.icon}
                   </div>
@@ -88,7 +88,7 @@ export default function ServiceCardsSection({
                 className="mobile-card flex-shrink-0 w-[calc(100vw-2rem)] max-w-sm bg-[#F9F9F9] border border-gray-200 rounded-2xl p-6 shadow-sm hover:scale-105 transition-transform duration-200 cursor-pointer snap-center"
               >
                 <div className="flex flex-col items-left text-left">
-                  <div className="flex-shrink-0 p-3 bg-[#FFF6E5] rounded-full mb-4 w-fit">
+                  <div className="flex-shrink-0 mb-4 w-fit">
                     <div className="text-[#D5B753]">
                       {card.icon}
                     </div>

@@ -487,7 +487,7 @@ home: {
         },
       serviceSection: {
         eyebrow: "Welcome to Chauffeurio",
-        heading: "Our Premium Chauffeur Services in Valencia",
+        heading: "Our Chauffeur Services in Valencia",
         introLeft:
           "We offer a complete range of bespoke transportation solutions designed to meet the highest standards of quality, safety, and discretion.",
         introRight:
@@ -543,8 +543,8 @@ home: {
           description: "Hire an hourly chauffeur for your business or leisure needs."
         },
         {
-          title: "Global Coverage",
-          description: "Wherever your journey leads, Transfeero ensures your comfort along the way."
+          title: "City rides",
+          description: "Explore the city anytime, anywhere—even long distances."
         },
         {
           title: "Professional drivers",
@@ -552,7 +552,7 @@ home: {
         },
         {
           title: "Valencia To Anywhere",
-          description: "Travel from Valencia to any destination with our reliable and comfortable transfer service."
+          description: "Travel from Valencia to any destination with transfer service."
         }
       ],
 
@@ -1194,8 +1194,8 @@ businessChhuff: {
           description: "Louez un chauffeur à l’heure pour vos besoins professionnels ou de loisirs."
         },
         {
-          title: "Couverture mondiale",
-          description: "Où que votre voyage vous mène, Chauffeurio assure votre confort tout au long du trajet."
+          title: "Trajets en ville",
+          description: "Explorez la ville à tout moment et partout, même sur de longues distances."
         },
         {
           title: "Chauffeurs professionnels",
@@ -1203,7 +1203,7 @@ businessChhuff: {
         },
         {
           title: "Valence vers n’importe où",
-          description: "Voyagez de Valence vers n’importe quelle destination avec notre service de transfert fiable et confortable."
+          description: "Voyagez de Valence vers n’importe quelle destination avec un service de transfert dédié."
         }
       ],
 
@@ -1848,8 +1848,8 @@ businessChhuff: {
           description: "Contrata un chófer por horas para tus necesidades de negocio o de ocio."
         },
         {
-          title: "Cobertura global",
-          description: "Dondequiera que te lleve tu viaje, Chauffeurio garantiza tu comodidad durante todo el trayecto."
+          title: "Trayectos urbanos",
+          description: "Explora la ciudad en cualquier momento y lugar, incluso en trayectos largos."
         },
         {
           title: "Conductores profesionales",
@@ -1857,7 +1857,7 @@ businessChhuff: {
         },
         {
           title: "De Valencia a cualquier lugar",
-          description: "Viaja de Valencia a cualquier destino con nuestro servicio de traslado fiable y cómodo."
+          description: "Viaja de Valencia a cualquier destino con servicio de traslado dedicado."
         }
       ],
 

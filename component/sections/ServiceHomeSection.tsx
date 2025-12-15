@@ -42,23 +42,23 @@ export default function ServiceHomeSection({
         {/* Header (two columns on md+, stacked on mobile) */}
         <div className="mb-10 grid grid-cols-1 gap-6 md:mb-12 md:grid-cols-2 md:gap-10">
           <div>
-            {eyebrow ? (
+            {/* {eyebrow ? (
               <h4 className="mb-2 text-xs md:text-sm uppercase tracking-wider text-secondary">
                 {eyebrow}
               </h4>
-            ) : null}
+            ) : null} */}
             <h1 className="leading-tight">{heading}</h1>
-            {introLeft ? (
+            {/* {introLeft ? (
               <p className="mt-4 leading-relaxed text-[#B2AEA8]">{introLeft}</p>
-            ) : null}
+            ) : null} */}
           </div>
           
           {/* Right Intro with Read More/Less */}
           {introRight ? (
             <div className="relative">
-              <p className={`leading-relaxed text-[#B2AEA8] md:block ${isExpanded ? '' : 'line-clamp-3'}`}>
+              {/* <p className={`leading-relaxed text-[#B2AEA8] md:block ${isExpanded ? '' : 'line-clamp-3'}`}>
                 {introRight}
-              </p>
+              </p> */}
               
               {/* Read More/Less Button - Mobile Only */}
               <button
@@ -92,7 +92,7 @@ export default function ServiceHomeSection({
                         alt={alt}
                         fill
                         sizes="85vw"
-                        className="object-cover"
+                        className="object-cover object-center"
                         priority={false}
                       />
                       {/* Text overlay on image */}
@@ -126,7 +126,7 @@ export default function ServiceHomeSection({
                     alt={alt}
                     fill
                     sizes="(max-width:1024px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     priority={false}
                   />
                 </div>
