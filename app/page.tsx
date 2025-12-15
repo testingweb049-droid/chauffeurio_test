@@ -4,6 +4,7 @@ import ContentSection from "@/component/sections/ContentSection";
 import FleetClasses from "@/component/sections/FleetClasses";
 import FleetHome from "@/component/sections/FleetHome";
 import HelpSection from "@/component/sections/HelpSection";
+import ServiceCardsSection from "@/component/sections/ServiceCardsSection";
 import HeroBottom from "@/component/sections/HeroBottom";
 import HeroSection from "@/component/sections/HeroSection";
 import HeroSectionUpdated from "@/component/sections/HeroSectionUpdated";
@@ -14,6 +15,7 @@ import TopDestination from "@/component/sections/TopDestination";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
 import InfiniteSlide from "./book-ride/InfiniteSlide";
 import SEO from "@/component/SEO";
+import { FaHistory, FaRoute, FaUser, FaMapMarkedAlt } from 'react-icons/fa';
 
 export default function Home() {
   const { home } = ClientSideStrings(); // ← pull translations
@@ -29,19 +31,33 @@ export default function Home() {
 
   return (
     <>
-    <SEO />
+      <SEO />
       {/* <HeroSection /> */}
-      <HeroSectionUpdated/>
-      <HeroBottom />
+      <HeroSectionUpdated />
+      {/* <HeroBottom /> */}
       {/* <InfiniteSlide/> */}
-
-    <ServiceHomeSection
-  eyebrow={home?.serviceSection?.eyebrow ?? ""}
-  heading={home?.serviceSection?.heading ?? ""}
-  introLeft={home?.serviceSection?.introLeft ?? ""}
-  introRight={home?.serviceSection?.introRight ?? ""}
-  items={[...(home?.serviceSection?.items ?? [])]} // ← force mutable copy
-/>
+      <ServiceCardsSection
+        cards={(home?.serviceCards ?? []).map((card, index) => {
+          const icons = [
+            <FaHistory size={24} key="history" />,
+            <FaRoute size={24} key="route" />,
+            <FaUser size={24} key="user" />,
+            <FaMapMarkedAlt size={24} key="map" />
+          ];
+          return {
+            icon: icons[index] || icons[0],
+            title: card.title,
+            description: card.description
+          };
+        })}
+      />
+      <ServiceHomeSection
+        eyebrow={home?.serviceSection?.eyebrow ?? ""}
+        heading={home?.serviceSection?.heading ?? ""}
+        introLeft={home?.serviceSection?.introLeft ?? ""}
+        introRight={home?.serviceSection?.introRight ?? ""}
+        items={[...(home?.serviceSection?.items ?? [])]} // ← force mutable copy
+      />
       <HelpSection
         subtitle={home?.whyUs?.subtitle ?? ""}
         heading={home?.whyUs?.heading ?? ""}
@@ -49,14 +65,16 @@ export default function Home() {
         points={home?.whyUs?.points ?? []}
       />
 
-     <FleetHome
-  eyebrow={home?.fleet?.eyebrow ?? ""}
-  heading={fleetHeading}
-  ctaLabel={home?.fleet?.ctaLabel ?? ""}
-  ctaHref={home?.fleet?.ctaHref ?? ""}
-  items={[...(home?.fleet?.items ?? [])]} // ← force mutable copy
-/>
-{/* <FleetClasses/> */}
+ 
+
+      <FleetHome
+        eyebrow={home?.fleet?.eyebrow ?? ""}
+        heading={fleetHeading}
+        ctaLabel={home?.fleet?.ctaLabel ?? ""}
+        ctaHref={home?.fleet?.ctaHref ?? ""}
+        items={[...(home?.fleet?.items ?? [])]} // ← force mutable copy
+      />
+      {/* <FleetClasses/> */}
 
       <ContentSection sections={(home?.contentSections ?? []).map((s) => ({
         title: s.title,
@@ -64,16 +82,16 @@ export default function Home() {
         image: s.image,
         imagePosition: (s.imagePosition === "left" ? "left" : "right") as "left" | "right",
       }))} />
-
-     <TopDestination
-  eyebrow={home?.destinations?.eyebrow ?? ""}
-  heading={home?.destinations?.heading ?? ""}
-  ctaLabel={home?.destinations?.ctaLabel ?? ""}
-  onCtaClick={() => {}}
-  items={[...(home?.destinations?.items ?? [])]} // ← force mutable copy
-/>
-
       <Testimonials />
+      <TopDestination
+        eyebrow={home?.destinations?.eyebrow ?? ""}
+        heading={home?.destinations?.heading ?? ""}
+        ctaLabel={home?.destinations?.ctaLabel ?? ""}
+        onCtaClick={() => { }}
+        items={[...(home?.destinations?.items ?? [])]} // ← force mutable copy
+      />
+
+
       {/* <Vission /> */}
     </>
   );

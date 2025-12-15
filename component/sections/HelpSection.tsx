@@ -33,11 +33,12 @@ export default function HelpSection({
   };
 
   return (
-    <section className="max-w-7xl mx-auto md:py-16 py-6 px-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+    <section className="w-full bg-white text-[#171717]">
+      <div className="max-w-7xl mx-auto md:py-16 py-6 px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <div className="w-full flex flex-col justify-start md:gap-8 gap-4">
           {/* {subtitle ? <h4 className="text-secondary">{subtitle}</h4> : null} */}
-          <h1 className="md:leading-12">{heading}</h1>
+          <h1 className="md:leading-12 text-[#171717]">{heading}</h1>
           
           {/* Main Description with Read More - Mobile Only */}
           <div className="relative">
@@ -71,7 +72,7 @@ export default function HelpSection({
                   <FaAnchor size={24} />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-bold">{point.title}</h3>
+                  <h3 className="font-bold text-[#171717]">{point.title}</h3>
                   <p className="text-[#5F5D5A] mt-2">
                     {point.description}
                   </p>
@@ -112,6 +113,7 @@ export default function HelpSection({
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       <style jsx global>{`

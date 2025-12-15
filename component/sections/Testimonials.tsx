@@ -1,210 +1,195 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { CheckCircle } from "lucide-react";
+import React, { useEffect, useState, useRef } from "react";
+import { Star, ArrowLeft, ArrowRight, Check } from "lucide-react";
+import Image from "next/image";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
 
-type TItem = {
-  id: number;
-  name: string;
-  verified: boolean;
-  date: string;         // e.g. "Apr 5, 2024"
-  rating: number;       // 1..5
-  comment: string;
-  city?: string;        // optional: "Chicago, IL"
-  avatarUrl?: string;   // optional: "https://..."
-};
+interface Review {
+  author_name: string;
+  author_url?: string;
+  profile_photo_url?: string;
+  rating: number;
+  relative_time_description: string;
+  text: string;
+  time: number;
+}
 
-type TBadge = { source: string; score: string; reviews: string };
+interface ReviewsData {
+  reviews: Review[];
+  rating?: number;
+  totalRatings?: number;
+}
 
 export default function Testimonials() {
   const { testimonials: t } = ClientSideStrings();
-
-  // Dummy avatar URLs
-  const dummyAvatars = [
-    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=150&h=150&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face"
-  ];
-
-  // Add avatar URLs to items
-  const allItems: TItem[] = (t?.items ?? []).map((i: TItem, index: number) => ({ 
-    ...i, 
-    avatarUrl: dummyAvatars[index % dummyAvatars.length] // Cycle through dummy avatars
-  }));
-
-  const badges: TBadge[] = (t?.badges ?? []).map((b: TBadge) => ({ ...b }));
-
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [reviewsData, setReviewsData] = useState<ReviewsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch("/api/reviews");
+        const data = await response.json();
+        
+        if (!response.ok) {
+          // Handle API errors (400, 404, 500, etc.)
+          setError(data.message || data.error || "Failed to fetch reviews");
+          setReviewsData(null);
+        } else if (data.error) {
+          // Handle error in response body
+          setError(data.message || data.error);
+          setReviewsData(null);
+        } else {
+          // Success - set reviews data
+          setReviewsData(data);
+          setError(null);
+        }
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
+        setError("Unable to load reviews at this time");
+        setReviewsData(null);
+      } finally {
+        setLoading(false);
+      }
     };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    fetchReviews();
   }, []);
 
+  // Detect screen size
   useEffect(() => {
-    if (!isMobile) return;
-    
-    const container = scrollContainerRef.current;
-    if (!container) return;
+    const checkScreen = () => setIsMobile(window.innerWidth < 768);
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
 
-    const handleScroll = () => {
-      const scrollLeft = container.scrollLeft;
-      const cardWidth = container.offsetWidth * 0.9; // 90vw per card
-      const index = Math.round(scrollLeft / cardWidth);
-      setActiveIndex(index);
-    };
+  const renderStars = (rating: number, size: string = "w-4 h-4") => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star
+        key={i}
+        className={`${size} ${
+          i < rating
+            ? "text-yellow-400 fill-yellow-400"
+            : "text-gray-300"
+        }`}
+      />
+    ));
+  };
 
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, [isMobile]);
+  const slidesToShow = isMobile ? 1 : 4;
+  const reviews = reviewsData?.reviews || [];
+  const maxIndex = Math.max(0, reviews.length - slidesToShow);
 
-  const scrollToIndex = (index: number) => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-    
-    const cardWidth = container.offsetWidth * 0.9;
-    container.scrollTo({
-      left: cardWidth * index,
-      behavior: 'smooth'
+  const nextSlide = () => {
+    setCurrentIndex((prev) => {
+      const newMaxIndex = Math.max(0, reviews.length - (isMobile ? 1 : 4));
+      return prev >= newMaxIndex ? 0 : prev + 1;
     });
   };
 
-  const Stars = ({ count = 5, size = "h-3 w-3" }: { count?: number; size?: string }) => (
-    <div className="flex gap-0.5">
-      {Array.from({ length: count }).map((_, i) => (
-        <svg key={i} className={`${size} fill-yellow-400 text-yellow-400`} viewBox="0 0 24 24">
-          <path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-        </svg>
-      ))}
-    </div>
-  );
-
-  const BadgeIcon = ({ source }: { source: string }) => {
-    const s = source.toLowerCase();
-    if (s.includes("google"))
-      return <span className="inline-block h-5 w-5 rounded-full bg-white ring-1 ring-gray-200"> </span>;
-    if (s.includes("facebook"))
-      return <span className="inline-block h-5 w-5 rounded-full bg-blue-600"> </span>;
-    if (s.includes("tripadvisor"))
-      return <span className="inline-block h-5 w-5 rounded-full bg-green-600"> </span>;
-    return <span className="inline-block h-5 w-5 rounded-full bg-gray-800"> </span>;
+  const prevSlide = () => {
+    setCurrentIndex((prev) => {
+      const newMaxIndex = Math.max(0, reviews.length - (isMobile ? 1 : 4));
+      return prev <= 0 ? newMaxIndex : prev - 1;
+    });
   };
 
-  // Separated mapping functions
-  const renderDesktopTestimonials = () => (
-    <div className="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {allItems.map((item) => (
-        <TestimonialCard key={item.id} item={item} />
-      ))}
-    </div>
-  );
+  // Swipe handlers for mobile
+  const minSwipeDistance = 50;
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
 
-  const renderMobileTestimonials = () => (
-    <div className="md:hidden -mx-4">
-      <div 
-        ref={scrollContainerRef}
-        className="overflow-x-auto overflow-y-hidden px-4 scrollbar-hide snap-x snap-mandatory"
-      >
-        <div className="flex gap-4 pb-2">
-          {allItems.map((item) => (
-            <div key={item.id} className="flex-shrink-0 w-[90vw] snap-start">
-              <TestimonialCard item={item} />
-            </div>
-          ))}
-        </div>
-      </div>
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
 
-      {/* Dots for mobile */}
-      {allItems.length > 1 && (
-        <div className="mt-6 flex items-center justify-center gap-2">
-          {allItems.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => scrollToIndex(i)}
-              className={`h-2 rounded-full transition-all ${
-                activeIndex === i ? "w-8 bg-gray-800" : "w-2 bg-gray-300 hover:bg-gray-400"
-              }`}
-              aria-label={`Go to slide ${i + 1}`}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
 
-  const renderBadges = () => (
-    <div className="hidden md:hidden">
-      <div className="flex flex-wrap gap-4">
-        {badges.map((b, i) => (
-          <div key={i} className="min-w-[160px] p-4 ring-1 ring-gray-200">
-            <div className="mb-1 flex items-center gap-2">
-              <BadgeIcon source={b.source} />
-              <span className="text-sm font-semibold text-gray-900">{b.source}</span>
-            </div>
-            <div className="mb-1 flex items-center gap-2">
-              <span className="text-xl font-bold text-gray-900">{b.score}</span>
-              <Stars />
-            </div>
-            <p className="text-xs text-gray-500">{b.reviews}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+    if (isLeftSwipe) {
+      nextSlide();
+    }
+    if (isRightSwipe) {
+      prevSlide();
+    }
+  };
 
-  const TestimonialCard = ({ item }: { item: TItem }) => (
-    <article className="rounded-lg border bg-white p-6 transition-all duration-300 hover:shadow-lg">
-      <div className="mb-4 flex items-start justify-between">
-        <div className="flex items-center gap-3">
-          {item.avatarUrl ? (
-            <img
-              src={item.avatarUrl}
-              alt={item.name}
-              className="h-12 w-12 rounded-full object-cover ring-1 ring-gray-200"
-            />
-          ) : (
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-200 text-lg font-semibold text-gray-700">
-              {item.name?.charAt(0)}
-            </div>
-          )}
-          <div>
-            <div className="flex items-center gap-1">
-              <h4 className="text-sm font-semibold text-gray-900">{item.name}</h4>
-              {item.verified && <CheckCircle className="h-4 w-4 text-green-500" />}
-            </div>
-            {item.city ? (
-              <p className="text-xs text-gray-500">{item.city}</p>
-            ) : (
-              <p className="text-xs text-gray-500">&nbsp;</p>
-            )}
+  // Reset index when screen size or reviews change
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [isMobile, reviews.length]);
+
+  // Auto scroll
+  useEffect(() => {
+    if (reviews.length === 0) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => {
+        const newMaxIndex = Math.max(0, reviews.length - (isMobile ? 1 : 4));
+        return prev >= newMaxIndex ? 0 : prev + 1;
+      });
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [reviews.length, isMobile]);
+
+  if (loading) {
+    return (
+      <section className="bg-gray-50 md:py-16 py-8">
+        <div className="container mx-auto max-w-7xl px-4 md:px-6">
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-800 mx-auto"></div>
+            <p className="text-gray-600 mt-4">Loading reviews...</p>
           </div>
         </div>
-      </div>
+      </section>
+    );
+  }
 
-      <p className="min-h-[84px] text-sm leading-relaxed text-gray-600">{item.comment}</p>
+  // Show error message if API key is not configured
+  if (error && error.includes("API key not configured")) {
+    return (
+      <section className="bg-gray-50 md:py-16 py-8">
+        <div className="container mx-auto max-w-7xl px-4 md:px-6">
+          <div className="mb-3">
+            <h4 className="uppercase tracking-wider text-secondary font-semibold">{t?.eyebrow}</h4>
+          </div>
+          <div className="mb-12">
+            <h1 className="max-w-2xl text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+              {t?.title}
+            </h1>
+          </div>
+          <div className="text-center py-12 bg-white rounded-lg border p-6">
+            <p className="text-gray-600 mb-2">Google Maps API key not configured</p>
+            <p className="text-sm text-gray-500">
+              Please set <code className="bg-gray-100 px-2 py-1 rounded">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code> or <code className="bg-gray-100 px-2 py-1 rounded">GOOGLE_PLACES_API_KEY</code> in your environment variables.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
-      <div className="mt-4 flex items-center justify-between">
-        <Stars count={item.rating} size="h-3 w-3" />
-        <span className="text-xs text-gray-500">{item.date}</span>
-      </div>
-    </article>
-  );
+  // Don't show section if no reviews and no error (or other errors)
+  if (error || !reviewsData || !reviewsData.reviews || reviewsData.reviews.length === 0) {
+    return null; // Don't show section if no reviews
+  }
 
   return (
     <section className="bg-gray-50 md:py-16 py-8">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
+        {/* Header */}
         <div className="mb-3">
           <h4 className="uppercase tracking-wider text-secondary font-semibold">{t?.eyebrow}</h4>
         </div>
@@ -214,24 +199,206 @@ export default function Testimonials() {
             {t?.title}
           </h1>
           
-          {renderBadges()}
+          {reviewsData.rating && (
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-bold text-gray-900">
+                {reviewsData.rating.toFixed(1)}
+              </span>
+              <div className="flex items-center gap-1">
+                {renderStars(Math.round(reviewsData.rating), "w-5 h-5")}
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="relative">
-          {renderMobileTestimonials()}
-          {renderDesktopTestimonials()}
+        {/* Reviews Slider */}
+        <div className="relative w-full flex items-center justify-center">
+          {/* Left Arrow - Hidden (auto-slide only) */}
+
+          {/* Mobile Slider - Swipeable */}
+          <div 
+            className="block md:hidden w-full max-w-sm overflow-hidden relative touch-pan-y"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+              {reviews.map((review, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-full px-2"
+                >
+                  <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 md:p-6 hover:shadow-md transition-all duration-300 h-full flex flex-col">
+                    {/* Reviewer Info */}
+                    <div className="flex items-start gap-3 mb-4">
+                      {review.profile_photo_url ? (
+                        <Image
+                          src={review.profile_photo_url}
+                          alt={review.author_name}
+                          width={44}
+                          height={44}
+                          className="rounded-full object-cover ring-2 ring-gray-100 flex-shrink-0"
+                        />
+                      ) : (
+                        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center flex-shrink-0 ring-2 ring-gray-100">
+                          <span className="text-gray-600 font-semibold text-sm">
+                            {review.author_name.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5 flex-wrap mb-1">
+                          <span className="text-xs text-gray-800 font-medium truncate">
+                            {review.author_name}
+                          </span>
+                          <div className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-green-50 border border-green-200 flex-shrink-0">
+                            <Check className="h-2 w-2 text-green-600" />
+                            <span className="text-[9px] text-green-700 font-medium">Verified</span>
+                          </div>
+                        </div>
+                        <p className="text-[9px] text-gray-400 mt-0.5">
+                          {review.relative_time_description}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Rating Stars */}
+                    <div className="flex items-center gap-0.5 mb-3">
+                      {renderStars(review.rating, "h-3.5 w-3.5")}
+                    </div>
+
+                    {/* Review Text */}
+                    <p className="text-gray-600 text-xs md:text-sm leading-relaxed flex-1 mb-4 line-clamp-4">
+                      {review.text}
+                    </p>
+
+                    {/* Google Link */}
+                    {review.author_url && (
+                      <a
+                        href={review.author_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-secondary text-[10px] md:text-xs mt-auto inline-block hover:underline font-medium"
+                      >
+                        View on Google →
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop Slider */}
+          <div className="hidden md:block w-full max-w-7xl overflow-hidden relative">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${currentIndex * (100 / 4)}%)` }}
+            >
+              {reviews.map((review, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-1/4 px-3"
+                >
+                  <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 md:p-6 hover:shadow-md transition-all duration-300 h-full flex flex-col">
+                    {/* Reviewer Info */}
+                    <div className="flex items-start gap-3 mb-4">
+                      {review.profile_photo_url ? (
+                        <Image
+                          src={review.profile_photo_url}
+                          alt={review.author_name}
+                          width={44}
+                          height={44}
+                          className="rounded-full object-cover ring-2 ring-gray-100 flex-shrink-0"
+                        />
+                      ) : (
+                        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center flex-shrink-0 ring-2 ring-gray-100">
+                          <span className="text-gray-600 font-semibold text-sm">
+                            {review.author_name.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5 flex-wrap mb-1">
+                          <span className="text-xs text-gray-800 font-medium truncate">
+                            {review.author_name}
+                          </span>
+                          <div className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-green-50 border border-green-200 flex-shrink-0">
+                            <Check className="h-2 w-2 text-green-600" />
+                            <span className="text-[9px] text-green-700 font-medium">Verified</span>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          {review.relative_time_description}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Rating Stars */}
+                    <div className="flex items-center gap-0.5 mb-3">
+                      {renderStars(review.rating, "h-3.5 w-3.5")}
+                    </div>
+
+                    {/* Review Text */}
+                    <p className="text-gray-600 text-xs md:text-sm leading-relaxed flex-1 mb-4 line-clamp-4">
+                      {review.text}
+                    </p>
+
+                    {/* Google Link */}
+                    {review.author_url && (
+                      <a
+                        href={review.author_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-secondary text-[10px] md:text-xs mt-auto inline-block hover:underline font-medium"
+                      >
+                        View on Google →
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Arrow - Hidden (auto-slide only) */}
         </div>
+
+        {/* Slider Indicators */}
+        {reviews.length > slidesToShow && (
+          <div className="flex justify-center gap-2 mt-6">
+            {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`h-2 rounded-full transition-all ${
+                  index === currentIndex
+                    ? "w-8 bg-gray-800"
+                    : "w-2 bg-gray-300"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* View All Reviews Link */}
+        {reviewsData.totalRatings && reviewsData.totalRatings > reviews.length && (
+          <div className="text-center mt-8">
+            <a
+              href="https://www.google.com/search?sca_esv=5e300ab470657ab2&hl=es&gl=es&output=search&kgmid=/g/11yl0738fq&q=Chauffeurio+Transfers+Valencia"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-gray-800 text-white font-semibold rounded px-6 py-3 hover:bg-gray-900 transition"
+            >
+              View All Reviews on Google
+            </a>
+          </div>
+        )}
       </div>
-
-      <style jsx global>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
     </section>
   );
 }
