@@ -481,7 +481,8 @@ home: {
    hero: {
     eyebrow: "Your Reliable Airport Transfers",
           titleLines: [
-            "Chauffeur Transfers To And From Valencia Spain,Best Price Guarantee",
+            "Chauffeur Transfers To And From Valencia Spain",
+            "with Best Price Guarantee",
           ],
         },
       serviceSection: {
@@ -538,20 +539,20 @@ home: {
 
       serviceCards: [
         {
-          title: "Hourly Service in Porto Santo",
-          description: "Secure Your Personal Chauffeur Service by the Hour in Porto Santo. Reserve Our Premium Hourly Chauffeur Services Today."
+          title: "Chauffeur by the hour",
+          description: "Hire an hourly chauffeur for your business or leisure needs."
         },
         {
-          title: "Reliable local taxi transfers in Porto Santo",
-          description: "Our local transfer service in Porto Santo allows you to book a transfer from one address to another."
+          title: "Global Coverage",
+          description: "Wherever your journey leads, Transfeero ensures your comfort along the way."
         },
         {
-          title: "Premium Executive Car Service available in Porto Santo",
-          description: "Reach your destination safely in Porto Santo with a licensed, insured and professional chauffeur."
+          title: "Professional drivers",
+          description: "Professional Drivers, Timely Rides, Relaxed Travel"
         },
         {
           title: "Valencia To Anywhere",
-          description: "Travel from Valencia to any destination with our reliable and comfortable transfer service. Book your journey today."
+          description: "Travel from Valencia to any destination with our reliable and comfortable transfer service."
         }
       ],
 
@@ -1132,7 +1133,8 @@ businessChhuff: {
       hero: {
           eyebrow: "Vos transferts aéroport fiables",
           titleLines: [
-            "Transferts de chauffeur vers et depuis Valence Espagne, Meilleur prix garanti",
+            "Transferts de chauffeur vers et depuis Valence Espagne",
+            "avec meilleur prix garanti",
           ],
         },
       serviceSection: {
@@ -1188,20 +1190,20 @@ businessChhuff: {
 
       serviceCards: [
         {
-          title: "Service à l'heure à Porto Santo",
-          description: "Réservez votre service de chauffeur personnel à l'heure à Porto Santo. Réservez dès aujourd'hui nos services premium de chauffeur à l'heure."
+          title: "Chauffeur à l’heure",
+          description: "Louez un chauffeur à l’heure pour vos besoins professionnels ou de loisirs."
         },
         {
-          title: "Transferts de taxi locaux fiables à Porto Santo",
-          description: "Notre service de transfert local à Porto Santo vous permet de réserver un transfert d'une adresse à une autre."
+          title: "Couverture mondiale",
+          description: "Où que votre voyage vous mène, Chauffeurio assure votre confort tout au long du trajet."
         },
         {
-          title: "Service de voiture exécutive premium disponible à Porto Santo",
-          description: "Atteignez votre destination en toute sécurité à Porto Santo avec un chauffeur professionnel, licencié et assuré."
+          title: "Chauffeurs professionnels",
+          description: "Chauffeurs professionnels, trajets ponctuels et voyages en toute sérénité."
         },
         {
-          title: "De Valence vers n'importe où",
-          description: "Voyagez de Valence vers n'importe quelle destination avec notre service de transfert fiable et confortable. Réservez votre voyage dès aujourd'hui."
+          title: "Valence vers n’importe où",
+          description: "Voyagez de Valence vers n’importe quelle destination avec notre service de transfert fiable et confortable."
         }
       ],
 
@@ -1785,7 +1787,8 @@ businessChhuff: {
       hero: {
           eyebrow: "Tus traslados al aeropuerto confiables",
           titleLines: [
-            "Traslados de chófer hacia y desde Valencia España, Mejor precio garantizado",
+            "Traslados de chófer hacia y desde Valencia España",
+            "con mejor precio garantizado",
           ],
         },
       serviceSection: {
@@ -1841,20 +1844,20 @@ businessChhuff: {
 
       serviceCards: [
         {
-          title: "Servicio por horas en Porto Santo",
-          description: "Reserva tu servicio de chófer personal por horas en Porto Santo. Reserva hoy nuestros servicios premium de chófer por horas."
+          title: "Chófer por horas",
+          description: "Contrata un chófer por horas para tus necesidades de negocio o de ocio."
         },
         {
-          title: "Traslados de taxi locales fiables en Porto Santo",
-          description: "Nuestro servicio de traslado local en Porto Santo te permite reservar un traslado de una dirección a otra."
+          title: "Cobertura global",
+          description: "Dondequiera que te lleve tu viaje, Chauffeurio garantiza tu comodidad durante todo el trayecto."
         },
         {
-          title: "Servicio de coche ejecutivo premium disponible en Porto Santo",
-          description: "Llega a tu destino de forma segura en Porto Santo con un chófer profesional, licenciado y asegurado."
+          title: "Conductores profesionales",
+          description: "Conductores profesionales, trayectos puntuales y viajes sin estrés."
         },
         {
           title: "De Valencia a cualquier lugar",
-          description: "Viaja de Valencia a cualquier destino con nuestro servicio de traslado fiable y cómodo. Reserva tu viaje hoy."
+          description: "Viaja de Valencia a cualquier destino con nuestro servicio de traslado fiable y cómodo."
         }
       ],
 
