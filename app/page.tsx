@@ -15,7 +15,7 @@ import TopDestination from "@/component/sections/TopDestination";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
 import InfiniteSlide from "./book-ride/InfiniteSlide";
 import SEO from "@/component/SEO";
-import { FaHistory, FaRoute, FaUser, FaMapMarkedAlt } from 'react-icons/fa';
+import Image from "next/image";
 
 export default function Home() {
   const { home } = ClientSideStrings(); // ← pull translations
@@ -38,14 +38,22 @@ export default function Home() {
       {/* <InfiniteSlide/> */}
       <ServiceCardsSection
         cards={(home?.serviceCards ?? []).map((card, index) => {
-          const icons = [
-            <FaHistory size={24} key="history" />,
-            <FaRoute size={24} key="route" />,
-            <FaUser size={24} key="user" />,
-            <FaMapMarkedAlt size={24} key="map" />
+          const iconSources = [
+            "/hourly-icon.png",
+            "/city-rides.png",
+            "/user-icon.png",
+            "/l.png",
           ];
+          const src = iconSources[index] || iconSources[0];
           return {
-            icon: icons[index] || icons[0],
+            icon: (
+              <Image
+                src={src}
+                alt={`${card.title} icon`}
+                width={32}
+                height={32}
+              />
+            ),
             title: card.title,
             description: card.description
           };
@@ -58,12 +66,12 @@ export default function Home() {
         introRight={home?.serviceSection?.introRight ?? ""}
         items={[...(home?.serviceSection?.items ?? [])]} // ← force mutable copy
       />
-      <HelpSection
+      {/* <HelpSection
         subtitle={home?.whyUs?.subtitle ?? ""}
         heading={home?.whyUs?.heading ?? ""}
         description={home?.whyUs?.description ?? ""}
         points={home?.whyUs?.points ?? []}
-      />
+      /> */}
 
  
 

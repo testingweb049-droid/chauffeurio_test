@@ -54,7 +54,7 @@ const HeroSectionUpdated: React.FC = () => {
               className="w-16 lg:w-40 object-contain hidden md:block"
             />
 
-            <h2 className="font-semibold md:font-bold text-[#FFFBF6] md:text-5xl! text-2xl! z-50">
+            <h2 className="font-semibold md:font-bold text-[#FFFBF6] md:text-6xl! text-4xl! z-50">
               {hero.eyebrow}
             </h2>
 
