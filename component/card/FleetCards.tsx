@@ -46,7 +46,7 @@ export default function FleetCards({
   className = "",
 }: FleetCardProps) {
   return (
-    <article className={`w-full border border-gray-200 overflow-hidden bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 ${className}`}>
+    <article className={`w-full h-full flex flex-col border border-gray-200 overflow-hidden bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 ${className}`}>
       {/* Category Header */}
       <div className="bg-primary text-white py-4 px-6 text-center">
         <h6 className="text-xl font-bold uppercase tracking-wide">{category}</h6>
@@ -68,26 +68,26 @@ export default function FleetCards({
       </div>
 
       {/* Vehicle Models List */}
-      <div className="px-6 py-4 bg-gray-50 border-t border-b border-gray-200">
+      <div className="px-6 py-4 bg-gray-50 border-t border-b border-gray-200 min-h-[100px] flex flex-col">
         <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
           <Car className="h-4 w-4" />
           Available Models:
         </h4>
-     <div className="flex flex-wrap items-center gap-1 text-sm text-gray-600">
-  {vehicles.slice(0, 3).map((vehicle, index, array) => (
-    <span 
-      key={index} 
-      className="flex items-center max-w-full truncate"
-    >
-      <span className="truncate">{vehicle.name}</span>
-      {index < array.length - 1 && <span>,</span>}
-    </span>
-  ))}
-</div>
+        <div className="flex flex-wrap items-center gap-1 text-sm text-gray-600 flex-grow">
+          {vehicles.slice(0, 3).map((vehicle, index, array) => (
+            <span 
+              key={index} 
+              className="flex items-center max-w-full truncate"
+            >
+              <span className="truncate">{vehicle.name}</span>
+              {index < array.length - 1 && <span>,</span>}
+            </span>
+          ))}
+        </div>
       </div>
 
       {/* Features Section */}
-      <div className="px-6 py-2">
+      <div className="px-6 py-4">
         <div className="grid grid-cols-2 gap-3">
           {typeof passengers === "number" && (
             <div className="flex items-center gap-2 text-gray-700">
@@ -105,18 +105,17 @@ export default function FleetCards({
               <span className="text-xs font-medium">{luggage}</span>
             </div>
           )}
-         
         </div>
       </div>
 
    
 
       {/* Action Buttons */}
-      <div className="px-6 py-2">
+      <div className="px-6 py-2 mt-auto">
         <div className="flex flex-col gap-2">
           
           <Link 
-            href="/" 
+            href={bookNowHref} 
             className="w-full bg-primary text-white text-sm font-semibold h-10 px-4 flex items-center justify-center hover:bg-primary/90 transition-colors rounded-lg"
           >
             {bookNowLabel}

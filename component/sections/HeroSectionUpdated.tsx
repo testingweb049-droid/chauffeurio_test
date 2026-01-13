@@ -58,15 +58,34 @@ const HeroSectionUpdated: React.FC = () => {
               {hero.eyebrow}
             </h2>
 
-            <h1 className="md:font-semibold! text-base! md:text-3xl! z-50 font-light!">
-              {hero.titleLines.map((line, i) => (
-                <span
-                  key={i}
-                  className={i === 1 ? "text-secondary font-semibold md:ml-2" : ""}
-                >
-                  {" "}{line}
-                </span>
-              ))}
+            <h1 className="md:font-semibold! text-base! md:text-3xl! z-50 font-light! hidden md:block">
+              {hero.titleLines.map((line, i) => {
+                // Find the em dash (—) character
+                const dashIndex = line.indexOf("—");
+                
+                if (dashIndex !== -1) {
+                  const beforeText = line.substring(0, dashIndex).trim();
+                  const afterText = line.substring(dashIndex + 1).trim(); // +1 to skip the dash
+                  
+                  return (
+                    <span key={i}>
+                      {beforeText && <span>{" "}{beforeText} </span>}
+                      <span className="text-secondary font-semibold">
+                        {afterText}
+                      </span>
+                    </span>
+                  );
+                }
+                
+                return (
+                  <span
+                    key={i}
+                    className={i === 1 ? "text-secondary font-semibold md:ml-2" : ""}
+                  >
+                    {" "}{line}
+                  </span>
+                );
+              })}
             </h1>
           </div>
 

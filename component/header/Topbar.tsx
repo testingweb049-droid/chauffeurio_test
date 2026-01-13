@@ -37,14 +37,15 @@ const Topbar: React.FC = () => {
 
         {/* Center Section: Logo */}
         <div className="flex items-center justify-center">
-          <Image
+         <a href="/">
+         <Image
             src="/Chauffeurio Logo PNG.png" // Replace with your actual logo path
             alt="Chauffeur"
             width={120} // Adjust width according to your design
             height={60} // Adjust height according to your design
             className="h-12 md:h-16" // Responsive height
             priority
-          />
+          /></a>
         </div>
 
         <div className="flex items-center space-x-6">
