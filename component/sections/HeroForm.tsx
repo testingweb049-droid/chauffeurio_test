@@ -93,7 +93,7 @@ function HeroForm() {
   return (
     <div className="flex flex-col gap-2">
       {/* Category Selector */}
-      <div className="grid grid-cols-3 lg:grid-cols-2 gap-5 max-lg:px-3">
+      <div className="grid grid-cols-3 lg:grid-cols-2 gap-3 max-lg:px-3">
         <div
           onClick={() => changeCategory('trip')}
           className={`p-2 w-full text-center font-semibold rounded-lg cursor-pointer ${category === 'trip'
@@ -177,6 +177,42 @@ function HeroForm() {
             </>
           )}
         </div>
+
+        {/* Trustpilot Badge */}
+        <a
+          href="https://es.trustpilot.com/review/chauffeurio.com?_gl=1*osjsur*_gcl_au*MTY4MzMzNTMwNy4xNzY0NDQ2NzM5LjE1NTk0NzQyOTQuMTc2NzcxODIwOS4xNzY3NzE4MjA5*_ga*MzExMjA2NTc4LjE3NjQ0NDY3Mzk.*_ga_11HBWMC274*czE3Njc5NDA4NjYkbzM5JGcxJHQxNzY3OTQwOTM4JGo1OCRsMCRoMA."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2  cursor-pointer hover:opacity-80 transition-opacity"
+        >
+          <span className="font-bold text-gray-800 text-sm uppercase tracking-tight">EXCELLENT</span>
+          <div className="flex items-center gap-1">
+            {/* Five green square boxes with white stars */}
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div
+                key={i}
+                className="w-4 h-4 bg-[#00B67A] rounded-sm flex items-center justify-center"
+              >
+                <svg
+                  className="w-2.5 h-2.5 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              </div>
+            ))}
+            {/* Standalone green star */}
+            <svg
+              className="w-4 h-4 text-[#00B67A]"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          </div>
+          <span className="text-gray-800 text-sm font-medium">Trustpilot</span>
+        </a>
 
       </div>
     </div>
