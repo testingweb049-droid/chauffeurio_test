@@ -11,6 +11,7 @@ import HeroSectionUpdated from "@/component/sections/HeroSectionUpdated";
 import ServiceHomeSection from "@/component/sections/ServiceHomeSection";
 import Testimonials from "@/component/sections/Testimonials";
 import TopDestination from "@/component/sections/TopDestination";
+import ValueAndMission from "@/component/sections/ValueAndMission";
 // import Vission from "@/component/sections/VisionSection";
 import { ClientSideStrings } from "@/component/translations/ClientSideTranslations";
 import InfiniteSlide from "./book-ride/InfiniteSlide";
@@ -18,7 +19,7 @@ import SEO from "@/component/SEO";
 import Image from "next/image";
 
 export default function Home() {
-  const { home } = ClientSideStrings(); // ← pull translations
+  const { home, about } = ClientSideStrings(); // ← pull translations
 
   const fleetHeading =
     Array.isArray(home?.fleet?.headingLines) && home?.fleet?.headingLines.length === 2 ? (
@@ -87,9 +88,18 @@ export default function Home() {
       <ContentSection sections={(home?.contentSections ?? []).map((s) => ({
         title: s.title,
         description: s.description,
-        image: s.image,
+        image: s.image || "/whychoooseus.png",
         imagePosition: (s.imagePosition === "left" ? "left" : "right") as "left" | "right",
       }))} />
+      <ValueAndMission
+        eyebrow={about?.valueMission?.eyebrow}
+        heading={about?.valueMission?.heading ?? ""}
+        stats={(about?.valueMission?.stats ?? []).map(s => ({ ...s }))}
+        missionTitle={about?.valueMission?.missionTitle ?? ""}
+        missionText={about?.valueMission?.missionText ?? ""}
+        visionTitle={about?.valueMission?.visionTitle ?? ""}
+        visionText={about?.valueMission?.visionText ?? ""}
+      />
       <Testimonials />
       <TopDestination
         eyebrow={home?.destinations?.eyebrow ?? ""}

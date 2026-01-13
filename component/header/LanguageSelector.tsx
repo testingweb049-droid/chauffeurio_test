@@ -28,37 +28,58 @@ console.log(lang,'lang')
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <div className="flex items-center justify-center gap-1 text-xs w-20 cursor-pointer">
+        <div className="flex items-center justify-center gap-1 text-xs cursor-pointer hover:opacity-80 transition-opacity">
           {/* Display flag and selected language */}
-          <Flag code={lang === 'eng' ? 'GB' : lang === 'fr' ? 'FR' : 'ES'} className="w-5 h-5" />
-          <p className="text-white text-md">{lang.toUpperCase()}</p> {/* Selected language in white */}
-          <MdOutlineArrowDropDown className="text-2xl text-white font-bold" />
+          <Flag code={lang === 'eng' ? 'GB' : lang === 'fr' ? 'FR' : 'ES'} className="w-4 h-4 md:w-5 md:h-5" />
+          <p className="text-white text-sm md:text-md font-medium">{lang.toUpperCase()}</p>
+          <MdOutlineArrowDropDown className="text-xl md:text-2xl text-white" />
         </div>
       </DropdownMenuTrigger>
       
-      <DropdownMenuContent className="w-36 bg-primary text-white">
-        <DropdownMenuLabel className="text-white">Select Language</DropdownMenuLabel>
+      <DropdownMenuContent 
+        className="w-36 bg-primary text-white !z-[9999] border border-white/20 shadow-xl"
+        style={{ zIndex: 9999 }}
+      >
+        <DropdownMenuLabel className="text-white text-sm font-semibold">Select Language</DropdownMenuLabel>
         <div className="my-1 w-full bg-brandGray rounded-full h-[1px]" />
         <div className="w-full flex flex-col divide-y divide-brandGray/50">
           {/* English Option */}
-          <div onClick={() => handleSelectLanguage('eng')} className="flex items-center gap-2 py-1 cursor-pointer">
-            <MdOutlineDone className={cn(lang === 'eng' ? 'opacity-100 text-white' : 'opacity-0 text-white')} />
-            <Flag code="GB" className="w-5 h-5" />
-            <p className="text-white">English</p>
+          <div 
+            onClick={() => handleSelectLanguage('eng')} 
+            className={cn(
+              "flex items-center gap-2 py-2 px-2 cursor-pointer transition-colors",
+              lang === 'eng' ? 'bg-white/10' : 'hover:bg-white/5'
+            )}
+          >
+            <MdOutlineDone className={cn("text-lg", lang === 'eng' ? 'opacity-100 text-white' : 'opacity-0')} />
+            <Flag code="GB" className="w-4 h-4" />
+            <p className="text-white text-sm">English</p>
           </div>
           
           {/* French Option */}
-          <div onClick={() => handleSelectLanguage('fr')} className="flex items-center gap-2 py-1 cursor-pointer">
-            <MdOutlineDone className={cn(lang === 'fr' ? 'opacity-100 text-white' : 'opacity-0 text-white')} />
-            <Flag code="FR" className="w-5 h-5" />
-            <p className="text-white">French</p>
+          <div 
+            onClick={() => handleSelectLanguage('fr')} 
+            className={cn(
+              "flex items-center gap-2 py-2 px-2 cursor-pointer transition-colors",
+              lang === 'fr' ? 'bg-white/10' : 'hover:bg-white/5'
+            )}
+          >
+            <MdOutlineDone className={cn("text-lg", lang === 'fr' ? 'opacity-100 text-white' : 'opacity-0')} />
+            <Flag code="FR" className="w-4 h-4" />
+            <p className="text-white text-sm">French</p>
           </div>
           
           {/* Spanish Option */}
-          <div onClick={() => handleSelectLanguage('es')} className="flex items-center gap-2 py-1 cursor-pointer">
-            <MdOutlineDone className={cn(lang === 'es' ? 'opacity-100 text-white' : 'opacity-0 text-white')} />
-            <Flag code="ES" className="w-5 h-5" />
-            <p className="text-white">Spanish</p>
+          <div 
+            onClick={() => handleSelectLanguage('es')} 
+            className={cn(
+              "flex items-center gap-2 py-2 px-2 cursor-pointer transition-colors",
+              lang === 'es' ? 'bg-white/10' : 'hover:bg-white/5'
+            )}
+          >
+            <MdOutlineDone className={cn("text-lg", lang === 'es' ? 'opacity-100 text-white' : 'opacity-0')} />
+            <Flag code="ES" className="w-4 h-4" />
+            <p className="text-white text-sm">Spanish</p>
           </div>
         </div>
       </DropdownMenuContent>

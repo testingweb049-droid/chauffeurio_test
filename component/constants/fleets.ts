@@ -33,7 +33,7 @@ export const staticFleets = [
   {
     category: "BUSINESS_VAN",
     displayName: "First Class Van",
-    vehicles: ["Mercedes V Class or similar"],
+    vehicles: ["Mercedes V Class"],
     passengers: 7,
     luggage: 7,
     imageUrl: "/First Class Van.png",

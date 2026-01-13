@@ -118,6 +118,15 @@ export default function ContactPage() {
                   {contact?.email ?? 'Info@Chauffeurio.com'}
                 </a>
               </li>
+
+              <li className="flex items-start gap-3">
+                <span className="text-[#002C3F]">
+                  <MapPin size={20} />
+                </span>
+                <span className="text-[#5F5D5A]">
+                  C/ de la Dama d'Elx, 26 P03, 46023 Valencia
+                </span>
+              </li>
             </ul>
           </div>
 

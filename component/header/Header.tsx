@@ -8,6 +8,7 @@ import { FaInstagram } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import Topbar from "./Topbar";
 import { ClientSideStrings } from "../translations/ClientSideTranslations";
+import { LanguageSelector } from "./LanguageSelector";
 
 // Define types for translation data
 interface FleetItem {
@@ -205,12 +206,16 @@ export default function Header() {
             </a>
 
             <div className="flex items-center gap-3 py-2">
+              {/* Language Selector */}
+              <div className="relative">
+                <LanguageSelector />
+              </div>
               {/* WhatsApp Icon */}
               <a
                 href="https://wa.me/+34614014277"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#25D366] hover:text-[#20BA5A] transition-colors"
+                className={`${iconColorClass} ${hoverTextClass} transition-colors`}
                 aria-label="WhatsApp"
               >
                 <svg
@@ -225,7 +230,7 @@ export default function Header() {
               {/* Instagram Icon */}
               <a
                 href="https://www.instagram.com/chauffeurio?igsh=dW55MWFhY2EybTJz"
-                className="text-[#E4405F] hover:text-[#C13584] transition-colors ml-2"
+                className={`${iconColorClass} ${hoverTextClass} transition-colors ml-2`}
                 aria-label="Instagram"
               >
                 <FaInstagram size={24} />

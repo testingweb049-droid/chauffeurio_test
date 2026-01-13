@@ -93,7 +93,7 @@ export const translations = {
           title: "Explore Valencia at Your Own Pace",
           description:
             "With Chauffeurio, hourly chauffeur services turn every ride into an experience. From luxury options for executives to spacious vans for families and groups, our fleet matches every need. Whether you’re discovering local gems, moving between events, or enjoying leisure time, we make sure every hour on the road is comfortable, stylish, and stress-free.",
-          image: "/Rectangle 9 (1).png",
+          image: "/whychoooseus.png",
           imagePosition: "left",
         },
       ],
@@ -134,7 +134,7 @@ export const translations = {
       title: "Celebrate and Travel in Style in Valencia",
       description:
         "At Chauffeurio, we believe event transportation should do more than get you to the venue — it should enhance your experience. From stylish bridal arrivals to productive corporate rides, our fleet is designed for every occasion. Whether you’re celebrating, networking, or performing, Chauffeurio ensures your journey is safe, stylish, and right on time. Our chauffeurs add a personal touch with local knowledge and professional care, making every ride smooth and enjoyable. ",
-      image: "/Rectangle 9 (1).png",
+      image: "/whychoooseus.png",
       imagePosition: "left",
     },
   ],
@@ -175,7 +175,7 @@ export const translations = {
       title: "VIP and Extended Excursions",
       description:
         "Turn your trip into a luxury journey with our premium fleet, from Mercedes S-Class to Cadillac Escalade. Perfect for day-long explorations, coastal drives, or multi-city adventures, complete with comfort, privacy, and a touch of elegance. Enjoy onboard perks like refreshments and spacious seating. With Chauffeurio, your excursion feels less like travel and more like a first-class experience.",
-      image: "/Rectangle 9 (1).png",
+      image: "/whychoooseus.png",
       imagePosition: "left",
     },
   ],
@@ -216,7 +216,7 @@ export const translations = {
       title: "Redefining City-to-City Travel in Valencia",
       description:
         "With Chauffeurio, city-to-city transfers are more than just getting from A to B. From luxury rides for executives to spacious minibuses for families and groups, our fleet ensures every trip is tailored to your needs. Whether you prefer a direct route or scenic detours, we make intercity travel safe, stylish, and stress-free — turning the journey into part of your Spanish experience.",
-      image: "/Rectangle 9 (1).png",
+      image: "/whychoooseus.png",
       imagePosition: "left",
     },
   ],
@@ -257,7 +257,7 @@ export const translations = {
       title: "Elevating Corporate Journeys in Valencia",
       description:
         "With Chauffeurio, business transportation becomes more than just a ride—it’s an experience. Impress clients, maximize your productivity on the go, and enjoy the peace of mind that comes with a chauffeur service trusted by professionals across Valencia. Our tailored services are designed to meet the demands of modern executives. Travel smarter and elevate every journey with Chauffeurio’s premium business solutions.",
-      image: "/Rectangle 9 (1).png",
+      image: "/whychoooseus.png",
       imagePosition: "left",
     },
   ],
@@ -479,10 +479,9 @@ testimonials: {
     },
 home: {
    hero: {
-    eyebrow: "Your Reliable Airport Transfers",
+    eyebrow: "Reliable Airport Transfers in Valencia",
           titleLines: [
-            "Chauffeur Transfers To And From Valencia Spain",
-            "with Best Price Guarantee",
+            "Professional Chauffeur Transfers Across Valencia — Fixed Prices, No Surprises",
           ],
         },
       serviceSection: {
@@ -499,7 +498,7 @@ home: {
           { href: "/event-transport",   title: "Event Transportation",            image: "/mercedes-minibus-16-seater-side.jpg" },
           { href: "/tours-excursions",  title: "City Tours and Excursions",       image: "/IMG_6308.JPG" },
           { href: "/business-chauffur", title: "Business Chauffeur Services",     image: "/post35-copyright-890x664.jpg.png" },
-          { href: "/city-to-city",      title: "Long–Distance City to City",      image: "/Container (2).png" },
+          { href: "/city-to-city",      title: "Long–Distance City to City",      image: "/whychoooseus.png" },
         ],
       },
 
@@ -623,7 +622,7 @@ footer: {
       quickLinksTitle: "Quick Links",
       servicesTitle: "Services",
       paymentTitle: "Payment Accepted",
-      copyright: "© 2025. All rights reserved.",
+      copyright: "Copyright © 2026, Chauffeurio. All rights reserved.",
       quickLinks: {
         home: "Home",
         aboutUs: "About Us",
@@ -745,7 +744,7 @@ footer: {
           title: "Explorez Valence à votre rythme",
           description:
             "Avec Chauffeurio, chaque trajet à l’heure devient une expérience. Des options premium pour dirigeants aux vans spacieux pour familles et groupes, notre flotte répond à tous les besoins. Que vous découvriez des lieux, enchaîniez les événements ou profitiez de votre temps libre, nous veillons à un confort, un style et une sérénité constants.",
-          image: "/Rectangle 9 (1).png",
+          image: "/whychoooseus.png",
           imagePosition: "left"
         }
       ]
@@ -786,7 +785,7 @@ footer: {
       title: "Célébrez et voyagez avec style à Valence",
       description:
         "Pour nous, un transfert d’événement doit sublimer l’expérience. Des arrivées de mariée élégantes aux trajets d’entreprise productifs, notre flotte couvre toutes les occasions. Célébration, réseautage ou représentation : Chauffeurio assure sécurité, style et ponctualité, avec une touche locale et un service attentionné.",
-      image: "/Rectangle 9 (1).png",
+      image: "/whychoooseus.png",
       imagePosition: "left",
     },
   ],
@@ -827,7 +826,7 @@ tour: {
       title: "Excursions VIP et étendues",
       description:
         "Transformez votre voyage en expérience premium grâce à notre flotte haut de gamme, de la Mercedes Classe S au Cadillac Escalade. Parfait pour des journées complètes, routes côtières ou aventures multi-villes, avec confort, confidentialité et une touche d’élégance. Profitez d’avantages à bord : rafraîchissements et espaces généreux. Avec Chauffeurio, votre excursion ressemble à une expérience de première classe.",
-      image: "/Rectangle 9 (1).png",
+      image: "/whychoooseus.png",
       imagePosition: "left",
     },
   ],
@@ -868,7 +867,7 @@ citytocity: {
       title: "Réinventer le voyage de ville à ville à Valence",
       description:
         "Avec Chauffeurio, un transfert interurbain est plus qu’un A-vers-B. Des berlines haut de gamme pour dirigeants aux minibus spacieux pour familles et groupes, notre flotte s’adapte à vos besoins. Itinéraire direct ou détours panoramiques : nous rendons vos trajets sûrs, élégants et sans stress — le voyage devient une part de votre expérience en Espagne.",
-      image: "/Rectangle 9 (1).png",
+      image: "/whychoooseus.png",
       imagePosition: "left",
     },
   ],
@@ -909,7 +908,7 @@ businessChhuff: {
       title: "Élever vos déplacements corporate à Valence",
       description:
         "Avec Chauffeurio, le transport d’affaires devient une expérience. Impressionnez vos clients, restez productif en route et profitez de la sérénité d’un service plébiscité par les professionnels à Valence. Des solutions sur-mesure pour les dirigeants modernes.",
-      image: "/Rectangle 9 (1).png",
+      image: "/whychoooseus.png",
       imagePosition: "left",
     },
   ],
@@ -1131,10 +1130,9 @@ businessChhuff: {
     },
     home: {
       hero: {
-          eyebrow: "Vos transferts aéroport fiables",
+          eyebrow: "Transferts aéroport fiables à Valence",
           titleLines: [
-            "Transferts de chauffeur vers et depuis Valence Espagne",
-            "avec meilleur prix garanti",
+            "Transferts de chauffeur professionnels à travers Valence — Prix fixes, sans surprises",
           ],
         },
       serviceSection: {
@@ -1150,7 +1148,7 @@ businessChhuff: {
           { href: "/event-transport",   title: "Transport d’événements",          image: "/mercedes-minibus-16-seater-side.jpg"},
           { href: "/tours-excursions",  title: "Visites et excursions en ville",  image: "/IMG_6308.JPG" },
           { href: "/business-chauffur", title: "Chauffeur d’affaires",            image: "/post35-copyright-890x664.jpg.png" },
-          { href: "/city-to-city",      title: "Longue distance de ville à ville", image: "/Container (2).png" },
+          { href: "/city-to-city",      title: "Longue distance de ville à ville", image: "/whychoooseus.png" },
         ],
       },
 
@@ -1399,7 +1397,7 @@ businessChhuff: {
           title: "Explore Valencia a su propio ritmo",
           description:
             "Con Chauffeurio, el servicio de chofer por hora convierte cada trayecto en una experiencia. Desde opciones de lujo para ejecutivos hasta vans espaciosas para familias y grupos, nuestra flota se adapta a cada necesidad. Descubra lugares, muévase entre eventos o disfrute del tiempo libre con comodidad, estilo y tranquilidad.",
-          image: "/Rectangle 9 (1).png",
+          image: "/whychoooseus.png",
           imagePosition: "left"
         }
       ]
@@ -1440,7 +1438,7 @@ businessChhuff: {
       title: "Celebre y viaje con estilo en Valencia",
       description:
         "Creemos que el transporte para eventos debe mejorar la experiencia. Desde entradas nupciales elegantes hasta traslados corporativos productivos, nuestra flota se adapta a cada ocasión. Ya sea que celebre, haga networking o actúe, Chauffeurio garantiza un viaje seguro, con estilo y puntual. Nuestros chóferes aportan conocimiento local y trato profesional para que cada trayecto sea agradable.",
-      image: "/Rectangle 9 (1).png",
+      image: "/whychoooseus.png",
       imagePosition: "left",
     },
   ],
@@ -1481,7 +1479,7 @@ tour: {
       title: "Excursiones VIP y extendidas",
       description:
         "Convierta su viaje en una experiencia de lujo con nuestra flota premium, desde Mercedes Clase S hasta Cadillac Escalade. Ideal para exploraciones de día completo, rutas costeras o aventuras entre ciudades, con confort, privacidad y un toque de elegancia. Disfrute de refrigerios y asientos espaciosos. Con Chauffeurio, su excursión se siente como primera clase.",
-      image: "/Rectangle 9 (1).png",
+      image: "/whychoooseus.png",
       imagePosition: "left",
     },
   ],
@@ -1522,7 +1520,7 @@ citytocity: {
       title: "Redefiniendo los traslados de ciudad a ciudad en Valencia",
       description:
         "Con Chauffeurio, ir de una ciudad a otra es más que moverse de A a B. Desde vehículos de lujo para ejecutivos hasta minibuses espaciosos para familias y grupos, nuestra flota personaliza cada viaje. Ruta directa o desvíos panorámicos: hacemos que el traslado sea seguro, con estilo y sin estrés — el trayecto se convierte en parte de su experiencia en España.",
-      image: "/Rectangle 9 (1).png",
+      image: "/whychoooseus.png",
       imagePosition: "left",
     },
   ],
@@ -1563,7 +1561,7 @@ businessChhuff: {
       title: "Elevando los desplazamientos corporativos en Valencia",
       description:
         "Con Chauffeurio, el transporte empresarial es una experiencia. Impresione a los clientes, mantenga la productividad en ruta y disfrute de la tranquilidad de un servicio de chófer de confianza en Valencia. Soluciones a medida para ejecutivos modernos.",
-      image: "/Rectangle 9 (1).png",
+      image: "/whychoooseus.png",
       imagePosition: "left",
     },
   ],
@@ -1785,10 +1783,9 @@ businessChhuff: {
     },
     home: {
       hero: {
-          eyebrow: "Tus traslados al aeropuerto confiables",
+          eyebrow: "Traslados al aeropuerto confiables en Valencia",
           titleLines: [
-            "Traslados de chófer hacia y desde Valencia España",
-            "con mejor precio garantizado",
+            "Traslados de chófer profesionales por Valencia — Precios fijos, sin sorpresas",
           ],
         },
       serviceSection: {
@@ -1804,7 +1801,7 @@ businessChhuff: {
           { href: "/event-transport",   title: "Transporte para eventos",         image:"/mercedes-minibus-16-seater-side.jpg"},
           { href: "/tours-excursions",  title: "Tours y excursiones por la ciudad", image: "/IMG_6308.JPG" },
           { href: "/business-chauffur", title: "Chófer para empresas",            image: "/post35-copyright-890x664.jpg.png" },
-          { href: "/city-to-city",      title: "Larga distancia entre ciudades",  image: "/Container (2).png" },
+          { href: "/city-to-city",      title: "Larga distancia entre ciudades",  image: "/whychoooseus.png" },
         ],
       },
 

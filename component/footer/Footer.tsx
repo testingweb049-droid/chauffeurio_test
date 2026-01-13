@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   Mail,
   Phone,
+  MapPin,
   Facebook,
   Instagram,
   Dribbble,
@@ -33,10 +34,10 @@ export default function Footer() {
   ];
 
   const footerLinks = [
-    { name: footer?.footerLinks?.termsConditions || "Terms and Conditions", href: "/terms-condition?section=terms" },
-    { name: footer?.footerLinks?.cookiesPolicy || "Cookies Policy", href: "/terms-condition?section=cookies" },
-    { name: footer?.footerLinks?.privacyPolicy || "Privacy Policy", href: "/terms-condition?section=privacy" },
     { name: footer?.footerLinks?.legalWarning || "Legal Warning", href: "/terms-condition?section=legal-warning" },
+    { name: footer?.footerLinks?.privacyPolicy || "Privacy Policy", href: "/terms-condition?section=privacy" },
+    { name: footer?.footerLinks?.cookiesPolicy || "Cookies Policy", href: "/terms-condition?section=cookies" },
+    { name: footer?.footerLinks?.termsConditions || "Terms and Conditions", href: "/terms-condition?section=terms" },
     // { name: footer?.footerLinks?.develope || "Cookies Policy", href: "https://www.thedevsquare.com/" },
   ];
 
@@ -126,6 +127,10 @@ export default function Footer() {
                 <Phone size={16} />
                 <span>+34 614 014 277</span>
               </a>
+              <div className="flex items-start gap-2 text-sm text-gray-300">
+                <MapPin size={16} className="mt-0.5 flex-shrink-0" />
+                <span>C/ de la Dama d'Elx, 26 P03, 46023 Valencia</span>
+              </div>
             </div>
 
             {/* Social */}
@@ -133,12 +138,6 @@ export default function Footer() {
               <SocialSquare aria="Facebook" href="https://www.facebook.com/share/17HTbgUCfy/">
                 <Facebook size={18} />
               </SocialSquare>
-              {/* <SocialSquare aria="X" href="https://twitter.com">
-                <XIcon size={18} />
-              </SocialSquare>
-              <SocialSquare aria="Dribbble" href="https://dribbble.com">
-                <Dribbble size={18} />
-              </SocialSquare> */}
               <SocialSquare aria="Instagram" href="https://www.instagram.com/chauffeurio?igsh=bjl5ZDlwNm4wcnk1">
                 <Instagram size={18} />
               </SocialSquare>
@@ -151,7 +150,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-4 py-4">
           <div className="flex flex-col items-center justify-between gap-4 text-sm text-gray-300 md:flex-row">
-            <p>{footer?.copyright || "© 2025. All rights reserved."}</p>
+            <p>Copyright © 2026, Chauffeurio. All rights reserved.</p>
             <div className="flex flex-wrap justify-center gap-6">
               {footerLinks.map((link) => (
                 <Link

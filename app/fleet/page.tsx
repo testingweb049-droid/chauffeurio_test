@@ -58,7 +58,7 @@ const fleets = [
     category: "FIRST_CLASS_VAN",
     displayName: "First Class Van",
     vehicles: [
-      { name: "Mercedes V Class or similar", imageUrl: "/First Class Van.png" }
+      { name: "Mercedes V Class", imageUrl: "/First Class Van.png" }
     ],
     passengers: 7,
     luggage: 7,
